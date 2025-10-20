@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- menu -->
+    <header>
+        <section id="logo-caption">
+            <div id="menu-caption">
+                <h1 class="upd">University of the Philippines Diliman</h1>
+                <h1 class="dcs">Department of Computer Science</h1>
+                <h1 class="assIT">Asset Management System</h1>
+            </div>
+            <div class="logo">
+                <a href="https://dcs.upd.edu.ph/" target="_blank">
+                    <img id="dcs" src="https://cms.dcs.upd.edu.ph/assets/9a8e9dd2-3851-4c88-9687-c4aca3aceea5?fit=cover&width=90&height=90">
+                </a>
+                <a href="https://upd.edu.ph" target="_blank">
+                    <img id="upd" src="https://cms.dcs.upd.edu.ph/assets/9f12ac0a-ba54-41e5-84ef-1e2b9d076f7d?fit=cover&width=90&height=90">
+                </a>
+            </div>
+        </section>
+
+        <section id="navigation">
+            <div id="navigation-bar">
+                <a> Dashboard </a>
+                <a> Assets </a>
+                <a> Assigned Assets </a>
+            </div> 
+
+            <div id="user-panel">
+                <span>JUNIO, IVAN AHRON L.</span>
+                <span>SUPER ADMIN</span>
+                <a> LOGOUT </a>
+            </div>
+
+        </section>
+    </header>
+
+    <!-- webpage -->
+
+    <!-- asset-page -->
+    <main class="asset-page">
+        <div class="left">
+            <div id="search-box">
+                <input type="text" id="search-input" placeholder="Search asset">
+                <button id="search-button"> Search </button>
+            </div>
+            <table class="asset-table">
+                <thead>
+                    <tr>
+                        <th> Asset Name </th>
+                        <th> Status </th>
+                        <th> Assigned to </th>
+                        <th> Detailed Specification </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> Lenovo Legion 7i </td>
+                        <td> Assigned </td>
+                        <td> Ivan Junio </td>
+                        <td>
+                            <a href="https://www.lenovo.com/ph/en/p/laptops/legion-laptops/legion-7-series/legion-7i-gen-9-16-inch-intel/len101g0037?srsltid=AfmBOopUxN6xjTODuyFzLlzG9kAx3GBhxYzbUlL84S5bjiSj-ScBwcY4"> More Information Here </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Lenovo Legion 9 </td>
+                        <td> Available </td>
+                        <td> - </td>
+                        <td>
+                            <a href="https://www.lenovo.com/ph/en/p/laptops/legion-laptops/legion-7-series/legion-7i-gen-9-16-inch-intel/len101g0037?srsltid=AfmBOopUxN6xjTODuyFzLlzG9kAx3GBhxYzbUlL84S5bjiSj-ScBwcY4"> More Information Here </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="right">
+            <div id="filter-box">
+                <div id="head-filter">
+                    FILTERS
+                </div>
+
+                <div id="body-filter">
+                    <div id="left-filter">
+                        <label><input type="checkbox" id="available"> Available</label>
+                        <label><input type="checkbox" id="assigned"> Assigned</label>
+                    </div>
+                    <div id="right-filter">
+                        <label><input type="checkbox" id="condemned"> Condemned</label>
+                        <label><input type="checkbox" id="to-repair"> To Repair</label>
+                    </div>
+                </div>
+            </div>
+            <button id="export"> Export assets </button>
+        </div>
+    </main>
+
+    <!-- dashboard -->
+    <main class="dashboard">
+
+    </main>
+
+</body>
+</html>
