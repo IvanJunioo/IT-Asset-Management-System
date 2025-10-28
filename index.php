@@ -50,34 +50,56 @@
                 <input type="text" id="search-input" placeholder="Search asset">
                 <button id="search-button"> Search </button>
             </div>
-            <table class="asset-table">
-                <thead>
-                    <tr>
-                        <th> Asset Name </th>
-                        <th> Status </th>
-                        <th> Assigned to </th>
-                        <th> Detailed Specification </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> Lenovo Legion 7i </td>
-                        <td> Assigned </td>
-                        <td> Ivan Junio </td>
-                        <td>
-                            <a href="https://www.lenovo.com/ph/en/p/laptops/legion-laptops/legion-7-series/legion-7i-gen-9-16-inch-intel/len101g0037?srsltid=AfmBOopUxN6xjTODuyFzLlzG9kAx3GBhxYzbUlL84S5bjiSj-ScBwcY4"> More Information Here </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Lenovo Legion 9 </td>
-                        <td> Available </td>
-                        <td> - </td>
-                        <td>
-                            <a href="https://www.lenovo.com/ph/en/p/laptops/legion-laptops/legion-7-series/legion-7i-gen-9-16-inch-intel/len101g0037?srsltid=AfmBOopUxN6xjTODuyFzLlzG9kAx3GBhxYzbUlL84S5bjiSj-ScBwcY4"> More Information Here </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="asset-table">
+                    <thead>
+                        <tr>
+                            <th> Asset Name </th>
+                            <th> Status </th>
+                            <th> Assigned to </th>
+                            <th> Detailed Specification </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <script>
+                const assetTableBody = document.querySelector('.asset-table tbody');
+
+                const assetNames = [
+                    "Lenovo ThinkPad X1 Carbon", "Dell XPS 15", "MacBook Pro 16", "HP Envy 13", 
+                    "Acer Predator Helios 300", "Asus ROG Zephyrus G14", "MSI Katana GF66",
+                    "Surface Laptop 5", "Huawei MateBook D16", "Gigabyte Aorus 17"
+                ];
+                const statuses = ["Available", "Assigned", "Condemned", "To Repair"];
+                const names = [
+                    "a", "b", "c"
+                ];
+
+                function getRandomItem(arr) {
+                    return arr[Math.floor(Math.random() * arr.length)];
+                }
+
+                for (let i = 0; i < 30; i++) {
+                    const tr = document.createElement('tr');
+
+                    const assetName = getRandomItem(assetNames) + " #" + (Math.floor(Math.random() * 900) + 100);
+                    const status = getRandomItem(statuses);
+                    const assignedTo = status === "Available" ? "-" : getRandomItem(names);
+                    const infoLink = "https://example.com/assets/" + assetName.replace(/\s+/g, '-').toLowerCase();
+
+                    tr.innerHTML = `
+                        <td>${assetName}</td>
+                        <td>${status}</td>
+                        <td>${assignedTo}</td>
+                        <td><a href="${infoLink}" target="_blank">More Information Here</a></td>
+                    `;
+
+                    assetTableBody.appendChild(tr);
+                }
+            </script>
         </div>
         <div class="right">
             <div id="filter-box">

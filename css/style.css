@@ -152,8 +152,6 @@ main {
 .asset-table {
     width: 60rem;
     height: 3rem;
-    border: 2pt solid black;
-    border-radius: 1rem;
     background-color: rgb(247, 233, 216);
     text-align: center;
 }
@@ -168,6 +166,22 @@ main {
 .asset-table tr:last-child td {
     border-bottom: none;
 }
+
+.table-container {
+    max-height: calc(100vh - 300px);;
+    overflow-y: auto;
+    border: 2pt solid black;
+    border-radius: 1rem;
+    background-color: rgb(247, 233, 216);
+}
+
+.asset-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: rgb(247, 233, 216);
+}
+
 
 .right {
     display: flex;
