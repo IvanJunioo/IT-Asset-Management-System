@@ -1,47 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
+    <?php include '../partials/head.php'?>
 <body>
     <!-- menu -->
-    <header>
-        <section id="logo-caption">
-            <div id="menu-caption">
-                <h1 class="upd">University of the Philippines Diliman</h1>
-                <h1 class="dcs">Department of Computer Science</h1>
-                <h1 class="assIT">Asset Management System</h1>
-            </div>
-            <div class="logo">
-                <a href="https://dcs.upd.edu.ph/" target="_blank">
-                    <img id="dcs" src="https://cms.dcs.upd.edu.ph/assets/9a8e9dd2-3851-4c88-9687-c4aca3aceea5?fit=cover&width=90&height=90">
-                </a>
-                <a href="https://upd.edu.ph" target="_blank">
-                    <img id="upd" src="https://cms.dcs.upd.edu.ph/assets/9f12ac0a-ba54-41e5-84ef-1e2b9d076f7d?fit=cover&width=90&height=90">
-                </a>
-            </div>
-        </section>
-
-        <section id="navigation">
-            <div id="navigation-bar">
-                <a> Dashboard </a>
-                <a> Assets </a>
-                <a> Assigned Assets </a>
-            </div> 
-
-            <div id="user-panel">
-                <span>JUNIO, IVAN AHRON L.</span>
-                <span>SUPER ADMIN</span>
-                <a> LOGOUT </a>
-            </div>
-
-        </section>
-    </header>
-
-    <!-- webpage -->
+    <?php include '../partials/header.php'?>
 
     <!-- asset-page -->
     <main class="asset-page">
@@ -57,6 +19,8 @@
                             <th> Asset Name </th>
                             <th> Status </th>
                             <th> Assigned to </th>
+                            <th> Detailed Specification </th>
+                            <th> Detailed Specification </th>
                             <th> Detailed Specification </th>
                         </tr>
                     </thead>
@@ -117,14 +81,12 @@
                         <label><input type="checkbox" id="to-repair"> To Repair</label>
                     </div>
                 </div>
+                
+                <button id="apply-filter"> Apply Filter </button>
+
             </div>
             <button id="export"> Export assets </button>
         </div>
-    </main>
-
-    <!-- dashboard -->
-    <main class="dashboard">
-
     </main>
 
 </body>
