@@ -11,6 +11,7 @@ enum AssetStatus {
 }
 
 interface AssetUserInterface {
+  public function getPropNum(): string;
   public function getProcNum(): string;
   public function getSerialNum(): string;
   public function getPurchaseDate(): string;
@@ -25,15 +26,17 @@ interface AssetUserInterface {
 }
 
 interface AssetAdminInterface extends AssetUserInterface {
-  public function setPrice(float $price);
-  public function setRemarks(string $remarks);
-  public function setDescription(string $description);
-  public function setStatus(AssetStatus $status);
-  public function setUrl(string $url);
-  public function assignTo(User $user);
+  // Setters return object set
+  public function setPrice(float $price): AssetAdminInterface;
+  public function setRemarks(string $remarks): AssetAdminInterface;
+  public function setDescription(string $description): AssetAdminInterface;
+  public function setStatus(AssetStatus $status): AssetAdminInterface;
+  public function setUrl(string $url): AssetAdminInterface;
+  public function assignTo(User $user): AssetAdminInterface;
 }
 
 class Asset implements AssetAdminInterface {
+  private string $_propNum;
   private string $_procNum;
   private string $_serialNum;
   private string $_purchaseDate;
@@ -44,9 +47,10 @@ class Asset implements AssetAdminInterface {
   private float $_price;
   private string $_url;
   private string $_actlog = "";
-  private User $_assigned_To;
+  private ?User $_assigned_To = null;
 
   public function __construct(
+    string $propNum,
     string $procNum, 
     string $serialNum,
     string $date,
@@ -55,6 +59,7 @@ class Asset implements AssetAdminInterface {
     string $url,
     string $remarks,
     float $price) {
+        $this -> _propNum = $propNum;
         $this -> _procNum = $procNum;
         $this -> _serialNum = $serialNum;
         $this -> _purchaseDate = $date;
@@ -64,7 +69,7 @@ class Asset implements AssetAdminInterface {
         $this -> _url = $url;
         $this -> _price = $price;
   }
-
+  public function getPropNum(): string { return $this -> _propNum; }
   public function getProcNum(): string { return $this -> _procNum; }
   public function getSerialNum(): string { return $this -> _serialNum; }
   public function getPurchaseDate(): string { return $this -> _purchaseDate; }
@@ -77,15 +82,29 @@ class Asset implements AssetAdminInterface {
   public function getActlog(): string { return $this -> _actlog; } 
   public function getUser(): User { return $this -> _assigned_To; }
   
-  public function setPrice(float $price) { $this -> _price = $price; }
-  public function setRemarks(string $remarks) { $this -> _remarks = $remarks; }
-  public function setDescription(string $description){ $this -> _description = $description; }
-  public function setStatus(AssetStatus $status) { $this -> _status = $status; }
-  public function setUrl(string $url) { $this -> _url = $url; }
-  public function assignTo(User $user) { $this -> _assigned_To = $user; }
-}
+  public function setPrice(float $price): Asset { 
+    $this -> _price = $price; 
+    return $this;
+  }
+  public function setRemarks(string $remarks): Asset { 
+    $this -> _remarks = $remarks; 
+    return $this;
+  }
+  public function setDescription(string $description): Asset { 
+    $this -> _description = $description; 
+    return $this;
+  }
+  public function setStatus(AssetStatus $status): Asset { 
+    $this -> _status = $status; 
+    return $this;
+  }
+  public function setUrl(string $url): Asset { 
+    $this -> _url = $url; 
+    return $this;
+  }
+  public function assignTo(?User $user): Asset { 
+    $this -> _assigned_To = $user; 
+    return $this;
+  }
 
-// $user1 = new SuperAdmin("h", "@d");
-// $asset1 = new Asset("1","1","1","1","1","1","1",1);
-// $asset1->assignTo($user1);
-// echo $asset1->getUser()->getName();
+}

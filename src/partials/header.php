@@ -1,6 +1,6 @@
 
 <!-- Header template -->
-<div id ="header">
+<div class ="header">
     <section id="logo-caption">
         <div id="menu-caption">
             <div class="upd">University of the Philippines Diliman</div>
@@ -24,4 +24,4 @@
         <div id="user-panel">
         </div>
     </section>
-</div id ="header">
+</div>

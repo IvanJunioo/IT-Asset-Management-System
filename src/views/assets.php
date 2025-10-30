@@ -7,7 +7,7 @@
 
     <!-- asset-page -->
     <main class="asset-page">
-        <div class="left">
+        <div class="left-asset">
             <div id="search-box">
                 <input type="text" id="search-input" placeholder="Search asset">
                 <button id="search-button"> Search </button>
@@ -65,7 +65,7 @@
                 }
             </script>
         </div>
-        <div class="right">
+        <div class="right-asset">
             <div id="filter-box">
                 <div id="head-filter">
                     FILTERS
@@ -88,5 +88,6 @@
             <button id="export"> Export assets </button>
         </div>
     </main>
+    <?php include '../partials/footer.php'?>
 </body>
 </html>
