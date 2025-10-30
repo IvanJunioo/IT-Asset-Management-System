@@ -2,8 +2,8 @@
 
 declare (strict_types= 1);
 
-include '../src/model/user.php';
-include '../src/model/asset.php';
+include_once '../src/model/user.php';
+include_once '../src/model/asset.php';
 
 interface FacultyDatabaseInterface {
   public function searchAsset(string $asset): array;
@@ -27,7 +27,28 @@ class Database implements AdminDatabaseInterface {
   }
 
   public function addAsset(Asset $asset): bool {
-    return true;
+    try {
+      require_once "src/includes/dbh-inc.php";
+      
+      $query = "INSERT INTO asset (SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL, ActLog) VALUES (?,?,?,?,?,?,?,?,?,?);"; 
+
+      $pdo->prepare($query)->execute([
+        $asset->getSerialNum(), 
+        $asset->getProcNum(),
+        $asset->getPurchaseDate(),
+        $asset->getSpecs(),
+        $asset->getRemarks(),
+        $asset->getStatus()->name,
+        $asset->getDescription(),
+        $asset->getPrice(),
+        $asset->getUrl(),
+        $asset->getActlog()
+      ]);
+
+      return true;
+    } catch (PDOException $e) {
+      return false;
+    }
   }
   public function assignAsset(Asset $asset, User $user): bool{
     return true;

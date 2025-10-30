@@ -1,8 +1,7 @@
 <?php
 declare (strict_types= 1);
 
-include '../src/model/asset.php';
-include '../src/model/database.php';
+include_once '../src/model/asset.php';
 
 enum UserPrivilege {
   case faculty;
@@ -16,7 +15,6 @@ abstract class User {
   protected bool $_isActive = False;
   protected string $_actlog = ""; 
   protected array $_assigned;
-  protected Database $_db;
 
   public function __construct(string $name, string $email) {
     $this -> _name = $name;
@@ -40,27 +38,24 @@ abstract class User {
 }
 
 class SuperAdmin extends User {
-  public function __construct(string $name, string $email, Database $db) {
+  public function __construct(string $name, string $email) {
     parent::__construct($name, $email);
-    $this -> _db = $db;
   }
 
   public function getPrivilege(): UserPrivilege {return UserPrivilege::superAdmin;}
 }
 
 class Admin extends User {
-  public function __construct(string $name, string $email, AdminDatabaseInterface $db) {
+  public function __construct(string $name, string $email) {
     parent::__construct($name, $email);
-    $this -> _db = $db;
   }
 
   public function getPrivilege(): UserPrivilege {return UserPrivilege::admin;}
 }
 
 class Faculty extends User {
-  public function __construct(string $name, string $email, FacultyDatabaseInterface $db) {
+  public function __construct(string $name, string $email) {
     parent::__construct($name, $email);
-    $this -> _db = $db;
   }
 
   public function getPrivilege(): UserPrivilege {return UserPrivilege::faculty; }
