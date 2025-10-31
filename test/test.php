@@ -3,7 +3,6 @@
 require_once "../src/model/asset.php";
 require_once "../src/model/database.php";
 require_once "../src/model/user.php";
-require_once "../src/model/model.php";
 require_once "../src/includes/dbh-inc.php";
 
 $users = [];
@@ -95,9 +94,7 @@ $db->updateUser($user1);
 
 $db->updateAsset($asset2);
 $db->assignAsset($asset2, $user1, new DateTimeImmutable("2020-07-01"), "good asset :)");
-echo $asset2->getStatus()->name;
 $db->assignAsset($asset1, $user1, new DateTimeImmutable("2019-01-01"), "nice asset (y)");
-echo $asset1->getStatus()->name;
 // $res = $db->searchAsset(procNum: "11", price_min:20000, price_max:100000);
 // foreach ($res as $r){
 //   echo $r->getPropNum() . "<br>";
@@ -107,9 +104,6 @@ echo $asset1->getStatus()->name;
 //   echo $r->getEmpID() . "<br>";
 // }
 $a1 = $db->getAssignedAssets($user1);
-foreach ($a1 as $r){
-  echo $r->getPropNum() . "<br>";
-}
 
 $db->unassignAsset(
   asset: $asset1, 
@@ -120,9 +114,6 @@ $db->unassignAsset(
 
 $db->assignAsset($asset1, $user2, new DateTimeImmutable('2019-01-20'), "");
 $a2 = $db->getAssignedAssets($user2);
-foreach ($a2 as $r){
-  echo $r->getPropNum() . "<br>";
-}
 
 # Remove changes to data
 $db->deleteUser($user1);

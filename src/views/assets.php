@@ -17,16 +17,17 @@
                 <table class="asset-table">
                     <thead>
                         <tr>
-                            <th> Asset Name </th>
                             <th> Property Number </th>
-                            <th> Status </th>
-                            <th> Assigned to </th>
+                            <th> Procurement Number </th>
+                            <th> Purchase Date </th>
                             <th> Detailed Specification </th>
-                            <th> attribute </th>
-                            <th> attribute </th>
+                            <th> Price </th>
+                            <th> Status  </th>
+                            <th> Assigned to </th>
                         </tr>
                     </thead>
                     <tbody>
+                        
                     </tbody>
                 </table>
             </div>

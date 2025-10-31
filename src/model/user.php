@@ -1,7 +1,7 @@
 <?php
 declare (strict_types= 1);
 
-include_once '../src/model/asset.php';
+include_once 'asset.php';
 
 enum UserPrivilege {
   case faculty;

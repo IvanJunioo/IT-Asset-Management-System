@@ -1,7 +1,7 @@
 <?php
 declare (strict_types= 1);
 
-include_once '../src/model/user.php';
+include_once 'user.php';
 
 enum AssetStatus {
   case Unused;

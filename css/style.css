@@ -549,6 +549,10 @@ td:last-child {
     word-break: break-word;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+}
 /* keyframes */
 @keyframes slideUp {
     from{
@@ -647,3 +651,4 @@ td:last-child {
         white-space: normal;
     }
 }
+
