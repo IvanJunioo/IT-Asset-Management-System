@@ -9,25 +9,25 @@
             Hello, SuperAdmin!
         </h1>
         <section class="dashboard-cards">
-            <div class="card">
+            <a href="./assets.php" class="card">
                 <h2>View Assets</h2>
                 <p>Preview and manage all system assets.</p>
-            </div>
+            </a>
 
-            <div class="card">
-                <h2>View Activity Log</h2>
+            <a href="./activity_log.php" class="card">
+                <h2>View System Activities</h2>
                 <p>Track recent system actions and events.</p>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="./asset_manager.php" class="card">
                 <h2>Manage Assets</h2>
                 <p>Add, edit, or remove assets in your inventory.</p>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="./users.php" class="card">
                 <h2>Manage Users</h2>
                 <p>View and update user roles and permissions.</p>
-            </div>
+            </a>
         </section>
     </main>
     <?php include '../partials/footer.php'?>

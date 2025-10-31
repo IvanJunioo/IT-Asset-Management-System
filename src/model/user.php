@@ -9,11 +9,11 @@ enum UserPrivilege {
   case superAdmin;
 }
 
-class Username {
-  private string $first;
-  private string $middle;
-  private string $last;
-  private string $suffix;
+class Fullname {
+  public string $first;
+  public string $middle;
+  public string $last;
+  public string $suffix;
 
   public function __construct(string $first, string $middle, string $last, string $suffix = "") {
     $this->first = $first;
@@ -21,21 +21,16 @@ class Username {
     $this->last = $last;
     $this->suffix = $suffix;
   }
-  public function first(): string {return $this->first;}
-  public function middle(): string {return $this->middle;}
-  public function last(): string {return $this->last;}
-  public function suffix(): string {return $this->suffix;}
 }
 
 abstract class User {
   protected string $_empID;
-  protected Username $_name;
+  protected Fullname $_name;
   protected string $_email;
   protected bool $_isActive = True;
   protected string $_actlog = ""; 
-  protected array $_assigned;
 
-  public function __construct(string $empID, Username $name, string $email) {
+  public function __construct(string $empID, Fullname $name, string $email) {
     $this -> _empID = $empID;
     $this -> _name = $name;
     $this -> _email = $email;
@@ -43,14 +38,14 @@ abstract class User {
 
   // getters
   public function getEmpID(): string {return $this -> _empID;}
-  public function getName(): Username {return $this -> _name;}
+  public function getName(): Fullname {return $this -> _name;}
   public function getActlog(): string {return $this -> _actlog;}
   public function getEmail(): string {return $this -> _email;}
   public function isActive(): bool {return $this -> _isActive;}
   abstract public function getPrivilege(): UserPrivilege;
 
   // setters
-  public function setName(Username $name) {$this -> _name = $name;}
+  public function setName(Fullname $name) {$this -> _name = $name;}
   public function setEmail(string $email) {$this -> _email = $email;}
   public function setActlog(string $actlog) {$this -> _actlog = $actlog;}
   public function setActiveStatus(bool $status) {$this -> _isActive = $status;}
@@ -59,7 +54,7 @@ abstract class User {
 }
 
 class SuperAdmin extends User {
-  public function __construct(string $empID, Username $name, string $email) {
+  public function __construct(string $empID, Fullname $name, string $email) {
     parent::__construct($empID, $name, $email);
   }
 
@@ -67,7 +62,7 @@ class SuperAdmin extends User {
 }
 
 class Admin extends User {
-  public function __construct(string $empID, Username $name, string $email) {
+  public function __construct(string $empID, Fullname $name, string $email) {
     parent::__construct($empID, $name, $email);
   }
 
@@ -75,7 +70,7 @@ class Admin extends User {
 }
 
 class Faculty extends User {
-  public function __construct(string $empID, Username $name, string $email) {
+  public function __construct(string $empID, Fullname $name, string $email) {
     parent::__construct($empID, $name, $email);
   }
 

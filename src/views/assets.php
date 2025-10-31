@@ -12,16 +12,18 @@
                 <input type="text" id="search-input" placeholder="Search asset">
                 <button id="search-button"> Search </button>
             </div>
+            
             <div class="table-container">
                 <table class="asset-table">
                     <thead>
                         <tr>
                             <th> Asset Name </th>
+                            <th> Property Number </th>
                             <th> Status </th>
                             <th> Assigned to </th>
                             <th> Detailed Specification </th>
-                            <th> Detailed Specification </th>
-                            <th> Detailed Specification </th>
+                            <th> attribute </th>
+                            <th> attribute </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,9 +58,12 @@
 
                     tr.innerHTML = `
                         <td>${assetName}</td>
+                        <td> - </td>
                         <td>${status}</td>
                         <td>${assignedTo}</td>
                         <td><a href="${infoLink}" target="_blank">More Information Here</a></td>
+                        <td> - </td>
+                        <td> - </td>
                     `;
 
                     assetTableBody.appendChild(tr);
@@ -72,14 +77,10 @@
                 </div>
 
                 <div id="body-filter">
-                    <div id="left-filter">
-                        <label><input type="checkbox" id="available"> Available</label>
-                        <label><input type="checkbox" id="assigned"> Assigned</label>
-                    </div>
-                    <div id="right-filter">
-                        <label><input type="checkbox" id="condemned"> Condemned</label>
-                        <label><input type="checkbox" id="to-repair"> To Repair</label>
-                    </div>
+                    <label><input type="checkbox" id="available"> Available</label>
+                    <label><input type="checkbox" id="assigned"> Assigned</label>
+                    <label><input type="checkbox" id="condemned"> Condemned</label>
+                    <label><input type="checkbox" id="to-repair"> To Repair</label>
                 </div>
                 
                 <button id="apply-filter"> Apply Filter </button>

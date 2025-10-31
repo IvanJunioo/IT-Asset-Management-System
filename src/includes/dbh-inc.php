@@ -1,8 +1,9 @@
 <?php
 
-$dbsource = "mysql:host=localhost;dbname=test"; # Change database here
+$dbname = "test"; # Change database here
+$dbsource = "mysql:host=localhost;dbname=$dbname"; 
 $dbusername = "root";
-$dbpassword = "password"; 
+$dbpassword = ""; 
 
 try {
   $pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object

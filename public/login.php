@@ -3,7 +3,7 @@
 <?php include '../src/partials/head.php' ?>
 <body>
     <!-- header -->
-    <?php include '../src/partials/header.php' ?>
+    <?php include '../src/partials/header-login.php' ?>
 
     <!-- main -->
     <main class="login-page">

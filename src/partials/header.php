@@ -1,3 +1,6 @@
+<?php 
+    require_once __DIR__ . '/../../config/config.php';
+?>
 
 <!-- Header template -->
 <div class ="header">
@@ -19,9 +22,31 @@
 
     <section id="navigation">
         <div id="navigation-bar">
+            <a href="<?= BASE_URL ?>src/views/dashboard.php">
+                Dashboard
+            </a>
+
+            <a href="<?= BASE_URL ?>src/views/assets.php">
+                Assets
+            </a>
+
+            <a href="<?= BASE_URL ?>src/views/asset_manager.php">
+                Manage Assets
+            </a>
+
+            <a href="<?= BASE_URL ?>src/views/users.php">
+                Manage Users
+            </a>
+
+            <a href="<?= BASE_URL ?>src/views/activity_log.php">
+                System Activities
+            </a>
         </div> 
 
         <div id="user-panel">
+            <div id="username"> Katigbak, Carlo, D. </div>
+            <div id="user-role"> SuperAdmin </div>
+            <a id="logout"> Sign Out </a>
         </div>
     </section>
 </div>
