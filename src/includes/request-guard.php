@@ -1,5 +1,7 @@
 <?php
 
+# Must be included first to guard other includes
+
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
   $dir = __DIR__;
   while (basename($dir) != "IT-Asset-Management-System") {
@@ -8,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
       throw new Exception("Outside the DBMS!");
     }
   }
-  echo "YOU SHALL NOT PASS!";
+  echo "You should not be here.";
   // header("Location: ../../index.php");
   // exit;
 }

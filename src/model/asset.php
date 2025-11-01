@@ -35,7 +35,7 @@ interface AssetAdminInterface extends AssetUserInterface {
   public function assignTo(User $user): AssetAdminInterface;
 }
 
-class Asset implements AssetAdminInterface {
+class Asset implements AssetAdminInterface, JsonSerializable{
   private string $_propNum;
   private string $_procNum;
   private string $_serialNum;
@@ -43,7 +43,7 @@ class Asset implements AssetAdminInterface {
   private string $_specs;
   private string $_remarks;
   private string $_description;
-  private AssetStatus $_status = AssetStatus::Unused;
+  private AssetStatus $_status;
   private float $_price;
   private string $_url;
   private string $_actlog = "";
@@ -59,15 +59,16 @@ class Asset implements AssetAdminInterface {
     string $url,
     string $remarks,
     float $price) {
-        $this -> _propNum = $propNum;
-        $this -> _procNum = $procNum;
-        $this -> _serialNum = $serialNum;
-        $this -> _purchaseDate = $date;
-        $this -> _specs = $specs;
-        $this -> _description = $desc;
-        $this -> _remarks = $remarks;
-        $this -> _url = $url;
-        $this -> _price = $price;
+      $this -> _propNum = $propNum;
+      $this -> _procNum = $procNum;
+      $this -> _serialNum = $serialNum;
+      $this -> _purchaseDate = $date;
+      $this -> _specs = $specs;
+      $this -> _description = $desc;
+      $this -> _remarks = $remarks;
+      $this -> _url = $url;
+      $this -> _price = $price;
+      $this -> _status = AssetStatus::Unused;
   }
   public function getPropNum(): string { return $this -> _propNum; }
   public function getProcNum(): string { return $this -> _procNum; }
@@ -105,6 +106,22 @@ class Asset implements AssetAdminInterface {
   public function assignTo(?User $user): Asset { 
     $this -> _assigned_To = $user; 
     return $this;
+  }
+
+  public function jsonSerialize(): mixed {
+    return [
+      'PropNum' => $this->getPropNum(),
+      'ProcNum' => $this->getProcNum(),
+      'SerialNum' => $this->getSerialNum(),
+      'PurchaseDate' => $this->getPurchaseDate(),
+      'Specs' => $this->getSpecs(),
+      'Remarks' => $this->getRemarks(),
+      'ShortDesc' => $this->getDescription(),
+      'Status' => $this->getStatus()->name,
+      'Price' => (string) $this->getPrice(),
+      'Url' => $this->getUrl(),
+      'ActLog' => $this->getActlog(),
+    ];
   }
 
 }

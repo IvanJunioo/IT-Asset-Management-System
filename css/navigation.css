@@ -1,0 +1,41 @@
+section#navigation {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darker-primary);
+    width: 100%;
+    white-space: nowrap;
+    min-height: 30px;
+}
+
+
+#navigation-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #CCC;     
+}
+
+#navigation-bar a {
+    text-decoration: none;
+    transition: background-color 0.5s ease;
+    padding: 0.5rem 1rem;
+}
+
+#navigation-bar a:hover {
+    color: #CCC;
+    background-color: rgb(18, 1, 1);
+}
+
+
+#user-panel {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    color: #CCC;
+    font-size: 10pt;
+    padding-right: 1rem;
+    gap: 10px;
+    white-space: nowrap;
+    font-weight: 500;
+    text-transform: uppercase;
+}

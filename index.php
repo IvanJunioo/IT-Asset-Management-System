@@ -1,2 +1,2 @@
 <?php
-header("Location: src/views/dashboard.php");
+header("Location: public/login.php");

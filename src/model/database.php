@@ -7,6 +7,7 @@ include_once 'asset.php';
 
 interface FacultyDatabaseInterface {
   public function searchAsset(
+    # Returns array of Asset objects if successful
     float $price_min,
     float $price_max,
     DateTimeImmutable $base_date,
@@ -19,6 +20,7 @@ interface FacultyDatabaseInterface {
     string $specs,
     string $description,
     string $remarks,
+    int $limit,
   ): array | bool;
   public function getAssignedAssets(User $user): array | bool;
 }
@@ -30,6 +32,7 @@ interface AdminDatabaseInterface extends FacultyDatabaseInterface{
     string $email,
     array $isActive,
     array $privileges,
+    int $limit,
   ): array | bool;
   public function addAsset(Asset $asset): bool;
   public function assignAsset(
@@ -74,6 +77,7 @@ class Database implements DatabaseInterface {
     string $specs = "",
     string $description = "",
     string $remarks = "",
+    int $limit = 50,
     ): array | bool { 
       $st = implode(',',array_fill(0, count($status), '?'));
       $query = "SELECT * FROM asset WHERE 
@@ -88,6 +92,7 @@ class Database implements DatabaseInterface {
         AND ShortDesc LIKE ?
         AND Specs LIKE ?
         AND Remarks LIKE ?
+        LIMIT $limit
       ;";
       
       try {
@@ -111,6 +116,7 @@ class Database implements DatabaseInterface {
         $stmt->execute($params);
         
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
         $assets = []; # Initially empty list (not null)
         foreach ($result as $asset) {
           $assets[] = new Asset(
@@ -139,7 +145,8 @@ class Database implements DatabaseInterface {
       string $email = "",
       array $isActive = ["Active", "Inactive"],
       array $privileges = [UserPrivilege::faculty, UserPrivilege::admin, UserPrivilege::superAdmin],
-    ): array | bool {
+      int $limit = 50,
+      ): array | bool {
       $act = implode(",", array_fill(0, count($isActive),"?"));
       $priv = implode(",", array_fill(0, count($privileges), "?"));
       $query = "SELECT * FROM employee WHERE 
@@ -150,6 +157,7 @@ class Database implements DatabaseInterface {
         AND FName LIKE ?
         AND MName LIKE ?
         AND LName LIKE ?
+        LIMIT $limit
       ";
 
       try {

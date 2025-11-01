@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php include '../partials/head.php'?>
+  <?php include '../partials/head.php'?>
 <body>
-    <?php include '../partials/header.php'?>
+  <?php include '../partials/header.php'?>
     
     <main class="dashboard">
         <h1 class="dashboard-title">
@@ -21,15 +21,15 @@
                 <p>Preview and manage all system assets.</p>
             </a>
 
-            <a href="./activity_log.php" class="card">
-                <h2>View System Activities</h2>
-                <p>Track recent system actions and events.</p>
-            </a>
+      <a href="./activity-log.php" class="card">
+        <h2>View System Activities</h2>
+        <p>Track recent system actions and events.</p>
+      </a>
 
-            <a href="./asset_manager.php" class="card">
-                <h2>Manage Assets</h2>
-                <p>Add, edit, or remove assets in your inventory.</p>
-            </a>
+      <a href="./asset-manager.php" class="card">
+        <h2>Manage Assets</h2>
+        <p>Add, edit, or remove assets in your inventory.</p>
+      </a>
 
             <a href="./users.php" class="card">
                 <h2>Manage Users</h2>

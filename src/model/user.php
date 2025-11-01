@@ -23,7 +23,7 @@ class Fullname {
   }
 }
 
-abstract class User {
+abstract class User implements JsonSerializable{
   protected string $_empID;
   protected Fullname $_name;
   protected string $_email;
@@ -50,7 +50,20 @@ abstract class User {
   public function setActlog(string $actlog) {$this -> _actlog = $actlog;}
   public function setActiveStatus(bool $status) {$this -> _isActive = $status;}
 
-  public function exportAsset() {return;}
+  public function jsonSerialize(): mixed {
+    return [
+      'EmpID' => $this->getEmpID(),
+      'EmpMail' => $this->getEmail(),        
+      'FName' => $this->getName()->first,
+      'MName' => $this->getName()->middle,
+      'LName' => $this->getName()->last,	
+      'Privilege' => $this->getPrivilege()->name,
+      'ActiveStatus' => $this->isActive()? "Active" : "Inactive",	
+      'ActLog' => $this->getActlog(),
+    ];
+  }
+  
+  // public function exportAsset() {return;}
 }
 
 class SuperAdmin extends User {

@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-color);
+}
+
+section#logo-caption {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    margin: 5px;
+}
+
+#menu-caption {
+    text-align: right;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+#menu-caption .upd {
+    display: inline-block;
+    margin-top: 1px;
+    font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white
+}
+
+#menu-caption .dcs {
+    margin-top: -2px;
+    font-size: 20px;
+    font-family: 'Palatino', serif;
+    color: white
+}
+
+#menu-caption .assIT {
+    margin-top: 2px;
+    font-size: 15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 500;
+}
+
+.logo {
+    display: flex;
+    margin: 5px;
+    gap: 6px;
+}
+
+#dcs, #upd {
+    width: 4rem;
+    height: 4rem;
+}

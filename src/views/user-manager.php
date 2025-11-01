@@ -10,7 +10,7 @@
   <main class="user-page">
     <div class="left-user">
       <div id="search-box">
-        <input type="search" id="search-input" placeholder="Search user">
+        <input type="text" id="search-input" placeholder="Search user">
         <button id="search-button"> Search </button>
       </div>
       
@@ -25,6 +25,7 @@
               <th> Last Name </th>
               <th> Privilege </th>
               <th> Status  </th>
+              <th></th>
             </tr>
           </thead>
             <tbody>
@@ -32,6 +33,8 @@
             </tbody>
         </table>
       </div>
+
+			<a href="user-form.php" id="addUser"> <button> Add User </button> </a>
 
       <script>
         fetch("../handlers/user-table.php", {method: "POST"})
@@ -54,23 +57,7 @@
               
               userTableBody.appendChild(tr);
             }
-        })
-        
-        document.addEventListener("DOMContentLoaded", () => {
-          document.queryS electorAll(".action-btn").forEach(btn => {
-              btn.addEventListener("click", (e) => {
-                  e.stopPropagation();
-                  const actionsCell = btn.closest(".actions");
-                  actionsCell.classList.toggle("show-menu");
-              });
-          });
-
-          document.addEventListener("click", () => {
-            document.querySelectorAll(".actions.show-menu")
-              .forEach(cell => cell.classList.remove("show-menu"));
-          });
-      });
-
+          })
       </script>
 
 

@@ -30,15 +30,19 @@
                 Assets
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/asset_manager.php">
+            <a href="<?= BASE_URL ?>src/views/asset-manager.php">
                 Manage Assets
             </a>
 
             <a href="<?= BASE_URL ?>src/views/users.php">
+                Users
+            </a>
+
+            <a href="<?= BASE_URL ?>src/views/user-manager.php">
                 Manage Users
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/activity_log.php">
+            <a href="<?= BASE_URL ?>src/views/activity-log.php">
                 System Activities
             </a>
         </div> 
