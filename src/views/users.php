@@ -57,7 +57,7 @@
         })
         
         document.addEventListener("DOMContentLoaded", () => {
-          document.queryS electorAll(".action-btn").forEach(btn => {
+          document.querySelectorAll(".action-btn").forEach(btn => {
               btn.addEventListener("click", (e) => {
                   e.stopPropagation();
                   const actionsCell = btn.closest(".actions");
