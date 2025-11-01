@@ -722,6 +722,7 @@ hr {
     background-color: #fff;
     padding: 2rem;
     border-radius: 0.75rem;
+    border: 0.3pt solid var(--primary-color);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     font-family: "Source Sans Pro", sans-serif;
 }
@@ -772,6 +773,7 @@ hr {
 #reset-button:hover {
     background-color: #cacaca;
 }
+
 /* keyframes */
 @keyframes slideUp {
     from{
