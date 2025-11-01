@@ -21,10 +21,10 @@
 
         <div class="bottom-login">
             <h2 class="sign-in">Log in Via UP Mail</h2>
-            <button id="login-upmail">
+            <a href="../src/views/dashboard.php" id="login-upmail">
                 <img src="https://www.google.com/favicon.ico" id="google-icon" width="32" height="32">
                     Login Here
-            </button>
+            </a>
         </div>
     </main>
 
