@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php include '../partials/head.php'?>
+  <?php include '../partials/head.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 <body>
   <?php include '../partials/header.php'?>
 

@@ -33,46 +33,7 @@
         </table>
       </div>
 
-      <script>
-        fetch("../handlers/user-table.php", {method: "POST"})
-          .then(res => res.json())
-          .then(data => {
-            const userTableBody = document.querySelector('.user-table tbody');
-            userTableBody.innerHTML = "";
-
-            for (const user of data) {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td>${user.EmpID}</td>
-                <td>${user.EmpMail}</td>
-                <td>${user.FName}</td>
-                <td>${user.MName}</td>
-                <td>${user.LName}</td>
-                <td>${user.Privilege} </td>
-                <td>${user.ActiveStatus} </td>
-              `;
-              
-              userTableBody.appendChild(tr);
-            }
-        })
-        
-        document.addEventListener("DOMContentLoaded", () => {
-          document.querySelectorAll(".action-btn").forEach(btn => {
-              btn.addEventListener("click", (e) => {
-                  e.stopPropagation();
-                  const actionsCell = btn.closest(".actions");
-                  actionsCell.classList.toggle("show-menu");
-              });
-          });
-
-          document.addEventListener("click", () => {
-            document.querySelectorAll(".actions.show-menu")
-              .forEach(cell => cell.classList.remove("show-menu"));
-          });
-      });
-
-      </script>
-
+      <script src="../script/user-table.js"></script>
 
     </div>
     <div class="right-user">

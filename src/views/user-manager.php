@@ -34,30 +34,26 @@
         </table>
       </div>
 
-			<a href="user-form.php" id="addUser"> <button> Add User </button> </a>
+			<a href="user-form.php" id="addUser">
+        <span class="material-icons" id="add-asset-button">add</span>
+        Add a New User
+      </a>
 
-      <script>
-        fetch("../handlers/user-table.php", {method: "POST"})
-          .then(res => res.json())
-          .then(data => {
-            const userTableBody = document.querySelector('.user-table tbody');
-            userTableBody.innerHTML = "";
+      <script src="../script/user-table.js">
+          document.addEventListener("DOMContentLoaded", () => {
+              document.querySelectorAll(".action-btn").forEach(btn => {
+                  btn.addEventListener("click", (e) => {
+                      e.stopPropagation();
+                      const actionsCell = btn.closest(".actions");
+                      actionsCell.classList.toggle("show-menu");
+                  });
+              });
 
-            for (const user of data) {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td>${user.EmpID}</td>
-                <td>${user.EmpMail}</td>
-                <td>${user.FName}</td>
-                <td>${user.MName}</td>
-                <td>${user.LName}</td>
-                <td>${user.Privilege} </td>
-                <td>${user.ActiveStatus} </td>
-              `;
-              
-              userTableBody.appendChild(tr);
-            }
-          })
+              document.addEventListener("click", () => {
+                  document.querySelectorAll(".actions.show-menu")
+                  .forEach(cell => cell.classList.remove("show-menu"));
+              });
+          });
       </script>
 
 

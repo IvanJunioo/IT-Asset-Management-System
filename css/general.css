@@ -1,0 +1,151 @@
+:root {
+    --primary-color: #550101;
+    --darker-primary: #3e0505;
+    --primary-green: #2a7548;
+    --darker-green: #1d3f2b;
+    --bg-light: #f8f5f2;
+    --text-dark: #222222;
+    --border-color: #cccccc;
+    --beige: #f7e9d8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--bg-light);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height:100vh;
+    background-color: var(--bg-light);
+}
+
+main {
+    flex: 1;
+    animation: slideUp;
+    animation-duration: 0.5s;
+}
+
+a {
+    all:unset;
+    cursor: pointer;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* animation */
+
+@keyframes slideUp {
+    from{
+        transform: translateY(100%);
+    }
+}
+
+/* media */
+@media (max-width: 900px) {
+    .asset-page {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #search-box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #search-input{
+        width: 100%;
+        margin: 0;
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+
+    #search-button {
+        width: 20%;
+        margin-top: 0.5rem;
+        border-radius: 1rem;
+    }
+
+    #body-filter {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        row-gap: 0;
+    }
+
+    .asset-table {
+        font-size: 14px;
+    }
+
+    #filter-box {
+        width: 150%;
+    }
+
+    .activity-log-table {
+        font-size: 0.9rem;
+    }
+
+    .activity-log-table th, .activity-log-table td {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    #apply-filter, #export {
+        font-size: 0.9rem;
+    }
+
+    .activity-log-table thead {
+        display: none;
+    }
+
+    .activity-log-table, .activity-log-table tbody, .activity-log-table tr, .activity-log-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .activity-log-table tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .activity-log-table td {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        border-bottom: none;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .activity-log-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-transform: capitalize;
+        color: var(--primary-color);
+    }
+
+    .activity-log-table td:last-child {
+        white-space: normal;
+    }
+}

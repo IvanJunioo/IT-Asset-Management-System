@@ -141,7 +141,7 @@ class Database implements DatabaseInterface {
     
     public function searchUser(
       string $empID = "",
-      Fullname $fullname = new Fullname("", "", ""),
+      Fullname $fullname = new Fullname(),
       string $email = "",
       array $isActive = ["Active", "Inactive"],
       array $privileges = [UserPrivilege::faculty, UserPrivilege::admin, UserPrivilege::superAdmin],

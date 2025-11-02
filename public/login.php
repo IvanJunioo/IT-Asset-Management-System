@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include '../src/partials/head.php' ?>
-<body>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/login.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/header.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/navigation.css">
+<body>  
     <!-- header -->
     <?php include '../src/partials/header-login.php' ?>
 

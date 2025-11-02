@@ -15,7 +15,12 @@ class Fullname {
   public string $last;
   public string $suffix;
 
-  public function __construct(string $first, string $middle, string $last, string $suffix = "") {
+  public function __construct(
+    string $first = "", 
+    string $middle = "", 
+    string $last = "", 
+    string $suffix = ""
+  ) {
     $this->first = $first;
     $this->middle = $middle;
     $this->last = $last;

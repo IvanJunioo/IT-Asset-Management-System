@@ -31,29 +31,7 @@
         </table>
       </div>
 
-      <script>
-        fetch("../handlers/asset-table.php", {method: "POST"})
-          .then(res => res.json())
-          .then(data => {
-            const assetTableBody = document.querySelector('.asset-table tbody');
-            assetTableBody.innerHTML = "";
-
-            for (const asset of data) {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td>${asset.PropNum}</td>
-                <td>${asset.ProcNum}</td>
-                <td>${asset.PurchaseDate}</td>
-                <td>${asset.Specs}</td>
-                <td>${asset.Price}</td>
-                <td> ${asset.Status} </td>
-                <td> - </td>
-              `;
-              
-              assetTableBody.appendChild(tr);
-            }
-          })
-      </script>
+      <script src="../script/asset-table.js"></script>
 
     </div>
     <div class="right-asset">

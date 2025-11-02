@@ -7,7 +7,9 @@ if (!defined('BASE_URL')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>Document</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/style.css">
+    <title>IAMS</title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/general.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/header.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/navigation.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>

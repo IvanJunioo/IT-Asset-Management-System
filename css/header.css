@@ -1,3 +1,14 @@
+:root {
+    --primary-color: #550101;
+    --darker-primary: #3e0505;
+    --primary-green: #2a7548;
+    --darker-green: #1d3f2b;
+    --bg-light: #f8f5f2;
+    --text-dark: #222222;
+    --border-color: #cccccc;
+    --beige: #f7e9d8;
+}
+
 .header {
     display: flex;
     flex-direction: column;
