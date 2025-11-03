@@ -2,16 +2,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
   const userTableBody = document.querySelector('.user-table tbody');
+  const privilege = document.getElementById("body-filter").querySelectorAll('input[name="privilege"]');
+  const resetFilterButton = document.getElementById("filter-box").querySelector("button[id='apply-filter']");
   const multiSelectButton = document.getElementById("multi-select");
   const currentPage = window.location.pathname;
 
-  function fetchUsers(filters = "") {
+  function fetchUsers() {
     const src = "../handlers/user-table.php";
+
+    const searchFilters = searchInput.value;
+    
+    const privFilters = [];
+    for (const cb of privilege) {
+      if (cb.id === "faculty" && cb.checked) privFilters.push("Faculty");
+      if (cb.id === "admin" && cb.checked) privFilters.push("Admin");
+      if (cb.id === "superadmin" && cb.checked) privFilters.push("SuperAdmin");
+    }
   
     fetch(src, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `search=${encodeURIComponent(filters)}`,
+      body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}`,
     })
     .then(res => res.json())
     .then(data => showUsers(data))
@@ -32,38 +43,71 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${user.Privilege} </td>
         <td>${user.ActiveStatus} </td>
       `;
-      tr += currentPage.includes("user-manager") ? `
-      <td class="actions">
-        <button class="action-btn">
-          <span class="material-icons">more_horiz</span>
-        </button>
-
-        <div class="action-menu">
-          <a href="asset-form.php" class="menu-item" id="modify-action">Modify</a>
-          <a href="asset-form.php" class="menu-item" id="delete-action">Delete</a>
-        </div>
-      </td>` : ``
+      if (currentPage.includes("user-manager")) {
+        const action = document.createElement("td");
+        action.className = "actions";
+        action.innerHTML = `
+          <button class="action-btn">
+            <span class="material-icons">more_horiz</span>
+          </button>
+          
+          <div class="action-menu">
+            <a href="edit-user-form.php" class="menu-item" id="modify-action">Modify</a>
+            <a href="delete-user.php" class="menu-item" id="delete-action">Delete</a>
+            <a href="user-form.php" class="menu-item" id="assign-action">Assign</a>
+          </div>
+        `
+        tr.appendChild(action);
+      }
+      
       userTableBody.appendChild(tr);
+    }
+    
+    if (currentPage.includes("user-manager")) {
+      document.querySelectorAll(".action-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const menu = btn.parentElement.querySelector(".action-menu");
+            if (menu.style.display == "flex") {
+              menu.style.display = "none";
+            } else {
+              menu.style.display = "flex";
+            }
+          });
+      });
+
+      document.addEventListener("click", () => {
+        document.querySelectorAll(".action-menu").forEach(menu => {
+          menu.style.display = "none";
+        });
+      });
     }
   }
   
   fetchUsers();
   
   searchInput.addEventListener("input", () => {
-    fetchUsers(searchInput.value);
+    fetchUsers();
   });
 
   searchButton.addEventListener("click", () => {
-    fetchUsers(searchInput.value)
+    fetchUsers()
     searchInput.value = "";
   });
 
-  multiSelectButton.addEventListener("click", () => {
-    const icon = multiSelectButton.querySelector(".material-icons");
-    icon.textContent = icon.textContent.includes("check_box_outline_blank")
-      ? "check_box"
-      : "check_box_outline_blank";
+  privilege.forEach(cb => cb.addEventListener("change", fetchUsers))
+
+  resetFilterButton.addEventListener("click", () => {
+    privilege.forEach(cb => cb.checked = false);
+    fetchUsers();
   });
+
+  // multiSelectButton.addEventListener("click", () => {
+  //   const icon = multiSelectButton.querySelector(".material-icons");
+  //   icon.textContent = icon.textContent.includes("check_box_outline_blank")
+  //     ? "check_box"
+  //     : "check_box_outline_blank";
+  // });
 
   document.querySelectorAll(".action-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {

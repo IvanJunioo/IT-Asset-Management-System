@@ -43,13 +43,12 @@
         </div>
 
         <div id="body-filter">
-          <label><input type="checkbox" id="available"> Available</label>
-          <label><input type="checkbox" id="assigned"> Assigned</label>
-          <label><input type="checkbox" id="condemned"> Condemned</label>
-          <label><input type="checkbox" id="to-repair"> To Repair</label>
+          <label><input type="checkbox" name="privilege" id="faculty"> Faculty</label>
+          <label><input type="checkbox" name="privilege" id="admin"> Admin</label>
+          <label><input type="checkbox" name="privilege" id="superadmin"> SuperAdmin</label>
         </div>
           
-        <button id="apply-filter"> Apply Filter </button>
+        <button id="apply-filter"> Reset Filters </button>
 
       </div>
       <button id="export"> Export assets </button>

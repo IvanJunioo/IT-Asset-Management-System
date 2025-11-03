@@ -67,9 +67,9 @@ class Database implements DatabaseInterface {
   public function searchAsset(
     float $price_min = 0,
     float $price_max = 10**12 - 0.01,
-    DateTimeImmutable $base_date = new DateTimeImmutable("0001-00-00"),
-    DateTimeImmutable $end_date = new DateTimeImmutable("now"),
-    array $status = [AssetStatus::Used, AssetStatus::Unused, AssetStatus::InRepair, AssetStatus::Broken],
+    ?DateTimeImmutable $base_date = null,
+    ?DateTimeImmutable $end_date = null,
+    ?array $status = null,  # must be nonempty
     
     string $propNum = "",
     string $procNum = "",
@@ -78,162 +78,171 @@ class Database implements DatabaseInterface {
     string $description = "",
     string $remarks = "",
     int $limit = 50,
-    ): array | bool { 
-      $st = implode(',',array_fill(0, count($status), '?'));
-      $query = "SELECT * FROM asset WHERE 
-        Status IN ($st)
-        AND Price >= ? 
-        AND Price <= ?
-        AND PurchaseDate >= ? 
-        AND PurchaseDate <= ?
-        AND PropNum LIKE ?
-        AND ProcNum LIKE ?
-        AND SerialNum LIKE ?
-        AND ShortDesc LIKE ?
-        AND Specs LIKE ?
-        AND Remarks LIKE ?
-        LIMIT $limit
-      ;";
-      
-      try {
-        $stmt = $this->_pdo->prepare($query);
-        
-        foreach ($status as $s ) {
-          $params[] = $s->name;
-        }
-        
-        $params[] = "$price_min";
-        $params[] = "$price_max";
-        $params[] = $base_date->format("Y-m-d");
-        $params[] = $end_date->format("Y-m-d");
-        $params[] = "%$propNum%";
-        $params[] = "%$procNum%";
-        $params[] = "%$serialNum%";
-        $params[] = "%$description%";
-        $params[] = "%$specs%";
-        $params[] = "%$remarks%";
-        
-        $stmt->execute($params);
-        
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        $assets = []; # Initially empty list (not null)
-        foreach ($result as $asset) {
-          $assets[] = new Asset(
-            propNum: $asset["PropNum"],
-            procNum: $asset["ProcNum"],
-            serialNum: $asset["SerialNum"],
-            date: $asset["PurchaseDate"],
-            specs: $asset["Specs"],
-            desc: $asset["ShortDesc"],
-            url: $asset["URL"],
-            remarks: $asset["Remarks"],
-            price: (float)$asset["Price"]
-          );
-        }
-        
-        return $assets;
-      } catch(PDOException $e) {
-        panic($e);
-        return false;
-      }
-    }
+  ): array | bool { 
+    $base_date ??= new DateTimeImmutable("0001-01-01");
+    $end_date ??= new DateTimeImmutable("now");
+    $status ??= AssetStatus::cases();
     
-    public function searchUser(
-      string $empID = "",
-      Fullname $fullname = new Fullname(),
-      string $email = "",
-      array $isActive = ["Active", "Inactive"],
-      array $privileges = [UserPrivilege::faculty, UserPrivilege::admin, UserPrivilege::superAdmin],
-      int $limit = 50,
-      ): array | bool {
-      $act = implode(",", array_fill(0, count($isActive),"?"));
-      $priv = implode(",", array_fill(0, count($privileges), "?"));
-      $query = "SELECT * FROM employee WHERE 
-        ActiveStatus IN ($act)
-        AND Privilege IN ($priv)
-        AND EmpID LIKE ?
-        AND EmpMail LIKE ?
-        AND FName LIKE ?
-        AND MName LIKE ?
-        AND LName LIKE ?
-        LIMIT $limit
-      ";
-
-      try {
-        $stmt = $this->_pdo->prepare($query);
-        foreach ($isActive as $a) {$params[] = $a;}
-        foreach ($privileges as $p) {$params[] = $p->name;}
-        $params[] = "%$empID%";
-        $params[] = "%$email%";
-        $params[] = "%" . $fullname->first . "%";
-        $params[] = "%" . $fullname->middle . "%";
-        $params[] = "%" . $fullname->last . "%";
-
-        $stmt->execute($params);
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $emps = [];
-        foreach ($res as $emp) {
-          $id = $emp["EmpID"];
-          $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
-          $email = $emp["EmpMail"];
-          switch ($emp["Privilege"]) {
-            case "SuperAdmin":
-              $emps[] = new SuperAdmin($id, $name, $email);
-              break;
-            case "Admin":
-              $emps[] = new Admin($id, $name, $email);
-              break;
-            default:
-              $emps[] = new Faculty($id, $name, $email);
-          }
-        }
-
-        return $emps;
-      } catch (PDOException $e) {
-        panic($e);
-        return false;
-      }
-
-    }
-
-    public function getAssignedAssets(User $user): array | bool {
-      $query = "SELECT * FROM 
-        assignment INNER JOIN asset ON 
-        assignment.PropNum = asset.PropNum
-        WHERE EmpID = :empid AND RetDate is NULL
-      ";
-
-      try {
-        $stmt = $this->_pdo->prepare($query);
-        $stmt->execute([
-          ":empid" => $user->getEmpID(),
-        ]);
-      
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $assets = [];
-        foreach ($res as $asset) {
-          $assets[] = new Asset(
-            propNum: $asset["PropNum"],
-            procNum: $asset["ProcNum"],
-            serialNum: $asset["SerialNum"],
-            date: $asset["PurchaseDate"],
-            specs: $asset["Specs"],
-            desc: $asset["ShortDesc"],
-            url: $asset["URL"],
-            remarks: $asset["Remarks"],
-            price: (float)$asset["Price"]
-          );
-        }
-        
-        return $assets;
-      } catch (PDOException $e) {
-        panic($e);
-        return false;
-      }
-    }
+    $st = implode(',',array_fill(0, count($status), '?'));
+    $query = "SELECT * FROM asset WHERE 
+      Status IN ($st)
+      AND Price >= ? 
+      AND Price <= ?
+      AND PurchaseDate >= ? 
+      AND PurchaseDate <= ?
+      AND PropNum LIKE ?
+      AND ProcNum LIKE ?
+      AND SerialNum LIKE ?
+      AND ShortDesc LIKE ?
+      AND Specs LIKE ?
+      AND Remarks LIKE ?
+      LIMIT $limit
+    ;";
     
-    public function addAsset(Asset $asset): bool {
+    try {
+      $stmt = $this->_pdo->prepare($query);
+      
+      foreach ($status as $s ) {
+        $params[] = $s->name;
+      }
+      
+      $params[] = "$price_min";
+      $params[] = "$price_max";
+      $params[] = $base_date->format("Y-m-d");
+      $params[] = $end_date->format("Y-m-d");
+      $params[] = "%$propNum%";
+      $params[] = "%$procNum%";
+      $params[] = "%$serialNum%";
+      $params[] = "%$description%";
+      $params[] = "%$specs%";
+      $params[] = "%$remarks%";
+      
+      $stmt->execute($params);
+      
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      
+      $assets = []; # Initially empty list (not null)
+      foreach ($result as $ass) {
+        $asset = new Asset(
+          propNum: $ass["PropNum"],
+          procNum: $ass["ProcNum"],
+          serialNum: $ass["SerialNum"],
+          date: $ass["PurchaseDate"],
+          specs: $ass["Specs"],
+          desc: $ass["ShortDesc"],
+          url: $ass["URL"],
+          remarks: $ass["Remarks"],
+          price: (float)$ass["Price"]
+        );
+        $asset->setStatus(AssetStatus::fromStr($ass["Status"]));
+        $assets[] = $asset;
+      }
+      
+      return $assets;
+    } catch(PDOException $e) {
+      panic($e);
+      return false;
+    }
+  }
+    
+  public function searchUser(
+    string $empID = "",
+    ?Fullname $fullname = null,
+    string $email = "",
+    array $isActive = ["Active", "Inactive"],
+    ?array $privileges = null, # must be nonempty
+    int $limit = 50,
+  ): array | bool {
+    $fullname ??= new Fullname();
+    $privileges ??= UserPrivilege::cases(); 
+      
+    $act = implode(",", array_fill(0, count($isActive),"?"));
+    $priv = implode(",", array_fill(0, count($privileges), "?"));
+    $query = "SELECT * FROM employee WHERE 
+      ActiveStatus IN ($act)
+      AND Privilege IN ($priv)
+      AND EmpID LIKE ?
+      AND EmpMail LIKE ?
+      AND FName LIKE ?
+      AND MName LIKE ?
+      AND LName LIKE ?
+      LIMIT $limit
+    ";
+
+    try {
+      $stmt = $this->_pdo->prepare($query);
+      foreach ($isActive as $a) {$params[] = $a;}
+      foreach ($privileges as $p) {$params[] = $p->name;}
+      $params[] = "%$empID%";
+      $params[] = "%$email%";
+      $params[] = "%" . $fullname->first . "%";
+      $params[] = "%" . $fullname->middle . "%";
+      $params[] = "%" . $fullname->last . "%";
+
+      $stmt->execute($params);
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $emps = [];
+      foreach ($res as $emp) {
+        $id = $emp["EmpID"];
+        $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
+        $email = $emp["EmpMail"];
+        switch ($emp["Privilege"]) {
+          case "SuperAdmin":
+            $emps[] = new SuperAdmin($id, $name, $email);
+            break;
+          case "Admin":
+            $emps[] = new Admin($id, $name, $email);
+            break;
+          default:
+            $emps[] = new Faculty($id, $name, $email);
+        }
+      }
+
+      return $emps;
+    } catch (PDOException $e) {
+      panic($e);
+      return false;
+    }
+
+  }
+
+  public function getAssignedAssets(User $user): array | bool {
+    $query = "SELECT * FROM 
+      assignment INNER JOIN asset ON 
+      assignment.PropNum = asset.PropNum
+      WHERE EmpID = :empid AND RetDate is NULL
+    ";
+
+    try {
+      $stmt = $this->_pdo->prepare($query);
+      $stmt->execute([
+        ":empid" => $user->getEmpID(),
+      ]);
+    
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $assets = [];
+      foreach ($res as $asset) {
+        $assets[] = new Asset(
+          propNum: $asset["PropNum"],
+          procNum: $asset["ProcNum"],
+          serialNum: $asset["SerialNum"],
+          date: $asset["PurchaseDate"],
+          specs: $asset["Specs"],
+          desc: $asset["ShortDesc"],
+          url: $asset["URL"],
+          remarks: $asset["Remarks"],
+          price: (float)$asset["Price"]
+        );
+      }
+      
+      return $assets;
+    } catch (PDOException $e) {
+      panic($e);
+      return false;
+    }
+  }
+    
+  public function addAsset(Asset $asset): bool {
     $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL, ActLog) VALUES (?,?,?,?,?,?,?,?,?,?,?);"; 
     
     try {

@@ -30,8 +30,8 @@ body {
 
 main {
     flex: 1;
-    animation: slideUp;
-    animation-duration: 0.5s;
+    /* animation: slideUp;
+    animation-duration: 0.5s; */
 }
 
 a {

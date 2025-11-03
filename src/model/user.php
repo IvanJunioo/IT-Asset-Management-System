@@ -4,9 +4,16 @@ declare (strict_types= 1);
 include_once 'asset.php';
 
 enum UserPrivilege {
-  case faculty;
-  case admin;
-  case superAdmin;
+  case Faculty;
+  case Admin;
+  case SuperAdmin;
+
+  public static function fromStr(string $status): UserPrivilege {
+    foreach (self::cases() as $case) {
+      if ($case->name === $status) return $case;
+    }
+    throw new Exception('String not a valid UserPrivilege');
+  }
 }
 
 class Fullname {
@@ -76,7 +83,7 @@ class SuperAdmin extends User {
     parent::__construct($empID, $name, $email);
   }
 
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::superAdmin;}
+  public function getPrivilege(): UserPrivilege {return UserPrivilege::SuperAdmin;}
 }
 
 class Admin extends User {
@@ -84,7 +91,7 @@ class Admin extends User {
     parent::__construct($empID, $name, $email);
   }
 
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::admin;}
+  public function getPrivilege(): UserPrivilege {return UserPrivilege::Admin;}
 }
 
 class Faculty extends User {
@@ -92,6 +99,6 @@ class Faculty extends User {
     parent::__construct($empID, $name, $email);
   }
 
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::faculty; }
+  public function getPrivilege(): UserPrivilege {return UserPrivilege::Faculty; }
 }
 

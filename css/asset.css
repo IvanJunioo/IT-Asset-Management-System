@@ -335,10 +335,6 @@ tbody tr:hover {
     background-color: #f3f3f3;
 }
 
-.actions.show-menu .action-menu {
-    display: flex;
-}
-
 textarea {
     resize: none;
 }

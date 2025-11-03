@@ -8,6 +8,13 @@ enum AssetStatus {
   case Used;
   case Broken;
   case InRepair;
+
+  public static function fromStr(string $status): AssetStatus {
+    foreach (self::cases() as $case) {
+      if ($case->name === $status) return $case;
+    }
+    throw new Exception('String not a valid AssetStatus');
+  }
 }
 
 interface AssetUserInterface {

@@ -2,11 +2,11 @@
 <html lang="en">
   <?php include '../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
-<body>
-  <?php include '../partials/header.php'?>
-
+  <body>
+    <?php include '../partials/header.php'?>
+    
   <main class="add-asset-form">
-    <form action = '../handlers/add-asset-form.php' method="post">
+    <form action = '../handlers/edit-asset-form.php' method="post">
       <label for="property-num"> Property Number: </label>
       <input type="text" id ="pnum" name="property-num" placeholder="Enter Property Number" maxlength="12" minlength="12" size = "12" required>
 
@@ -57,6 +57,8 @@
         Submit
       </button>  
     </form>
+    <script src="../script/edit-asset.js"></script>
+
   </main>
   <?php include '../partials/footer.php'?>
 </body>

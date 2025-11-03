@@ -34,11 +34,7 @@
                 <th> Price </th>
                 <th> Status  </th>
                 <th> Assigned to </th>
-                <th>
-                  <button id="select-all">
-                    <span class="material-icons"> select_all </span>
-                  </button>
-                </th>
+                <th> </th>
               </tr>
             </thead>
             <tbody>
@@ -61,13 +57,13 @@
           </div>
 
           <div id="body-filter">
-            <label><input type="checkbox" id="available"> Available</label>
-            <label><input type="checkbox" id="assigned"> Assigned</label>
-            <label><input type="checkbox" id="condemned"> Condemned</label>
-            <label><input type="checkbox" id="to-repair"> To Repair</label>
+            <label><input type="checkbox" name="status" id="available"> Available</label>
+            <label><input type="checkbox" name="status" id="assigned"> Assigned</label>
+            <label><input type="checkbox" name="status" id="condemned"> Condemned</label>
+            <label><input type="checkbox" name="status" id="to-repair"> To Repair</label>
           </div>
               
-          <button id="apply-filter"> Apply Filter </button>
+          <button id="apply-filter"> Reset Filters </button>
 
         </div>
         <button id="export"> Export assets </button>
