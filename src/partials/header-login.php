@@ -15,12 +15,4 @@
             </a>
         </div>
     </section>
-
-    <section id="navigation">
-        <div id="navigation-bar">
-        </div> 
-
-        <div id="user-panel">
-        </div>
-    </section>
 </div>

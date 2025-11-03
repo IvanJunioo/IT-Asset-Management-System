@@ -13,7 +13,16 @@
           <input type="text" id="search-input" placeholder="Search asset">
           <button id="search-button"> Search </button>
         </div>
-          
+
+        <div class="table-func">
+          <button id="multi-select">
+            <span class="material-icons"> check_box_outline_blank </span>
+          </button>
+          <button id="sort-by">
+            <span class="material-icons"> sort </span>
+          </button>
+        </div>
+
         <div class="table-container">
           <table class="asset-table">
             <thead>
@@ -25,7 +34,11 @@
                 <th> Price </th>
                 <th> Status  </th>
                 <th> Assigned to </th>
-                <th></th>
+                <th>
+                  <button id="select-all">
+                    <span class="material-icons"> select_all </span>
+                  </button>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -38,22 +51,8 @@
             Add a New Asset 
         </a>
         
-        <script src="../script/asset-table.js">
-          document.addEventListener("DOMContentLoaded", () => {
-              document.querySelectorAll(".action-btn").forEach(btn => {
-                  btn.addEventListener("click", (e) => {
-                      e.stopPropagation();
-                      const actionsCell = btn.closest(".actions");
-                      actionsCell.classList.toggle("show-menu");
-                  });
-              });
+        <script src="../script/asset-table.js"></script>
 
-              document.addEventListener("click", () => {
-                  document.querySelectorAll(".actions.show-menu")
-                  .forEach(cell => cell.classList.remove("show-menu"));
-              });
-          });
-        </script>
       </div>
       <div class="right-asset">
         <div id="filter-box">

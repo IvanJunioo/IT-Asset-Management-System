@@ -13,7 +13,16 @@
         <input type="text" id="search-input" placeholder="Search user">
         <button id="search-button"> Search </button>
       </div>
-      
+
+      <div class="table-func">
+        <button id="multi-select">
+          <span class="material-icons"> check_box_outline_blank </span>
+        </button>
+        <button id="sort-by">
+          <span class="material-icons"> sort </span>
+        </button>
+      </div>
+
       <div class="table-container">
         <table class="user-table">
           <thead>
@@ -25,7 +34,11 @@
               <th> Last Name </th>
               <th> Privilege </th>
               <th> Status  </th>
-              <th></th>
+              <th>
+                <button id="select-all">
+                  <span class="material-icons"> select_all </span>
+                </button>
+              </th>
             </tr>
           </thead>
             <tbody>
@@ -39,22 +52,7 @@
         Add a New User
       </a>
 
-      <script src="../script/user-table.js">
-          document.addEventListener("DOMContentLoaded", () => {
-              document.querySelectorAll(".action-btn").forEach(btn => {
-                  btn.addEventListener("click", (e) => {
-                      e.stopPropagation();
-                      const actionsCell = btn.closest(".actions");
-                      actionsCell.classList.toggle("show-menu");
-                  });
-              });
-
-              document.addEventListener("click", () => {
-                  document.querySelectorAll(".actions.show-menu")
-                  .forEach(cell => cell.classList.remove("show-menu"));
-              });
-          });
-      </script>
+      <script src="../script/user-table.js"></script>
 
 
     </div>

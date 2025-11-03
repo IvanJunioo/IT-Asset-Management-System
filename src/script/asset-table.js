@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
   const assetTableBody = document.querySelector('.asset-table tbody');
+  const multiSelectButton = document.getElementById("multi-select");
+  const currentPage = window.location.pathname;
+
+  let isMultiSelect = false;
   
   function fetchAssets(filters = "") {
     const src = "../handlers/asset-table.php";
@@ -31,6 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
         <td> - </td>
       `;
       
+      tr += currentPage.includes("asset-manager") ? `
+      <td class="actions">
+        <button class="action-btn">
+          <span class="material-icons">more_horiz</span>
+        </button>
+
+        <div class="action-menu">
+          <a href="asset-form.php" class="menu-item" id="modify-action">Modify</a>
+          <a href="asset-form.php" class="menu-item" id="delete-action">Delete</a>
+          <a href="asset-form.php" class="menu-item" id="assign-action">Assign</a>
+        </div>
+      </td>` : ``
       assetTableBody.appendChild(tr);
     }  
   }
@@ -44,5 +60,24 @@ document.addEventListener("DOMContentLoaded", () => {
   searchButton.addEventListener("click", () => {
     fetchAssets(searchInput.value)
     searchInput.value = "";
+  });
+  
+  document.querySelectorAll(".action-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const actionsCell = btn.closest(".actions");
+        actionsCell.classList.toggle("show-menu");
+      });
+  });
+
+  document.addEventListener("click", () => {
+      document.querySelectorAll(".actions.show-menu")
+      .forEach(cell => cell.classList.remove("show-menu"));
+  });
+
+  multiSelectButton.addEventListener("click", () => {
+    isMultiSelect = !isMultiSelect
+    const icon = multiSelectButton.querySelector(".material-icons");
+    icon.textContent = isMultiSelect? "check_box" : "check_box_outline_blank";
   });
 })

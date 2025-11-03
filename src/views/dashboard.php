@@ -19,7 +19,7 @@
         <section class="dashboard-cards">
             <a href="./assets.php" class="card">
                 <h2>View Assets</h2>
-                <p>Preview and manage all system assets.</p>
+                <p>Preview all the system assets.</p>
             </a>
 
       <a href="./activity-log.php" class="card">
@@ -29,12 +29,12 @@
 
       <a href="./asset-manager.php" class="card">
         <h2>Manage Assets</h2>
-        <p>Add, edit, or remove assets in your inventory.</p>
+        <p>Add, edit, assign, or remove assets in your inventory.</p>
       </a>
 
             <a href="./users.php" class="card">
                 <h2>Manage Users</h2>
-                <p>View and update user roles and permissions.</p>
+                <p>Add or update user roles and permissions.</p>
             </a>
         </section>
 

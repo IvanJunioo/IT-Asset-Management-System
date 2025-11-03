@@ -49,6 +49,66 @@ form {
     flex-direction: column;
 }
 
+.table-func {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: right;
+    gap: 2pt;
+    margin-bottom: -1.5rem;
+    margin-right: 6pt;
+}
+
+.table-func button {
+    background-color: var(--bg-light);
+    border: 0px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.1s ease;
+    border-radius: 99999pt;
+
+}
+
+.table-func button:hover {
+    background-color: var(--border-color);
+}
+
+.table-func .material-icons {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.table-func button:active {
+    background-color: #e8e8e8;
+}
+
+#select-all {
+    background-color: var(--primary-color);
+    border: 0px;
+    color: white;
+    transition: background-color 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999999pt;
+}
+
+#select-all:hover {
+    background-color: var(--darker-primary)
+}
+
+#select-all .material-icons {
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 999999pt;
+}
+
+#select-all .material-icons:active {
+    background-color:#380707
+}
 /* animation */
 
 @keyframes slideUp {
@@ -60,27 +120,24 @@ form {
 /* media */
 @media (max-width: 900px) {
     .asset-page {
-        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 
     #search-box {
-        flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     #search-input{
         width: 100%;
         margin: 0;
         border-radius: 1rem;
-        padding: 1rem;
     }
 
     #search-button {
         width: 20%;
-        margin-top: 0.5rem;
-        border-radius: 1rem;
+        text-align: center;
     }
 
     #body-filter {
