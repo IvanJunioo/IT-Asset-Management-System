@@ -142,6 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
+  function getPropNumSelected() {
+    let propNums = [];
+
+    document.querySelectorAll("#selectable-row").forEach(elem => {
+      if (elem.firstElementChild.textContent == "check_box") {
+        const parentRow = elem.parentElement.parentElement;
+        propNums.push(parentRow.children[0].textContent.trim());
+        }
+      }
+    )
+    return propNums;
+  }
+
   fetchAssets();
   
   searchInput.addEventListener("input", fetchAssets);
@@ -197,17 +210,32 @@ document.addEventListener("DOMContentLoaded", () => {
           elem.querySelector(".material-icons").textContent = selectedAll ? "check_box" : "check_box_outline_blank";
         })
       })
+      
+      const tableFuncs = document.querySelector(".table-func");
+      const assignButton = document.createElement("button");
+      const deleteButton = document.createElement("button");
+
+      assignButton.className = "assign";
+      deleteButton.className = "delete";
+
+      assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
+      deleteButton.innerHTML = `<span class="material-icons">delete</span>`;
+
+      tableFuncs.insertBefore(assignButton, tableFuncs.firstElementChild);
+      tableFuncs.insertBefore(deleteButton, tableFuncs.firstElementChild);
 
     } else {
       document.querySelectorAll("#select-all").forEach(elem => {
-        elem.remove();
+        elem?.remove();
       })
 
       document.querySelectorAll("tbody tr").forEach(row => {
         let idx = row.childElementCount;
-        row.children[idx - 1].remove();
+        row.children[idx - 1]?.remove();
       })
 
+      document.querySelector(".table-func .assign")?.remove();
+      document.querySelector(".table-func .delete")?.remove();
       addActionButton();
     }
   });
