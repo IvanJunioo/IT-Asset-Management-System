@@ -60,7 +60,6 @@ form {
 }
 
 .table-func button {
-    background-color: var(--bg-light);
     border: 0px;
     padding: 0.4rem 0.6rem;
     cursor: pointer;
@@ -69,7 +68,29 @@ form {
     justify-content: center;
     transition: background-color 0.1s ease;
     border-radius: 99999pt;
+}
 
+#selectable-row {
+    all: unset;
+    border: 0;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: none;
+    background: inherit;
+    border-radius: 999999pt;
+}
+
+#selectable-row:hover {
+    background: var(--border-color);
+    outline: none;
+    box-shadow: none;
+}
+
+.table-func button {
+    background-color: var(--bg-light);
 }
 
 .table-func button:hover {
@@ -81,7 +102,7 @@ form {
     color: var(--text-dark);
 }
 
-.table-func button:active {
+.table-func button:active, #selectable-row:active {
     background-color: #e8e8e8;
 }
 

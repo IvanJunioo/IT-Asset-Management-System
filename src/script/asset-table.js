@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname;
 
   let isMultiSelect = false;
+  let selectedAll = false;
   
   function fetchAssets() {
     const src = "../handlers/asset-table.php";
@@ -49,48 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <td> ${asset.Status} </td>
         <td> - </td>
       `;
-      
-      if (currentPage.includes("asset-manager")) {
-        const action = document.createElement("td");
-        action.className = "actions";
-        action.innerHTML = `
-          <button class="action-btn">
-            <span class="material-icons">more_horiz</span>
-          </button>
-          
-          <div class="action-menu">
-            <a class="menu-item" id="modify-action">Modify</a>
-            <a class="menu-item" id="delete-action">Delete</a>
-            <a class="menu-item" id="assign-action">Assign</a>
-          </div>
-        `
-        tr.appendChild(action);
-      }
-      
       assetTableBody.appendChild(tr);
     }
     
     if (currentPage.includes("asset-manager")) {
-      document.querySelectorAll(".action-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const menu = btn.parentElement.querySelector(".action-menu");
-            if (menu.style.display == "flex") {
-              menu.style.display = "none";
-            } else {
-              menu.style.display = "flex";
-            }
-          });
-      });
+      addActionButton();
 
-      document.addEventListener("click", () => {
-        document.querySelectorAll(".action-menu").forEach(menu => {
-          menu.style.display = "none";
-        });
-      });
-
-      const actionButtons = document.getElementsByClassName("menu-item");
-      Array.from(actionButtons).forEach(btn => {
+      const menuButtons = document.getElementsByClassName("menu-item");
+      Array.from(menuButtons).forEach(btn => {
         btn.addEventListener("click", (e) => {
           const row = e.target.closest("tr");
           const cells = row.querySelectorAll("td");
@@ -137,6 +104,44 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
   
+  function addActionButton() {
+    const rows = document.querySelectorAll("tbody tr");
+
+    for (const row of rows) {
+      row.innerHTML += `
+      <td class="actions">
+        <button class="action-btn">
+          <span class="material-icons">more_horiz</span>
+        </button>
+        
+        <div class="action-menu">
+          <a class="menu-item" id="modify-action">Modify</a>
+          <a class="menu-item" id="delete-action">Delete</a>
+          <a class="menu-item" id="assign-action">Assign</a>
+        </div>
+      </td>
+      `;
+    }
+
+    document.querySelectorAll(".action-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const menu = btn.parentElement.querySelector(".action-menu");
+          if (menu.style.display == "flex") {
+            menu.style.display = "none";
+          } else {
+            menu.style.display = "flex";
+          }
+        });
+    });
+
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".action-menu").forEach(menu => {
+        menu.style.display = "none";
+      });
+    });
+  }
+  
   fetchAssets();
   
   searchInput.addEventListener("input", fetchAssets);
@@ -156,9 +161,54 @@ document.addEventListener("DOMContentLoaded", () => {
     isMultiSelect = !isMultiSelect
     const icon = multiSelectButton.querySelector(".material-icons");
     icon.textContent = isMultiSelect? "check_box" : "check_box_outline_blank";
-  });
 
-  // for (const action in actionButtons){
-  //   console.log(action.id);
-  // }
+    const tableElement = document.querySelector(".asset-table");
+    if (isMultiSelect) {
+      const tableHead = tableElement.querySelector("thead tr");
+      let i = tableHead.childElementCount;
+
+      tableHead.children[i - 1].innerHTML = 
+        `<button id="select-all">
+          <span class="material-icons"> select_all </span>
+          </button>`;
+      
+      tableElement.querySelectorAll("tbody tr").forEach(row => {
+        let idx = row.childElementCount;
+        let lastCell = row.children[idx - 1];
+
+        lastCell.innerHTML = `
+          <button id="selectable-row">
+            <span class="material-icons"> check_box_outline_blank </span>
+          </button>
+        `
+      })
+
+      document.querySelectorAll("#selectable-row").forEach(elem => {
+        elem.addEventListener("click", () => {
+          const icon = elem.querySelector(".material-icons");
+          icon.textContent = icon.textContent == "check_box" ? "check_box_outline_blank" : "check_box";
+        })
+      })
+
+      const selectAllBtn = document.querySelector("#select-all");
+      selectAllBtn.addEventListener("click", () => {
+        selectedAll = !selectedAll;
+        document.querySelectorAll("#selectable-row").forEach(elem => {
+          elem.querySelector(".material-icons").textContent = selectedAll ? "check_box" : "check_box_outline_blank";
+        })
+      })
+
+    } else {
+      document.querySelectorAll("#select-all").forEach(elem => {
+        elem.remove();
+      })
+
+      document.querySelectorAll("tbody tr").forEach(row => {
+        let idx = row.childElementCount;
+        row.children[idx - 1].remove();
+      })
+
+      addActionButton();
+    }
+  });
 })
