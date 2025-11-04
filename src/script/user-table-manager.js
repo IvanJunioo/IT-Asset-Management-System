@@ -1,14 +1,19 @@
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
+document.addEventListener("DOMContentLoaded", () => {
+  addTableFuncs();
+  userTable.querySelector("thead tr").appendChild(document.createElement("th"));
+  addUserAdd();
+
+});
+
 userTableBody.addEventListener("usersLoaded", () => {
   const multiSelectButton = document.getElementById("multi-select");
   const rows = userTableBody.querySelectorAll("tr");
   const menuButtons = document.getElementsByClassName("menu-item");
 
-  addTableFuncs();
   addActionsButton();
-  addUserAdd();
 
   Array.from(menuButtons).forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -54,28 +59,8 @@ userTableBody.addEventListener("usersLoaded", () => {
       window.location.href = "../views/user-manager.php";
     })
   }
-
-  function addTableFuncs() {
-    const leftUser = document.querySelector(".left-user");
-    const tableContainer = leftUser.querySelector(".table-container");
-
-    const tableFuncs = document.createElement("div");
-    tableFuncs.className = "table-func";
-    tableFuncs.innerHTML = `
-      <button id="multi-select">
-        <span class="material-icons"> check_box_outline_blank </span>
-      </button>
-      <button id="sort-by">
-        <span class="material-icons"> sort </span>
-      </button>
-    `;
-
-    leftUser.insertBefore(tableFuncs, tableContainer);
-  }
   
   function addActionsButton() {
-    userTable.querySelector("thead tr").appendChild(document.createElement("th"));
-
     for (const row of rows) {
       row.innerHTML += `
       <td class="actions">
@@ -108,19 +93,6 @@ userTableBody.addEventListener("usersLoaded", () => {
     });
   }
 
-  function addUserAdd() {
-    const leftUser = document.querySelector(".left-user");
-
-    const userAdd = document.createElement("a");
-    userAdd.href = "user-form.php";
-    userAdd.id = "addUser";
-    userAdd.innerHTML = `
-      <span class="material-icons" id="add-asset-button">add</span>
-      Add a New User
-    `;
-
-    leftUser.append(userAdd);
-  }
         
 // if (currentPage.includes("user-manager")) {
 //   document.querySelectorAll(".action-btn").forEach(btn => {
@@ -166,3 +138,35 @@ userTableBody.addEventListener("usersLoaded", () => {
 // });
 
 });
+
+function addTableFuncs() {
+  const leftUser = document.querySelector(".left-user");
+  const tableContainer = leftUser.querySelector(".table-container");
+
+  const tableFuncs = document.createElement("div");
+  tableFuncs.className = "table-func";
+  tableFuncs.innerHTML = `
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span>
+    </button>
+    <button id="sort-by">
+      <span class="material-icons"> sort </span>
+    </button>
+  `;
+
+  leftUser.insertBefore(tableFuncs, tableContainer);
+}
+
+function addUserAdd() {
+  const leftUser = document.querySelector(".left-user");
+
+  const userAdd = document.createElement("a");
+  userAdd.href = "user-form.php";
+  userAdd.id = "addUser";
+  userAdd.innerHTML = `
+    <span class="material-icons" id="add-asset-button">add</span>
+    Add a New User
+  `;
+
+  leftUser.append(userAdd);
+}

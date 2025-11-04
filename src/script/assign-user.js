@@ -1,14 +1,17 @@
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
+document.addEventListener("DOMContentLoaded", () => {
+  userTable.querySelector("thead tr").appendChild(document.createElement("th"));
+
+});
+
 userTableBody.addEventListener("usersLoaded", () => {
   const rows = userTableBody.querySelectorAll("tr");
 
   addActionsButton();
 
 	function addActionsButton() {
-    userTable.querySelector("thead tr").appendChild(document.createElement("th"));
-
     for (const row of rows) {
       row.innerHTML += `
       <td class="select">

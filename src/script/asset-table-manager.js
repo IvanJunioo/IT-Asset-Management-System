@@ -1,19 +1,24 @@
 const assetTable = document.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 
+document.addEventListener("DOMContentLoaded", () => {
+  addTableFuncs();
+  assetTable.querySelector("thead tr").appendChild(document.createElement("th"));
+  addAssetAdd();
+
+});
+
 assetTableBody.addEventListener("assetsLoaded", () => {
   // const assetForm = document.querySelector('.add-asset-form');
   const menuButtons = document.getElementsByClassName("menu-item");
+  const multiSelectButton = document.getElementById("multi-select");
   const rows = assetTableBody.querySelectorAll("tr");
   // const actionButtons = document.getElementsByClassName("menu-item");
   
   let isMultiSelect = false;
   let selectedAll = false;
   
-  addTableFuncs();
-  const multiSelectButton = document.getElementById("multi-select");
   addActionsButton();
-  addAssetAdd();
 
   Array.from(menuButtons).forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -88,27 +93,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
   // 	}
   // }
 
-  function addTableFuncs() {
-    const leftAsset = document.querySelector(".left-asset");
-    const tableContainer = leftAsset.querySelector(".table-container");
-
-    const tableFuncs = document.createElement("div");
-    tableFuncs.className = "table-func";
-    tableFuncs.innerHTML = `
-      <button id="multi-select">
-        <span class="material-icons"> check_box_outline_blank </span>
-      </button>
-      <button id="sort-by">
-        <span class="material-icons"> sort </span>
-      </button>
-    `;
-
-    leftAsset.insertBefore(tableFuncs, tableContainer);
-  }
-  
   function addActionsButton() {  
-    assetTable.querySelector("thead tr").appendChild(document.createElement("th"));
-
     for (const row of rows) {
       row.innerHTML += `
       <td class="actions">
@@ -141,19 +126,6 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     });
   }
   
-  function addAssetAdd() {
-    const leftAsset = document.querySelector(".left-asset");
-
-    const assetAdd = document.createElement("a");
-    assetAdd.href = "asset-form.php";
-    assetAdd.id = "addAsset";
-    assetAdd.innerHTML = `
-      <span class="material-icons" id="add-asset-button">add</span>
-      Add a New Asset 
-    `;
-
-    leftAsset.append(assetAdd);
-  }
 
   function getPropNumSelected() {
     let propNums = Array.from([]);
@@ -252,3 +224,35 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     }
   });
 });
+
+function addTableFuncs() {
+  const leftAsset = document.querySelector(".left-asset");
+  const tableContainer = leftAsset.querySelector(".table-container");
+
+  const tableFuncs = document.createElement("div");
+  tableFuncs.className = "table-func";
+  tableFuncs.innerHTML = `
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span>
+    </button>
+    <button id="sort-by">
+      <span class="material-icons"> sort </span>
+    </button>
+  `;
+
+  leftAsset.insertBefore(tableFuncs, tableContainer);
+}
+
+function addAssetAdd() {
+  const leftAsset = document.querySelector(".left-asset");
+
+  const assetAdd = document.createElement("a");
+  assetAdd.href = "asset-form.php";
+  assetAdd.id = "addAsset";
+  assetAdd.innerHTML = `
+    <span class="material-icons" id="add-asset-button">add</span>
+    Add a New Asset 
+  `;
+
+  leftAsset.append(assetAdd);
+}
