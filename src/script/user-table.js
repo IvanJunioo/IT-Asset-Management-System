@@ -43,47 +43,118 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${user.Privilege} </td>
         <td>${user.ActiveStatus} </td>
       `;
-      if (currentPage.includes("user-manager")) {
-        const action = document.createElement("td");
-        action.className = "actions";
-        action.innerHTML = `
-          <button class="action-btn">
-            <span class="material-icons">more_horiz</span>
-          </button>
-          
-          <div class="action-menu">
-            <a href="edit-user-form.php" class="menu-item" id="modify-action">Modify</a>
-            <a href="delete-user.php" class="menu-item" id="delete-action">Delete</a>
-            <a href="user-form.php" class="menu-item" id="assign-action">Assign</a>
-          </div>
-        `
-        tr.appendChild(action);
+			userTableBody.appendChild(tr);
+		}
+    	if (currentPage.includes("user-manager")) {
+        addActionButton();
+
+				const menuButtons = document.getElementsByClassName("menu-item");
+				Array.from(menuButtons).forEach(btn => {
+					btn.addEventListener("click", (e) => {
+						const row = e.target.closest("tr");
+						const cells = row.querySelectorAll("td");
+						const empid = cells[0].textContent.trim();
+						switch (btn.id) {
+							case "modify-action":
+								editUsers(empid);
+								break;
+							case "delete-action":
+								deleteUsers(empid);
+								break;
+							default: 
+						}
+					})
+				})
       }
-      
-      userTableBody.appendChild(tr);
     }
     
-    if (currentPage.includes("user-manager")) {
-      document.querySelectorAll(".action-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const menu = btn.parentElement.querySelector(".action-menu");
-            if (menu.style.display == "flex") {
-              menu.style.display = "none";
-            } else {
-              menu.style.display = "flex";
-            }
-          });
-      });
+    // if (currentPage.includes("user-manager")) {
+    //   document.querySelectorAll(".action-btn").forEach(btn => {
+    //     btn.addEventListener("click", (e) => {
+    //         e.stopPropagation();
+    //         const menu = btn.parentElement.querySelector(".action-menu");
+    //         if (menu.style.display == "flex") {
+    //           menu.style.display = "none";
+    //         } else {
+    //           menu.style.display = "flex";
+    //         }
+    //       });
+    //   });
 
-      document.addEventListener("click", () => {
-        document.querySelectorAll(".action-menu").forEach(menu => {
-          menu.style.display = "none";
-        });
-      });
+    //   document.addEventListener("click", () => {
+    //     document.querySelectorAll(".action-menu").forEach(menu => {
+    //       menu.style.display = "none";
+    //     });
+    //   });
+    // }
+
+	function editUsers(filter){
+    const src = "../handlers/edit-user.php";
+
+    fetch(src, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `search=${filter}`,
+    })
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem("userData", JSON.stringify(data));
+      window.location.href = "../views/edit-user-form.php";
     }
+    )
+    .catch(err => console.error("Error edit users: ", err))
   }
-  
+
+	function deleteUsers(filter){
+    const src = "../handlers/delete-user.php";
+    fetch(src, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `search=${filter}`,
+    }).then(_ => {
+      window.location.href = "../views/user-manager.php";
+    })
+  }
+
+
+	function addActionButton() {
+    const rows = document.querySelectorAll("tbody tr");
+
+    for (const row of rows) {
+      row.innerHTML += `
+      <td class="actions">
+        <button class="action-btn">
+          <span class="material-icons">more_horiz</span>
+        </button>
+        
+        <div class="action-menu">
+          <a class="menu-item" id="modify-action">Modify</a>
+          <a class="menu-item" id="delete-action">Delete</a>
+          <a class="menu-item" id="assign-action">Assign</a>
+        </div>
+      </td>
+      `;
+    }
+
+    document.querySelectorAll(".action-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const menu = btn.parentElement.querySelector(".action-menu");
+          if (menu.style.display == "flex") {
+            menu.style.display = "none";
+          } else {
+            menu.style.display = "flex";
+          }
+        });
+    });
+
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".action-menu").forEach(menu => {
+        menu.style.display = "none";
+      });
+    });
+  }
+
   fetchUsers();
   
   searchInput.addEventListener("input", () => {
@@ -109,16 +180,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //     : "check_box_outline_blank";
   // });
 
-  document.querySelectorAll(".action-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const actionsCell = btn.closest(".actions");
-        actionsCell.classList.toggle("show-menu");
-      });
-  });
+	
 
-  document.addEventListener("click", () => {
-      document.querySelectorAll(".actions.show-menu")
-      .forEach(cell => cell.classList.remove("show-menu"));
-  });
+  // document.querySelectorAll(".action-btn").forEach(btn => {
+  //   btn.addEventListener("click", (e) => {
+  //       e.stopPropagation();
+  //       const actionsCell = btn.closest(".actions");
+  //       actionsCell.classList.toggle("show-menu");
+  //     });
+  // });
+
+  // document.addEventListener("click", () => {
+  //     document.querySelectorAll(".actions.show-menu")
+  //     .forEach(cell => cell.classList.remove("show-menu"));
+  // });
 })  

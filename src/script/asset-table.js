@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${filter}`,
-    }).then(res => {
+    }).then(_ => {
       window.location.href = "../views/asset-manager.php";
     })
   }
