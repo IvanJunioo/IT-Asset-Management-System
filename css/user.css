@@ -333,3 +333,40 @@ tbody tr:hover {
 textarea {
     resize: none;
 }
+
+.assign-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--bg-light);
+    min-height: calc(100vh - 10rem);
+}
+
+.assign-user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 0.95rem;
+}
+
+.assign-user thead {
+    background-color: var(--primary-color);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    position: sticky;
+    border-radius: 0.75rem;
+}
+
+.assign-user th {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    border-bottom: 2px solid var(--darker-primary);
+    white-space: nowrap;
+}

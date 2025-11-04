@@ -22,10 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     childrenInput = assetForm.querySelectorAll('input');
+		console.log(asset['Status']);
     for (const child of childrenInput) {
       if (child.id in data) {
         child.value = data[child.id];
-      } else if (child.id === asset.Status) {
+      } else if (child.id === asset['Status']) {
         child.checked = true;
       }
     }

@@ -196,6 +196,8 @@ class Database implements DatabaseInterface {
           default:
             $emps[] = new Faculty($id, $name, $email);
         }
+        end($emps)->setActiveStatus($emp["ActiveStatus"] == "Active");
+        end($emps)->setActlog($emp["ActLog"]);
       }
 
       return $emps;
@@ -427,7 +429,7 @@ class Database implements DatabaseInterface {
       MName = :mn,
       LName = :ln,
       Privilege = :priv,
-      ActiveStatus = :as,
+      ActiveStatus = :astat,
       ActLog = :al   
       WHERE employee.EmpID = :id;";
           
@@ -439,7 +441,7 @@ class Database implements DatabaseInterface {
         ":mn" => $user->getName()->middle,
         ":ln" => $user->getName()->last,
         ":priv" => $user->getPrivilege()->name,
-        ":as" => $user->isActive()? "Active" : "Inactive",
+        ":astat" => $user->isActive()? "Active" : "Inactive",
         ":al" => $user->getActlog(),
       ]);
       

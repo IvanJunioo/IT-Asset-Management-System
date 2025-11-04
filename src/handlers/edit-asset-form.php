@@ -5,7 +5,6 @@ require_once '../includes/dbh-inc.php';
 require_once '../model/database.php';
 
 $db = new Database($pdo);
-
 $action = $_POST['action'];
 
 if ($action == 'submit') {
@@ -20,7 +19,7 @@ if ($action == 'submit') {
     remarks: $_POST['remarks'],
     price: $_POST['price'],
   );
-
+	$asset->setStatus(AssetStatus::fromStr($_POST['asset-status']));
   $db->updateAsset($asset);
 }
 

@@ -1,0 +1,26 @@
+.asset-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+  font-family: system-ui, sans-serif;
+}
+
+.asset-info div {
+  margin: 0.5rem 0;
+}
+
+.status.unused { color: #22c55e; font-weight: bold; }
+.status.assigned { color: #f97316; font-weight: bold; }
+
+.view-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+.view-link:hover {
+  text-decoration: underline;
+}

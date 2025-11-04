@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const child of childrenInput) {
       if (child.id in data) {
         child.value = data[child.id];
-      } else if (child.id === user.Privilege) {
+      } else if (child.id === user['Privilege']) {
         child.checked = true;
-      } else if (child.id === user.ActiveStatus){
+      } else if (child.id === user['ActiveStatus']){
 				child.checked = true;
 			}
     }

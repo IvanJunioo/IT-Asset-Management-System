@@ -20,7 +20,7 @@
       <input type="date" id = "pdate" name="purchase-date" placeholder="Enter Purchase Date" required>
 
       <label for="price"> Price: </label>
-      <input type="number" id = "price" name="price" placeholder="Enter Price" min = "0" maxlength = "15" size = "15" step = ".01" required>
+      <input type="number" id = "price" name="price" placeholder="Enter Price" min = "0" max = "1000000000" maxlength = "15" size = "15" step = ".01" required>
 
       <label for="specs"> Specifications: </label>
       <textarea id = "specs" name="specs" placeholder="Enter Specifications"  rows = "4" cols = "25"required> </textarea>
@@ -36,16 +36,16 @@
 
       <label for="status"> Status: </label>
         <label>
-          <input type="radio" id = "unused" name="asset-status" value = "Unused" required checked> Unused
+          <input type="radio" id = "Unused" name="asset-status" value = "Unused" required checked> Unused
         </label>
         <label>
-          <input type="radio" id = "used" name="asset-status" value = "Used"> Used
+          <input type="radio" id = "Used" name="asset-status" value = "Used"> Used
         </label>
         <label>
-          <input type="radio" id = "inrepair" name="asset-status" value = "InRepair"> In Repair 
+          <input type="radio" id = "InRepair" name="asset-status" value = "InRepair"> In Repair 
         </label>
         <label>
-          <input type="radio" id = "broken" name="asset-status" value = "Broken"> Broken
+          <input type="radio" id = "Broken" name="asset-status" value = "Broken"> Broken
         </label>
       </label>
       
@@ -57,9 +57,10 @@
         Submit
       </button>  
     </form>
-    <script src="../script/edit-asset.js"></script>
-
   </main>
+
+  <script src="../script/edit-asset.js" defer></script>
+
   <?php include '../partials/footer.php'?>
 </body>
 </html>

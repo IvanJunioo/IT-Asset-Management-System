@@ -20,7 +20,7 @@
       <input type="date" id = "pdate" name="purchase-date" placeholder="Enter Purchase Date" required>
 
       <label for="price"> Price: </label>
-      <input type="number" id = "price" name="price" placeholder="Enter Price" min = "0" maxlength = "15" size = "15" step = ".01" required>
+      <input type="number" id = "price" name="price" placeholder="Enter Price" min = "0" max = "1000000000" maxlength = "15" size = "15" step = ".01" required>
 
       <label for="specs"> Specifications: </label>
       <textarea id = "specs" name="specs" placeholder="Enter Specifications"  rows = "4" cols = "25"required> </textarea>

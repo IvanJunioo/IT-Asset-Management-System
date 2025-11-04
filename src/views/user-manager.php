@@ -49,9 +49,6 @@
         Add a New User
       </a>
 
-      <script src="../script/user-table.js"></script>
-
-
     </div>
     <div class="right-user">
       <div id="filter-box">
@@ -71,6 +68,9 @@
       <button id="export"> Export assets </button>
     </div>
   </main>
+
+  <script src="../script/user-table.js" defer></script>
+
   <?php include '../partials/footer.php'?>
 </body>
 </html>

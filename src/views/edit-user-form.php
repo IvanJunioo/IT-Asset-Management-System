@@ -25,22 +25,22 @@
 
             <label for="privilege"> Privilege: </label>
             <label>
-              <input type="radio" id = "faculty" name="privilege" value = "Faculty" required checked> Faculty
+              <input type="radio" id = "Faculty" name="privilege" value = "Faculty" required checked> Faculty
             </label>
             <label>
-              <input type="radio" id = "admin" name="privilege" value = "Admin"> Admin 
+              <input type="radio" id = "Admin" name="privilege" value = "Admin"> Admin 
             </label>
             <label>
-              <input type="radio" id = "superadmin" name="privilege" value = "Super Admin"> Super Admin
+              <input type="radio" id = "SuperAdmin" name="privilege" value = "Super Admin"> Super Admin
             </label>
 
            
             <label for="active-status"> Status: </label>
             <label>
-              <input type="radio" id = "active" name="active-status" value = "Active" required checked> Active 
+              <input type="radio" id = "Active" name="active-status" value = "Active" required checked> Active 
             </label>
             <label>
-              <input type="radio" id = "inactive" name="active-status" value = "Inactive"> Inactive 
+              <input type="radio" id = "Inactive" name="active-status" value = "Inactive"> Inactive 
             </label>
 
             <button id="reset-button" type="reset">
@@ -51,8 +51,10 @@
               Submit
             </button>  
         </form>
-				<script src="../script/edit-user.js"></script>
     </main>
+
+    <script src="../script/edit-user.js" defer></script>
+
     <?php include '../partials/footer.php'?>
 </body>
 </html>

@@ -45,9 +45,7 @@
         <a href = "asset-form.php" id="addAsset">
           <span class="material-icons" id="add-asset-button">add</span>
             Add a New Asset 
-        </a>
-        
-        <script src="../script/asset-table.js"></script>
+        </a>        
 
       </div>
       <div class="right-asset">
@@ -69,6 +67,10 @@
         <button id="export"> Export assets </button>
     </div>
   </main>
+
+  <script src="../script/asset-table.js" defer></script>
+  <script src="../script/asset-table-manager.js" defer></script>
+
   <?php include '../partials/footer.php'?>
 </body>
 </html>

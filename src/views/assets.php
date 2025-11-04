@@ -31,8 +31,6 @@
         </table>
       </div>
 
-      <script src="../script/asset-table.js"></script>
-
     </div>
     <div class="right-asset">
       <div id="filter-box">
@@ -53,6 +51,9 @@
       <button id="export"> Export assets </button>
     </div>
   </main>
+
+  <script src="../script/asset-table.js" defer></script>
+
   <?php include '../partials/footer.php'?>
 </body>
 </html>

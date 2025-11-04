@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const privFilters = [];
     for (const cb of privilege) {
-      if (cb.id === "faculty" && cb.checked) privFilters.push("Faculty");
-      if (cb.id === "admin" && cb.checked) privFilters.push("Admin");
-      if (cb.id === "superadmin" && cb.checked) privFilters.push("SuperAdmin");
+      if (!cb.checked) continue;
+      if (cb.id === "faculty") privFilters.push("Faculty");
+      if (cb.id === "admin") privFilters.push("Admin");
+      if (cb.id === "superadmin") privFilters.push("SuperAdmin");
     }
   
     fetch(src, {
@@ -35,20 +36,21 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const user of users) {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${user.EmpID}</td>
-        <td>${user.EmpMail}</td>
-        <td>${user.FName}</td>
-        <td>${user.MName}</td>
-        <td>${user.LName}</td>
-        <td>${user.Privilege} </td>
-        <td>${user.ActiveStatus} </td>
+        <td data-col="EmpID">${user.EmpID}</td>
+        <td data-col="EmpMail">${user.EmpMail}</td>
+        <td data-col="FName">${user.FName}</td>
+        <td data-col="MName">${user.MName}</td>
+        <td data-col="LName">${user.LName}</td>
+        <td data-col="Privilege">${user.Privilege} </td>
+        <td data-col="ActiveStatus">${user.ActiveStatus} </td>
       `;
 			userTableBody.appendChild(tr);
 		}
     	if (currentPage.includes("user-manager")) {
+				const menuButtons = document.getElementsByClassName("menu-item");
+
         addActionButton();
 
-				const menuButtons = document.getElementsByClassName("menu-item");
 				Array.from(menuButtons).forEach(btn => {
 					btn.addEventListener("click", (e) => {
 						const row = e.target.closest("tr");

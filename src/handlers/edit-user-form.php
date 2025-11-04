@@ -39,13 +39,12 @@ if ($_POST['action'] == 'submit') {
     ),
   };
 
-  if ($_POST['active-status'] == 'Inactive'){
+  if ($_POST['active-status'] === 'Inactive'){
     $user->setActiveStatus(False);
   }
-    
   
   $db->updateUser($user);
 }
 
-header('Location: ../views/asset-form.php');
+header('Location: ../views/user-manager.php');
 exit;
