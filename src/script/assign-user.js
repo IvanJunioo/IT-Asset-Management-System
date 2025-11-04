@@ -1,42 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const userTableBody = document.querySelector('.assign-user-table tbody');
-  const currentPage = window.location.pathname;
+const userTable = document.querySelector(".user-table");
+const userTableBody = userTable.querySelector("tbody");
 
-  function fetchUsers() {
-    const src = "../handlers/user-table.php";
-    fetch(src, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `search=${encodeURIComponent('')}&priv=${encodeURIComponent([])}`,
-    })
-    .then(res => res.json())
-    .then(data => showUsers(data))
-    .catch(err => console.error("Error fetching users: ", err));
-  }
-  
-  function showUsers(users) {
-    userTableBody.innerHTML = "";
-    
-    for (const user of users) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${user.EmpID}</td>
-        <td>${user.EmpMail}</td>
-        <td>${user.FName}</td>
-        <td>${user.MName}</td>
-        <td>${user.LName}</td>
-        <td>${user.Privilege} </td>
-        <td>${user.ActiveStatus} </td>
-      `;
-			userTableBody.appendChild(tr);
-		}
-    	if (currentPage.includes("assign-user")) {
-        addActionButton();
-      }
-    }
+userTableBody.addEventListener("usersLoaded", () => {
+  const rows = userTableBody.querySelectorAll("tr");
 
-	function addActionButton() {
-    const rows = document.querySelectorAll("tbody tr");
+  addActionsButton();
+
+	function addActionsButton() {
+    userTable.querySelector("thead tr").appendChild(document.createElement("th"));
 
     for (const row of rows) {
       row.innerHTML += `
@@ -64,8 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //   });
     // });
   }
-
-  fetchUsers();
 
 	// const selectButton = document.getElementById('select-btn');
 	// selectButton.addEventListener('click', (e) => {

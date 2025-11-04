@@ -5,6 +5,7 @@ require_once '../includes/dbh-inc.php';
 require_once '../model/database.php';
 
 $db = new Database($pdo);
+
 $action = $_POST['action'];
 
 if ($action == 'submit') {
@@ -24,4 +25,5 @@ if ($action == 'submit') {
 }
 
 header('Location: ../views/asset-form.php');
+
 exit;

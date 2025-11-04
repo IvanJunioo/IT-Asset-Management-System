@@ -7,6 +7,7 @@ require_once '../model/database.php';
 $search = $_POST['search'] ?? "";
 
 $db = new Database($pdo);
+
 $users = $db->searchUser(empID: $search);
 if (!empty($users)){
 	$db->deleteUser($users[0]);

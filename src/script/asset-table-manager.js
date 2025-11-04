@@ -1,16 +1,20 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("search-input");
-  const assetTableBody = document.querySelector('.asset-table tbody');
-  // const assetForm = document.querySelector('.add-asset-form');
-  const multiSelectButton = document.getElementById("multi-select");
-  // const actionButtons = document.getElementsByClassName("menu-item");
+const assetTable = document.querySelector(".asset-table");
+const assetTableBody = assetTable.querySelector("tbody");
 
+assetTableBody.addEventListener("assetsLoaded", () => {
+  // const assetForm = document.querySelector('.add-asset-form');
+  const menuButtons = document.getElementsByClassName("menu-item");
+  const rows = assetTableBody.querySelectorAll("tr");
+  // const actionButtons = document.getElementsByClassName("menu-item");
+  
   let isMultiSelect = false;
   let selectedAll = false;
-      
-  addActionButton();
+  
+  addTableFuncs();
+  const multiSelectButton = document.getElementById("multi-select");
+  addActionsButton();
+  addAssetAdd();
 
-  const menuButtons = document.getElementsByClassName("menu-item");
   Array.from(menuButtons).forEach(btn => {
     btn.addEventListener("click", (e) => {
       const row = e.target.closest("tr");
@@ -60,8 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       localStorage.setItem("assetData", JSON.stringify(data));
       window.location.href = "../views/edit-asset-form.php";
-    }
-    )
+    })
     .catch(err => console.error("Error edit assets: ", err))
   }
   
@@ -84,10 +87,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // 		window.location.href = "../views/assign-user.php";
   // 	}
   // }
+
+  function addTableFuncs() {
+    const leftAsset = document.querySelector(".left-asset");
+    const tableContainer = leftAsset.querySelector(".table-container");
+
+    const tableFuncs = document.createElement("div");
+    tableFuncs.className = "table-func";
+    tableFuncs.innerHTML = `
+      <button id="multi-select">
+        <span class="material-icons"> check_box_outline_blank </span>
+      </button>
+      <button id="sort-by">
+        <span class="material-icons"> sort </span>
+      </button>
+    `;
+
+    leftAsset.insertBefore(tableFuncs, tableContainer);
+  }
   
-  function addActionButton() {
-    const rows = assetTableBody.querySelectorAll("tr");
-  
+  function addActionsButton() {  
+    assetTable.querySelector("thead tr").appendChild(document.createElement("th"));
+
     for (const row of rows) {
       row.innerHTML += `
       <td class="actions">
@@ -103,19 +124,15 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </td>
       `;
-    }
-  
-    document.querySelectorAll(".action-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
+
+      row.querySelectorAll(".action-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
           e.stopPropagation();
           const menu = btn.parentElement.querySelector(".action-menu");
-          if (menu.style.display == "flex") {
-            menu.style.display = "none";
-          } else {
-            menu.style.display = "flex";
-          }
+          menu.style.display = menu.style.display == "flex"? "none" : "flex";
         });
-    });
+      });
+    }
   
     document.addEventListener("click", () => {
       document.querySelectorAll(".action-menu").forEach(menu => {
@@ -124,6 +141,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
+  function addAssetAdd() {
+    const leftAsset = document.querySelector(".left-asset");
+
+    const assetAdd = document.createElement("a");
+    assetAdd.href = "asset-form.php";
+    assetAdd.id = "addAsset";
+    assetAdd.innerHTML = `
+      <span class="material-icons" id="add-asset-button">add</span>
+      Add a New Asset 
+    `;
+
+    leftAsset.append(assetAdd);
+  }
+
   function getPropNumSelected() {
     let propNums = Array.from([]);
   
@@ -152,14 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="material-icons"> select_all </span>
           </button>`;
       
-      tableElement.querySelectorAll("tbody tr").forEach(row => {
+      rows.forEach(row => {
         // const cells = row.querySelectorAll("td");
         // const statusCell = cells[5];
         // const status = statusCell.textContent.trim();
         // if (status == "Unused"){
-        lastCell = row.querySelector(`td[class="actions"]`);
   
-        lastCell.innerHTML = `
+        row.querySelector(`td[class="actions"]`).innerHTML = `
           <button id="selectable-row">
             <span class="material-icons"> check_box_outline_blank </span>
           </button>
@@ -169,14 +199,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
       document.querySelectorAll("#selectable-row").forEach(elem => {
         elem.addEventListener("click", () => {
-          
-  
           const icon = elem.querySelector(".material-icons");
           icon.textContent = icon.textContent == "check_box" ? "check_box_outline_blank" : "check_box";
         })
       });
   
-      const selectAllBtn = document.querySelector("#select-all");
+      const selectAllBtn = document.getElementById("select-all");
       selectAllBtn.addEventListener("click", () => {
         selectedAll = !selectedAll;
         document.querySelectorAll("#selectable-row").forEach(elem => {
@@ -189,8 +217,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const assignButton = document.createElement("button");
       assignButton.className = "assign";
       assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
-      tableFuncs.prepend(assignButton);
-  
       assignButton.addEventListener('click', () => {
         selectedAssets = getPropNumSelected();
         if (selectedAssets.length != 0){
@@ -198,31 +224,31 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../views/assign-user.php";
         }
       });
+      tableFuncs.prepend(assignButton);  
       
       const deleteButton = document.createElement("button");
       deleteButton.className = "delete";
       deleteButton.innerHTML = `<span class="material-icons">delete</span>`;
-      tableFuncs.prepend(deleteButton);
-  
       deleteButton.addEventListener('click', () => {
         for (const propNum of getPropNumSelected()) {
           deleteAssets(propNum);
         }
       });
-  
+      tableFuncs.prepend(deleteButton);
+
       
     } else {
       document.querySelectorAll("#select-all").forEach(elem => {
         elem?.remove();
       })
   
-      document.querySelectorAll("tbody tr").forEach(row => {
+      rows.forEach(row => {
         row.querySelector(`td[class="actions"]`).remove();
       })
   
       document.querySelector(".table-func .assign")?.remove();
       document.querySelector(".table-func .delete")?.remove();
-      addActionButton();
+      addActionsButton();
     }
   });
 });

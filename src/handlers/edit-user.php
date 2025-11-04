@@ -13,6 +13,7 @@ try {
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
     $db->searchUser(empID: $search)
   )))));
+  
   echo json_encode($users);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);

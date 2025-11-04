@@ -25,4 +25,5 @@ if ($action == 'submit') {
 }
 
 header('Location: ../views/asset-form.php');
+
 exit;

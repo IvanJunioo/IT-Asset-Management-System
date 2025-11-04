@@ -5,16 +5,15 @@ require_once '../includes/dbh-inc.php';
 require_once '../model/database.php';
 
 $db = new Database($pdo);
+
 $action = $_POST['action'];
 
 if ($_POST['assets'] != null){
 	setcookie("assets", $_POST['assets']);
-	echo "Set assets cookie";
 }
 
-if ($_POST['user']!=null){
+if ($_POST['user'] != null){
 	setcookie("user", $_POST['user']);
-	echo "Set user cookie";
 }
 
 if ($action == 'submit') {
@@ -32,4 +31,5 @@ if ($action == 'submit') {
 }
 
 header('Location: ../views/asset-manager.php');
+
 exit;

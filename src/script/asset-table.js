@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const assetTableBody = document.querySelector('.asset-table tbody');
   const filterBox = document.getElementById("filter-box");
   
-  async function fetchAssets() {
+  function fetchAssets() {
     const src = "../handlers/asset-table.php";
     
     const searchFilters = searchInput.value;
@@ -18,13 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cb.id === "to-repair") statusFilters.push("InRepair");
     }
     
-    await fetch(src, {
+    fetch(src, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${encodeURIComponent(searchFilters)}&status=${encodeURIComponent(statusFilters)}`,
     })
     .then(res => res.json())
-    .then(data => showAssets(data))
+    .then(data => {
+      showAssets(data);
+      assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"));
+    })
     .catch(err => console.error("Error fetching assets: ", err))
   }
   

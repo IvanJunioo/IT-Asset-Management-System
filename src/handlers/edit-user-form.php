@@ -47,4 +47,5 @@ if ($_POST['action'] == 'submit') {
 }
 
 header('Location: ../views/user-manager.php');
+
 exit;
