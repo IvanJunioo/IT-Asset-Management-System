@@ -29,7 +29,7 @@ interface AssetUserInterface {
   public function getPrice(): float;
   public function getUrl(): string;
   public function getActlog(): string;
-  public function getUser(): User;
+  public function getUser(): string;
 }
 
 interface AssetAdminInterface extends AssetUserInterface {
@@ -54,7 +54,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
   private float $_price;
   private string $_url;
   private string $_actlog = "";
-  private ?User $_assigned_To = null;
+  private ?string $_assigned_To = '-';
 
   public function __construct(
     string $propNum,
@@ -65,7 +65,9 @@ class Asset implements AssetAdminInterface, JsonSerializable{
     string $desc,
     string $url,
     string $remarks,
-    float $price) {
+    float $price,
+		// string $actlog
+		) {
       $this -> _propNum = $propNum;
       $this -> _procNum = $procNum;
       $this -> _serialNum = $serialNum;
@@ -76,6 +78,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
       $this -> _url = $url;
       $this -> _price = $price;
       $this -> _status = AssetStatus::Unused;
+			// $this -> _actlog = $actlog;
   }
   public function getPropNum(): string { return $this -> _propNum; }
   public function getProcNum(): string { return $this -> _procNum; }
@@ -88,7 +91,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
   public function getPrice(): float { return $this -> _price; }
   public function getUrl(): string { return $this -> _url; }
   public function getActlog(): string { return $this -> _actlog; } 
-  public function getUser(): User { return $this -> _assigned_To; }
+  public function getUser(): string { return $this -> _assigned_To; }
   
   public function setPrice(float $price): Asset { 
     $this -> _price = $price; 
@@ -111,7 +114,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
     return $this;
   }
   public function assignTo(?User $user): Asset { 
-    $this -> _assigned_To = $user; 
+    $this -> _assigned_To = $user->getEmpID(); 
     return $this;
   }
 
@@ -128,6 +131,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
       'Price' => (string) $this->getPrice(),
       'Url' => $this->getUrl(),
       'ActLog' => $this->getActlog(),
+			'AssignedTo' => $this->getUser(),
     ];
   }
 

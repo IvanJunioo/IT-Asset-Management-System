@@ -23,6 +23,7 @@ interface FacultyDatabaseInterface {
     int $limit,
   ): array | bool;
   public function getAssignedAssets(User $user): array | bool;
+	public function getCurrAssignedUser(Asset $asset): User | bool;
 }
 
 interface AdminDatabaseInterface extends FacultyDatabaseInterface{
@@ -132,18 +133,74 @@ class Database implements DatabaseInterface {
           desc: $ass["ShortDesc"],
           url: $ass["URL"],
           remarks: $ass["Remarks"],
-          price: (float)$ass["Price"]
+          price: (float)$ass["Price"],
         );
+
         $asset->setStatus(AssetStatus::fromStr($ass["Status"]));
+				$user = $this->getCurrAssignedUser($asset);
+				if ($user instanceof User){
+					$asset->assignTo($user);
+				}
+				
         $assets[] = $asset;
       }
-      
       return $assets;
     } catch(PDOException $e) {
       panic($e);
       return false;
     }
   }
+
+	public function getCurrAssignedUser(Asset $asset): User | bool{
+		$query = "SELECT * FROM 
+      assignment INNER JOIN employee ON 
+      assignment.EmpID = employee.EmpID
+      WHERE PropNum = :pnum AND RetDate is NULL
+    ";
+
+    try {
+      $stmt = $this->_pdo->prepare($query);
+      $stmt->execute([
+        ":pnum" => $asset->getPropNum(),
+      ]);
+    
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($res as $user) {
+				$privilege = $user['Privilege'];
+        $name = new Fullname($user['FName'], $user['MName'], $user['LName']);
+  
+				$ret = match ($privilege) {
+					'Super Admin' => new SuperAdmin(
+            empID: $user['EmpID'],
+            name: $name,
+            email: $user['EmpMail']
+          ),
+					'Admin' => new Admin(
+						empID: $user['EmpID'],
+						name: $name,
+						email: $user['EmpMail']
+					),
+					default => new Faculty(
+						empID: $user['EmpID'],
+						name: $name,
+						email: $user['EmpMail']
+					),
+				};
+
+				if ($user['ActiveStatus'] == 'Inactive'){
+					$user->setActiveStatus(False);
+				}
+
+				return $ret;
+      }
+      
+      return false;
+    } catch (PDOException $e) {
+      panic($e);
+      return false;
+    }
+	}
+
     
   public function searchUser(
     string $empID = "",
