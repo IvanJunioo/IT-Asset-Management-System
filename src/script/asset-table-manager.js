@@ -114,7 +114,20 @@ assetTableBody.addEventListener("assetsLoaded", () => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           const menu = btn.parentElement.querySelector(".action-menu");
-          menu.style.display = menu.style.display == "flex"? "none" : "flex";
+          const isVisible = menu.style.display == "flex";
+
+          document.querySelectorAll(".action-menu").forEach(m => {
+            m.style.display = "none";
+          });
+
+          if (!isVisible) {
+            const boundingRect = btn.getBoundingClientRect();
+            const gap = 8;
+
+            menu.style.top = `${boundingRect.top - gap}px`;
+            menu.style.left = `${boundingRect.right + gap}px`;
+            menu.style.display = "flex";
+          }
         });
       });
     }
@@ -196,7 +209,9 @@ assetTableBody.addEventListener("assetsLoaded", () => {
           window.location.href = "../views/assign-user.php";
         }
       });
-      tableFuncs.prepend(assignButton);  
+      if (!document.querySelector(".table-func .assign")) {
+        tableFuncs.prepend(assignButton);
+      }
       
       const deleteButton = document.createElement("button");
       deleteButton.className = "delete";
@@ -206,9 +221,10 @@ assetTableBody.addEventListener("assetsLoaded", () => {
           deleteAssets(propNum);
         }
       });
-      tableFuncs.prepend(deleteButton);
+      if (!document.querySelector(".table-func .delete")) {
+        tableFuncs.prepend(deleteButton);
+      }
 
-      
     } else {
       document.querySelectorAll("#select-all").forEach(elem => {
         elem?.remove();

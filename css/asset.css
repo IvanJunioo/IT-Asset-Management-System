@@ -112,6 +112,7 @@ tbody tr:hover {
     position: sticky;
     border-radius: 0.75rem;
     top: 0;
+    z-index: 99999;
 }
 
 .asset-table th {
@@ -306,12 +307,12 @@ tbody tr:hover {
 
 .actions {
     position: relative;
+    display: flex;
+    gap: 1rem;
 }
 
 .action-menu {
-    position: absolute;
-    right: 0;
-    top: 120%;
+    position: fixed;
     background: white;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
@@ -319,7 +320,7 @@ tbody tr:hover {
     display: none;
     flex-direction: column;
     min-width: 100px;
-    z-index: 100;
+    z-index: 99999;
 }
 
 .menu-item {
