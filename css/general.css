@@ -98,7 +98,6 @@ form {
 }
 
 .table-func .material-icons {
-    font-size: 1.2rem;
     color: var(--text-dark);
 }
 
@@ -123,8 +122,6 @@ form {
 
 #select-all .material-icons {
     cursor: pointer;
-    padding: 0.4rem 0.6rem;
-    border-radius: 999999pt;
 }
 
 #select-all .material-icons:active {
