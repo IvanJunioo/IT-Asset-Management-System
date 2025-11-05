@@ -106,7 +106,8 @@ assetTableBody.addEventListener("assetsLoaded", () => {
           <a class="menu-item" id="delete-action">Delete</a>
           <a class="menu-item" id="assign-action">Assign</a>
         </div>
-      `
+      `;
+      
       row.replaceChild(actionElem, row.lastElementChild);
 
       row.querySelectorAll(".action-btn").forEach(btn => {

@@ -285,6 +285,9 @@ button {
 
 .asset-table .actions {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .asset-table .action-btn {

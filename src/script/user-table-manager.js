@@ -71,7 +71,6 @@ userTableBody.addEventListener("usersLoaded", () => {
         <div class="action-menu">
           <a class="menu-item" id="modify-action">Modify</a>
           <a class="menu-item" id="delete-action">Delete</a>
-          <a class="menu-item" id="assign-action">Assign</a>
         </div>
       </td>
       `;
@@ -80,7 +79,20 @@ userTableBody.addEventListener("usersLoaded", () => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           const menu = btn.parentElement.querySelector(".action-menu");
-          menu.style.display = menu.style.display == "flex"? "none" : "flex";
+          const isVisible = menu.style.display == "flex";
+
+          document.querySelectorAll(".action-menu").forEach(m => {
+            m.style.display = "none";
+          });
+
+          if (!isVisible) {
+            const boundingRect = btn.getBoundingClientRect();
+            const gap = 8;
+
+            menu.style.top = `${boundingRect.top - gap}px`;
+            menu.style.left = `${boundingRect.right + gap}px`;
+            menu.style.display = "flex";
+          }
         });
       });
     }
@@ -92,50 +104,6 @@ userTableBody.addEventListener("usersLoaded", () => {
       });
     });
   }
-
-        
-// if (currentPage.includes("user-manager")) {
-//   document.querySelectorAll(".action-btn").forEach(btn => {
-//     btn.addEventListener("click", (e) => {
-//         e.stopPropagation();
-//         const menu = btn.parentElement.querySelector(".action-menu");
-//         if (menu.style.display == "flex") {
-//           menu.style.display = "none";
-//         } else {
-//           menu.style.display = "flex";
-//         }
-//       });
-//   });
-
-//   document.addEventListener("click", () => {
-//     document.querySelectorAll(".action-menu").forEach(menu => {
-//       menu.style.display = "none";
-//     });
-//   });
-// }
-
-
-// multiSelectButton.addEventListener("click", () => {
-//   const icon = multiSelectButton.querySelector(".material-icons");
-//   icon.textContent = icon.textContent.includes("check_box_outline_blank")
-//     ? "check_box"
-//     : "check_box_outline_blank";
-// });
-
-
-
-// document.querySelectorAll(".action-btn").forEach(btn => {
-//   btn.addEventListener("click", (e) => {
-//       e.stopPropagation();
-//       const actionsCell = btn.closest(".actions");
-//       actionsCell.classList.toggle("show-menu");
-//     });
-// });
-
-// document.addEventListener("click", () => {
-//     document.querySelectorAll(".actions.show-menu")
-//     .forEach(cell => cell.classList.remove("show-menu"));
-// });
 
 });
 
