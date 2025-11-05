@@ -370,3 +370,19 @@ textarea {
     border-bottom: 2px solid var(--darker-primary);
     white-space: nowrap;
 }
+
+.select-btn {
+    padding: 0.1rem 0.5rem;
+    border: none;
+    background-color: relative;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    font-family: "Source Sans Pro", sans-serif;
+    border: black solid 1pt;
+}
+
+.select-btn:hover {
+    background-color: var(--border-color);
+}

@@ -3,17 +3,15 @@ const assetTableBody = assetTable.querySelector("tbody");
 
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
-  assetTable.querySelector("thead tr").appendChild(document.createElement("th"));
+  // assetTable.querySelector("thead tr").appendChild(document.createElement("th"));
   addAssetAdd();
 
 });
 
 assetTableBody.addEventListener("assetsLoaded", () => {
-  // const assetForm = document.querySelector('.add-asset-form');
   const menuButtons = document.getElementsByClassName("menu-item");
   const multiSelectButton = document.getElementById("multi-select");
   const rows = assetTableBody.querySelectorAll("tr");
-  // const actionButtons = document.getElementsByClassName("menu-item");
   
   let isMultiSelect = false;
   let selectedAll = false;
@@ -53,7 +51,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
 		.then(res => res.json())
 		.then(data => {
 			localStorage.setItem("viewAssetData", JSON.stringify(data));
-			window.location.href = "../views/view-asset.php"
+			window.location.href = "../views/asset-view.php"
 		})
 	}
   
@@ -95,8 +93,9 @@ assetTableBody.addEventListener("assetsLoaded", () => {
 
   function addActionsButton() {  
     for (const row of rows) {
-      row.innerHTML += `
-      <td class="actions">
+      const actionElem = document.createElement("td");
+      actionElem.className = "actions";
+      actionElem.innerHTML = `
         <button class="action-btn">
           <span class="material-icons">more_horiz</span>
         </button>
@@ -107,8 +106,8 @@ assetTableBody.addEventListener("assetsLoaded", () => {
           <a class="menu-item" id="delete-action">Delete</a>
           <a class="menu-item" id="assign-action">Assign</a>
         </div>
-      </td>
-      `;
+      `
+      row.replaceChild(actionElem, row.lastElementChild);
 
       row.querySelectorAll(".action-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
@@ -228,10 +227,6 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     } else {
       document.querySelectorAll("#select-all").forEach(elem => {
         elem?.remove();
-      })
-  
-      rows.forEach(row => {
-        row.querySelector(`td[class="actions"]`).remove();
       })
   
       document.querySelector(".table-func .assign")?.remove();

@@ -216,13 +216,14 @@ tbody tr:hover {
     background-color: var(--border-color);
 }
 
-.add-asset-form {
+.add-asset-form, .assign-asset-form {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
 }
 
-.add-asset-form form {
+
+form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -235,13 +236,13 @@ tbody tr:hover {
     font-family: "Source Sans Pro", sans-serif;
 }
 
-.add-asset-form label {
+label {
     font-weight: 600;
     font-size: 0.95rem;
     color: #333;
 }
 
-.add-asset-form input, .add-asset-form textarea {
+input, textarea {
     padding: 0.5rem 0.75rem;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
@@ -249,13 +250,13 @@ tbody tr:hover {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.add-asset-form input:focus, .add-asset-form textarea:focus {
+input:focus, textarea:focus {
     border-color: var(--darker-green);
-    box-shadow: 0 0 3px rgba(25, 118, 210, 0.3);
+    box-shadow: 0 0 3px var(--primary-green);
     outline: none;
 }
 
-.add-asset-form button {
+button {
     padding: 0.6rem 1rem;
     border: none;
     border-radius: 0.5rem;
@@ -338,4 +339,20 @@ tbody tr:hover {
 
 textarea {
     resize: none;
+}
+
+.select-btn {
+    padding: 0.1rem 0.5rem;
+    border: none;
+    background-color: relative;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    font-family: "Source Sans Pro", sans-serif;
+    border: black solid 1pt;
+}
+
+.select-btn:hover {
+    background-color: var(--border-color);
 }

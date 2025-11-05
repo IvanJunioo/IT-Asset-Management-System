@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       showAssets(data);
+      addViewBtnListener();
       assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"));
     })
     .catch(err => console.error("Error fetching assets: ", err))
@@ -45,9 +46,32 @@ document.addEventListener("DOMContentLoaded", () => {
         <td data-col="Price">${asset.Price}</td>
         <td data-col="Status">${asset.Status} </td>
         <td data-col="AssignedTo"> - </td>
+        <td data-col="ViewAsset">
+          <button class="select-btn"> View </button>
+        </td>
       `;
       assetTableBody.appendChild(tr);
     }
+  }
+
+  function addViewBtnListener() {
+    assetTableBody.querySelectorAll(".select-btn").forEach(elem => {
+      elem.addEventListener("click", () => {
+        const propNum = elem.parentElement.parentElement.firstElementChild.textContent.trim();
+        const src = "../handlers/fetch-asset.php";
+
+        fetch(src, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `search=${propNum}`,
+        })
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem("viewAssetData", JSON.stringify(data));
+          window.location.href = "../views/asset-view.php"
+        })
+      })
+    })
   }
 
   fetchAssets();

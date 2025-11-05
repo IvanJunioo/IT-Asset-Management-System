@@ -16,6 +16,7 @@
             <th> Price </th>
             <th> Status  </th>
             <th> Assigned to </th>
+            <th></th>
           </tr>
         </thead>
         <tbody></tbody>
