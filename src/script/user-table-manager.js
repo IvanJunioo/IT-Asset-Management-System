@@ -42,7 +42,7 @@ userTableBody.addEventListener("usersLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
-      localStorage.setItem("userData", JSON.stringify(data));
+      sessionStorage.setItem("userData", JSON.stringify(data));
       window.location.href = "../views/edit-user-form.php";
     }
     )

@@ -47,6 +47,6 @@ if ($_POST['action'] == 'submit') {
   $db->addUser($user);
 }
 
-header('Location: ../views/user-form.php');
+header('Location: ../views/user-manager.php');
 
 exit;

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const assetsToAssign = JSON.parse(localStorage.getItem("assetsToAssign"));
-	const userAssigned = JSON.parse(localStorage.getItem("assignToUser"));
+  const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
+	const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
   const assetForm = document.querySelector(".assign-asset-form"); 
 
   // console.log(assetsToAssign);
@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	})
   .catch(err => console.error("Error fetching: ", err))
 
-  localStorage.removeItem("assetsToAssign");
-	localStorage.removeItem("assignToUser");
+  // sessionStorage.removeItem("assetsToAssign");
+	// sessionStorage.removeItem("assignToUser");
 
   function fillForm(assets, user) {
     p_asset = assetForm.querySelector('#asset-list');

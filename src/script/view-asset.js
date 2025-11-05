@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const assetData = JSON.parse(localStorage.getItem("viewAssetData"));
+  const assetData = JSON.parse(sessionStorage.getItem("viewAssetData"));
   const assetView = document.querySelector(".asset-info"); 
 
   console.log(assetData);
   if (!assetData) return;
 
   fillPage(Array.isArray(assetData) ? assetData[0] : assetData);
-  localStorage.removeItem("viewAssetData");
+  // sessionStorage.removeItem("viewAssetData");
 
   function fillPage(asset) {
     const data = {

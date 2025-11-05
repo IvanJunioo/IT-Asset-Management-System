@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userForm = document.querySelector(".user-form"); 
 
   console.log(userData);
   if (!userData) return;
 
   fillForm(Array.isArray(userData) ? userData[0] : userData);
-  localStorage.removeItem("userData");
+  // sessionStorage.removeItem("userData");
 
   function fillForm(user) {
     const data = {

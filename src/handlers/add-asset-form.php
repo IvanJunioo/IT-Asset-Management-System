@@ -24,6 +24,7 @@ if ($action == 'submit') {
   $db->addAsset($asset);
 }
 
-header('Location: ../views/asset-form.php');
+// header('Location: ../views/asset-form.php');
+header('Location: ../views/asset-manager.php');
 
 exit;

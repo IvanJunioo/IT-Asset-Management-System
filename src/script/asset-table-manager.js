@@ -34,7 +34,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
           deleteAssets(propNum);
           break;
         default:
-          localStorage.setItem("assetsToAssign", JSON.stringify([propNum]));
+          sessionStorage.setItem("assetsToAssign", JSON.stringify([propNum]));
           window.location.href = "../views/assign-user.php";
       }
     })
@@ -50,7 +50,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     })
 		.then(res => res.json())
 		.then(data => {
-			localStorage.setItem("viewAssetData", JSON.stringify(data));
+			sessionStorage.setItem("viewAssetData", JSON.stringify(data));
 			window.location.href = "../views/asset-view.php"
 		})
 	}
@@ -65,7 +65,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
-      localStorage.setItem("assetData", JSON.stringify(data));
+      sessionStorage.setItem("assetData", JSON.stringify(data));
       window.location.href = "../views/edit-asset-form.php";
     })
     .catch(err => console.error("Error edit assets: ", err))
@@ -86,7 +86,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
   // 	selectedAssets = getPropNumSelected();
   // 	console.log(selectedAssets);
   // 	if (selectedAssets.length != 0){
-  // 		localStorage.setItem("assetsToAssign", JSON.stringify(selectedAssets));
+  // 		sessionStorage.setItem("assetsToAssign", JSON.stringify(selectedAssets));
   // 		window.location.href = "../views/assign-user.php";
   // 	}
   // }
@@ -205,7 +205,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
       assignButton.addEventListener('click', () => {
         selectedAssets = getPropNumSelected();
         if (selectedAssets.length != 0){
-          localStorage.setItem("assetsToAssign", JSON.stringify(selectedAssets));
+          sessionStorage.setItem("assetsToAssign", JSON.stringify(selectedAssets));
           window.location.href = "../views/assign-user.php";
         }
       });

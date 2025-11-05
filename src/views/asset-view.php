@@ -9,33 +9,6 @@
 
   <!-- asset-page -->
   <main class="asset-page">
-    <!-- <div class="left-asset">
-      <div class="table-container">
-        <table class="asset-table">
-          <thead>
-            <tr>
-              <th> Property Number </th>
-              <th> Procurement Number </th>
-              <th> Purchase Date </th>
-              <th> Detailed Specification </th>
-              <th> Price </th>
-              <th> Status  </th>
-              <th> Assigned to </th>
-            </tr>
-          </thead>
-          <tbody>
-						<td>111111111111</td>
-						<td>PR12345</td>
-						<td>SN998877</td>
-						<td>Laptop Dell Latitude</td>
-						<td><span class="status unused">Unused</span></td>
-						<td>₱45,000</td>
-						<td></td>
-					</tbody>
-        </table>
-      </div>
-    </div> -->
-
 		<div class="asset-card">
 			<h2>Asset Details</h2>
 			<div class="asset-info">
@@ -89,7 +62,7 @@
 				</div>
 				<div>
 					<strong>Price:</strong> 
-					<span id = 'p'>
+					<span id = 'price'>
 
 					</span>
 				</div>

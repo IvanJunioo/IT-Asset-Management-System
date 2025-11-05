@@ -27,25 +27,10 @@ userTableBody.addEventListener("usersLoaded", () => {
         const row = e.target.closest("tr");
 				const cells = row.querySelectorAll("td");
 				const empID = cells[0].textContent.trim();
-				localStorage.setItem("assignToUser", JSON.stringify(empID));
+				sessionStorage.setItem("assignToUser", JSON.stringify(empID));
 				window.location.href = "../views/assignment-form.php";
         });
     });
 
-    // document.addEventListener("click", () => {
-    //   document.querySelectorAll(".action-menu").forEach(menu => {
-    //     menu.style.display = "none";
-    //   });
-    // });
   }
-
-	// const selectButton = document.getElementById('select-btn');
-	// selectButton.addEventListener('click', (e) => {
-	// 	const row = e.target.closest("tr");
-	// 	const cells = row.querySelectorAll("td");
-	// 	const empID = cells[0].textContent.trim();
-	// 	localStorage.setItem("assignToUser", JSON.stringify(empID));
-	// 	window.location.href = "../views/assignment-form.php";
-	// })
-
 });
