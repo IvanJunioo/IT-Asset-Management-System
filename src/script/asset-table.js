@@ -26,49 +26,69 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       showAssets(data);
-      assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"));
+      assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
     })
-    .catch(err => console.error("Error fetching assets: ", err))
+    .catch(err => console.error("Error fetching assets: ", err));
   }
-  
   
   function showAssets(assets) {
     assetTableBody.innerHTML = "";
     
     for (const asset of assets) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td data-col="PropNum">${asset.PropNum}</td>
-        <td data-col="ProcNum">${asset.ProcNum}</td>
-        <td data-col="PurchaseDate">${asset.PurchaseDate}</td>
-        <td data-col="Specs">${asset.Specs}</td>
-        <td data-col="Price">${asset.Price}</td>
-        <td data-col="Status">${asset.Status} </td>
-        <td data-col="AssignedTo">${asset.AssignedTo}</td>
-        <td data-col="ViewAsset">
-          <button class="select-btn"> View </button>
-        </td>
-      `;
+
+      // store asset data locally
+      tr.dataset.propNum = asset.PropNum;
+      tr.dataset.procNum = asset.ProcNum; 
+      tr.dataset.purchaseDate = asset.PurchaseDate; 
+      tr.dataset.specs = asset.Specs; 
+      tr.dataset.price = asset.Price; 
+      tr.dataset.status = asset.Status; 
+      tr.dataset.assignedTo = asset.AssignedTo; 
+
+      for (const col of [
+        asset.PropNum,
+        asset.ProcNum,
+        asset.PurchaseDate,
+        asset.Specs,
+        asset.Price,
+        asset.Status,
+        asset.AssignedTo,        
+      ]) {
+        const td = document.createElement("td");
+        td.textContent = col;
+        tr.appendChild(td);
+      }
+
+      // view button
+      const viewBtn = document.createElement("button");
+      viewBtn.className = "select-btn";
+      viewBtn.textContent = "View";
+      tr.appendChild(document.createElement("td").appendChild(viewBtn)); 
+
       assetTableBody.appendChild(tr);
     }
-    
-    assetTableBody.querySelectorAll(".select-btn").forEach(elem => {
-      elem.addEventListener("click", () => {
-        const propNum = elem.parentElement.parentElement.firstElementChild.textContent.trim();
-        const src = "../handlers/fetch-asset.php";
-  
-        fetch(src, {
+
+    // only one event listener for the whole table
+    assetTableBody.addEventListener("click", (e) => {
+      const tr = e.target.closest("tr");
+      if (!tr) return;
+
+      if (e.target.closest(".select-btn")) {
+        fetch("../handlers/fetch-asset.php", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `search=${propNum}`,
+          body: `search=${tr.dataset.propNum}`,
         })
         .then(res => res.json())
         .then(data => {
           sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-          window.location.href = "../views/asset-view.php"
+          window.location.href = "../views/asset-view.php";
         })
-      })
-    })
+        .catch(err => console.error("Error fetching asset: ", err));
+        return;
+      }
+    });    
   }
 
   fetchAssets();
@@ -77,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   searchButton.addEventListener("click", () => {
     fetchAssets();
     searchInput.value = "";
-  });
+  }); 
   
   filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.addEventListener("change", fetchAssets));
   

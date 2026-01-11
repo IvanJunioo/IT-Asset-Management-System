@@ -68,9 +68,23 @@ form {
     justify-content: center;
     transition: background-color 0.1s ease;
     border-radius: 99999pt;
+    background-color: var(--bg-light);
 }
 
-#selectable-row {
+.table-func button:hover {
+    background-color: var(--border-color);
+}
+
+.table-func .material-icons {
+    color: var(--text-dark);
+}
+
+.table-func button:active, 
+.selectable-row:active {
+    background-color: #e8e8e8;
+}
+
+.selectable-row {
     all: unset;
     border: 0;
     padding: 0.4rem 0.6rem;
@@ -83,26 +97,10 @@ form {
     border-radius: 999999pt;
 }
 
-#selectable-row:hover {
+.selectable-row:hover {
     background: var(--border-color);
     outline: none;
     box-shadow: none;
-}
-
-.table-func button {
-    background-color: var(--bg-light);
-}
-
-.table-func button:hover {
-    background-color: var(--border-color);
-}
-
-.table-func .material-icons {
-    color: var(--text-dark);
-}
-
-.table-func button:active, #selectable-row:active {
-    background-color: #e8e8e8;
 }
 
 #select-all {

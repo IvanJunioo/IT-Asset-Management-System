@@ -6,7 +6,7 @@ if (!defined('BASE_URL')) {
 <!-- head.php -->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=kJccmTWInFNGuw9Ga59m7_mnXydnvPnDSwDXlP01sdU">
+    <!-- <meta name="viewport" content="width=kJccmTWInFNGuw9Ga59m7_mnXydnvPnDSwDXlP01sdU"> -->
     <title>IAMS</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/general.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>css/header.css">
