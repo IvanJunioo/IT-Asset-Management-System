@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterBox = document.getElementById("filter-box");
 
   function fetchUsers() {
-    const src = "../handlers/user-table.php";
-
     const searchFilters = searchInput.value;
     
     const privFilters = [];
@@ -17,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cb.id === "superadmin") privFilters.push("SuperAdmin");
     }
   
-    fetch(src, {
+    fetch("../handlers/user-table.php", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}`,
@@ -35,15 +33,30 @@ document.addEventListener("DOMContentLoaded", () => {
     
     for (const user of users) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td data-col="EmpID">${user.EmpID}</td>
-        <td data-col="EmpMail">${user.EmpMail}</td>
-        <td data-col="FName">${user.FName}</td>
-        <td data-col="MName">${user.MName}</td>
-        <td data-col="LName">${user.LName}</td>
-        <td data-col="Privilege">${user.Privilege} </td>
-        <td data-col="ActiveStatus">${user.ActiveStatus} </td>
-      `;
+
+      // store user data locally
+      tr.dataset.empID = user.EmpID;
+      tr.dataset.empMail = user.EmpMail;
+      tr.dataset.fName = user.FName;
+      tr.dataset.mName = user.MName;
+      tr.dataset.lName = user.LName;
+      tr.dataset.privilege = user.Privilege;
+      tr.dataset.activeStatus = user.ActiveStatus;
+
+      for (const col of [
+        user.EmpID,
+        user.EmpMail,
+        user.FName,
+        user.MName,
+        user.LName,
+        user.Privilege,
+        user.ActiveStatus,
+      ]) {
+        const td = document.createElement("td");
+        td.textContent = col;
+        tr.appendChild(td);
+      }
+
 			userTableBody.appendChild(tr);
 		}
   }

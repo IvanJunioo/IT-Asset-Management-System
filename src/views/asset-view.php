@@ -80,7 +80,7 @@
 			</div>
 		</div>
 
-		<script src = ../script/view-asset.js></script>
+		<script src= ../script/view-asset.js></script>
   </main>
 
   <?php include '../partials/footer.php'?>

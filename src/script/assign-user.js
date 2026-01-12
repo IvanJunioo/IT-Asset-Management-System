@@ -1,36 +1,37 @@
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
-document.addEventListener("DOMContentLoaded", () => {
-  userTable.querySelector("thead tr").appendChild(document.createElement("th"));
+function addActionsButton() {
+  const hr = userTable.querySelector("thead tr");
+  if (!hr.querySelector("#actionsth")) {
+    const actionsth = document.createElement("th");
+    actionsth.id = "actionsth";
+    hr.appendChild(actionsth);
+  }
 
-});
+  for (const tr of userTableBody.querySelectorAll("tr")) {
+    const actionElem = document.createElement("td");
+    actionElem.className = "actions";    
+    actionElem.innerHTML = `
+      <button class="select-btn">
+        select
+      </button>
+    `;
+
+    tr.appendChild(actionElem);
+  }
+}
 
 userTableBody.addEventListener("usersLoaded", () => {
-  const rows = userTableBody.querySelectorAll("tr");
-
   addActionsButton();
 
-	function addActionsButton() {
-    for (const row of rows) {
-      row.innerHTML += `
-      <td class="select">
-        <button class="select-btn">
-          select
-        </button>
-      </td>
-      `;
+  // Handles all table clicks dynamically
+  userTable.addEventListener("click", (e) => {
+    if (e.target.closest(".select-btn")) {
+      const tr = e.target.closest("tr");      
+      sessionStorage.setItem("assignToUser", JSON.stringify(tr.dataset.empID));
+      window.location.href = "../views/assignment-form.php";
+      return;
     }
-
-    document.querySelectorAll(".select-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const row = e.target.closest("tr");
-				const cells = row.querySelectorAll("td");
-				const empID = cells[0].textContent.trim();
-				sessionStorage.setItem("assignToUser", JSON.stringify(empID));
-				window.location.href = "../views/assignment-form.php";
-        });
-    });
-
-  }
+  });
 });

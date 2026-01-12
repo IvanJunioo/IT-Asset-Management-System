@@ -69,6 +69,13 @@ function addTableFuncs() {
 }
 
 function addActionsButton() {  
+  const hr = assetTable.querySelector("thead tr");
+  if (!hr.querySelector("#actionsth")) {
+    const actionsth = document.createElement("th");
+    actionsth.id = "actionsth";
+    hr.appendChild(actionsth);
+  }
+
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";
@@ -85,7 +92,7 @@ function addActionsButton() {
       </div>
     `;
     
-    tr.replaceChild(actionElem, tr.lastElementChild);
+    tr.appendChild(actionElem);
   }
 }
 
@@ -103,7 +110,6 @@ function addAssetAdd() {
   leftAsset.append(assetAdd);
 }
 
-// Handle actions menu related clicks
 document.addEventListener("click", (e) => {
   // Actions dropdown toggle
   const actionBtn = e.target.closest(".action-btn");
@@ -131,19 +137,20 @@ document.addEventListener("click", (e) => {
   const menuBtn = e.target.closest(".menu-item[data-action]");
   if (menuBtn) {
     const tr = menuBtn.closest("tr");
+    const propNum = tr.dataset.propNum;
 
     switch (menuBtn.dataset.action) {
       case "view":
-        viewAsset(tr.dataset.propNum);
+        viewAsset(propNum);
         break;
       case "modify":
-        editAsset(tr.dataset.propNum);
+        editAsset(propNum);
         break;
       case "delete": 
-        if (confirm(`Delete item ${tr.dataset.propNum}?`)) deleteAsset(tr.dataset.propNum);
+        if (confirm(`Delete item ${propNum}?`)) deleteAsset(propNum);
         break;
       case "assign":
-        assignAssets([tr.dataset.propNum]);
+        assignAssets([propNum]);
         break;
     }
     return;
@@ -169,6 +176,10 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
   }
 
+  // Replace view buttons
+  for (const tr of assetTableBody.querySelectorAll("tr")) {
+    tr.lastElementChild.remove();
+  }
   addActionsButton();
   
   // Handles all table func clicks dynamically
@@ -192,10 +203,9 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     }
 
     if (e.target.closest("#multi-select")) {
-      const multiSelectLabel = e.target.closest("#multi-select");
-      const multiSelectIcon = multiSelectLabel.querySelector(".material-icons");
+      const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
 
-      if (multiSelectIcon.textContent === "check_box_outline_blank") {
+      if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
         // Add select-all button
         const hr = assetTable.querySelector("thead tr");
         hr.lastElementChild.innerHTML = `
@@ -203,34 +213,42 @@ assetTableBody.addEventListener("assetsLoaded", () => {
             <span class="material-icons"> select_all </span>
           </button>
         `;
-
+        
         // Add checkbox per row
         for (const tr of assetTableBody.querySelectorAll("tr")) {
           tr.lastElementChild.innerHTML = `
-            <button class="selectable-row">
-              <span class="material-icons"> check_box_outline_blank </span>
-            </button>
+          <button class="selectable-row">
+            <span class="material-icons"> check_box_outline_blank </span>
+          </button>
           `;
         }
-
-        // Add assign button
+        
+        // Add assign table func
         const assignButton = document.createElement("button");
         assignButton.className = "assign";
         assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
         if (!tableFuncs.querySelector(".assign")) tableFuncs.prepend(assignButton);
         
-        // Add delete button
+        // Add delete table func
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete";
         deleteButton.innerHTML = `<span class="material-icons">delete</span>`;
         if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
-
+        
         multiSelectIcon.textContent = "check_box";
-      } else {
+        return;
+      } 
+
+      if (multiSelectIcon.textContent.trim() === "check_box") {
         // Remove select-all button
         document.querySelectorAll("#select-all").forEach(elem => {
           elem?.remove();
         })
+
+        // Remove checkbox per row
+        for (const tr of assetTableBody.querySelectorAll("tr")) {
+          tr.querySelector(".selectable-row")?.closest("td").remove();
+        }
     
         // Remove extra table funcs
         document.querySelector(".table-func .assign")?.remove();
@@ -239,21 +257,23 @@ assetTableBody.addEventListener("assetsLoaded", () => {
         addActionsButton();
 
         multiSelectIcon.textContent = "check_box_outline_blank";
+        return;
       }
-      return;
     }
   });
 
   // Handles all table clicks dynamically
   tableContainer.addEventListener("click", (e) => {
     if (e.target.closest("#select-all")) {
-      if (selectedRows.size === assetTableBody.querySelectorAll("tr").length) {
-        for (const tr of assetTableBody.querySelectorAll("tr")) {
+      const rows = assetTableBody.querySelectorAll("tr");
+
+      if (selectedRows.size === rows.length) {
+        for (const tr of rows) {
           deselectRow(tr);
         }
       }
       else {
-        for (const tr of assetTableBody.querySelectorAll("tr")) {
+        for (const tr of rows) {
           selectRow(tr);
         }
       }

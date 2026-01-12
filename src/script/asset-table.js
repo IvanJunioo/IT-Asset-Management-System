@@ -4,9 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const assetTableBody = document.querySelector('.asset-table tbody');
   const filterBox = document.getElementById("filter-box");
   
-  function fetchAssets() {
-    const src = "../handlers/asset-table.php";
-    
+  function fetchAssets() {    
     const searchFilters = searchInput.value;
     
     const statusFilters = [];
@@ -18,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cb.id === "to-repair") statusFilters.push("InRepair");
     }
     
-    fetch(src, {
+    fetch("../handlers/asset-table.php", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${encodeURIComponent(searchFilters)}&status=${encodeURIComponent(statusFilters)}`,
@@ -32,6 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   function showAssets(assets) {
+    // Add another header
+    const hr = document.querySelector(".asset-table thead tr");
+    if (!hr.querySelector("#actionsth")) {
+      const actionsth = document.createElement("th");
+      actionsth.id = "actionsth";
+      hr.appendChild(actionsth);
+    }
+
     assetTableBody.innerHTML = "";
     
     for (const asset of assets) {

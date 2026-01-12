@@ -9,9 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!assetsToAssign || !userAssigned) return;
 
   fillForm(assetsToAssign, userAssigned);
-	const src = "../handlers/add-assignment-form.php";
 
-	fetch(src, {
+	fetch("../handlers/add-assignment-form.php", {
 		method: "POST",
 		headers: { "Content-Type": "application/x-www-form-urlencoded" },
 		body: `assets=${encodeURIComponent(assetsToAssign)}&user=${encodeURIComponent(userAssigned)}`,
