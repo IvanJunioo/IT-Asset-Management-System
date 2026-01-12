@@ -125,6 +125,24 @@ form {
 #select-all .material-icons:active {
     background-color:#380707
 }
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* animation */
 
 @keyframes slideUp {

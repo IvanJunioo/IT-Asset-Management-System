@@ -9,22 +9,25 @@ $db = new Database($pdo);
 $action = $_POST['action'];
 
 if ($action == 'submit') {
-  $asset = new Asset(
-    propNum: $_POST['property-num'],
-    procNum: $_POST['procurement-num'],
-    serialNum: $_POST['serial-num'],
-    date: $_POST['purchase-date'],
-    specs: $_POST['specs'],
-    desc: $_POST['short-desc'],
-    url: $_POST['img-url'],
-    remarks: $_POST['remarks'],
-    price: $_POST['price'],
-  );
+  $propNums = $_POST['property-num'];
 
-  $db->addAsset($asset);
+  foreach ($propNums as $propNum) {
+    $asset = new Asset(
+      propNum: $propNum,
+      procNum: $_POST['procurement-num'],
+      serialNum: $_POST['serial-num'],
+      date: $_POST['purchase-date'],
+      specs: $_POST['specs'],
+      desc: $_POST['short-desc'],
+      url: $_POST['img-url'],
+      remarks: $_POST['remarks'],
+      price: $_POST['price'],
+    );
+  
+    $db->addAsset($asset);
+  }
 }
 
-// header('Location: ../views/asset-form.php');
 header('Location: ../views/asset-manager.php');
 
 exit;

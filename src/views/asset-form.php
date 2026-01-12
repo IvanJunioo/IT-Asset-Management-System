@@ -8,7 +8,14 @@
   <main class="add-asset-form">
     <form action = '../handlers/add-asset-form.php' method="post">
       <label for="property-num"> Property Number: </label>
-      <input type="text" id ="pnum" name="property-num" placeholder="Enter Property Number" maxlength="12" minlength="12" size = "12" required>
+      <div class="input-rows">
+        <div class="input-row">
+          <input type="text" name="property-num[]" placeholder="Enter Property Number" maxlength="12" minlength="12" size = "12" required>
+          <button type="button" class="add-input">
+            <span class="material-icons">add</span>
+          </button>
+        </div>
+      </div>
 
       <label for="procurement-num"> Procurement Number: </label>
       <input type="text" id = "prnum" name="procurement-num" placeholder="Enter Procurement Number" maxlength="12" minlength="12" size = "12" required>
@@ -58,6 +65,9 @@
       </button>  
     </form>
   </main>
+
+  <script src="../script/add-asset.js" defer></script>
+
   <?php include '../partials/footer.php'?>
 </body>
 </html>

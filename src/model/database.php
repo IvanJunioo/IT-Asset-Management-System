@@ -81,7 +81,7 @@ class Database implements DatabaseInterface {
     int $limit = 50,
   ): array | bool { 
     $base_date ??= new DateTimeImmutable("0001-01-01");
-    $end_date ??= new DateTimeImmutable("now");
+    $end_date ??= new DateTimeImmutable("9999-12-31");;
     $status ??= AssetStatus::cases();
     
     $st = implode(',',array_fill(0, count($status), '?'));
