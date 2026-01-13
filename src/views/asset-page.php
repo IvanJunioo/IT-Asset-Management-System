@@ -29,10 +29,22 @@
     </div>
 
     <div id="body-filter">
-      <label><input type="checkbox" name="status" id="available"> Available</label>
-      <label><input type="checkbox" name="status" id="assigned"> Assigned</label>
-      <label><input type="checkbox" name="status" id="condemned"> Condemned</label>
-      <label><input type="checkbox" name="status" id="to-repair"> To Repair</label>
+      <label>
+        <input type="checkbox" name="status" value="Unused"> 
+        Available
+      </label>
+      <label>
+        <input type="checkbox" name="status" value="Used"> 
+        Assigned
+      </label>
+      <label>
+        <input type="checkbox" name="status" value="Broken"> 
+        Condemned
+      </label>
+      <label>
+        <input type="checkbox" name="status" value="InRepair">  
+        To Repair
+      </label>
     </div>
       
     <button id="apply-filter"> Reset Filters </button>

@@ -5,7 +5,7 @@ declare (strict_types= 1);
 include_once 'user.php';
 include_once 'asset.php';
 
-interface FacultyDatabaseInterface {
+interface DatabaseInterface {
   public function searchAsset(
     # Returns array of Asset objects if successful
     float $price_min,
@@ -13,7 +13,6 @@ interface FacultyDatabaseInterface {
     DateTimeImmutable $base_date,
     DateTimeImmutable $end_date,
     array $status,
-
     string $propNum,
     string $procNum,
     string $serialNum,
@@ -21,12 +20,9 @@ interface FacultyDatabaseInterface {
     string $description,
     string $remarks,
     int $limit,
-  ): array | bool;
-  public function getAssignedAssets(User $user): array | bool;
-	public function getCurrAssignedUser(Asset $asset): User | bool;
-}
-
-interface AdminDatabaseInterface extends FacultyDatabaseInterface{
+  ): array;
+  public function getAssignedAssets(User $user): array;
+	public function getCurrAssignedUser(Asset $asset): ?User;
   public function searchUser(
     string $empID,
     Fullname $fullname,
@@ -34,28 +30,31 @@ interface AdminDatabaseInterface extends FacultyDatabaseInterface{
     array $isActive,
     array $privileges,
     int $limit,
-  ): array | bool;
-  public function addAsset(Asset $asset): bool;
+  ): array;
+  public function addAsset(Asset $asset): void;
+  public function updateAsset(Asset $asset): void;
+  public function deleteAsset(Asset $asset): void;
   public function assignAsset(
     Asset $asset, 
     User $user, 
     DateTimeImmutable $assDate, 
     string $remarks
-  ): bool;
+  ): void;
   public function unassignAsset(
     Asset $asset, 
     DateTimeImmutable $assDate, 
     DateTimeImmutable $retDate,
     string $remarks, 
-  ): bool;
-  public function updateAsset(Asset $asset): bool;
-}
-
-interface DatabaseInterface extends AdminDatabaseInterface {
-  public function deleteAsset(Asset $asset): bool;
-  public function addUser(User $user) : bool;
-  public function deleteUser(User $user) : bool;
-  public function updateUser(User $user) : bool;
+  ): void;
+  public function addUser(User $user) : void;
+  public function deleteUser(User $user) : void;
+  public function updateUser(User $user) : void;
+  public function systemLog(
+    User $user,
+    string $log,
+    array $metadata,
+  ) : void;
+  public function getLogs(int $limit) : array;
 }
 
 class Database implements DatabaseInterface {
@@ -79,7 +78,7 @@ class Database implements DatabaseInterface {
     string $description = "",
     string $remarks = "",
     int $limit = 50,
-  ): array | bool { 
+  ): array { 
     $base_date ??= new DateTimeImmutable("0001-01-01");
     $end_date ??= new DateTimeImmutable("9999-12-31");;
     $status ??= AssetStatus::cases();
@@ -100,108 +99,96 @@ class Database implements DatabaseInterface {
       LIMIT $limit
     ;";
     
-    try {
-      $stmt = $this->_pdo->prepare($query);
-      
-      foreach ($status as $s ) {
-        $params[] = $s->name;
-      }
-      
-      $params[] = "$price_min";
-      $params[] = "$price_max";
-      $params[] = $base_date->format("Y-m-d");
-      $params[] = $end_date->format("Y-m-d");
-      $params[] = "%$propNum%";
-      $params[] = "%$procNum%";
-      $params[] = "%$serialNum%";
-      $params[] = "%$description%";
-      $params[] = "%$specs%";
-      $params[] = "%$remarks%";
-      
-      $stmt->execute($params);
-      
-      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      
-      $assets = []; # Initially empty list (not null)
-      foreach ($result as $ass) {
-        $asset = new Asset(
-          propNum: $ass["PropNum"],
-          procNum: $ass["ProcNum"],
-          serialNum: $ass["SerialNum"],
-          date: $ass["PurchaseDate"],
-          specs: $ass["Specs"],
-          desc: $ass["ShortDesc"],
-          url: $ass["URL"],
-          remarks: $ass["Remarks"],
-          price: (float)$ass["Price"],
-        );
-
-        $asset->setStatus(AssetStatus::fromStr($ass["Status"]));
-				$user = $this->getCurrAssignedUser($asset);
-				if ($user instanceof User){
-					$asset->assignTo($user);
-				}
-				
-        $assets[] = $asset;
-      }
-      return $assets;
-    } catch(PDOException $e) {
-      panic($e);
-      return false;
+    $stmt = $this->_pdo->prepare($query);
+    
+    foreach ($status as $s ) {
+      $params[] = $s->name;
     }
+    
+    $params[] = (string) $price_min;
+    $params[] = (string) $price_max;
+    $params[] = $base_date->format("Y-m-d");
+    $params[] = $end_date->format("Y-m-d");
+    $params[] = "%$propNum%";
+    $params[] = "%$procNum%";
+    $params[] = "%$serialNum%";
+    $params[] = "%$description%";
+    $params[] = "%$specs%";
+    $params[] = "%$remarks%";
+    
+    $stmt->execute($params);
+    
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $assets = []; # Initially empty list (not null)
+    foreach ($result as $ass) {
+      $asset = new Asset(
+        propNum: $ass["PropNum"],
+        procNum: $ass["ProcNum"],
+        serialNum: $ass["SerialNum"],
+        date: $ass["PurchaseDate"],
+        specs: $ass["Specs"],
+        desc: $ass["ShortDesc"],
+        url: $ass["URL"],
+        remarks: $ass["Remarks"],
+        price: (float)$ass["Price"],
+      );
+
+      $asset->setStatus(AssetStatus::fromStr($ass["Status"]));
+      $user = $this->getCurrAssignedUser($asset);
+      if ($user !== null){
+        $asset->assignTo($user);
+      }
+      
+      $assets[] = $asset;
+    }
+    return $assets;
   }
 
-	public function getCurrAssignedUser(Asset $asset): User | bool{
+	public function getCurrAssignedUser(Asset $asset): ?User {
 		$query = "SELECT * FROM 
       assignment INNER JOIN employee ON 
       assignment.EmpID = employee.EmpID
       WHERE PropNum = :pnum AND RetDate is NULL
     ";
 
-    try {
-      $stmt = $this->_pdo->prepare($query);
-      $stmt->execute([
-        ":pnum" => $asset->getPropNum(),
-      ]);
-    
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($res as $user) {
-				$privilege = $user['Privilege'];
-        $name = new Fullname($user['FName'], $user['MName'], $user['LName']);
+    $stmt = $this->_pdo->prepare($query);
+    $stmt->execute([
+      ":pnum" => $asset->getPropNum(),
+    ]);
   
-				$ret = match ($privilege) {
-					'Super Admin' => new SuperAdmin(
-            empID: $user['EmpID'],
-            name: $name,
-            email: $user['EmpMail']
-          ),
-					'Admin' => new Admin(
-						empID: $user['EmpID'],
-						name: $name,
-						email: $user['EmpMail']
-					),
-					default => new Faculty(
-						empID: $user['EmpID'],
-						name: $name,
-						email: $user['EmpMail']
-					),
-				};
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($res as $user) {
+      $privilege = $user['Privilege'];
+      $name = new Fullname($user['FName'], $user['MName'], $user['LName']);
 
-				if ($user['ActiveStatus'] == 'Inactive'){
-					$user->setActiveStatus(False);
-				}
+      $ret = match ($privilege) {
+        'Super Admin' => new SuperAdmin(
+          empID: $user['EmpID'],
+          name: $name,
+          email: $user['EmpMail']
+        ),
+        'Admin' => new Admin(
+          empID: $user['EmpID'],
+          name: $name,
+          email: $user['EmpMail']
+        ),
+        default => new Faculty(
+          empID: $user['EmpID'],
+          name: $name,
+          email: $user['EmpMail']
+        ),
+      };
 
-				return $ret;
+      if ($user['ActiveStatus'] == 'Inactive'){
+        $user->setActiveStatus(False);
       }
-      
-      return false;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
+
+      return $ret;
     }
+    return null;
 	}
 
-    
   public function searchUser(
     string $empID = "",
     ?Fullname $fullname = null,
@@ -209,7 +196,7 @@ class Database implements DatabaseInterface {
     array $isActive = ["Active", "Inactive"],
     ?array $privileges = null, # must be nonempty
     int $limit = 50,
-  ): array | bool {
+  ): array {
     $fullname ??= new Fullname();
     $privileges ??= UserPrivilege::cases(); 
       
@@ -226,104 +213,86 @@ class Database implements DatabaseInterface {
       LIMIT $limit
     ";
 
-    try {
-      $stmt = $this->_pdo->prepare($query);
-      foreach ($isActive as $a) {$params[] = $a;}
-      foreach ($privileges as $p) {$params[] = $p->name;}
-      $params[] = "%$empID%";
-      $params[] = "%$email%";
-      $params[] = "%" . $fullname->first . "%";
-      $params[] = "%" . $fullname->middle . "%";
-      $params[] = "%" . $fullname->last . "%";
+    $stmt = $this->_pdo->prepare($query);
+    foreach ($isActive as $a) {$params[] = $a;}
+    foreach ($privileges as $p) {$params[] = $p->name;}
+    $params[] = "%$empID%";
+    $params[] = "%$email%";
+    $params[] = "%$fullname->first%";
+    $params[] = "%$fullname->middle%";
+    $params[] = "%$fullname->last%";
 
-      $stmt->execute($params);
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      $emps = [];
-      foreach ($res as $emp) {
-        $id = $emp["EmpID"];
-        $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
-        $email = $emp["EmpMail"];
-        switch ($emp["Privilege"]) {
-          case "SuperAdmin":
-            $emps[] = new SuperAdmin($id, $name, $email);
-            break;
-          case "Admin":
-            $emps[] = new Admin($id, $name, $email);
-            break;
-          default:
-            $emps[] = new Faculty($id, $name, $email);
-        }
-        end($emps)->setActiveStatus($emp["ActiveStatus"] == "Active");
-        end($emps)->setActlog($emp["ActLog"]);
+    $stmt->execute($params);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $emps = [];
+    foreach ($res as $emp) {
+      $id = $emp["EmpID"];
+      $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
+      $email = $emp["EmpMail"];
+      switch ($emp["Privilege"]) {
+        case "SuperAdmin":
+          $emps[] = new SuperAdmin($id, $name, $email);
+          break;
+        case "Admin":
+          $emps[] = new Admin($id, $name, $email);
+          break;
+        default:
+          $emps[] = new Faculty($id, $name, $email);
       }
-
-      return $emps;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
+      end($emps)->setActiveStatus($emp["ActiveStatus"] == "Active");
+      end($emps)->setActlog($emp["ActLog"]);
     }
 
+    return $emps;
   }
 
-  public function getAssignedAssets(User $user): array | bool {
+  public function getAssignedAssets(User $user): array {
     $query = "SELECT * FROM 
       assignment INNER JOIN asset ON 
       assignment.PropNum = asset.PropNum
       WHERE EmpID = :empid AND RetDate is NULL
     ";
 
-    try {
-      $stmt = $this->_pdo->prepare($query);
-      $stmt->execute([
-        ":empid" => $user->getEmpID(),
-      ]);
-    
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      $assets = [];
-      foreach ($res as $asset) {
-        $assets[] = new Asset(
-          propNum: $asset["PropNum"],
-          procNum: $asset["ProcNum"],
-          serialNum: $asset["SerialNum"],
-          date: $asset["PurchaseDate"],
-          specs: $asset["Specs"],
-          desc: $asset["ShortDesc"],
-          url: $asset["URL"],
-          remarks: $asset["Remarks"],
-          price: (float)$asset["Price"]
-        );
-      }
-      
-      return $assets;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
+    $stmt = $this->_pdo->prepare($query);
+    $stmt->execute([
+      ":empid" => $user->getEmpID(),
+    ]);
+  
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $assets = [];
+    foreach ($res as $asset) {
+      $assets[] = new Asset(
+        propNum: $asset["PropNum"],
+        procNum: $asset["ProcNum"],
+        serialNum: $asset["SerialNum"],
+        date: $asset["PurchaseDate"],
+        specs: $asset["Specs"],
+        desc: $asset["ShortDesc"],
+        url: $asset["URL"],
+        remarks: $asset["Remarks"],
+        price: (float)$asset["Price"]
+      );
     }
+    
+    return $assets;
   }
     
-  public function addAsset(Asset $asset): bool {
+  public function addAsset(Asset $asset): void {
     $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL, ActLog) VALUES (?,?,?,?,?,?,?,?,?,?,?);"; 
     
-    try {
-      $this->_pdo->prepare($query)->execute([
-        $asset->getPropNum(),
-        $asset->getSerialNum(), 
-        $asset->getProcNum(),
-        $asset->getPurchaseDate(),
-        $asset->getSpecs(),
-        $asset->getRemarks(),
-        $asset->getStatus()->name,
-        $asset->getDescription(),
-        $asset->getPrice(),
-        $asset->getUrl(),
-        $asset->getActlog()
-      ]);
-      
-      return true;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      $asset->getPropNum(),
+      $asset->getSerialNum(), 
+      $asset->getProcNum(),
+      $asset->getPurchaseDate(),
+      $asset->getSpecs(),
+      $asset->getRemarks(),
+      $asset->getStatus()->name,
+      $asset->getDescription(),
+      $asset->getPrice(),
+      $asset->getUrl(),
+      $asset->getActlog()
+    ]);      
   }
   
   public function assignAsset(
@@ -331,10 +300,10 @@ class Database implements DatabaseInterface {
       User $user,
       DateTimeImmutable $assDate,
       string $remarks,
-    ): bool{
+    ): void {
 
     if ($asset->getStatus() != AssetStatus::Unused){
-      return false;
+      return;
     }
 
     $asset->setStatus(AssetStatus::Used);
@@ -342,19 +311,14 @@ class Database implements DatabaseInterface {
 
     $query = "INSERT INTO assignment (PropNum, AssignDate, EmpID, Remarks) VALUES (?,?,?,?);"; 
     
-    try {
-      $this->_pdo->prepare($query)->execute([
-        $asset->getPropNum(),
-        $assDate->format("Y-m-d"),
-        $user->getEmpID(),
-        $remarks
-      ]);
-      
-      return $this->updateAsset($asset);
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      $asset->getPropNum(),
+      $assDate->format("Y-m-d"),
+      $user->getEmpID(),
+      $remarks
+    ]);
+    
+    $this->updateAsset($asset);
   }
   
   public function unassignAsset(
@@ -362,9 +326,9 @@ class Database implements DatabaseInterface {
     DateTimeImmutable $assDate, 
     DateTimeImmutable $retDate,
     string $remarks = "",  
-  ): bool {
+  ): void {
     if ($asset->getStatus() != AssetStatus::Used){
-      return false;
+      return;
     }
     $asset->setStatus(AssetStatus::Unused);
     $asset->assignTo(null);
@@ -376,22 +340,17 @@ class Database implements DatabaseInterface {
     ;";
     
     
-    try {
-      $this->_pdo->prepare($query)->execute([
-        ":rd" => $retDate->format('Y-m-d'),
-        ":r" => $remarks,
-        ":pn" => $asset->getPropNum(),
-        ":ad" => $assDate->format('Y-m-d'),
-      ]);
-      
-      return $this->updateAsset($asset);
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      ":rd" => $retDate->format('Y-m-d'),
+      ":r" => $remarks,
+      ":pn" => $asset->getPropNum(),
+      ":ad" => $assDate->format('Y-m-d'),
+    ]);
+    
+    $this->updateAsset($asset);
   }
   
-  public function updateAsset(Asset $asset): bool {
+  public function updateAsset(Asset $asset): void {
     $query = "UPDATE asset SET 
       SerialNum = :snum,
       ProcNum = :pnum,
@@ -405,81 +364,53 @@ class Database implements DatabaseInterface {
       ActLog = :al
       WHERE PropNum = :id;";
     
-    try {      
-      $this->_pdo->prepare($query)->execute([
-        ":id" => $asset->getPropNum(),
-        ":snum" => $asset->getSerialNum(),
-        ":pnum" => $asset->getProcNum(),
-        ":pdate" => $asset->getPurchaseDate(),
-        ":s" => $asset->getSpecs(),
-        ":st" => $asset->getStatus()->name,
-        ":r" => $asset->getRemarks(),
-        ":d" => $asset->getDescription(),
-        ":p" => $asset->getPrice(),
-        ":u" => $asset->getUrl(),
-        ":al" => $asset->getActlog(),
-      ]);
-      
-      return true;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      ":id" => $asset->getPropNum(),
+      ":snum" => $asset->getSerialNum(),
+      ":pnum" => $asset->getProcNum(),
+      ":pdate" => $asset->getPurchaseDate(),
+      ":s" => $asset->getSpecs(),
+      ":st" => $asset->getStatus()->name,
+      ":r" => $asset->getRemarks(),
+      ":d" => $asset->getDescription(),
+      ":p" => $asset->getPrice(),
+      ":u" => $asset->getUrl(),
+      ":al" => $asset->getActlog(),
+    ]);      
   }
   
-  public function deleteAsset(Asset $asset): bool {
+  public function deleteAsset(Asset $asset): void {
     $query1 = "DELETE FROM assignment WHERE assignment.PropNum = ?;";
     $query2 = "DELETE FROM asset WHERE asset.PropNum = ?;"; 
 
-    try {
-      $this->_pdo->prepare($query1)->execute([$asset->getPropNum()]);
-      $this->_pdo->prepare($query2)->execute([$asset->getPropNum()]);
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
-
-    return true;
+    $this->_pdo->prepare($query1)->execute([$asset->getPropNum()]);
+    $this->_pdo->prepare($query2)->execute([$asset->getPropNum()]);
   }
   
-  public function addUser(User $user): bool {
+  public function addUser(User $user): void {
     $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus, ActLog) VALUES (?,?,?,?,?,?,?,?);"; 
     
-    try {
-      $this->_pdo->prepare($query)->execute([
-        $user->getEmpID(),
-        $user->getEmail(),
-        $user->getName()->first,
-        $user->getName()->middle,
-        $user->getName()->last,
-        $user->getPrivilege()->name,
-        $user->isActive()? "Active" : "Inactive",
-        $user->getActlog()
-      ]);
-  
-      return true;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      $user->getEmpID(),
+      $user->getEmail(),
+      $user->getName()->first,
+      $user->getName()->middle,
+      $user->getName()->last,
+      $user->getPrivilege()->name,
+      $user->isActive()? "Active" : "Inactive",
+      $user->getActlog()
+    ]);  
   }
 
-  public function deleteUser(User $user): bool {
+  public function deleteUser(User $user): void {
     $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
     $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
 
-    try {
-      $this->_pdo->prepare($query1)->execute([$user->getEmpID()]);
-      $this->_pdo->prepare($query2)->execute([$user->getEmpID()]);
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
-
-    return true;
+    $this->_pdo->prepare($query1)->execute([$user->getEmpID()]);
+    $this->_pdo->prepare($query2)->execute([$user->getEmpID()]);
   }
   
-  public function updateUser(User $user): bool {
+  public function updateUser(User $user): void {
     $query = "UPDATE employee SET 
       EmpMail = :mail,
       FName = :fn,
@@ -490,27 +421,37 @@ class Database implements DatabaseInterface {
       ActLog = :al   
       WHERE employee.EmpID = :id;";
           
-    try {
-      $this->_pdo->prepare($query)->execute([
-        ":id" => $user->getEmpID(),
-        ":mail" => $user->getEmail(),
-        ":fn" => $user->getName()->first,
-        ":mn" => $user->getName()->middle,
-        ":ln" => $user->getName()->last,
-        ":priv" => $user->getPrivilege()->name,
-        ":astat" => $user->isActive()? "Active" : "Inactive",
-        ":al" => $user->getActlog(),
-      ]);
-      
-      return true;
-    } catch (PDOException $e) {
-      panic($e);
-      return false;
-    }
+    $this->_pdo->prepare($query)->execute([
+      ":id" => $user->getEmpID(),
+      ":mail" => $user->getEmail(),
+      ":fn" => $user->getName()->first,
+      ":mn" => $user->getName()->middle,
+      ":ln" => $user->getName()->last,
+      ":priv" => $user->getPrivilege()->name,
+      ":astat" => $user->isActive()? "Active" : "Inactive",
+      ":al" => $user->getActlog(),
+    ]);      
   }
 
-}
+  public function systemLog(
+    User $user,
+    string $log,
+    array $metadata,
+  ) : void {
+    $query = "INSERT INTO log (EmpID, Log, Metadata) VALUES (?,?,?)";
 
-function panic(PDOException $err) {
-  echo "<br>" . $err->getMessage() . "<br>";
+    $this->_pdo->prepare($query)->execute([
+      $user->getEmpID(),
+      $log,
+      json_encode($metadata),
+    ]);
+  }
+
+  public function getLogs(int $limit = 50) : array {
+    $query = "SELECT * FROM log LIMIT $limit";
+    $stmt = $this->_pdo->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
 }

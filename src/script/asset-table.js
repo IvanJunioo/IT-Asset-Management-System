@@ -6,15 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function fetchAssets() {    
     const searchFilters = searchInput.value;
-    
-    const statusFilters = [];
-    for (const cb of filterBox.querySelectorAll("input[name='status']")) {
-      if (!cb.checked) continue;
-      if (cb.id === "available") statusFilters.push("Unused");
-      if (cb.id === "assigned") statusFilters.push("Used");
-      if (cb.id === "condemned") statusFilters.push("Broken");
-      if (cb.id === "to-repair") statusFilters.push("InRepair");
-    }
+    const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
     
     fetch("../handlers/asset-table.php", {
       method: "POST",
