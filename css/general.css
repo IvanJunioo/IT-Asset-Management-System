@@ -126,6 +126,12 @@ form {
     background-color:#380707
 }
 
+.input-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .input-row {
   display: flex;
   align-items: center;

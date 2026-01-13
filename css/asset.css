@@ -216,7 +216,7 @@ tbody tr:hover {
     background-color: var(--border-color);
 }
 
-.add-asset-form, .assign-asset-form {
+.asset-form, .assign-asset-form {
     display: flex;
     justify-content: center;
     margin-top: 2rem;

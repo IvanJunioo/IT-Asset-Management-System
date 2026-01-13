@@ -1,73 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-  <?php include '../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
-<body>
-  <?php include '../partials/header.php'?>
+<form>
+  <label class="input-label"> 
+    Property Number: 
+    <input 
+      type="text" 
+      id="pnum" 
+      name="property-num" 
+      placeholder="Enter Property Number" 
+      maxlength="12" 
+      minlength="12" 
+      size="12" 
+      required
+    >
+  </label>
 
-  <main class="add-asset-form">
-    <form action = '../handlers/add-asset-form.php' method="post">
-      <label for="property-num"> Property Number: </label>
-      <div class="input-rows">
-        <div class="input-row">
-          <input type="text" name="property-num[]" placeholder="Enter Property Number" maxlength="12" minlength="12" size = "12" required>
-          <button type="button" class="add-input">
-            <span class="material-icons">add</span>
-          </button>
-        </div>
-      </div>
+  <label class="input-label"> 
+    Procurement Number: 
+    <input 
+      type="text" 
+      id="prnum" 
+      name="procurement-num" 
+      placeholder="Enter Procurement Number" 
+      maxlength="12" 
+      minlength="12" 
+      size="12" 
+      required
+    >
+  </label>
 
-      <label for="procurement-num"> Procurement Number: </label>
-      <input type="text" id = "prnum" name="procurement-num" placeholder="Enter Procurement Number" maxlength="12" minlength="12" size = "12" required>
+  <label class="input-label"> 
+    Serial Number: 
+    <input 
+      type="text" 
+      id="snum" 
+      name="serial-num" 
+      placeholder="Enter Serial Number" 
+      maxlength="12" 
+      minlength="12" 
+      size="12" 
+      required
+    > 
+  </label>
 
-      <label for="serial-num"> Serial Number: </label>
-      <input type="text" id = "snum" name="serial-num" placeholder="Enter Serial Number" maxlength="12" minlength="12" size = "12" required> 
+  <label class="input-label"> 
+    Purchase Date: 
+    <input 
+      type="date" 
+      id="pdate" 
+      name="purchase-date" 
+      placeholder="Enter Purchase Date" 
+      required
+    >
+  </label>
 
-      <label for="purchase-date"> Purchase Date: </label>
-      <input type="date" id = "pdate" name="purchase-date" placeholder="Enter Purchase Date" required>
+  <label class="input-label"> 
+    Price: 
+    <input 
+      type="number" 
+      id="price" 
+      name="price" 
+      placeholder="Enter Price" 
+      min="0" 
+      max="1000000000" 
+      maxlength="15" 
+      size="15" 
+      step=".01" 
+      required
+    >
+  </label>
 
-      <label for="price"> Price: </label>
-      <input type="number" id = "price" name="price" placeholder="Enter Price" min = "0" max = "1000000000" maxlength = "15" size = "15" step = ".01" required>
+  <label class="input-label"> 
+    Specifications: 
+    <textarea 
+      id="specs" 
+      name="specs" 
+      placeholder="Enter Specifications"  
+      rows="4" 
+      cols="25"
+      required
+    ></textarea>
+  </label>
 
-      <label for="specs"> Specifications: </label>
-      <textarea id = "specs" name="specs" placeholder="Enter Specifications"  rows = "4" cols = "25"required> </textarea>
+  <label class="input-label"> 
+    Short Description: 
+    <textarea 
+      id="desc" 
+      name="short-desc" 
+      placeholder="Enter Short Description" 
+      rows="4" 
+      cols="25"
+    ></textarea>
+  </label>
 
-      <label for="short-desc"> Short Description: </label>
-      <textarea id ="desc" name="short-desc" placeholder="Enter Short Description" rows = "4" cols = "25"> </textarea>
+  <label class="input-label"> 
+    Remarks: 
+    <textarea 
+      id="remarks" 
+      name="remarks" 
+      placeholder="Enter Remarks" 
+      rows="4" 
+      cols="25"
+    ></textarea>
+  </label>
 
-      <label for="remarks"> Remarks: </label>
-      <textarea id = "remarks" name="remarks" placeholder="Enter Remarks" rows = "4" cols = "25"> </textarea>
+  <label class="input-label"> 
+    Img URL: 
+    <input 
+      type="url" 
+      id="img_url" 
+      name="img-url" 
+      placeholder="Enter Img URL" 
+      required
+    >
+  </label>
 
-      <label for="img-url"> Img URL: </label>
-      <input type="url" id = "img_url" name="img-url" placeholder="Enter Img URL" required>
+  <label class="input-label"> 
+    Status: 
+    <label>
+      Unused
+      <input 
+        type="radio" 
+        id="unused" 
+        name="asset-status" 
+        value="Unused" 
+        required 
+      > 
+    </label>
+    <label>
+      Used
+      <input 
+        type="radio" 
+        id="used" 
+        name="asset-status" 
+        value="Used"
+      > 
+    </label>
+    <label>
+      In Repair 
+      <input 
+        type="radio" 
+        id="inrepair" 
+        name="asset-status" 
+        value="InRepair"
+      > 
+    </label>
+    <label>
+      Broken
+      <input 
+        type="radio" 
+        id="broken" 
+        name="asset-status" 
+        value="Broken"
+      > 
+    </label>
+  </label>
+  
+  <button id="reset-button" type="reset">
+    Reset
+  </button>
 
-      <label for="status"> Status: </label>
-        <label>
-          <input type="radio" id = "unused" name="asset-status" value = "Unused" required checked> Unused
-        </label>
-        <label>
-          <input type="radio" id = "used" name="asset-status" value = "Used"> Used
-        </label>
-        <label>
-          <input type="radio" id = "inrepair" name="asset-status" value = "InRepair"> In Repair 
-        </label>
-        <label>
-          <input type="radio" id = "broken" name="asset-status" value = "Broken"> Broken
-        </label>
-      </label>
-      
-      <button id="reset-button" type="reset">
-        Reset
-      </button>
-
-      <button id="submit-button" type="submit" name="action" value="submit">
-        Submit
-      </button>  
-    </form>
-  </main>
-
-  <script src="../script/add-asset.js" defer></script>
-
-  <?php include '../partials/footer.php'?>
-</body>
-</html>
+  <button id="submit-button" type="submit" name="action" value="submit">
+    Submit
+  </button>  
+</form>

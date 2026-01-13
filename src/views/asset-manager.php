@@ -5,9 +5,12 @@
 <body>
   <?php include '../partials/header.php'?>
   
-  <?php include '../views/asset-page.php'?>
-  <script src="../script/asset-table-manager.js" defer></script>
-
+  <main class="asset-page">
+    <?php include '../views/asset-page.php'?>
+  </main>
+  
   <?php include '../partials/footer.php'?>
+  
+  <script src="../script/asset-table-manager.js" defer></script>
 </body>
 </html>

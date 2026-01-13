@@ -4,13 +4,13 @@
   <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 <body>
   <?php include '../partials/header.php'?>
-    
+
   <main class="asset-form">
     <?php include '../views/asset-form.php'?>
   </main>
   
   <?php include '../partials/footer.php'?>
   
-  <script src="../script/edit-asset.js" defer></script>
+  <script src="../script/add-asset.js" defer></script>
 </body>
 </html>

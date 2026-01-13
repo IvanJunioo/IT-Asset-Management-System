@@ -5,7 +5,9 @@
 <body>
   <?php include '../partials/header.php'?>
 
-  <?php include '../views/asset-page.php'?>
+  <main class="asset-page">
+    <?php include '../views/asset-page.php'?>
+  </main>
 
   <?php include '../partials/footer.php'?>
 </body>

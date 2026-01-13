@@ -5,9 +5,12 @@
 <body>
   <?php include '../partials/header.php'?>
 
-  <?php include '../views/user-page.php'?>
-  <script src="../script/user-table-manager.js" defer></script>
-
+  <main class="user-page">
+    <?php include '../views/user-page.php'?>
+  </main>
+  
   <?php include '../partials/footer.php'?>
+  
+  <script src="../script/user-table-manager.js" defer></script>
 </body>
 </html>

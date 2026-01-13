@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const assetData = JSON.parse(sessionStorage.getItem("assetData"));
-  const assetForm = document.querySelector(".add-asset-form"); 
+  const assetForm = document.querySelector(".asset-form"); 
+  const form = assetForm.querySelector("form");
 
-  console.log(assetData);
+  form.action = "../handlers/edit-asset-form.php"; 
+  form.method = "post";
+
   if (!assetData) return;
 
   fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
@@ -21,12 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
       'img_url': asset['Url'],
     };
 
-    childrenInput = assetForm.querySelectorAll('input');
+    const childrenInput = assetForm.querySelectorAll('input');
 		console.log(asset['Status']);
+    console.log(childrenInput);
     for (const child of childrenInput) {
       if (child.id in data) {
         child.value = data[child.id];
-      } else if (child.id === asset['Status']) {
+      } else if (child.value === asset['Status']) {
         child.checked = true;
       }
     }

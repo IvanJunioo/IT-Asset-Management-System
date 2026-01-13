@@ -79,7 +79,7 @@ function addUserAdd() {
   const leftUser = document.querySelector(".left-user");
 
   const userAdd = document.createElement("a");
-  userAdd.href = "user-form.php";
+  userAdd.href = "add-user-form.php";
   userAdd.id = "addUser";
   userAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>
@@ -123,7 +123,7 @@ document.addEventListener("click", (e) => {
         editUser(empid);
         break;
       case "delete": 
-        if (confirm(`Delete user ${empid}?`)) editUser(empid);
+        if (confirm(`Delete user ${empid}?`)) deleteUser(empid);
         break;
     }
     return;

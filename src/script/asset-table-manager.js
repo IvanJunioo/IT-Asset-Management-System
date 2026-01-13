@@ -100,7 +100,7 @@ function addAssetAdd() {
   const leftAsset = document.querySelector(".left-asset");
 
   const assetAdd = document.createElement("a");
-  assetAdd.href = "asset-form.php";
+  assetAdd.href = "add-asset-form.php";
   assetAdd.id = "addAsset";
   assetAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>
