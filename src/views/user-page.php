@@ -17,9 +17,7 @@
           <th> Status  </th>
         </tr>
       </thead>
-        <tbody>
-
-        </tbody>
+        <tbody></tbody>
     </table>
   </div>
 </div>
@@ -30,9 +28,18 @@
     </div>
 
     <div id="body-filter">
-      <label><input type="checkbox" name="privilege" id="faculty"> Faculty</label>
-      <label><input type="checkbox" name="privilege" id="admin"> Admin</label>
-      <label><input type="checkbox" name="privilege" id="superadmin"> SuperAdmin</label>
+      <label>
+        <input type="checkbox" name="privilege" value="Faculty"> 
+        Faculty
+      </label>
+      <label>
+        <input type="checkbox" name="privilege" value="Admin"> 
+        Admin
+      </label>
+      <label>
+        <input type="checkbox" name="privilege" value="SuperAdmin"> 
+        SuperAdmin
+      </label>
     </div>
       
     <button id="apply-filter"> Reset Filters </button>

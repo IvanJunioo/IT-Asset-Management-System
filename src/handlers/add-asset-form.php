@@ -16,12 +16,13 @@ if ($action == 'submit') {
       propNum: $propNum,
       procNum: $_POST['procurement-num'],
       serialNum: $_POST['serial-num'],
-      date: $_POST['purchase-date'],
+      purchaseDate: $_POST['purchase-date'],
       specs: $_POST['specs'],
-      desc: $_POST['short-desc'],
+      description: $_POST['short-desc'],
       url: $_POST['img-url'],
       remarks: $_POST['remarks'],
       price: $_POST['price'],
+      status: AssetStatus::from($_POST['asset-status']),
     );
   
     $db->addAsset($asset);

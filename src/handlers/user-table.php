@@ -10,7 +10,7 @@ $search = $_POST['search'] ?? "";
 $privilege = $_POST['priv'] ?? "";
 
 try {
-  $privilege = $privilege !== ""? array_map("UserPrivilege::fromStr", explode(',', $privilege)) : null;
+  $privilege = $privilege !== ""? array_map("UserPrivilege::from", explode(',', $privilege)) : null;
 
   $db = new Database($pdo);
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(

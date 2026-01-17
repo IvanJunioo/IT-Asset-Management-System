@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchAssets();
     searchInput.value = "";
   }); 
-  
-  filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.addEventListener("change", fetchAssets));
+
+  filterBox.querySelector("#body-filter").addEventListener("change", fetchAssets);
   
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
     filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.checked = false);

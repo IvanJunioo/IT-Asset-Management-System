@@ -6,15 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fetchUsers() {
     const searchFilters = searchInput.value;
-    
-    const privFilters = [];
-    for (const cb of filterBox.querySelectorAll('input[name="privilege"]')) {
-      if (!cb.checked) continue;
-      if (cb.id === "faculty") privFilters.push("Faculty");
-      if (cb.id === "admin") privFilters.push("Admin");
-      if (cb.id === "superadmin") privFilters.push("SuperAdmin");
-    }
-  
+    const privFilters = [...filterBox.querySelectorAll("input[name='privilege']:checked")].map(cb => cb.value);
+      
     fetch("../handlers/user-table.php", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -72,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.value = "";
   });
 
-  filterBox.querySelectorAll('input[name="privilege"]').forEach(cb => cb.addEventListener("change", fetchUsers))
+  filterBox.querySelector("#body-filter").addEventListener("change", fetchUsers);
 
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
     filterBox.querySelectorAll('input[name="privilege"]').forEach(cb => cb.checked = false);

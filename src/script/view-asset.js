@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const assetData = JSON.parse(sessionStorage.getItem("viewAssetData"));
   const assetView = document.querySelector(".asset-info"); 
 
-  console.log(assetData);
   if (!assetData) return;
 
   fillPage(Array.isArray(assetData) ? assetData[0] : assetData);
@@ -23,11 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			'alog' : asset['ActLog']
     };
 
-    childrenInput = assetView.querySelectorAll('span');
-    for (const child of childrenInput) {
-			child.textContent = data[child.id];
+    for (const [k,v] of Object.entries(data)) {
+      const div = assetView.querySelector(`#${k}`);
+      div.innerHTML += v;
     }
-
   }
 });
 		

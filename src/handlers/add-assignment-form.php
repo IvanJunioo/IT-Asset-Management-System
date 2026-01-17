@@ -8,11 +8,11 @@ $db = new Database($pdo);
 
 $action = $_POST['action'];
 
-if ($_POST['assets'] != null){
+if ($_POST['assets'] != null) {
 	setcookie("assets", $_POST['assets']);
 }
 
-if ($_POST['user'] != null){
+if ($_POST['user'] != null) {
 	setcookie("user", $_POST['user']);
 }
 
@@ -25,7 +25,8 @@ if ($action == 'submit') {
 	foreach ($assets as $pnum){
 		$asset = $db->searchAsset(propNum: $pnum);
 		if (is_array($asset)){
-			$db->assignAsset($asset[0], $user, $assDate, $_POST['remarks']);
+      // TODO : implement user authentication or session data
+			//$db->assignAsset($asset[0], $user, $assDate, $_POST['remarks']);
 		}
 	}
 }

@@ -10,7 +10,7 @@ $search =  $_POST['search'] ?? "";
 $status = $_POST['status'] ?? "";
 
 try {
-  $status = $status !== ""? array_map("AssetStatus::fromStr", explode(',', $status)) : null;
+  $status = $status !== ""? array_map("AssetStatus::from", explode(',', $status)) : null;
   
   $db = new Database($pdo);
   $assets = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(

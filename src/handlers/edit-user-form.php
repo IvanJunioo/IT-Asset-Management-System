@@ -7,41 +7,33 @@ require_once '../model/database.php';
 if ($_POST['action'] == 'submit') {
   $db = new Database($pdo);
   
-  $privilege = $_POST['privilege'];
+  $name = new Fullname(
+    $_POST['first-name'],
+    $_POST['middle-name'],
+    $_POST['last-name'],
+  );
+  $status = $_POST['active-status'] === 'Active';
   
-  $user = match ($privilege) {
-    'Super Admin' => new SuperAdmin(
-        empID: $_POST['employee-id'],
-        name: new Fullname(
-          $_POST['first-name'],
-          $_POST['middle-name'],
-          $_POST['last-name']
-        ),
-        email: $_POST['email']
-      ),
-    'Admin' => new Admin(
+  $user = match (UserPrivilege::from($_POST['privilege'])) {
+    UserPrivilege::SuperAdmin => new SuperAdmin(
       empID: $_POST['employee-id'],
-      name: new Fullname(
-        $_POST['first-name'],
-        $_POST['middle-name'],
-        $_POST['last-name'],
-      ),
-      email: $_POST['email']
+      name: $name,
+      email: $_POST['email'],
+      isActive: $status,
     ),
-    default => new Faculty(
+    UserPrivilege::Admin => new Admin(
       empID: $_POST['employee-id'],
-      name: new Fullname(
-        $_POST['first-name'],
-        $_POST['middle-name'],
-        $_POST['last-name'],
-      ),
-      email: $_POST['email']
+      name: $name,
+      email: $_POST['email'],
+      isActive: $status,
+    ),
+    UserPrivilege::Faculty => new Faculty(
+      empID: $_POST['employee-id'],
+      name: $name,
+      email: $_POST['email'],
+      isActive: $status,
     ),
   };
-
-  if ($_POST['active-status'] === 'Inactive'){
-    $user->setActiveStatus(False);
-  }
   
   $db->updateUser($user);
 }

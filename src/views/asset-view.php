@@ -12,70 +12,38 @@
 		<div class="asset-card">
 			<h2>Asset Details</h2>
 			<div class="asset-info">
-				<div class=>
-					<strong>Property Number:</strong>
-					<span id = 'pnum'>
-
-					</span>
+				<div id='pnum'>
+					<b>Property Number:</b>
 				</div>
-				<div>
-					<strong>Procurement Number:</strong>
-					<span id = 'prnum'>
-
-					</span>
+				<div id='prnum'>
+					<b>Procurement Number:</b>
 				</div>
-				<div>
-					<strong>Serial Number:</strong>
-					<span id = 'snum'>
-
-					</span>
+				<div id='snum'>
+					<b>Serial Number:</b>
 				</div>
-				<div>
-					<strong>Purchase Date:</strong>
-					<span id = 'pdate'>
-
-					</span>
+				<div id='pdate'>
+					<b>Purchase Date:</b>
 				</div>
-				<div>
-					<strong>Specs:</strong>
-					<span id = 'specs'>
-
-					</span>
+				<div id='specs'>
+					<b>Specs:</b>
 				</div>
-				<div>
-					<strong>Remarks:</strong>
-					<span id = 'remarks'>
-
-					</span>
+				<div id='remarks'>
+					<b>Remarks:</b>
 				</div>
-				<div>
-					<strong>Description:</strong>
-					<span id = 'desc'>
-
-					</span>
+				<div id='desc'>
+					<b>Description:</b>
 				</div>
-				<div>
-					<strong>Status:</strong> 
-					<span id = 'stats'>
-
-					</span>
+				<div id='stats'>
+					<b>Status:</b> 
 				</div>
-				<div>
-					<strong>Price:</strong> 
-					<span id = 'price'>
-
-					</span>
+				<div id='price'>
+					<b>Price:</b> 
 				</div>
-				<div>
-					<strong>Image URL: </strong> 
-					<span id = 'img_url'>
-
-					</span>
+				<div id='img_url'>
+					<b>Image URL:</b> 
 				</div>
-				<div>
-					<strong>Asset Log:</strong> 
-					<span id = 'alog'>
-					</span>
+				<div id='alog'>
+					<b>Asset Log:</b> 
 				</div>
 			</div>
 		</div>

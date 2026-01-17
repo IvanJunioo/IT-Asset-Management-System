@@ -126,15 +126,15 @@ class Database implements DatabaseInterface {
         propNum: $ass["PropNum"],
         procNum: $ass["ProcNum"],
         serialNum: $ass["SerialNum"],
-        date: $ass["PurchaseDate"],
+        purchaseDate: $ass["PurchaseDate"],
         specs: $ass["Specs"],
-        desc: $ass["ShortDesc"],
+        description: $ass["ShortDesc"],
+        status: AssetStatus::from($ass["Status"]),
         url: $ass["URL"],
         remarks: $ass["Remarks"],
         price: (float)$ass["Price"],
       );
 
-      $asset->setStatus(AssetStatus::fromStr($ass["Status"]));
       $user = $this->getCurrAssignedUser($asset);
       if ($user !== null){
         $asset->assignTo($user);
@@ -154,35 +154,35 @@ class Database implements DatabaseInterface {
 
     $stmt = $this->_pdo->prepare($query);
     $stmt->execute([
-      ":pnum" => $asset->getPropNum(),
+      ":pnum" => $asset->propNum,
     ]);
   
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($res as $user) {
       $privilege = $user['Privilege'];
       $name = new Fullname($user['FName'], $user['MName'], $user['LName']);
+      $status = $user['ActiveStatus'] === 'Active';
 
-      $ret = match ($privilege) {
-        'Super Admin' => new SuperAdmin(
+      $ret = match (UserPrivilege::from($privilege)) {
+        UserPrivilege::SuperAdmin => new SuperAdmin(
           empID: $user['EmpID'],
           name: $name,
-          email: $user['EmpMail']
+          email: $user['EmpMail'],
+          isActive: $status,
         ),
-        'Admin' => new Admin(
+        UserPrivilege::Admin => new Admin(
           empID: $user['EmpID'],
           name: $name,
-          email: $user['EmpMail']
+          email: $user['EmpMail'],
+          isActive: $status,
         ),
-        default => new Faculty(
+        UserPrivilege::Faculty => new Faculty(
           empID: $user['EmpID'],
           name: $name,
-          email: $user['EmpMail']
+          email: $user['EmpMail'],
+          isActive: $status,
         ),
       };
-
-      if ($user['ActiveStatus'] == 'Inactive'){
-        $user->setActiveStatus(False);
-      }
 
       return $ret;
     }
@@ -215,7 +215,7 @@ class Database implements DatabaseInterface {
 
     $stmt = $this->_pdo->prepare($query);
     foreach ($isActive as $a) {$params[] = $a;}
-    foreach ($privileges as $p) {$params[] = $p->name;}
+    foreach ($privileges as $p) {$params[] = $p->value;}
     $params[] = "%$empID%";
     $params[] = "%$email%";
     $params[] = "%$fullname->first%";
@@ -229,17 +229,15 @@ class Database implements DatabaseInterface {
       $id = $emp["EmpID"];
       $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
       $email = $emp["EmpMail"];
-      switch ($emp["Privilege"]) {
-        case "SuperAdmin":
-          $emps[] = new SuperAdmin($id, $name, $email);
-          break;
-        case "Admin":
-          $emps[] = new Admin($id, $name, $email);
-          break;
-        default:
-          $emps[] = new Faculty($id, $name, $email);
-      }
-      end($emps)->setActiveStatus($emp["ActiveStatus"] == "Active");
+      $isActive = $emp["ActiveStatus"] == "Active";
+
+      $employee = match (UserPrivilege::from($emp["Privilege"])) {
+        UserPrivilege::SuperAdmin => new SuperAdmin($id, $name, $email, $isActive),
+        UserPrivilege::Admin => new Admin($id, $name, $email, $isActive),
+        UserPrivilege::Faculty => new Faculty($id, $name, $email, $isActive),
+      };
+
+      $emps[] = $employee;
     }
 
     return $emps;
@@ -254,7 +252,7 @@ class Database implements DatabaseInterface {
 
     $stmt = $this->_pdo->prepare($query);
     $stmt->execute([
-      ":empid" => $user->getEmpID(),
+      ":empid" => $user->empID,
     ]);
   
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -264,9 +262,10 @@ class Database implements DatabaseInterface {
         propNum: $asset["PropNum"],
         procNum: $asset["ProcNum"],
         serialNum: $asset["SerialNum"],
-        date: $asset["PurchaseDate"],
+        purchaseDate: $asset["PurchaseDate"],
         specs: $asset["Specs"],
-        desc: $asset["ShortDesc"],
+        description: $asset["ShortDesc"],
+        status: $asset["Status"],
         url: $asset["URL"],
         remarks: $asset["Remarks"],
         price: (float)$asset["Price"]
@@ -280,16 +279,16 @@ class Database implements DatabaseInterface {
     $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL) VALUES (?,?,?,?,?,?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
-      $asset->getPropNum(),
-      $asset->getSerialNum(), 
-      $asset->getProcNum(),
-      $asset->getPurchaseDate(),
-      $asset->getSpecs(),
-      $asset->getRemarks(),
-      $asset->getStatus()->name,
-      $asset->getDescription(),
-      $asset->getPrice(),
-      $asset->getUrl(),
+      $asset->propNum,
+      $asset->serialNum, 
+      $asset->procNum,
+      $asset->purchaseDate,
+      $asset->specs,
+      $asset->remarks,
+      $asset->status->value,
+      $asset->description,
+      $asset->price,
+      $asset->url,
     ]);      
   }
   
@@ -301,20 +300,20 @@ class Database implements DatabaseInterface {
       string $remarks,
     ): void {
 
-    if ($asset->getStatus() != AssetStatus::Available){
+    if ($asset->status !== AssetStatus::Available){
       return;
     }
 
-    $asset->setStatus(AssetStatus::Assigned);
+    $asset->status = AssetStatus::Assigned;
     $asset->assignTo($assignee);
 
     $query = "INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, Remarks) VALUES (?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
-      $asset->getPropNum(),
+      $asset->propNum,
       $assDate->format("Y-m-d H:i:s"),
-      $assigner->getEmpID(),
-      $assignee->getEmpID(),
+      $assigner->empID,
+      $assignee->empID,
       $remarks,
     ]);
     
@@ -326,10 +325,10 @@ class Database implements DatabaseInterface {
     DateTimeImmutable $retDate,
     string $remarks = "",  
   ): void {
-    if ($asset->getStatus() !== AssetStatus::Assigned){
+    if ($asset->status !== AssetStatus::Assigned){
       return;
     }
-    $asset->setStatus(AssetStatus::Available);
+    $asset->status = AssetStatus::Available;
     $asset->assignTo(null);
 
     $query = "UPDATE assignment SET 
@@ -343,7 +342,7 @@ class Database implements DatabaseInterface {
     $this->_pdo->prepare($query)->execute([
       ":rd" => $retDate->format('Y-m-d H:i:s'),
       ":r" => $remarks,
-      ":pn" => $asset->getPropNum(),
+      ":pn" => $asset->propNum,
     ]);
     
     $this->updateAsset($asset);
@@ -363,16 +362,16 @@ class Database implements DatabaseInterface {
       WHERE PropNum = :id;";
     
     $this->_pdo->prepare($query)->execute([
-      ":id" => $asset->getPropNum(),
-      ":snum" => $asset->getSerialNum(),
-      ":pnum" => $asset->getProcNum(),
-      ":pdate" => $asset->getPurchaseDate(),
-      ":s" => $asset->getSpecs(),
-      ":st" => $asset->getStatus()->name,
-      ":r" => $asset->getRemarks(),
-      ":d" => $asset->getDescription(),
-      ":p" => $asset->getPrice(),
-      ":u" => $asset->getUrl(),
+      ":id" => $asset->propNum,
+      ":snum" => $asset->serialNum,
+      ":pnum" => $asset->procNum,
+      ":pdate" => $asset->purchaseDate,
+      ":s" => $asset->specs,
+      ":st" => $asset->status->value,
+      ":r" => $asset->remarks,
+      ":d" => $asset->description,
+      ":p" => $asset->price,
+      ":u" => $asset->url,
     ]);      
   }
   
@@ -380,21 +379,21 @@ class Database implements DatabaseInterface {
     $query1 = "DELETE FROM assignment WHERE assignment.PropNum = ?;";
     $query2 = "DELETE FROM asset WHERE asset.PropNum = ?;"; 
 
-    $this->_pdo->prepare($query1)->execute([$asset->getPropNum()]);
-    $this->_pdo->prepare($query2)->execute([$asset->getPropNum()]);
+    $this->_pdo->prepare($query1)->execute([$asset->propNum]);
+    $this->_pdo->prepare($query2)->execute([$asset->propNum]);
   }
   
   public function addUser(User $user): void {
     $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
-      $user->getEmpID(),
-      $user->getEmail(),
-      $user->getName()->first,
-      $user->getName()->middle,
-      $user->getName()->last,
-      $user->getPrivilege()->name,
-      $user->isActive()? "Active" : "Inactive",
+      $user->empID,
+      $user->email,
+      $user->name->first,
+      $user->name->middle,
+      $user->name->last,
+      $user->getPrivilege()->value,
+      $user->isActive? "Active" : "Inactive",
     ]);  
   }
 
@@ -402,8 +401,8 @@ class Database implements DatabaseInterface {
     $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
     $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
 
-    $this->_pdo->prepare($query1)->execute([$user->getEmpID()]);
-    $this->_pdo->prepare($query2)->execute([$user->getEmpID()]);
+    $this->_pdo->prepare($query1)->execute([$user->empID]);
+    $this->_pdo->prepare($query2)->execute([$user->empID]);
   }
   
   public function updateUser(User $user): void {
@@ -417,13 +416,13 @@ class Database implements DatabaseInterface {
       WHERE employee.EmpID = :id;";
           
     $this->_pdo->prepare($query)->execute([
-      ":id" => $user->getEmpID(),
-      ":mail" => $user->getEmail(),
-      ":fn" => $user->getName()->first,
-      ":mn" => $user->getName()->middle,
-      ":ln" => $user->getName()->last,
+      ":id" => $user->empID,
+      ":mail" => $user->email,
+      ":fn" => $user->name->first,
+      ":mn" => $user->name->middle,
+      ":ln" => $user->name->last,
       ":priv" => $user->getPrivilege()->name,
-      ":astat" => $user->isActive()? "Active" : "Inactive",
+      ":astat" => $user->isActive? "Active" : "Inactive",
     ]);      
   }
 
@@ -435,7 +434,7 @@ class Database implements DatabaseInterface {
     $query = "INSERT INTO actlog (ActorID, Log, Metadata) VALUES (?,?,?)";
 
     $this->_pdo->prepare($query)->execute([
-      $user->getEmpID(),
+      $user->empID,
       $log,
       json_encode($metadata),
     ]);

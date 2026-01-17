@@ -43,7 +43,7 @@
       </label>
       <label>
         <input type="checkbox" name="status" value="InRepair">  
-        To Repair
+        In Repair
       </label>
     </div>
       

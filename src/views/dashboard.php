@@ -7,20 +7,20 @@
     
     <main class="dashboard">
         <h1 class="dashboard-title">
-            Hello, Super Admin!
+          Hello, Super Admin!
         </h1>
 
         <hr>
 
         <h2 class="dashboard-text">
-            Dashboard
+          Dashboard
         </h2>
 
         <section class="dashboard-cards">
-            <a href="./assets.php" class="card">
-                <h2>View Assets</h2>
-                <p>Preview all the system assets.</p>
-            </a>
+          <a href="./assets.php" class="card">
+            <h2>View Assets</h2>
+            <p>Preview all the system assets.</p>
+          </a>
 
       <a href="./activity-log.php" class="card">
         <h2>View System Activities</h2>

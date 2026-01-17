@@ -121,7 +121,7 @@
         type="radio" 
         id="unused" 
         name="asset-status" 
-        value="Unused" 
+        value="Available" 
         required 
       > 
     </label>
@@ -131,7 +131,7 @@
         type="radio" 
         id="used" 
         name="asset-status" 
-        value="Used"
+        value="Assigned"
       > 
     </label>
     <label>
@@ -149,7 +149,7 @@
         type="radio" 
         id="broken" 
         name="asset-status" 
-        value="Broken"
+        value="Condemned"
       > 
     </label>
   </label>
