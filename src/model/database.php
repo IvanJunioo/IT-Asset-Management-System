@@ -36,13 +36,13 @@ interface DatabaseInterface {
   public function deleteAsset(Asset $asset): void;
   public function assignAsset(
     Asset $asset, 
-    User $user, 
+    User $assigner,
+    User $assignee,
     DateTimeImmutable $assDate, 
     string $remarks
   ): void;
-  public function unassignAsset(
+  public function returnAsset(
     Asset $asset, 
-    DateTimeImmutable $assDate, 
     DateTimeImmutable $retDate,
     string $remarks, 
   ): void;
@@ -80,7 +80,7 @@ class Database implements DatabaseInterface {
     int $limit = 50,
   ): array { 
     $base_date ??= new DateTimeImmutable("0001-01-01");
-    $end_date ??= new DateTimeImmutable("9999-12-31");;
+    $end_date ??= new DateTimeImmutable("9999-12-31");
     $status ??= AssetStatus::cases();
     
     $st = implode(',',array_fill(0, count($status), '?'));
@@ -148,8 +148,8 @@ class Database implements DatabaseInterface {
 	public function getCurrAssignedUser(Asset $asset): ?User {
 		$query = "SELECT * FROM 
       assignment INNER JOIN employee ON 
-      assignment.EmpID = employee.EmpID
-      WHERE PropNum = :pnum AND RetDate is NULL
+      assignment.AssigneeID = employee.EmpID
+      WHERE PropNum = :pnum AND ReturnDateTime is NULL
     ";
 
     $stmt = $this->_pdo->prepare($query);
@@ -240,7 +240,6 @@ class Database implements DatabaseInterface {
           $emps[] = new Faculty($id, $name, $email);
       }
       end($emps)->setActiveStatus($emp["ActiveStatus"] == "Active");
-      end($emps)->setActlog($emp["ActLog"]);
     }
 
     return $emps;
@@ -250,7 +249,7 @@ class Database implements DatabaseInterface {
     $query = "SELECT * FROM 
       assignment INNER JOIN asset ON 
       assignment.PropNum = asset.PropNum
-      WHERE EmpID = :empid AND RetDate is NULL
+      WHERE EmpID = :empid AND ReturnDateTime is NULL
     ";
 
     $stmt = $this->_pdo->prepare($query);
@@ -278,7 +277,7 @@ class Database implements DatabaseInterface {
   }
     
   public function addAsset(Asset $asset): void {
-    $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL, ActLog) VALUES (?,?,?,?,?,?,?,?,?,?,?);"; 
+    $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL) VALUES (?,?,?,?,?,?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
       $asset->getPropNum(),
@@ -291,60 +290,60 @@ class Database implements DatabaseInterface {
       $asset->getDescription(),
       $asset->getPrice(),
       $asset->getUrl(),
-      $asset->getActlog()
     ]);      
   }
   
   public function assignAsset(
       Asset $asset, 
-      User $user,
+      User $assigner,
+      User $assignee,
       DateTimeImmutable $assDate,
       string $remarks,
     ): void {
 
-    if ($asset->getStatus() != AssetStatus::Unused){
+    if ($asset->getStatus() != AssetStatus::Available){
       return;
     }
 
-    $asset->setStatus(AssetStatus::Used);
-    $asset->assignTo($user);
+    $asset->setStatus(AssetStatus::Assigned);
+    $asset->assignTo($assignee);
 
-    $query = "INSERT INTO assignment (PropNum, AssignDate, EmpID, Remarks) VALUES (?,?,?,?);"; 
+    $query = "INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, Remarks) VALUES (?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
       $asset->getPropNum(),
-      $assDate->format("Y-m-d"),
-      $user->getEmpID(),
-      $remarks
+      $assDate->format("Y-m-d H:i:s"),
+      $assigner->getEmpID(),
+      $assignee->getEmpID(),
+      $remarks,
     ]);
     
     $this->updateAsset($asset);
   }
   
-  public function unassignAsset(
+  public function returnAsset(
     Asset $asset, 
-    DateTimeImmutable $assDate, 
     DateTimeImmutable $retDate,
     string $remarks = "",  
   ): void {
-    if ($asset->getStatus() != AssetStatus::Used){
+    if ($asset->getStatus() !== AssetStatus::Assigned){
       return;
     }
-    $asset->setStatus(AssetStatus::Unused);
+    $asset->setStatus(AssetStatus::Available);
     $asset->assignTo(null);
+
     $query = "UPDATE assignment SET 
-      RetDate = :rd,
+      ReturnDateTime = :rd,
       Remarks = :r 
       WHERE assignment.PropNum = :pn 
-      AND assignment.AssignDate = :ad 
+      AND assignment.ReturnDateTime = NULL 
     ;";
     
     
     $this->_pdo->prepare($query)->execute([
-      ":rd" => $retDate->format('Y-m-d'),
+      ":rd" => $retDate->format('Y-m-d H:i:s'),
       ":r" => $remarks,
       ":pn" => $asset->getPropNum(),
-      ":ad" => $assDate->format('Y-m-d'),
     ]);
     
     $this->updateAsset($asset);
@@ -360,8 +359,7 @@ class Database implements DatabaseInterface {
       Remarks = :r,
       ShortDesc = :d,   
       Price = :p, 
-      URL = :u,
-      ActLog = :al
+      URL = :u
       WHERE PropNum = :id;";
     
     $this->_pdo->prepare($query)->execute([
@@ -375,7 +373,6 @@ class Database implements DatabaseInterface {
       ":d" => $asset->getDescription(),
       ":p" => $asset->getPrice(),
       ":u" => $asset->getUrl(),
-      ":al" => $asset->getActlog(),
     ]);      
   }
   
@@ -388,7 +385,7 @@ class Database implements DatabaseInterface {
   }
   
   public function addUser(User $user): void {
-    $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus, ActLog) VALUES (?,?,?,?,?,?,?,?);"; 
+    $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
     
     $this->_pdo->prepare($query)->execute([
       $user->getEmpID(),
@@ -398,7 +395,6 @@ class Database implements DatabaseInterface {
       $user->getName()->last,
       $user->getPrivilege()->name,
       $user->isActive()? "Active" : "Inactive",
-      $user->getActlog()
     ]);  
   }
 
@@ -417,8 +413,7 @@ class Database implements DatabaseInterface {
       MName = :mn,
       LName = :ln,
       Privilege = :priv,
-      ActiveStatus = :astat,
-      ActLog = :al   
+      ActiveStatus = :astat
       WHERE employee.EmpID = :id;";
           
     $this->_pdo->prepare($query)->execute([
@@ -429,7 +424,6 @@ class Database implements DatabaseInterface {
       ":ln" => $user->getName()->last,
       ":priv" => $user->getPrivilege()->name,
       ":astat" => $user->isActive()? "Active" : "Inactive",
-      ":al" => $user->getActlog(),
     ]);      
   }
 
@@ -438,7 +432,7 @@ class Database implements DatabaseInterface {
     string $log,
     array $metadata,
   ) : void {
-    $query = "INSERT INTO log (EmpID, Log, Metadata) VALUES (?,?,?)";
+    $query = "INSERT INTO actlog (ActorID, Log, Metadata) VALUES (?,?,?)";
 
     $this->_pdo->prepare($query)->execute([
       $user->getEmpID(),
@@ -448,7 +442,7 @@ class Database implements DatabaseInterface {
   }
 
   public function getLogs(int $limit = 50) : array {
-    $query = "SELECT * FROM log LIMIT $limit";
+    $query = "SELECT * FROM actlog LIMIT $limit";
     $stmt = $this->_pdo->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

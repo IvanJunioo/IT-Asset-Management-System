@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const tr = document.createElement("tr");
       
       // Store data to row
-      tr.dataset.time = log.Time;
-      tr.dataset.empID = log.EmpID;
+      tr.dataset.time = log.Timestamp;
+      tr.dataset.empID = log.ActorID;
       tr.dataset.desc = log.Log;
       
       for (const col of [
-        log.Time,
-        log.EmpID,
+        log.Timestamp,
+        log.ActorID,
         log.Log,
       ]) {
         const td = document.createElement("td");

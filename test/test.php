@@ -105,12 +105,12 @@ $db->assignAsset($asset1, $user1, new DateTimeImmutable("2019-01-01"), "nice ass
 // }
 $a1 = $db->getAssignedAssets($user1);
 
-$db->unassignAsset(
-  asset: $asset1, 
-  assDate: new DateTimeImmutable("2019-01-01"), 
-  retDate: new DateTimeImmutable("2019-01-20"), 
-  remarks:"returned by Juancho"
-);
+// $db->unassignAsset(
+//   asset: $asset1, 
+//   assDate: new DateTimeImmutable("2019-01-01"), 
+//   retDate: new DateTimeImmutable("2019-01-20"), 
+//   remarks:"returned by Juancho"
+// );
 
 $db->assignAsset($asset1, $user2, new DateTimeImmutable('2019-01-20'), "");
 $a2 = $db->getAssignedAssets($user2);

@@ -4,9 +4,9 @@ declare (strict_types= 1);
 include_once 'user.php';
 
 enum AssetStatus {
-  case Unused;
-  case Used;
-  case Broken;
+  case Available;
+  case Assigned;
+  case Condemned;
   case InRepair;
 
   public static function fromStr(string $status): AssetStatus {
@@ -77,7 +77,7 @@ class Asset implements AssetAdminInterface, JsonSerializable{
       $this -> _remarks = $remarks;
       $this -> _url = $url;
       $this -> _price = $price;
-      $this -> _status = AssetStatus::Unused;
+      $this -> _status = AssetStatus::Available;
 			// $this -> _actlog = $actlog;
   }
   public function getPropNum(): string { return $this -> _propNum; }

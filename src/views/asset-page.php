@@ -30,15 +30,15 @@
 
     <div id="body-filter">
       <label>
-        <input type="checkbox" name="status" value="Unused"> 
+        <input type="checkbox" name="status" value="Available"> 
         Available
       </label>
       <label>
-        <input type="checkbox" name="status" value="Used"> 
+        <input type="checkbox" name="status" value="Assigned"> 
         Assigned
       </label>
       <label>
-        <input type="checkbox" name="status" value="Broken"> 
+        <input type="checkbox" name="status" value="Condemned"> 
         Condemned
       </label>
       <label>
