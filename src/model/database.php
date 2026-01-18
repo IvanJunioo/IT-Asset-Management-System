@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types= 1);
+declare (strict_types=1);
 
 include_once 'user.php';
 include_once 'asset.php';
@@ -58,11 +58,9 @@ interface DatabaseInterface {
 }
 
 class Database implements DatabaseInterface {
-  private PDO $_pdo;
-  
-  public function __construct(PDO $pdo){
-    $this->_pdo = $pdo;
-  }
+  public function __construct(
+    public readonly PDO $pdo,
+  ) {}
   
   public function searchAsset(
     float $price_min = 0,
@@ -99,7 +97,7 @@ class Database implements DatabaseInterface {
       LIMIT $limit
     ;";
     
-    $stmt = $this->_pdo->prepare($query);
+    $stmt = $this->pdo->prepare($query);
     
     foreach ($status as $s ) {
       $params[] = $s->name;
@@ -152,7 +150,7 @@ class Database implements DatabaseInterface {
       WHERE PropNum = :pnum AND ReturnDateTime is NULL
     ";
 
-    $stmt = $this->_pdo->prepare($query);
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute([
       ":pnum" => $asset->propNum,
     ]);
@@ -213,7 +211,7 @@ class Database implements DatabaseInterface {
       LIMIT $limit
     ";
 
-    $stmt = $this->_pdo->prepare($query);
+    $stmt = $this->pdo->prepare($query);
     foreach ($isActive as $a) {$params[] = $a;}
     foreach ($privileges as $p) {$params[] = $p->value;}
     $params[] = "%$empID%";
@@ -250,7 +248,7 @@ class Database implements DatabaseInterface {
       WHERE EmpID = :empid AND ReturnDateTime is NULL
     ";
 
-    $stmt = $this->_pdo->prepare($query);
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute([
       ":empid" => $user->empID,
     ]);
@@ -278,7 +276,7 @@ class Database implements DatabaseInterface {
   public function addAsset(Asset $asset): void {
     $query = "INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL) VALUES (?,?,?,?,?,?,?,?,?,?);"; 
     
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       $asset->propNum,
       $asset->serialNum, 
       $asset->procNum,
@@ -309,7 +307,7 @@ class Database implements DatabaseInterface {
 
     $query = "INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, Remarks) VALUES (?,?,?,?,?);"; 
     
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       $asset->propNum,
       $assDate->format("Y-m-d H:i:s"),
       $assigner->empID,
@@ -339,7 +337,7 @@ class Database implements DatabaseInterface {
     ;";
     
     
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       ":rd" => $retDate->format('Y-m-d H:i:s'),
       ":r" => $remarks,
       ":pn" => $asset->propNum,
@@ -361,7 +359,7 @@ class Database implements DatabaseInterface {
       URL = :u
       WHERE PropNum = :id;";
     
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       ":id" => $asset->propNum,
       ":snum" => $asset->serialNum,
       ":pnum" => $asset->procNum,
@@ -379,14 +377,14 @@ class Database implements DatabaseInterface {
     $query1 = "DELETE FROM assignment WHERE assignment.PropNum = ?;";
     $query2 = "DELETE FROM asset WHERE asset.PropNum = ?;"; 
 
-    $this->_pdo->prepare($query1)->execute([$asset->propNum]);
-    $this->_pdo->prepare($query2)->execute([$asset->propNum]);
+    $this->pdo->prepare($query1)->execute([$asset->propNum]);
+    $this->pdo->prepare($query2)->execute([$asset->propNum]);
   }
   
   public function addUser(User $user): void {
     $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
     
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       $user->empID,
       $user->email,
       $user->name->first,
@@ -401,8 +399,8 @@ class Database implements DatabaseInterface {
     $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
     $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
 
-    $this->_pdo->prepare($query1)->execute([$user->empID]);
-    $this->_pdo->prepare($query2)->execute([$user->empID]);
+    $this->pdo->prepare($query1)->execute([$user->empID]);
+    $this->pdo->prepare($query2)->execute([$user->empID]);
   }
   
   public function updateUser(User $user): void {
@@ -415,7 +413,7 @@ class Database implements DatabaseInterface {
       ActiveStatus = :astat
       WHERE employee.EmpID = :id;";
           
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       ":id" => $user->empID,
       ":mail" => $user->email,
       ":fn" => $user->name->first,
@@ -433,7 +431,7 @@ class Database implements DatabaseInterface {
   ) : void {
     $query = "INSERT INTO actlog (ActorID, Log, Metadata) VALUES (?,?,?)";
 
-    $this->_pdo->prepare($query)->execute([
+    $this->pdo->prepare($query)->execute([
       $user->empID,
       $log,
       json_encode($metadata),
@@ -442,7 +440,7 @@ class Database implements DatabaseInterface {
 
   public function getLogs(int $limit = 50) : array {
     $query = "SELECT * FROM actlog LIMIT $limit";
-    $stmt = $this->_pdo->prepare($query);
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;

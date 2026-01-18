@@ -1,7 +1,7 @@
 <?php
 
-require_once '../includes/request-guard.php';
-require_once '../includes/dbh-inc.php';
+require_once '../utilities/request-guard.php';
+require_once '../../config/config.php';
 require_once '../model/database.php';
 
 header('Content-Type: application/json');

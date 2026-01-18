@@ -10,7 +10,7 @@ enum AssetStatus: string {
   case InRepair = "InRepair";
 }
 
-class Asset implements JsonSerializable{
+final class Asset implements JsonSerializable{
   public function __construct(
     public readonly string $propNum,
     public readonly string $procNum,

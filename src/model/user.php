@@ -9,7 +9,7 @@ enum UserPrivilege: string {
   case SuperAdmin = "SuperAdmin";
 }
 
-class Fullname {
+final class Fullname {
   public function __construct(
     public readonly string $first = "", 
     public readonly string $middle = "", 
@@ -41,14 +41,14 @@ abstract class User implements JsonSerializable{
   }
 }
 
-class SuperAdmin extends User {
+final class SuperAdmin extends User {
   public function getPrivilege(): UserPrivilege {return UserPrivilege::SuperAdmin;}
 }
 
-class Admin extends User {
+final class Admin extends User {
   public function getPrivilege(): UserPrivilege {return UserPrivilege::Admin;}
 }
 
-class Faculty extends User {
+final class Faculty extends User {
   public function getPrivilege(): UserPrivilege {return UserPrivilege::Faculty;}
 }
