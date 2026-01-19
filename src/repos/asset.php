@@ -153,9 +153,6 @@ final class AssetRepo implements AssetRepoInterface {
   }
   
   public function delete(Asset $asset): void {
-    // $query1 = "DELETE FROM assignment WHERE assignment.PropNum = ?;";
-    // $this->pdo->prepare($query1)->execute([$asset->propNum]);
-
     if ($asset->status != AssetStatus::ToCondemn) {
       return;
     }

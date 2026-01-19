@@ -400,11 +400,22 @@ class Database implements DatabaseInterface {
   }
 
   public function deleteUser(User $user): void {
-    $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
-    $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
+    // $assets = $this->getAssignedAssets($user);
+    // foreach ($assets as $asset){
+    //   $now = new DateTimeImmutable("now");
+    //   $this->returnAsset($asset, $now);
+    // }
+    $query = "UPDATE employee SET ActiveStatus = :astat WHERE EmpID = :id;";
+    $this->pdo->prepare($query)->execute([
+      ":id" => $user->empID,
+      ":astat" => "Inactive"
+    ]);
+    
+    // $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
+    // $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
 
-    $this->pdo->prepare($query1)->execute([$user->empID]);
-    $this->pdo->prepare($query2)->execute([$user->empID]);
+    // $this->pdo->prepare($query1)->execute([$user->empID]);
+    // $this->pdo->prepare($query2)->execute([$user->empID]);
   }
   
   public function updateUser(User $user): void {

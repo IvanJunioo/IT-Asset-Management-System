@@ -60,6 +60,10 @@ function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";
+    if (tr.dataset.activeStatus == "Inactive"){
+      actionElem.innerHTML = ``;
+      continue;
+    }
     actionElem.innerHTML = `
       <button class="action-btn">
         <span class="material-icons">more_horiz</span>
@@ -67,7 +71,7 @@ function addActionsButton() {
       
       <div class="action-menu">
         <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="delete">Delete</a>
+        <a class="menu-item" data-action="deactivate">Deactivate</a>
       </div>
     `;
 
@@ -122,8 +126,8 @@ document.addEventListener("click", (e) => {
       case "modify":
         editUser(empid);
         break;
-      case "delete": 
-        if (confirm(`Delete user ${empid}?`)) deleteUser(empid);
+      case "deactivate": 
+        if (confirm(`Deactivate user ${empid}?`)) deleteUser(empid);
         break;
     }
     return;

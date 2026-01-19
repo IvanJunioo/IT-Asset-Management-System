@@ -105,10 +105,10 @@
         id="act" 
         name="active-status" 
         value="Active" 
-        required 
+        checked
       > 
     </label>
-    <label>
+    <!-- <label>
       Inactive 
       <input 
         type="radio" 
@@ -116,7 +116,7 @@
         name="active-status" 
         value="Inactive"
       > 
-    </label>
+    </label> -->
   </label>
 
   <button id="reset-button" type="reset">

@@ -2,9 +2,10 @@
 
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../model/database.php';
+require_once '../model/asset.php';
+require_once '../repos/asset.php';
 
-$db = new Database($pdo);
+$repo = new AssetRepo($pdo);
 
 $action = $_POST['action'];
 
@@ -25,7 +26,7 @@ if ($action == 'submit') {
       status: AssetStatus::from($_POST['asset-status']),
     );
   
-    $db->addAsset($asset);
+    $repo->add($asset);
   }
 }
 

@@ -2,15 +2,15 @@
 
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../model/database.php';
+require_once '../repos/asset.php';
 
 $search = $_POST['search'] ?? "";
 
-$db = new Database($pdo);
+$repo = new AssetRepo($pdo);
 
-$assets = $db->searchAsset(propNum: $search);
+$assets = $repo->search(propNum: $search);
 if (!empty($assets)){
-	$db->deleteAsset($assets[0]);
+	$repo->delete($assets[0]);
 }
 
 exit;
