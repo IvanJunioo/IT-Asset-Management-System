@@ -49,7 +49,7 @@ CREATE TABLE `asset` (
   `PurchaseDate` date NOT NULL,
   `Specs` varchar(420) NOT NULL,
   `Remarks` tinytext NOT NULL,
-  `Status` enum('Available','Assigned','Condemned','InRepair') NOT NULL,
+  `Status` enum('Unassigned','Assigned','ToCondemn','Condemned') NOT NULL,
   `ShortDesc` text NOT NULL,
   `Price` decimal(12,2) NOT NULL,
   `URL` varchar(500) NOT NULL

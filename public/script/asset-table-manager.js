@@ -77,11 +77,13 @@ function addActionsButton() {
   }
 
   for (const tr of assetTableBody.querySelectorAll("tr")) {
-    if (tr.dataset.status == "Condemned"){
-      continue;
-    }
     const actionElem = document.createElement("td");
     actionElem.className = "actions";
+    if (tr.dataset.status == "Condemned"){
+      actionElem.innerHTML = ``;
+      continue;
+    }
+    
     let menuHTML = `
       <button class="action-btn">
         <span class="material-icons">more_horiz</span>
