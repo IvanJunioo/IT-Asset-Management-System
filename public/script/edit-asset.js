@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
       'price': asset['Price'],
       'specs': asset['Specs'],
       'desc': asset['ShortDesc'],
-      'remarks': asset['Remarks'],
       'img_url': asset['Url'],
     };
 
@@ -31,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (child.id in data) {
         child.value = data[child.id];
       } else if (child.value === asset['Status']) {
-        child.checked = true;
+        child.checked = true; 
       }
     }
 

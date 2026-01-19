@@ -78,11 +78,10 @@ function addActionsButton() {
 
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
-    actionElem.className = "actions";
-    if (tr.dataset.status == "Condemned"){
-      actionElem.innerHTML = ``;
+    if (tr.dataset.status === "Condemned"){
       continue;
     }
+    actionElem.className = "actions";
     
     let menuHTML = `
       <button class="action-btn">
@@ -93,7 +92,7 @@ function addActionsButton() {
         <a class="menu-item" data-action="view">View</a>
         <a class="menu-item" data-action="modify">Modify</a>
     `;
-    if (tr.dataset.status == "ToCondemn"){
+    if (tr.dataset.status === "ToCondemn"){
       menuHTML += `<a class="menu-item" data-action="condemn">Condemn</a>`
     } else {
       menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
@@ -101,7 +100,6 @@ function addActionsButton() {
     }
     
     actionElem.innerHTML = menuHTML;
-
     tr.appendChild(actionElem);
   }
 }
@@ -226,6 +224,9 @@ assetTableBody.addEventListener("assetsLoaded", () => {
         
         // Add checkbox per row
         for (const tr of assetTableBody.querySelectorAll("tr")) {
+          if (tr.dataset.status === "Condemned"){
+            continue;
+          }
           tr.lastElementChild.innerHTML = `
           <button class="selectable-row">
             <span class="material-icons"> check_box_outline_blank </span>
@@ -257,6 +258,9 @@ assetTableBody.addEventListener("assetsLoaded", () => {
 
         // Remove checkbox per row
         for (const tr of assetTableBody.querySelectorAll("tr")) {
+          if (tr.dataset.status === "Condemned") {
+            continue;
+          }
           tr.querySelector(".selectable-row")?.closest("td").remove();
         }
     

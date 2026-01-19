@@ -132,7 +132,7 @@ final class AssetRepo implements AssetRepoInterface {
       PurchaseDate = :pdate,
       Specs = :s,
       Status = :st,
-      Remarks = :r,
+      Remarks = CONCAT(Remarks, :r),
       ShortDesc = :d,   
       Price = :p, 
       URL = :u
@@ -145,8 +145,8 @@ final class AssetRepo implements AssetRepoInterface {
       ":pdate" => $asset->purchaseDate,
       ":s" => $asset->specs,
       ":st" => $asset->status->value,
-      ":r" => $asset->remarks,
-      ":d" => $asset->description,
+      ":r" => " $asset->remarks", 
+      ":d" => $asset->description, // pano na yung assign | bakit? yung sa assignee id at assigner id, ahh need pa kasi store yung current session user?
       ":p" => $asset->price,
       ":u" => $asset->url,
     ]);      

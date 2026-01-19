@@ -59,11 +59,10 @@ function addActionsButton() {
 
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
-    actionElem.className = "actions";
-    if (tr.dataset.activeStatus == "Inactive"){
-      actionElem.innerHTML = ``;
+    if (tr.dataset.activeStatus === "Inactive"){
       continue;
     }
+    actionElem.className = "actions";
     actionElem.innerHTML = `
       <button class="action-btn">
         <span class="material-icons">more_horiz</span>
@@ -171,6 +170,9 @@ userTableBody.addEventListener("usersLoaded", () => {
 
         // Add checkbox per row
         for (const tr of userTableBody.querySelectorAll("tr")) {
+          if (tr.dataset.activeStatus === "Inactive"){
+            continue;
+          }
           tr.lastElementChild.innerHTML = `
             <button class="selectable-row">
               <span class="material-icons"> check_box_outline_blank </span>
@@ -190,6 +192,9 @@ userTableBody.addEventListener("usersLoaded", () => {
 
         // Remove checkbox per row
         for (const tr of userTableBody.querySelectorAll("tr")) {
+          if (tr.dataset.activeStatus === "Inactive"){
+            continue;
+          }
           tr.lastElementChild.remove();
         }
 
