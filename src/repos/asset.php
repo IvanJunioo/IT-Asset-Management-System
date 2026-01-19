@@ -113,9 +113,9 @@ final class AssetRepo implements AssetRepoInterface {
     
     $stmt->execute($params);
     
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchColumn();
 
-    return $result[0]; // ?
+    return $result;
   }
     
   public function add(Asset $asset): void {
