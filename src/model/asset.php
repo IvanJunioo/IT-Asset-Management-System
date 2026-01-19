@@ -10,7 +10,7 @@ enum AssetStatus: string {
   case ToCondemn = "ToCondemn";
 }
 
-final class Asset implements JsonSerializable{
+final class Asset implements JsonSerializable {
   public function __construct(
     public readonly string $propNum,
     public readonly string $procNum,
@@ -48,11 +48,11 @@ final class Asset implements JsonSerializable{
 
 final class AssetSearchCriteria {
   public function __construct(
-    public readonly float $price_min,
-    public readonly float $price_max,
-    public readonly DateTimeImmutable $base_date,
-    public readonly DateTimeImmutable $end_date,
-    public readonly array $status,
+    public readonly float $price_min = 0,
+    public readonly float $price_max = 10**12 - 0.01,
+    public readonly ?DateTimeImmutable $base_date = null,
+    public readonly ?DateTimeImmutable $end_date,
+    public readonly array $status,  // array of AssetStatuses
     public readonly string $propNum,
     public readonly string $procNum,
     public readonly string $serialNum,

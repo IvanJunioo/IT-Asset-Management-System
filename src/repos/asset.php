@@ -5,21 +5,7 @@ declare (strict_types=1);
 include_once '../model/asset.php';
 
 interface AssetRepoInterface {
-  public function search(
-    # Returns array of Asset objects if successful
-    float $price_min,
-    float $price_max,
-    DateTimeImmutable $base_date,
-    DateTimeImmutable $end_date,
-    array $status,
-    string $propNum,
-    string $procNum,
-    string $serialNum,
-    string $specs,
-    string $description,
-    string $remarks,
-    int $limit,
-  ): array;
+  public function search(AssetSearchCriteria $criteria): array;
   // public function countAll();
 
   public function add(Asset $asset): void;
