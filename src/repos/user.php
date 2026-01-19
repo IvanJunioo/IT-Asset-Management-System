@@ -87,9 +87,9 @@ final class UserRepo implements UserRepoInterface {
     $params[] = "%" . $criteria->fullname->last . "%";
 
     $stmt->execute($params);
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $res = $stmt->fetchColumn();
 
-    return $res[0];
+    return $res;
   }
 
   public function add(User $user): void {
