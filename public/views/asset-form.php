@@ -135,7 +135,7 @@
       > 
     </label>
     <label>
-      Condemn
+      ToCondemn
       <input 
         type="radio" 
         id="inrepair" 

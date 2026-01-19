@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterBox = document.getElementById("filter-box");
   
   function fetchAssets() {    
+    console.log("fetchAssets called");
     const searchFilters = searchInput.value;
     const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
     
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
+      console.log(data);
       showAssets(data);
       assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
     })
