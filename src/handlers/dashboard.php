@@ -12,10 +12,10 @@ try {
   $userRepo = new UserRepo($pdo);
   
   echo json_encode([
-    "assets-total" => $assetRepo->count(),
-    "assets-avail" => $assetRepo->count(new AssetSearchCriteria(status: [AssetStatus::Available])),
-    "users-total" => $userRepo->count(),
-    "users-active" => $userRepo->count(new UserSearchCriteria(isActive: ["Active"])),
+    "assetsTotal" => $assetRepo->count(),
+    "assetsAvail" => $assetRepo->count(new AssetSearchCriteria(status: [AssetStatus::Unassigned])),
+    "usersTotal" => $userRepo->count(),
+    "usersActive" => $userRepo->count(new UserSearchCriteria(isActive: ["Active"])),
   ]);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);
