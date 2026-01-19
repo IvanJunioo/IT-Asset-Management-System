@@ -12,6 +12,10 @@ function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";    
+    if (tr.dataset.activeStatus == "Inactive") {
+      actionElem.innerHTML = ``;
+      continue;
+    }
     actionElem.innerHTML = `
       <button class="select-btn">
         select

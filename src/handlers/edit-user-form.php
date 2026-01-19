@@ -2,10 +2,11 @@
 
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../model/database.php';
+require_once '../model/user.php';
+require_once '../repos/user.php';
 
 if ($_POST['action'] == 'submit') {
-  $db = new Database($pdo);
+  $repo = new UserRepo($pdo);
   
   $name = new Fullname(
     $_POST['first-name'],
@@ -35,7 +36,7 @@ if ($_POST['action'] == 'submit') {
     ),
   };
   
-  $db->updateUser($user);
+  $repo->update($user);
 }
 
 header('Location: ../../public/views/user-manager.php');

@@ -2,15 +2,15 @@
 
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../model/database.php';
+require_once '../repos/user.php';
 
 $search = $_POST['search'] ?? "";
 
-$db = new Database($pdo);
+$repo = new UserRepo($pdo);
 
-$users = $db->searchUser(empID: $search);
+$users = $repo->search(empID: $search);
 if (!empty($users)){
-	$db->deleteUser($users[0]);
+	$repo->delete($users[0]);
 }
 
 exit;

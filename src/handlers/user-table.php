@@ -2,7 +2,7 @@
 
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../model/database.php';
+require_once '../repos/user.php';
 
 header('Content-Type: application/json');
 
@@ -12,13 +12,13 @@ $privilege = $_POST['priv'] ?? "";
 try {
   $privilege = $privilege !== ""? array_map("UserPrivilege::from", explode(',', $privilege)) : null;
 
-  $db = new Database($pdo);
+  $repo = new UserRepo($pdo);
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $db->searchUser(empID: $search, privileges: $privilege),
-    $db->searchUser(fullname: new Fullname(first: $search), privileges: $privilege),
-    $db->searchUser(fullname: new Fullname(middle: $search), privileges: $privilege),
-    $db->searchUser(fullname: new Fullname(last: $search), privileges: $privilege),
-    $db->searchUser(email: $search, privileges: $privilege),
+    $repo->search(empID: $search, privileges: $privilege),
+    $repo->search(fullname: new Fullname(first: $search), privileges: $privilege),
+    $repo->search(fullname: new Fullname(middle: $search), privileges: $privilege),
+    $repo->search(fullname: new Fullname(last: $search), privileges: $privilege),
+    $repo->search(email: $search, privileges: $privilege),
   )))));
   
   echo json_encode($users);

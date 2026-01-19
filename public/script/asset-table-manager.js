@@ -95,9 +95,11 @@ function addActionsButton() {
     `;
     if (tr.dataset.status == "ToCondemn"){
       menuHTML += `<a class="menu-item" data-action="condemn">Condemn</a>`
-    }
-    menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
+    } else {
+      menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
       </div>`
+    }
+    
     actionElem.innerHTML = menuHTML;
 
     tr.appendChild(actionElem);

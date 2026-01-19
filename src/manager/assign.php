@@ -34,7 +34,7 @@ final class AssignmentManager implements AssignmentManagerInterface {
       string $remarks,
     ): void {
 
-    if ($asset->status !== AssetStatus::Available){
+    if ($asset->status !== AssetStatus::Unassigned){
       return;
     }
 
@@ -53,7 +53,7 @@ final class AssignmentManager implements AssignmentManagerInterface {
     if ($asset->status !== AssetStatus::Assigned){
       return;
     }
-    $asset->status = AssetStatus::Available;
+    $asset->status = AssetStatus::Unassigned;
     $asset->assignTo(null);
 
     $this->assignRepo->return($asset, $retDate, $remarks);    

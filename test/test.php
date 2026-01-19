@@ -1,7 +1,6 @@
 <?php
 
 require_once "../src/model/asset.php";
-require_once "../src/model/database.php";
 require_once "../src/model/user.php";
 require_once "../src/utilities/dbh-inc.php";
 
