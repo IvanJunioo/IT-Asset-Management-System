@@ -125,7 +125,7 @@
         required 
       > 
     </label>
-    <label>
+    <!-- <label>
       Assigned
       <input 
         type="radio" 
@@ -133,7 +133,7 @@
         name="asset-status" 
         value="Assigned"
       > 
-    </label>
+    </label> -->
     <label>
       ToCondemn
       <input 
@@ -143,7 +143,7 @@
         value="ToCondemn"
       > 
     </label>
-    <label>
+    <!-- <label>
       Condemned
       <input 
         type="radio" 
@@ -151,7 +151,7 @@
         name="asset-status" 
         value="Condemned"
       > 
-    </label>
+    </label> -->
   </label>
   
   <button id="reset-button" type="reset">

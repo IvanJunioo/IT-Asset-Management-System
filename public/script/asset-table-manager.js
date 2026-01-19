@@ -77,9 +77,12 @@ function addActionsButton() {
   }
 
   for (const tr of assetTableBody.querySelectorAll("tr")) {
+    if (tr.dataset.status == "Condemned"){
+      continue;
+    }
     const actionElem = document.createElement("td");
     actionElem.className = "actions";
-    actionElem.innerHTML = `
+    let menuHTML = `
       <button class="action-btn">
         <span class="material-icons">more_horiz</span>
       </button>
@@ -87,11 +90,14 @@ function addActionsButton() {
       <div class="action-menu">
         <a class="menu-item" data-action="view">View</a>
         <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="condemn">Condemn</a>
-        <a class="menu-item" data-action="assign">Assign</a>
-      </div>
     `;
-    
+    if (tr.dataset.status == "ToCondemn"){
+      menuHTML += `<a class="menu-item" data-action="condemn">Condemn</a>`
+    }
+    menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
+      </div>`
+    actionElem.innerHTML = menuHTML;
+
     tr.appendChild(actionElem);
   }
 }
