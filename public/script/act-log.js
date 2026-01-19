@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tbody = document.querySelector("tbody");
+  const table = document.getElementById("actlog-table");
+  const tbody = table.querySelector("tbody");
 
   fetchLogs();
   

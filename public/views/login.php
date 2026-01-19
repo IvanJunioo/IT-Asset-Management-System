@@ -1,3 +1,19 @@
+<!-- TODO: make it exclusive to up mail -->
+<?php
+require __DIR__ . "/../../vendor/autoload.php";
+
+$client = new Google\Client;
+
+$client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
+$client->setClientSecret("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");
+$client->setRedirectUri("http://localhost:3000/public/views/dashboard.php");
+
+$client->addScope("email");
+$client->addScope("profile");
+
+$url = $client->createAuthUrl();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php include '../partials/head.php' ?>
@@ -24,7 +40,7 @@
 
         <div class="bottom-login">
             <h2 class="sign-in">Log in Via UP Mail</h2>
-            <a href="<?= BASE_URL ?>public/views/dashboard.php" id="login-upmail">
+            <a href="<?=  $url ?>" id="login-upmail">
                 <img src="https://www.google.com/favicon.ico" id="google-icon" width="32" height="32">
                     Login Here
             </a>

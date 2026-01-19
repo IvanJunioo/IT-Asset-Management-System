@@ -6,20 +6,13 @@
   <?php include '../partials/header.php'?>
   
   <main class="activity-log">
-    <table class="activity-log-table">
-      <thead>
-        <tr>
-          <th> Timestamp </th>
-          <th> Employee ID </th>
-          <th> Description </th>
-        </tr>
-      </thead>  
-      <tbody></tbody>
-    </table>
+    <?php include '../views/act-log.php'?>
   </main>
 
   <?php include '../partials/footer.php'?>
 
-  <script src="../script/act-log.js" defer></script>
+  <script>
+    document.getElementById("actlog-table").class = "activity-log-table";
+  </script>
 </body>
 </html>

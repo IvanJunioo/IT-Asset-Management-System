@@ -45,3 +45,20 @@ final class Asset implements JsonSerializable{
     ];
   }
 }
+
+final class AssetSearchCriteria {
+  public function __construct(
+    float $price_min,
+    float $price_max,
+    DateTimeImmutable $base_date,
+    DateTimeImmutable $end_date,
+    array $status,
+    string $propNum,
+    string $procNum,
+    string $serialNum,
+    string $specs,
+    string $description,
+    string $remarks,
+    int $limit,
+  ) {}
+}

@@ -1,3 +1,37 @@
+<?php
+require __DIR__ . "/../../vendor/autoload.php";
+
+$client = new Google\Client;
+
+$client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
+$client->setClientSecret("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");
+$client->setRedirectUri("http://localhost:3000/public/views/dashboard.php");
+
+if (!isset($_GET['code'])) {
+  exit('Login failed');
+}
+
+$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+$client->setAccessToken($token['access_token']);
+
+$oauth = new Google\Service\Oauth2($client);
+
+$userinfo = $oauth->userinfo->get();
+
+$email = $userinfo->email;
+
+if (substr($email, -10) !== "@up.edu.ph") {
+    exit("Only UP Mail accounts are allowed.");
+}
+
+var_dump(
+  $userinfo->email,
+  $userinfo->familyName,
+  $userinfo->givenName,
+  $userinfo->name
+)
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <?php include '../partials/head.php'?>
@@ -41,64 +75,10 @@
         <div class="dashboard-bottom">
             <div class="recent-activity">
                 <h2>Recent Activity</h2>
-                <table class="recent-system-logs">
-                    <thead>
-                        <tr>
-                            <th> Date </th>
-                            <th> Context </th>
-                            <th> Procurement Number </th>
-                            <th> Username </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Date"> 2025-10-28 </td> 
-                            <td data-label="Context"> Asset </td> 
-                            <td data-label="Procurement Number"> 0001 </td> 
-                            <td data-label="Username"> - </td> 
-                        </tr> 
-
-                        <tr> 
-                            <td data-label="Date"> 2025-10-29 </td> 
-                            <td data-label="Context"> System Users </td> 
-                            <td data-label="Procurement Number"> - </td> 
-                            <td data-label="Username"> abc123@up.edu.ph </td> 
-                        </tr>
-
-                        <tr> 
-                            <td data-label="Date"> 2025-10-30 </td> 
-                            <td data-label="Context"> System Users </td> 
-                            <td data-label="Procurement Number"> - </td> 
-                            <td data-label="Username"> schematicDiagram@up.edu.ph </td> 
-                        </tr>
-
-                        <tr>
-                            <td data-label="Date"> 2025-10-28 </td> 
-                            <td data-label="Context"> Asset </td> 
-                            <td data-label="Procurement Number"> 0001 </td> 
-                            <td data-label="Username"> - </td> 
-                        </tr> 
-
-                        <tr> 
-                            <td data-label="Date"> 2025-10-29 </td> 
-                            <td data-label="Context"> System Users </td> 
-                            <td data-label="Procurement Number"> - </td> 
-                            <td data-label="Username"> abc123@up.edu.ph </td> 
-                        </tr>
-
-                        <tr> 
-                            <td data-label="Date"> 2025-10-30 </td> 
-                            <td data-label="Context"> System Users </td> 
-                            <td data-label="Procurement Number"> - </td> 
-                            <td data-label="Username"> schematicDiagram@up.edu.ph </td> 
-                        </tr>
-
-                        
-                    </tbody>
-                </table>
+                <?php include '../views/act-log.php'?>
             </div>
 
-            <div class="asset-distribution">
+            <div id="asset-distribution">
 
                 <a href="./assets.php" class="distr-card" id="total-assets">
                     <h2>1240</h2>
@@ -123,6 +103,9 @@
             </div>
         </div>
     </main>
+
     <?php include '../partials/footer.php'?>
+
+    <script src="../script/dashboard.js" defer></script>
 </body>
 </html>

@@ -20,6 +20,7 @@ interface AssetRepoInterface {
     string $remarks,
     int $limit,
   ): array;
+  // public function countAll();
 
   public function add(Asset $asset): void;
   public function update(Asset $asset): void;
@@ -146,7 +147,7 @@ final class AssetRepo implements AssetRepoInterface {
       ":s" => $asset->specs,
       ":st" => $asset->status->value,
       ":r" => " $asset->remarks", 
-      ":d" => $asset->description, // pano na yung assign | bakit? yung sa assignee id at assigner id, ahh need pa kasi store yung current session user?
+      ":d" => $asset->description,
       ":p" => $asset->price,
       ":u" => $asset->url,
     ]);      
