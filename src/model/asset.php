@@ -48,17 +48,17 @@ final class Asset implements JsonSerializable{
 
 final class AssetSearchCriteria {
   public function __construct(
-    float $price_min,
-    float $price_max,
-    DateTimeImmutable $base_date,
-    DateTimeImmutable $end_date,
-    array $status,
-    string $propNum,
-    string $procNum,
-    string $serialNum,
-    string $specs,
-    string $description,
-    string $remarks,
-    int $limit,
+    public readonly float $price_min,
+    public readonly float $price_max,
+    public readonly DateTimeImmutable $base_date,
+    public readonly DateTimeImmutable $end_date,
+    public readonly array $status,
+    public readonly string $propNum,
+    public readonly string $procNum,
+    public readonly string $serialNum,
+    public readonly string $specs,
+    public readonly string $description,
+    public readonly string $remarks,
+    public readonly int $limit,
   ) {}
 }

@@ -4,7 +4,7 @@ require __DIR__ . "/../../vendor/autoload.php";
 $client = new Google\Client;
 
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
-$client->setClientSecret("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");
+// $client->setClientSecret("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");
 $client->setRedirectUri("http://localhost:3000/public/views/dashboard.php");
 
 if (!isset($_GET['code'])) {
