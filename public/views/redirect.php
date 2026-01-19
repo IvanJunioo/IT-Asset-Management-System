@@ -32,4 +32,5 @@ if (substr($email, -10) !== "@up.edu.ph") {
 //   $userinfo->name
 // );
 
-// header("Location: views/dashboard.php");
+header("Location: dashboard.php");
+?>
