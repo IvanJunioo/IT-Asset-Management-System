@@ -66,7 +66,7 @@ final class UserRepo implements UserRepoInterface {
   public function count(UserSearchCriteria $criteria = new UserSearchCriteria()): int {
     $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
     $priv = implode(",", array_fill(0, count($criteria->privileges), "?"));
-    $query = "SELECT * FROM employee WHERE 
+    $query = "SELECT COUNT(*) FROM employee WHERE 
       ActiveStatus IN ($act)
       AND Privilege IN ($priv)
       AND EmpID LIKE ?
@@ -89,7 +89,7 @@ final class UserRepo implements UserRepoInterface {
     $stmt->execute($params);
     $res = $stmt->fetchColumn();
 
-    return $res;
+    return (int)$res;
   }
 
   public function add(User $user): void {

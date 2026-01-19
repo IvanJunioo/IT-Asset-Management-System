@@ -52,12 +52,18 @@ final class Faculty extends User {
 }
 
 final class UserSearchCriteria {
+  public readonly Fullname $fullname;
+  public readonly array $privileges;
+
   public function __construct(
     public readonly string $empID = "",
-    public readonly Fullname $fullname = new Fullname(),
+    ?Fullname $fullname = null,
     public readonly string $email = "",
     public readonly array $isActive = ["Active", "Inactive"],
-    public readonly array $privileges = UserPrivilege::cases(),
+    ?array $privileges = null,
     public readonly int $limit = 50,
-  ) {}
+  ) {
+    $this->fullname = $fullname ?? new Fullname();
+    $this->privileges = $privileges ?? UserPrivilege::cases();
+  }
 }

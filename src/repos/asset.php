@@ -115,7 +115,7 @@ final class AssetRepo implements AssetRepoInterface {
     
     $result = $stmt->fetchColumn();
 
-    return $result;
+    return (int)$result;
   }
     
   public function add(Asset $asset): void {

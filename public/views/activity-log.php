@@ -11,8 +11,8 @@
 
   <?php include '../partials/footer.php'?>
 
-  <script>
-    document.getElementById("actlog-table").class = "activity-log-table";
+  <script defer>
+    document.getElementById("actlog-table").className = "activity-log-table";
   </script>
 </body>
 </html>

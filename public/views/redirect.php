@@ -33,4 +33,3 @@ if (substr($email, -10) !== "@up.edu.ph") {
 // );
 
 header("Location: dashboard.php");
-?>

@@ -47,12 +47,16 @@ final class Asset implements JsonSerializable {
 }
 
 final class AssetSearchCriteria {
+  public readonly DateTimeImmutable $base_date;
+  public readonly DateTimeImmutable $end_date;
+  public readonly array $status;
+
   public function __construct(
     public readonly float $price_min = 0,
     public readonly float $price_max = 10**12 - 0.01,
-    public readonly DateTimeImmutable $base_date = new DateTimeImmutable("0001-01-01"),
-    public readonly DateTimeImmutable $end_date = new DateTimeImmutable("9999-12-31"),
-    public readonly array $status = AssetStatus::cases(),
+    ?DateTimeImmutable $base_date = null,
+    ?DateTimeImmutable $end_date = null,
+    ?array $status = null,
     public readonly string $propNum = "",
     public readonly string $procNum = "",
     public readonly string $serialNum = "",
@@ -60,5 +64,9 @@ final class AssetSearchCriteria {
     public readonly string $description = "",
     public readonly string $remarks = "",
     public readonly int $limit = 50,
-  ) {}
+  ) {
+    $this->base_date = $base_date ?? new DateTimeImmutable("0001-01-01");
+    $this->end_date = $end_date ?? new DateTimeImmutable("9999-12-31");
+    $this->status = $status ?? AssetStatus::cases();
+  }
 }

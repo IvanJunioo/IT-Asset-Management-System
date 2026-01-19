@@ -10,8 +10,9 @@ $client->setRedirectUri("http://localhost:3000/public/views/redirect.php");
 $client->addScope("email");
 $client->addScope("profile");
 
-$url = $client->createAuthUrl();
-?>
+// $url = $client->createAuthUrl();
+$url = "dashboard.php"
+?>  
 
 <!DOCTYPE html>
 <html lang="en">
