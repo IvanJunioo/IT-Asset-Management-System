@@ -291,9 +291,6 @@ tbody tr:hover {
     padding: 4px 8px;
 }
 
-.user-table tr:hover .action-btn {
-    opacity: 1;
-}
 
 .user-table .action-btn:hover {
     background-color: #e0e0e0;

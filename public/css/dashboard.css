@@ -100,28 +100,30 @@
     white-space: nowrap;
 }
 
-.asset-distribution {
-    width: 60%;
+#asset-distribution {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 2fr));
-    gap: 0.7rem;
+    gap: 0.6rem;
 }
 
 .distr-card {
-    background: white;
     padding: 1.5rem;
     border: 1px solid var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    align-content: center;
-    transition: transform 0.2s ease
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.2s ease;
 }
 
 .distr-card:hover {
-    transform: scale(102%);
+    transform: scale(1.02);
 }
 
 .distr-card h2 {
-    font-size: 4rem;
+    font-size: 3rem;
+    margin: 0;
+    line-height: 1;
 }
 
 .distr-card p {
@@ -153,4 +155,10 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
     background-color: var(--beige);
     transition: background-color 0.3s ease;
+}
+
+@media (max-width: 900px) {
+    .dashboard-bottom {
+        flex-direction: column;
+    }
 }

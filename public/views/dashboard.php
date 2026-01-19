@@ -44,7 +44,7 @@
           <?php include '../views/act-log.php'?>
         </div>
 
-        <div id="asset-distribution">
+        <section id="asset-distribution">
           <a href="./assets.php" class="distr-card" id="total-assets">
             <p>Assets</p>
           </a>
@@ -61,7 +61,7 @@
             <p>Active Users</p>
           </a>
 
-        </div>
+        </section>
       </div>
   </main>
 
