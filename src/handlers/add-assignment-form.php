@@ -24,11 +24,11 @@ if ($_POST['user'] != null) {
 if ($action == 'submit') {
   $assets = $_COOKIE['assets'];
 	$assets = explode(',', $assets);
-  $user = $userRepo->search(empID: $_COOKIE['user'])[0];
+  $user = $userRepo->search(new UserSearchCriteria(empID: $_COOKIE['user']))[0];
 	
 	$assDate = new DateTimeImmutable($_POST['assign-date']);
 	foreach ($assets as $pnum){
-		$asset = $assetRepo->search(propNum: $pnum)[0];
+		$asset = $assetRepo->search(new AssetSearchCriteria(propNum: $pnum))[0];
 		if (is_array($asset)){
       // TODO : implement user authentication or session data
 			//$db->assignAsset($asset[0], $user, $assDate, $_POST['remarks']);

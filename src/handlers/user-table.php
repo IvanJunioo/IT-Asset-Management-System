@@ -14,11 +14,11 @@ try {
 
   $repo = new UserRepo($pdo);
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $repo->search(empID: $search, privileges: $privilege),
-    $repo->search(fullname: new Fullname(first: $search), privileges: $privilege),
-    $repo->search(fullname: new Fullname(middle: $search), privileges: $privilege),
-    $repo->search(fullname: new Fullname(last: $search), privileges: $privilege),
-    $repo->search(email: $search, privileges: $privilege),
+    $repo->search(new UserSearchCriteria(empID: $search, privileges: $privilege)),
+    $repo->search(new UserSearchCriteria(fullname: new Fullname(first: $search), privileges: $privilege)),
+    $repo->search(new UserSearchCriteria(fullname: new Fullname(middle: $search), privileges: $privilege)),
+    $repo->search(new UserSearchCriteria(fullname: new Fullname(last: $search), privileges: $privilege)),
+    $repo->search(new UserSearchCriteria(email: $search, privileges: $privilege)),
   )))));
   
   echo json_encode($users);

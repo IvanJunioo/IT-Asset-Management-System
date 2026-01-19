@@ -1,4 +1,3 @@
-<!-- TODO: make it exclusive to up mail -->
 <?php
 require __DIR__ . "/../../vendor/autoload.php";
 

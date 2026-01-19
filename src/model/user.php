@@ -1,8 +1,6 @@
 <?php
 declare (strict_types= 1);
 
-include_once 'asset.php';
-
 enum UserPrivilege: string {
   case Faculty = "Faculty";
   case Admin = "Admin";
@@ -51,4 +49,15 @@ final class Admin extends User {
 
 final class Faculty extends User {
   public function getPrivilege(): UserPrivilege {return UserPrivilege::Faculty;}
+}
+
+final class UserSearchCriteria {
+  public function __construct(
+    public readonly string $empID = "",
+    public readonly Fullname $fullname = new Fullname(),
+    public readonly string $email = "",
+    public readonly array $isActive = ["Active", "Inactive"],
+    public readonly array $privileges = UserPrivilege::cases(),
+    public readonly int $limit = 50,
+  ) {}
 }

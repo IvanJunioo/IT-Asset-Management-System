@@ -5,14 +5,8 @@ declare (strict_types=1);
 include_once '../model/user.php';
 
 interface UserRepoInterface {
-  public function search(
-    string $empID,
-    Fullname $fullname,
-    string $email,
-    array $isActive,
-    array $privileges,
-    int $limit,
-  ): array;
+  public function search(UserSearchCriteria $criteria): array;
+  public function count(UserSearchCriteria $criteria): int;
 
   public function add(User $user) : void;
   public function delete(User $user) : void;
@@ -24,19 +18,9 @@ final class UserRepo implements UserRepoInterface {
     public readonly PDO $pdo,
   ) {}
 
-  public function search(
-    string $empID = "",
-    ?Fullname $fullname = null,
-    string $email = "",
-    array $isActive = ["Active", "Inactive"],
-    ?array $privileges = null, # must be nonempty
-    int $limit = 50,
-  ): array {
-    $fullname ??= new Fullname();
-    $privileges ??= UserPrivilege::cases(); 
-      
-    $act = implode(",", array_fill(0, count($isActive),"?"));
-    $priv = implode(",", array_fill(0, count($privileges), "?"));
+  public function search(UserSearchCriteria $criteria = new UserSearchCriteria()): array {      
+    $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
+    $priv = implode(",", array_fill(0, count($criteria->privileges), "?"));
     $query = "SELECT * FROM employee WHERE 
       ActiveStatus IN ($act)
       AND Privilege IN ($priv)
@@ -45,20 +29,21 @@ final class UserRepo implements UserRepoInterface {
       AND FName LIKE ?
       AND MName LIKE ?
       AND LName LIKE ?
-      LIMIT $limit
+      LIMIT $criteria->limit
     ";
 
     $stmt = $this->pdo->prepare($query);
-    foreach ($isActive as $a) {$params[] = $a;}
-    foreach ($privileges as $p) {$params[] = $p->value;}
-    $params[] = "%$empID%";
-    $params[] = "%$email%";
-    $params[] = "%$fullname->first%";
-    $params[] = "%$fullname->middle%";
-    $params[] = "%$fullname->last%";
+    foreach ($criteria->isActive as $a) {$params[] = $a;}
+    foreach ($criteria->privileges as $p) {$params[] = $p->value;}
+    $params[] = "%$criteria->empID%";
+    $params[] = "%$criteria->email%";
+    $params[] = "%" . $criteria->fullname->first . "%";
+    $params[] = "%" . $criteria->fullname->middle . "%";
+    $params[] = "%" . $criteria->fullname->last . "%";
 
     $stmt->execute($params);
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $emps = [];
     foreach ($res as $emp) {
       $id = $emp["EmpID"];
@@ -76,6 +61,35 @@ final class UserRepo implements UserRepoInterface {
     }
 
     return $emps;
+  }
+
+  public function count(UserSearchCriteria $criteria = new UserSearchCriteria()): int {
+    $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
+    $priv = implode(",", array_fill(0, count($criteria->privileges), "?"));
+    $query = "SELECT * FROM employee WHERE 
+      ActiveStatus IN ($act)
+      AND Privilege IN ($priv)
+      AND EmpID LIKE ?
+      AND EmpMail LIKE ?
+      AND FName LIKE ?
+      AND MName LIKE ?
+      AND LName LIKE ?
+      LIMIT $criteria->limit
+    ";
+
+    $stmt = $this->pdo->prepare($query);
+    foreach ($criteria->isActive as $a) {$params[] = $a;}
+    foreach ($criteria->privileges as $p) {$params[] = $p->value;}
+    $params[] = "%$criteria->empID%";
+    $params[] = "%$criteria->email%";
+    $params[] = "%" . $criteria->fullname->first . "%";
+    $params[] = "%" . $criteria->fullname->middle . "%";
+    $params[] = "%" . $criteria->fullname->last . "%";
+
+    $stmt->execute($params);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $res[0];
   }
 
   public function add(User $user): void {

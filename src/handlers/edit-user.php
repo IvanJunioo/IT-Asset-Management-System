@@ -11,7 +11,7 @@ $search = $_POST['search'] ?? "";
 try {
   $repo = new UserRepo($pdo);
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $repo->search(empID: $search)
+    $repo->search(new UserSearchCriteria(empID: $search))
   )))));
   
   echo json_encode($users);

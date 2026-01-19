@@ -8,7 +8,7 @@ $search = $_POST['search'] ?? "";
 
 $repo = new UserRepo($pdo);
 
-$users = $repo->search(empID: $search);
+$users = $repo->search(new UserSearchCriteria(empID: $search));
 if (!empty($users)){
 	$repo->delete($users[0]);
 }

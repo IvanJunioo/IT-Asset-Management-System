@@ -77,7 +77,7 @@ final class AssetRepo implements AssetRepoInterface {
     return $assets;
   }
 
-  public function count(AssetSearchCriteria $criteria): int {
+  public function count(AssetSearchCriteria $criteria = new AssetSearchCriteria()): int {
     $st = implode(',',array_fill(0, count($criteria->status), '?'));
     $query = "SELECT COUNT(*) FROM asset WHERE 
       Status IN ($st)

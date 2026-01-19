@@ -8,7 +8,7 @@ $search = $_POST['search'] ?? "";
 
 $repo = new AssetRepo($pdo);
 
-$assets = $repo->search(propNum: $search);
+$assets = $repo->search(new AssetSearchCriteria(propNum: $search));
 if (!empty($assets)){
 	$repo->delete($assets[0]);
 }

@@ -14,12 +14,12 @@ try {
   
   $repo = new AssetRepo($pdo);
   $assets = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $repo->search(propNum: $search, status: $status),
-    $repo->search(procNum: $search, status: $status),
-    $repo->search(serialNum: $search, status: $status),
-    $repo->search(specs: $search, status: $status),
-    $repo->search(description: $search, status: $status),
-    $repo->search(remarks: $search, status: $status),
+    $repo->search(new AssetSearchCriteria(propNum: $search, status: $status)),
+    $repo->search(new AssetSearchCriteria(procNum: $search, status: $status)),
+    $repo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
+    $repo->search(new AssetSearchCriteria(specs: $search, status: $status)),
+    $repo->search(new AssetSearchCriteria(description: $search, status: $status)),
+    $repo->search(new AssetSearchCriteria(remarks: $search, status: $status)),
   )))));  
 
   echo json_encode($assets);
