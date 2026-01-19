@@ -34,3 +34,6 @@ For login
 - 3. php composer-setup.php
 - 4. php -r "unlink('composer-setup.php');"
 - 5. php composer.phar require google/apiclient:^2.0
+- 6. composer require ralouphie/getallheaders
+> **Note**: Make sure php is included in your paths.
+
