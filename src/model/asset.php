@@ -50,15 +50,15 @@ final class AssetSearchCriteria {
   public function __construct(
     public readonly float $price_min = 0,
     public readonly float $price_max = 10**12 - 0.01,
-    public readonly ?DateTimeImmutable $base_date = null,
-    public readonly ?DateTimeImmutable $end_date,
-    public readonly array $status,  // array of AssetStatuses
-    public readonly string $propNum,
-    public readonly string $procNum,
-    public readonly string $serialNum,
-    public readonly string $specs,
-    public readonly string $description,
-    public readonly string $remarks,
-    public readonly int $limit,
+    public readonly DateTimeImmutable $base_date = new DateTimeImmutable("0001-01-01"),
+    public readonly DateTimeImmutable $end_date = new DateTimeImmutable("9999-12-31"),
+    public readonly array $status = AssetStatus::cases(),
+    public readonly string $propNum = "",
+    public readonly string $procNum = "",
+    public readonly string $serialNum = "",
+    public readonly string $specs = "",
+    public readonly string $description = "",
+    public readonly string $remarks = "",
+    public readonly int $limit = 50,
   ) {}
 }

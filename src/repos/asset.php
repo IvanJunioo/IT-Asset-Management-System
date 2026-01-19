@@ -6,7 +6,7 @@ include_once '../model/asset.php';
 
 interface AssetRepoInterface {
   public function search(AssetSearchCriteria $criteria): array;
-  // public function countAll();
+  public function count(AssetSearchCriteria $criteria): int;
 
   public function add(Asset $asset): void;
   public function update(Asset $asset): void;
@@ -19,26 +19,8 @@ final class AssetRepo implements AssetRepoInterface {
   ) {}
   
   // TODO : assign assets searched
-  public function search(
-    float $price_min = 0,
-    float $price_max = 10**12 - 0.01,
-    ?DateTimeImmutable $base_date = null,
-    ?DateTimeImmutable $end_date = null,
-    ?array $status = null,  # must be nonempty
-    
-    string $propNum = "",
-    string $procNum = "",
-    string $serialNum = "",
-    string $specs = "",
-    string $description = "",
-    string $remarks = "",
-    int $limit = 50,
-  ): array { 
-    $base_date ??= new DateTimeImmutable("0001-01-01");
-    $end_date ??= new DateTimeImmutable("9999-12-31");
-    $status ??= AssetStatus::cases();
-    
-    $st = implode(',',array_fill(0, count($status), '?'));
+  public function search(AssetSearchCriteria $criteria = new AssetSearchCriteria()): array {     
+    $st = implode(',',array_fill(0, count($criteria->status), '?'));
     $query = "SELECT * FROM asset WHERE 
       Status IN ($st)
       AND Price >= ? 
@@ -51,25 +33,25 @@ final class AssetRepo implements AssetRepoInterface {
       AND ShortDesc LIKE ?
       AND Specs LIKE ?
       AND Remarks LIKE ?
-      LIMIT $limit
+      LIMIT $criteria->limit
     ;";
     
     $stmt = $this->pdo->prepare($query);
     
-    foreach ($status as $s ) {
+    foreach ($criteria->status as $s ) {
       $params[] = $s->name;
     }
     
-    $params[] = (string) $price_min;
-    $params[] = (string) $price_max;
-    $params[] = $base_date->format("Y-m-d");
-    $params[] = $end_date->format("Y-m-d");
-    $params[] = "%$propNum%";
-    $params[] = "%$procNum%";
-    $params[] = "%$serialNum%";
-    $params[] = "%$description%";
-    $params[] = "%$specs%";
-    $params[] = "%$remarks%";
+    $params[] = (string) $criteria->price_min;
+    $params[] = (string) $criteria->price_max;
+    $params[] = $criteria->base_date->format("Y-m-d");
+    $params[] = $criteria->end_date->format("Y-m-d");
+    $params[] = "%$criteria->propNum%";
+    $params[] = "%$criteria->procNum%";
+    $params[] = "%$criteria->serialNum%";
+    $params[] = "%$criteria->description%";
+    $params[] = "%$criteria->specs%";
+    $params[] = "%$criteria->remarks%";
     
     $stmt->execute($params);
     
@@ -93,6 +75,47 @@ final class AssetRepo implements AssetRepoInterface {
       $assets[] = $asset;
     }
     return $assets;
+  }
+
+  public function count(AssetSearchCriteria $criteria): int {
+    $st = implode(',',array_fill(0, count($criteria->status), '?'));
+    $query = "SELECT COUNT(*) FROM asset WHERE 
+      Status IN ($st)
+      AND Price >= ? 
+      AND Price <= ?
+      AND PurchaseDate >= ? 
+      AND PurchaseDate <= ?
+      AND PropNum LIKE ?
+      AND ProcNum LIKE ?
+      AND SerialNum LIKE ?
+      AND ShortDesc LIKE ?
+      AND Specs LIKE ?
+      AND Remarks LIKE ?
+      LIMIT $criteria->limit
+    ;";
+    
+    $stmt = $this->pdo->prepare($query);
+    
+    foreach ($criteria->status as $s ) {
+      $params[] = $s->name;
+    }
+    
+    $params[] = (string) $criteria->price_min;
+    $params[] = (string) $criteria->price_max;
+    $params[] = $criteria->base_date->format("Y-m-d");
+    $params[] = $criteria->end_date->format("Y-m-d");
+    $params[] = "%$criteria->propNum%";
+    $params[] = "%$criteria->procNum%";
+    $params[] = "%$criteria->serialNum%";
+    $params[] = "%$criteria->description%";
+    $params[] = "%$criteria->specs%";
+    $params[] = "%$criteria->remarks%";
+    
+    $stmt->execute($params);
+    
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result[0]; // ?
   }
     
   public function add(Asset $asset): void {
