@@ -4,10 +4,10 @@ declare (strict_types= 1);
 include_once 'user.php';
 
 enum AssetStatus: string {
-  case Available = "Available";
+  case Unassigned = "Unassigned";
   case Assigned = "Assigned";
   case Condemned = "Condemned";
-  case InRepair = "InRepair";
+  case ToCondemn = "ToCondemn";
 }
 
 final class Asset implements JsonSerializable{
