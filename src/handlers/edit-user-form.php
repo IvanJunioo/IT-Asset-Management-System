@@ -38,6 +38,6 @@ if ($_POST['action'] == 'submit') {
   $db->updateUser($user);
 }
 
-header('Location: ../views/user-manager.php');
+header('Location: ../../public/views/user-manager.php');
 
 exit;

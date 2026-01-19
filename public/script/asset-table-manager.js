@@ -87,7 +87,7 @@ function addActionsButton() {
       <div class="action-menu">
         <a class="menu-item" data-action="view">View</a>
         <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="delete">Delete</a>
+        <a class="menu-item" data-action="condemn">Condemn</a>
         <a class="menu-item" data-action="assign">Assign</a>
       </div>
     `;
@@ -146,8 +146,8 @@ document.addEventListener("click", (e) => {
       case "modify":
         editAsset(propNum);
         break;
-      case "delete": 
-        if (confirm(`Delete item ${propNum}?`)) deleteAsset(propNum);
+      case "condemn": 
+        if (confirm(`Condemn item ${propNum}?`)) deleteAsset(propNum);
         break;
       case "assign":
         assignAssets([propNum]);
@@ -194,7 +194,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
 
     if (e.target.closest(".delete")) {
       if (selectedRows.size === 0) return;
-      if (!confirm(`Delete ${selectedRows.size} item(s)?`)) return;
+      if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
       
       for (const tr of selectedRows) {
         deleteAsset(tr.dataset.propNum);

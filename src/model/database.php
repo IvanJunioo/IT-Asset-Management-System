@@ -374,11 +374,15 @@ class Database implements DatabaseInterface {
   }
   
   public function deleteAsset(Asset $asset): void {
-    $query1 = "DELETE FROM assignment WHERE assignment.PropNum = ?;";
-    $query2 = "DELETE FROM asset WHERE asset.PropNum = ?;"; 
-
-    $this->pdo->prepare($query1)->execute([$asset->propNum]);
-    $this->pdo->prepare($query2)->execute([$asset->propNum]);
+    if ($asset->status != AssetStatus::ToCondemn) {
+      return;
+    }
+    
+    $query = "UPDATE asset SET Status = :st WHERE PropNum = :id;"; 
+    $this->pdo->prepare($query)->execute([
+      ":id" => $asset->propNum,
+      ":st" => "Condemned",
+    ]);
   }
   
   public function addUser(User $user): void {

@@ -25,6 +25,6 @@ if ($action == 'submit') {
   $db->updateAsset($asset);
 }
 
-header('Location: ../views/asset-manager.php');
+header('Location: ../../public/views/asset-manager.php');
 
 exit;
