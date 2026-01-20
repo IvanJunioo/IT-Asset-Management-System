@@ -1,6 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
+  <?php 
+    session_start();
+    
+    if (!isset($_SESSION['logged_in'])) {
+      echo json_encode("User not logged in");
+    exit;
+    }
+
+    include '../partials/head.php'
+  ?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/dashboard.css">
 <body>
   <?php include '../partials/header.php'?>

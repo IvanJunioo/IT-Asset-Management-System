@@ -1,5 +1,8 @@
 <?php
-require __DIR__ . "/../../vendor/autoload.php";
+session_start();
+
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../src/handlers/login-validation.php';
 
 $client = new Google\Client;
 
@@ -25,11 +28,8 @@ if (substr($email, -10) !== "@up.edu.ph") {
     exit("Only UP Mail accounts are allowed.");
 }
 
-// var_dump(
-//   $userinfo->email,
-//   $userinfo->familyName,
-//   $userinfo->givenName,
-//   $userinfo->name
-// );
+if (!validateLogIn(email: $email)) {
+  exit("Account not registered. Contact the admin.");
+}
 
 header("Location: dashboard.php");

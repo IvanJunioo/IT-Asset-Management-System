@@ -2,7 +2,7 @@
 
 declare (strict_types=1);
 
-include_once '../model/user.php';
+require_once __DIR__ . '/../model/user.php';
 
 interface UserRepoInterface {
   public function search(UserSearchCriteria $criteria): array;
