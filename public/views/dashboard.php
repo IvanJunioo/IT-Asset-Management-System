@@ -8,6 +8,7 @@
       echo json_encode("User not logged in");
     exit;
     }
+    $privilege = $_SESSION['privilege'] ?? '';
 
     include '../partials/head.php'
   ?>
@@ -17,7 +18,7 @@
     
   <main class="dashboard">
       <h1 class="dashboard-title">
-        Hello, Super Admin!
+        <?= htmlspecialchars("Hello, $privilege!") ?>
       </h1>
 
       <hr>

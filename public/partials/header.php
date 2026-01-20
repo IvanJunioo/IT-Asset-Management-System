@@ -1,5 +1,9 @@
-<?php 
+<?php
   require_once __DIR__ . '/../../config/config.php';
+  $userFName = $_SESSION['user_fname'] ?? '';
+  $userMName = $_SESSION['user_mname'][0] ?? '';
+  $userLName = $_SESSION['user_lname'] ?? '';
+  $privilege = $_SESSION['privilege'] ?? '';
 ?>
 
 <!-- Header template -->
@@ -48,8 +52,12 @@
         </div> 
 
         <div id="user-panel">
-            <div id="username"> Katigbak, Carlo, D. </div>
-            <div id="user-role"> SuperAdmin </div>
+            <div id="username"> 
+              <?= htmlspecialchars("$userLName, $userFName, $userMName") ?>
+            </div>
+            <div id="user-role">
+              <?= htmlspecialchars($privilege) ?>
+            </div>
             <a id="logout"> Sign Out </a>
         </div>
     </section>
