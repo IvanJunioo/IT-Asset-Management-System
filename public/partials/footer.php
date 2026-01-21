@@ -1,4 +1,3 @@
-
 <!-- footer tempalte -->
 <div class="footer">
   <div>

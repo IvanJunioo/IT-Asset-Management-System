@@ -1,11 +1,3 @@
-<?php
-  require_once __DIR__ . '/../../config/config.php';
-  $userFName = $_SESSION['user_fname'] ?? '';
-  $userMName = $_SESSION['user_mname'][0] ?? '';
-  $userLName = $_SESSION['user_lname'] ?? '';
-  $privilege = $_SESSION['privilege'] ?? '';
-?>
-
 <!-- Header template -->
 <div class ="header">
     <section id="logo-caption">
@@ -53,7 +45,7 @@
 
         <div id="user-panel">
             <div id="username"> 
-              <?= htmlspecialchars("$userLName, $userFName, $userMName") ?>
+              <?= htmlspecialchars("{$userLName}, {$userFName}, {$userMName[0]}") ?>
             </div>
             <div id="user-role">
               <?= htmlspecialchars($privilege) ?>

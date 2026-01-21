@@ -36,6 +36,6 @@ if ($action == 'submit') {
 	}
 }
 
-header('Location: ../views/asset-manager.php');
+header('Location: ../../public/views/asset-manager.php');
 
 exit;

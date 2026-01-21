@@ -39,6 +39,6 @@ if ($_POST['action'] == 'submit') {
   $repo->add($user);
 }
 
-header('Location: ../views/user-manager.php');
+header('Location: ../../public/views/user-manager.php');
 
 exit;
