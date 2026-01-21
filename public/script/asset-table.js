@@ -62,8 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const viewBtn = document.createElement("button");
       viewBtn.className = "select-btn";
       viewBtn.textContent = "View";
-      tr.appendChild(document.createElement("td").appendChild(viewBtn)); 
-
+      const td = document.createElement("td");
+      td.append(viewBtn);
+      tr.append(td);
       assetTableBody.appendChild(tr);
     }
 
