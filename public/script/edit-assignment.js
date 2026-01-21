@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
   const assetForm = document.querySelector(".assign-asset-form"); 
 
-  // console.log(assetsToAssign);
-	// console.log(Array.isArray(assetsToAssign))
-	// console.log(userAssigned);
+  console.log(assetsToAssign);
+	console.log(Array.isArray(assetsToAssign))
+	console.log(userAssigned);
   if (!assetsToAssign || !userAssigned) return;
 
   fillForm(assetsToAssign, userAssigned);

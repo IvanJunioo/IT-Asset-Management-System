@@ -22,16 +22,17 @@ if ($_POST['user'] != null) {
 }
 
 if ($action == 'submit') {
+	session_start();
   $assets = $_COOKIE['assets'];
 	$assets = explode(',', $assets);
-  $user = $userRepo->search(new UserSearchCriteria(empID: $_COOKIE['user']))[0];
+  $assignee = $userRepo->search(new UserSearchCriteria(empID: $_COOKIE['user']))[0];
+	$assigner = $_SESSION['user_id'];
 	
 	$assDate = new DateTimeImmutable($_POST['assign-date']);
 	foreach ($assets as $pnum){
 		$asset = $assetRepo->search(new AssetSearchCriteria(propNum: $pnum))[0];
 		if (is_array($asset)){
-      // TODO : implement user authentication or session data
-			//$db->assignAsset($asset[0], $user, $assDate, $_POST['remarks']);
+			$assignrepo->assign($asset[0], $assigner, $assignee, $assDate, $_POST['remarks']);
 		}
 	}
 }
