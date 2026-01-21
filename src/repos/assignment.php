@@ -112,10 +112,6 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     ): void {
     $query = "INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, Remarks) VALUES (?,?,?,?,?);"; 
 
-    echo $asset->propNum;
-    echo $assigner->empID;  
-    echo $assignee->empID;
-
     $this->pdo->prepare($query)->execute([
       $asset->propNum,
       $assDate->format("Y-m-d H:i:s"),

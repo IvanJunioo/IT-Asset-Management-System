@@ -22,6 +22,13 @@ try {
     $repo->search(new AssetSearchCriteria(remarks: $search, status: $status)),
   )))));  
 
+  // TODO: get each asset's assigned user
+  // $assignRepo = new AssignmentRepo($pdo);
+  // foreach($assets as $asset){
+  //   $user = $assignRepo->getCurrAssignedUser($asset);
+  //   $asset->assignTo($user);
+  // }
+
   echo json_encode($assets);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);
