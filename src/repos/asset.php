@@ -5,20 +5,25 @@ declare (strict_types=1);
 include_once '../model/asset.php';
 
 interface AssetRepoInterface {
+  public function identify(string $propNum): Asset;
   public function search(AssetSearchCriteria $criteria): array;
   public function count(AssetSearchCriteria $criteria): int;
 
   public function add(Asset $asset): void;
   public function update(Asset $asset): void;
-  public function delete(Asset $asset): void;
 }
 
 final class AssetRepo implements AssetRepoInterface {
   public function __construct(
     public readonly PDO $pdo,
   ) {}
+
+  public function identify(string $propNum): Asset {
+    $assets = $this->search(new AssetSearchCriteria(propNum: $propNum));
+    if (count($assets) == 0) throw new Exception("Asset not found!");
+    return $assets[0];
+  }
   
-  // TODO : assign assets searched
   public function search(AssetSearchCriteria $criteria = new AssetSearchCriteria()): array {     
     $st = implode(',',array_fill(0, count($criteria->status), '?'));
     $query = "SELECT * FROM asset WHERE 
@@ -160,18 +165,5 @@ final class AssetRepo implements AssetRepoInterface {
       ":p" => $asset->price,
       ":u" => $asset->url,
     ]);      
-  }
-  
-  public function delete(Asset $asset): void {
-    if ($asset->status != AssetStatus::ToCondemn) {
-      return;
-    }
-    
-    $query = "UPDATE asset SET Status = :st WHERE PropNum = :id;"; 
-    $this->pdo->prepare($query)->execute([
-      ":id" => $asset->propNum,
-      ":st" => "Condemned",
-    ]);
-    
   }
 }

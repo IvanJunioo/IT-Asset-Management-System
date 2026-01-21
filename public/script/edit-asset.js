@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const childrenInput = assetForm.querySelectorAll('input');
-		console.log(asset['Status']);
-    console.log(childrenInput);
     for (const child of childrenInput) {
       if (child.id in data) {
         child.value = data[child.id];

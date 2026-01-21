@@ -5,11 +5,11 @@ declare (strict_types=1);
 require_once __DIR__ . '/../model/user.php';
 
 interface UserRepoInterface {
+  public function identify(string $empID): User;
   public function search(UserSearchCriteria $criteria): array;
   public function count(UserSearchCriteria $criteria): int;
 
   public function add(User $user) : void;
-  public function delete(User $user) : void;
   public function update(User $user) : void;
 }
 
@@ -17,6 +17,12 @@ final class UserRepo implements UserRepoInterface {
   public function __construct(
     public readonly PDO $pdo,
   ) {}
+
+  public function identify(string $empID): User {
+    $users = $this->search(new UserSearchCriteria(empID: $empID));
+    if (count($users) == 0) throw new Exception("User not found!");
+    return $users[0];
+  }
 
   public function search(UserSearchCriteria $criteria = new UserSearchCriteria()): array {      
     $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
@@ -104,25 +110,6 @@ final class UserRepo implements UserRepoInterface {
       $user->getPrivilege()->value,
       $user->isActive? "Active" : "Inactive",
     ]);  
-  }
-
-  public function delete(User $user): void {
-    // TODO: Unassign all assets of the user
-    // $assets = $this->getAssignedAssets($user);
-    // foreach ($assets as $asset){
-    //   $now = new DateTimeImmutable("now");
-    //   $this->returnAsset($asset, $now);
-    // }
-    $query = "UPDATE employee SET ActiveStatus = :astat WHERE EmpID = :id;";
-    $this->pdo->prepare($query)->execute([
-      ":id" => $user->empID,
-      ":astat" => "Inactive"
-    ]);
-    // $query1 = "DELETE FROM assignment WHERE assignment.EmpID = ?;";
-    // $query2 = "DELETE FROM employee WHERE employee.EmpID = ?;"; 
-
-    // $this->pdo->prepare($query1)->execute([$user->empID]);
-    // $this->pdo->prepare($query2)->execute([$user->empID]);
   }
   
   public function update(User $user): void {

@@ -22,7 +22,7 @@ final class Asset implements JsonSerializable {
     public readonly float $price,
     public readonly string $url,
     public AssetStatus $status,
-    protected ?string $assigned_To = '-'
+    protected ?string $assigned_To = null,
   ) {}
 
   public function assignTo(?User $user): void {

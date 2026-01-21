@@ -10,7 +10,9 @@ $repo = new UserRepo($pdo);
 
 $users = $repo->search(new UserSearchCriteria(empID: $search));
 if (!empty($users)){
-	$repo->delete($users[0]);
+  $user =  $users[0];
+  $user->isActive = false;
+	$repo->update($user);
 }
 
 exit;

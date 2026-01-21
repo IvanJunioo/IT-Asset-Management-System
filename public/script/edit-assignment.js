@@ -3,22 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
   const assetForm = document.querySelector(".assign-asset-form"); 
 
-  console.log(assetsToAssign);
-	console.log(Array.isArray(assetsToAssign))
-	console.log(userAssigned);
   if (!assetsToAssign || !userAssigned) return;
 
   fillForm(assetsToAssign, userAssigned);
-
-	fetch("../../src/handlers/add-assignment-form.php", {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: `assets=${encodeURIComponent(assetsToAssign)}&user=${encodeURIComponent(userAssigned)}`,
-	})
-  .catch(err => console.error("Error fetching: ", err))
-
-  // sessionStorage.removeItem("assetsToAssign");
-	// sessionStorage.removeItem("assignToUser");
 
   function fillForm(assets, user) {
     p_asset = assetForm.querySelector('#asset-list');
@@ -28,6 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
       textContent += `PropNum: ${asset}, `
     }
 		p_asset.textContent = textContent.slice(0,-2);
+
+    // add extra data with form submission by appending hidden input fields
+    const form = assetForm.querySelector("form");
+    for (const asset of assets) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "assets[]";
+      input.value = asset;
+      form.appendChild(input);      
+    }
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "user";
+    input.value = user;
+    form.appendChild(input);      
   }
 });
 		

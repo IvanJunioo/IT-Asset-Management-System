@@ -10,7 +10,9 @@ $repo = new AssetRepo($pdo);
 
 $assets = $repo->search(new AssetSearchCriteria(propNum: $search));
 if (!empty($assets)){
-	$repo->delete($assets[0]);
+  $asset = $assets[0];
+  $asset->status = AssetStatus::Condemned;
+	$repo->update($asset);
 }
 
 exit;

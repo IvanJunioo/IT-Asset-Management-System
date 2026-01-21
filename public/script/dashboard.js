@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   .then(res => res.json())
   .then(data => {
-    console.log(data);
     const totalAssetCnt = document.createElement("h2");
     totalAssetCnt.textContent = data.assetsTotal;
     div.querySelector("#total-assets").prepend(totalAssetCnt);

@@ -7,17 +7,37 @@
 
   <main class="assign-asset-form">
     <form action = '../../src/handlers/add-assignment-form.php' method="post">
-      <label for="selected-assets"> Selected Assets: </label>
-      <p id="asset-list"></p>
+      <label class="input-label"> 
+        Selected Assets:
+        <p id="asset-list"></p>
+      </label>
       
-      <label for="selected-user"> Selected User: </label>
-      <p id="chosen-user" name = 'user'></p>
+      <label class="input-label"> 
+        Selected User: 
+        <p id="chosen-user" name = 'user'></p>
+      </label>
 
-      <label for="assign-date"> Assign Date: </label>
-      <input type="date" id = "adate" name="assign-date" placeholder="Enter Assign Date" required>
+      <label class="input-label"> 
+        Assign Date: 
+        <input 
+          type="date" 
+          id="adate" 
+          name="assign-date" 
+          placeholder="Enter Assign Date" 
+          required
+        >
+      </label>
 
-			<label for="remarks"> Remarks: </label>
-      <textarea id = "remarks" name="remarks" placeholder="Enter Remarks" rows = "4" cols = "25"> </textarea>
+			<label class="input-label"> 
+        Remarks: 
+        <textarea 
+          id="remarks" 
+          name="remarks" 
+          placeholder="Enter Remarks" 
+          rows="4" 
+          cols="25"
+        ></textarea>
+      </label>
 
       <button id="reset-button" type="reset">
         Reset

@@ -59,20 +59,20 @@ function addActionsButton() {
 
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
-    if (tr.dataset.activeStatus === "Inactive"){
-      continue;
-    }
+    
     actionElem.className = "actions";
-    actionElem.innerHTML = `
-      <button class="action-btn">
-        <span class="material-icons">more_horiz</span>
-      </button>
-      
-      <div class="action-menu">
-        <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="deactivate">Deactivate</a>
-      </div>
-    `;
+    if (tr.dataset.activeStatus === "Active"){
+      actionElem.innerHTML = `
+        <button class="action-btn">
+          <span class="material-icons">more_horiz</span>
+        </button>
+        
+        <div class="action-menu">
+          <a class="menu-item" data-action="modify">Modify</a>
+          <a class="menu-item" data-action="deactivate">Deactivate</a>
+        </div>
+      `;
+    }
 
     tr.appendChild(actionElem);
   }

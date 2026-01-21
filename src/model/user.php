@@ -21,7 +21,7 @@ abstract class User implements JsonSerializable{
     public readonly string $empID, 
     public readonly Fullname $name, 
     public readonly string $email,
-    public readonly bool $isActive = True
+    public bool $isActive = True,
   ) {}
 
   abstract public function getPrivilege(): UserPrivilege;

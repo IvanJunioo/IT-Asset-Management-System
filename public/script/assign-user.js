@@ -12,15 +12,13 @@ function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";    
-    if (tr.dataset.activeStatus == "Inactive") {
-      actionElem.innerHTML = ``;
-      continue;
+    if (tr.dataset.activeStatus == "Active") {
+      actionElem.innerHTML = `
+        <button class="select-btn">
+          select
+        </button>
+      `;
     }
-    actionElem.innerHTML = `
-      <button class="select-btn">
-        select
-      </button>
-    `;
 
     tr.appendChild(actionElem);
   }
