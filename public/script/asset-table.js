@@ -138,7 +138,7 @@ let sortOrder = "asc";
 
 function sortAsset(sortKey) {
   if (!sortKey) return;
-  currentSortKey = sortKey; // update current column
+  currentSortKey = sortKey; 
   const rows = Array.from(assetTableBody.querySelectorAll("tr"));
 
   rows.sort((a, b) => {
@@ -151,9 +151,8 @@ function sortAsset(sortKey) {
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     }
 
-    valA = valA.toLowerCase();
-    valB = valB.toLowerCase();
-
+    valA = valA ? valA.toLowerCase() : ""; 
+    valB = valB ? valB.toLowerCase() : "";
     if (valA < valB) return sortOrder === "asc" ? -1 : 1;
     if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     return 0;

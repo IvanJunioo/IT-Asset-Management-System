@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const tableFuncs = document.createElement("div");
   tableFuncs.className = "table-func";
   tableFuncs.innerHTML = `
+    <button id="reverse-sort">
+      <span class="material-icons">swap_vert</span>
+    </button>
     <button id="sort-by">
       <span class="material-icons"> sort </span>
     </button>
@@ -95,17 +98,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+let currentSortKey = "empID"; // track which column is sorted
+let sortOrder = "asc"; 
+
 function sortUser(sortKey) {
   if (!sortKey) return;
+  currentSortKey = sortKey; 
   const rows = Array.from(userTableBody.querySelectorAll("tr"));
   rows.sort((a, b) => {
-    let valA = a.dataset[sortKey];
-    let valB = b.dataset[sortKey];
+    let valA = a.dataset[sortKey] || "";
+    let valB = b.dataset[sortKey] || "";
 
     valA = valA ? valA.toLowerCase() : ""; 
     valB = valB ? valB.toLowerCase() : "";
-    if (valA < valB) return -1;
-    if (valA > valB) return 1;
+    if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+    if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     return 0;
   });
 
@@ -136,6 +143,13 @@ document.addEventListener("click", (e) => {
   if (menuBtn) {
     const sortKey = menuBtn.dataset.sort;
     sortUser(sortKey);
+  }
+
+  const reverseBtn = e.target.closest("#reverse-sort");
+  if (reverseBtn) {
+    if (!currentSortKey) return;
+    sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    sortUser(currentSortKey);
   }
 
   document.querySelectorAll(".sort-menu").forEach(menu => {
