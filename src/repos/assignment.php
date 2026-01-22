@@ -135,7 +135,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     
     $this->pdo->prepare($query)->execute([
       ":rd" => $retDate->format('Y-m-d H:i:s'),
-      ":r" => $remarks,
+      ":r" => " $remarks",
       ":pn" => $asset->propNum,
     ]);
   }

@@ -69,6 +69,11 @@ function addTableFuncs() {
     <button id="sort-by">
       <span class="material-icons"> sort </span>
     </button>
+
+    <div id="sort-menu" class="sort-menu">
+      <a data-sort="propNum">Property No</a>
+      <a data-sort="procNum">Procurement No</a>
+    </div>
   `;
 
   leftAsset.insertBefore(tableFuncs, tableContainer);
@@ -182,6 +187,33 @@ document.addEventListener("click", (e) => {
   document.querySelectorAll(".action-menu").forEach(menu => {
     menu.style.display = "none";
   });
+});
+
+document.addEventListener("click", (e) => {
+  const sortBtn = e.target.closest("#sort-by");
+  if (sortBtn) {
+    e.stopPropagation();
+    const menu = document.querySelector("#sort-menu");
+    const rect = sortBtn.getBoundingClientRect();
+    const isVisible = menu.style.display === "flex";
+
+    document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
+
+    if (!isVisible) {
+      const boundingRect = sortBtn.getBoundingClientRect();
+      const gap = 8;
+
+      menu.style.top = `${boundingRect.top - gap}px`;
+      menu.style.left = `${boundingRect.right + gap}px`;
+      menu.style.display = "flex";
+    }
+    return;
+  }
+
+  document.querySelectorAll(".sort-menu").forEach(menu => {
+    menu.style.display = "none";
+  });
+
 });
 
 
