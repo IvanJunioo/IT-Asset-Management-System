@@ -3,6 +3,7 @@
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
 require_once '../manager/assign.php';
+require_once '../manager/logger.php';
 
 $manag = new AssignmentManager(
   new AssetRepo($pdo),
@@ -11,8 +12,14 @@ $manag = new AssignmentManager(
 );
 
 if ($_POST["action"] == 'submit') {
-	$retDate = new DateTimeImmutable($_POST['return-date']);
-  $manag->returnAsset($_POST['asset'], $retDate, $_POST['remarks']);
+	$propNum = $_POST['asset'];
+  $retDate = new DateTimeImmutable($_POST['return-date']);
+  $manag->returnAsset($propNum, $retDate, $_POST['remarks']);
+
+  systemLog(
+    "returned asset $propNum",
+    []
+  );
 }
 
 header('Location: ../../public/views/asset-manager.php');

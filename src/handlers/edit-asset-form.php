@@ -4,14 +4,19 @@ require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
 require_once '../model/asset.php';
 require_once '../repos/asset.php';
+require_once '../manager/logger.php';
 
 $repo = new AssetRepo($pdo);
 
 $action = $_POST['action'];
 
 if ($action == 'submit') {
+  $propNum = $_POST['property-num'];
+
+  $old = $repo->identify($propNum);
+
   $asset = new Asset(
-    propNum: $_POST['property-num'],
+    propNum: $propNum,
     procNum: $_POST['procurement-num'],
     serialNum: $_POST['serial-num'],
     purchaseDate: $_POST['purchase-date'],
@@ -24,6 +29,11 @@ if ($action == 'submit') {
   );
 
   $repo->update($asset);
+
+  systemLog(
+    "modified asset $propNum",
+    []
+  );
 }
 
 header('Location: ../../public/views/asset-manager.php');

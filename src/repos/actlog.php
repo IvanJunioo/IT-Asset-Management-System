@@ -6,7 +6,7 @@ include_once '../model/user.php';
 
 interface ActLogRepoInterface {
   public function getLogs(int $limit = 50): array;
-  public function systemLog(
+  public function add(
     User $user,
     string $log,
     array $metadata,
@@ -19,14 +19,17 @@ final class ActLogRepo implements ActlogRepoInterface {
   ) {}
 
   public function getLogs(int $limit = 50): array {
-    $query = "SELECT * FROM actlog LIMIT $limit";
+    $query = "SELECT * FROM actlog 
+      ORDER BY Timestamp DESC 
+      LIMIT $limit
+    ";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
   }
 
-  public function systemLog(
+  public function add(
     User $user,
     string $log,
     array $metadata,

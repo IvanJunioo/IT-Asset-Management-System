@@ -3,16 +3,20 @@
 require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
 require_once '../repos/user.php';
+require_once '../manager/logger.php';
 
-$search = $_POST['search'] ?? "";
+$empID = $_POST['search'] ?? "";
 
 $repo = new UserRepo($pdo);
 
-$users = $repo->search(new UserSearchCriteria(empID: $search));
-if (!empty($users)){
-  $user =  $users[0];
-  $user->isActive = false;
-	$repo->update($user);
-}
+$user = $repo->identify($empID);
+$user->isActive = false;
+$repo->update($user);
+
+systemLog(
+  "deactivated user $empID",
+  []
+);
+
 
 exit;

@@ -4,6 +4,7 @@ require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
 require_once '../model/user.php';
 require_once '../repos/user.php';
+require_once '../manager/logger.php';
 
 if ($_POST['action'] == 'submit') {
   $repo = new UserRepo($pdo);
@@ -37,6 +38,11 @@ if ($_POST['action'] == 'submit') {
   };
   
   $repo->add($user);
+
+  systemLog(
+    "added new user " . $_POST['employee-id'],
+    []
+  );
 }
 
 header('Location: ../../public/views/user-manager.php');

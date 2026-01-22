@@ -4,8 +4,9 @@ require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
 require_once '../model/asset.php';
 require_once '../repos/asset.php';
+require_once '../manager/logger.php';
 
-$repo = new AssetRepo($pdo);
+$assetRepo = new AssetRepo($pdo);
 
 $action = $_POST['action'];
 
@@ -26,8 +27,13 @@ if ($action == 'submit') {
       status: AssetStatus::from($_POST['asset-status']),
     );
   
-    $repo->add($asset);
+    $assetRepo->add($asset);
   }
+
+  systemLog(
+    "added " . count($propNums) . " new asset(s).", 
+    ["assets" => $propNums]
+  );
 }
 
 header('Location: ../../public/views/asset-manager.php');

@@ -2,8 +2,8 @@
 
 declare (strict_types=1);
 
-include_once 'user.php';
-include_once 'asset.php';
+include_once '../model/user.php';
+include_once '../model/asset.php';
 
 interface AssignmentRepoInterface {
   public function getAssignedAssets(User $user): array;
