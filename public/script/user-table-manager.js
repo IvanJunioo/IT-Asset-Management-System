@@ -96,9 +96,8 @@ function addActionsButton() {
           <a class="menu-item" data-action="deactivate">Deactivate</a>
         </div>
       `;
+      tr.appendChild(actionElem);
     }
-
-    tr.appendChild(actionElem);
   }
 }
 
