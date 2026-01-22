@@ -8,27 +8,12 @@
   <?php include '../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = '../../src/handlers/add-assignment-form.php' method="post">
+    <form action = '../../src/handlers/return-asset.php' method="post">
       <label class="input-label"> 
-        Selected Assets:
+        Asset:
         <p id="asset-list"></p>
       </label>
       
-      <label class="input-label"> 
-        Selected User: 
-        <p id="chosen-user" name = 'user'></p>
-      </label>
-
-      <label class="input-label"> 
-        Assign Date: 
-        <input 
-          type="date" 
-          id="adate" 
-          name="assign-date" 
-          placeholder="Enter Assign Date" 
-          required
-        >
-      </label>
 
 			<label class="input-label"> 
         Remarks: 
@@ -41,6 +26,17 @@
         ></textarea>
       </label>
 
+      <label class="input-label"> 
+        Return Date: 
+        <input 
+          type="date" 
+          id="adate" 
+          name="return-date" 
+          placeholder="Enter Return Date" 
+          required
+        >
+      </label>
+
       <button id="reset-button" type="reset">
         Reset
       </button>
@@ -51,7 +47,7 @@
     </form>
   </main>
 
-  <script src="../script/add-assignment.js" defer> </script>
+  <script src="../script/edit-assignment.js" defer> </script>
 
   <?php include '../partials/footer.php'?>
 </body>

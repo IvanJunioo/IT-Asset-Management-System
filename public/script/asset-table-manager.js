@@ -36,6 +36,12 @@ function editAsset(propNum) {
   .catch(err => console.error("Error editing assets: ", err));
 }
 
+function returnAsset(propNum) {
+  sessionStorage.setItem("assetToReturn", JSON.stringify(propNum));
+  window.location.href = "../views/return-form.php"
+}
+
+
 function deleteAsset(propNum) {
   fetch("../../src/handlers/delete-asset.php", {
     method: "POST",
@@ -96,11 +102,14 @@ function addActionsButton() {
       menuHTML += `<a class="menu-item" data-action="condemn">Condemn</a>`
     }
 
+    if (tr.dataset.status === "Assigned"){
+      menuHTML += `<a class="menu-item" data-action="return">Return</a>`
+    }
+
     if (tr.dataset.status === "Unassigned"){
       menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
     </div>`
     }
-    
     
     actionElem.innerHTML = menuHTML;
     tr.appendChild(actionElem);
@@ -163,6 +172,8 @@ document.addEventListener("click", (e) => {
       case "assign":
         assignAssets([propNum]);
         break;
+      case "return":
+        returnAsset(propNum);
     }
     return;
   }

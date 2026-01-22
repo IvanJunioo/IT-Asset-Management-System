@@ -1,34 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
-	const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
+  const assetToReturn = JSON.parse(sessionStorage.getItem("assetToReturn"));
   const assetForm = document.querySelector(".assign-asset-form"); 
 
-  if (!assetsToAssign || !userAssigned) return;
+  if (!assetToReturn) return;
 
-  fillForm(assetsToAssign, userAssigned);
+  fillForm(assetToReturn);
 
-  function fillForm(assets, user) {
-    p_asset = assetForm.querySelector('#asset-list');
-		assetForm.querySelector("#chosen-user").textContent = `EmpID: ${user}`;
-		textContent = "";
-    for (const asset of assets) {
-      textContent += `PropNum: ${asset}, `
-    }
-		p_asset.textContent = textContent.slice(0,-2);
+  function fillForm(asset) {
+    assetForm.querySelector('#asset-list').textContent = `PropNum: ${asset}`
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");
-    for (const asset of assets) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = "assets[]";
-      input.value = asset;
-      form.appendChild(input);      
-    }
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "user";
-    input.value = user;
+    input.name = "asset";
+    input.value = asset;
     form.appendChild(input);      
   }
 });
