@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const tableFuncs = document.createElement("div");
   tableFuncs.className = "table-func";
   tableFuncs.innerHTML = `
+    <button id="reverse-sort">
+      <span class="material-icons">swap_vert</span>
+    </button>
     <button id="sort-by">
       <span class="material-icons"> sort </span>
     </button>
@@ -130,23 +133,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+let currentSortKey = "propNum"; // track which column is sorted
+let sortOrder = "asc"; 
+
 function sortAsset(sortKey) {
   if (!sortKey) return;
+  currentSortKey = sortKey; // update current column
   const rows = Array.from(assetTableBody.querySelectorAll("tr"));
+
   rows.sort((a, b) => {
-    let valA = a.dataset[sortKey];
-    let valB = b.dataset[sortKey];
+    let valA = a.dataset[sortKey] || "";
+    let valB = b.dataset[sortKey] || "";
 
     const dateA = Date.parse(valA);
     const dateB = Date.parse(valB);
     if (!isNaN(dateA) && !isNaN(dateB)) {
-      return dateA - dateB;
+      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     }
 
-    valA = valA ? valA.toLowerCase() : ""; 
-    valB = valB ? valB.toLowerCase() : "";
-    if (valA < valB) return -1;
-    if (valA > valB) return 1;
+    valA = valA.toLowerCase();
+    valB = valB.toLowerCase();
+
+    if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+    if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     return 0;
   });
 
@@ -175,8 +184,17 @@ document.addEventListener("click", (e) => {
 
   const menuBtn = e.target.closest(".menu-item[data-sort]");
   if (menuBtn) {
+    sortOrder = 'asc'
     const sortKey = menuBtn.dataset.sort;
     sortAsset(sortKey);
+    
+  }
+
+  const reverseBtn = e.target.closest("#reverse-sort");
+  if (reverseBtn) {
+    if (!currentSortKey) return;
+    sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    sortAsset(currentSortKey);
   }
 
   document.querySelectorAll(".sort-menu").forEach(menu => {
@@ -184,3 +202,5 @@ document.addEventListener("click", (e) => {
   });
 
 });
+
+
