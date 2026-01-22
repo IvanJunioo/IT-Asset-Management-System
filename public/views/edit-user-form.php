@@ -14,6 +14,6 @@
     
     <?php include '../partials/footer.php'?>
     
-    <script src="../script/edit-user.js" defer></script>
+    <script src="../script/edit-user.js" type="module" defer></script>
 </body>
 </html>

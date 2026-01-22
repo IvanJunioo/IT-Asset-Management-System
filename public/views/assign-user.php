@@ -13,6 +13,6 @@
   
   <?php include '../partials/footer.php'?>
   
-  <script src="../script/assign-user.js" defer></script>
+  <script src="../script/assign-user.js" type="module" defer></script>
 </body>
 </html>

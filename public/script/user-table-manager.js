@@ -1,3 +1,8 @@
+const leftUser = document.querySelector(".left-user");
+const tableContainer = leftUser.querySelector(".table-container");
+const userTable = tableContainer.querySelector(".user-table");
+const userTableBody = userTable.querySelector("tbody");
+
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
   addUserAdd();
@@ -61,8 +66,8 @@ function addActionsButton() {
           <a class="menu-item" data-action="deactivate">Deactivate</a>
         </div>
       `;
-      tr.appendChild(actionElem);
     }
+    tr.appendChild(actionElem);
   }
 }
 
@@ -181,9 +186,6 @@ userTableBody.addEventListener("usersLoaded", () => {
 
         // Remove checkbox per row
         for (const tr of userTableBody.querySelectorAll("tr")) {
-          if (tr.dataset.activeStatus === "Inactive"){
-            continue;
-          }
           tr.lastElementChild.remove();
         }
 

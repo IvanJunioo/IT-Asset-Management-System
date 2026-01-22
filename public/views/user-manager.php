@@ -13,6 +13,6 @@
   
   <?php include '../partials/footer.php'?>
   
-  <script src="../script/user-table-manager.js" defer></script>
+  <script src="../script/user-table-manager.js" type="module" defer></script>
 </body>
 </html>

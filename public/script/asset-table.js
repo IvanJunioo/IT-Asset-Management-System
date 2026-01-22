@@ -6,7 +6,6 @@ const assetTableBody = assetTable.querySelector("tbody");
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
-  const assetTableBody = document.querySelector('.asset-table tbody');
   const filterBox = document.getElementById("filter-box");
 
   const tableFuncs = document.createElement("div");

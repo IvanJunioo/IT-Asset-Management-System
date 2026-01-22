@@ -53,4 +53,4 @@
   <button id="export"> Export assets </button>
 </div>
 
-<script src="../script/asset-table.js" defer></script>
+<script src="../script/asset-table.js" type="module" defer></script>

@@ -1,3 +1,8 @@
+const leftAsset = document.querySelector(".left-asset");
+const tableContainer = leftAsset.querySelector(".table-container");
+const assetTable = tableContainer.querySelector(".asset-table");
+const assetTableBody = assetTable.querySelector("tbody");
+
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
   addAssetAdd();
@@ -36,7 +41,6 @@ function returnAsset(propNum) {
   window.location.href = "../views/return-form.php"
 }
 
-
 function deleteAsset(propNum) {
   fetch("../../src/handlers/delete-asset.php", {
     method: "POST",
@@ -57,9 +61,9 @@ function addTableFuncs() {
   // uses buttons instead of checkboxes to use google material icons. checks state by icon content
   const tableFuncsClass = document.querySelector(".table-func");
   tableFuncsClass.insertAdjacentHTML("afterbegin", `
-  <button id="multi-select">
-    <span class="material-icons"> check_box_outline_blank </span>
-  </button>
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span>
+    </button>
   `);
 }
 

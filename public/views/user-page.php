@@ -47,4 +47,4 @@
   </div>
 </div>
 
-<script src="../script/user-table.js" defer></script>
+<script src="../script/user-table.js" type="module" defer></script>

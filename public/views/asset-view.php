@@ -48,7 +48,7 @@
 			</div>
 		</div>
 
-		<script src= ../script/view-asset.js defer></script>
+		<script src= ../script/view-asset.js type="module" defer></script>
   </main>
 
   <?php include '../partials/footer.php'?>

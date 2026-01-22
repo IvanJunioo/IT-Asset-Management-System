@@ -13,6 +13,6 @@
   
   <?php include '../partials/footer.php'?>
   
-  <script src="../script/add-asset.js" defer></script>
+  <script src="../script/add-asset.js" type="module" defer></script>
 </body>
 </html>

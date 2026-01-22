@@ -68,6 +68,6 @@
 
   <?php include '../partials/footer.php'?>
 
-  <script src="../script/dashboard.js" defer></script>
+  <script src="../script/dashboard.js" type="module" defer></script>
 </body>
 </html>

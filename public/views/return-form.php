@@ -47,7 +47,7 @@
     </form>
   </main>
 
-  <script src="../script/edit-assignment.js" defer> </script>
+  <script src="../script/edit-assignment.js" type="module" defer> </script>
 
   <?php include '../partials/footer.php'?>
 </body>
