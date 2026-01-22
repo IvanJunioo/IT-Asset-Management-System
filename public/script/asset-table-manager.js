@@ -65,21 +65,14 @@ function sortAsset(sortKey) {
     let valA = a.dataset[sortKey];
     let valB = b.dataset[sortKey];
 
-    // const numA = parseFloat(valA);
-    // const numB = parseFloat(valB);
-    // if (!isNaN(numA) && !isNaN(numB)) {
-    //   return numA - numB;
-    // }
-
     const dateA = Date.parse(valA);
     const dateB = Date.parse(valB);
     if (!isNaN(dateA) && !isNaN(dateB)) {
       return dateA - dateB;
     }
 
-
-    valA = valA.toLowerCase();
-    valB = valB.toLowerCase();
+    valA = valA ? valA.toLowerCase() : ""; 
+    valB = valB ? valB.toLowerCase() : "";
     if (valA < valB) return -1;
     if (valA > valB) return 1;
     return 0;
