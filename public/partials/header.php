@@ -18,30 +18,14 @@
 
     <section id="navigation">
         <div id="navigation-bar">
-            <a href="<?= BASE_URL ?>public/views/dashboard.php">
-                Dashboard
-            </a>
-
-            <a href="<?= BASE_URL ?>public/views/assets.php">
-                Assets
-            </a>
-
-            <a href="<?= BASE_URL ?>public/views/asset-manager.php">
-                Manage Assets
-            </a>
-
-            <a href="<?= BASE_URL ?>public/views/users.php">
-                Users
-            </a>
-
-            <a href="<?= BASE_URL ?>public/views/user-manager.php">
-                Manage Users
-            </a>
-
-            <a href="<?= BASE_URL ?>public/views/activity-log.php">
-                System Activities
-            </a>
-        </div> 
+            <?php foreach ($navItems as $label => $item): ?>
+                <?php if (in_array($privilege, $item['roles'])): ?>
+                    <a href="<?= htmlspecialchars($item['url']) ?>">
+                        <?= htmlspecialchars($label) ?>
+                    </a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
 
         <div id="user-panel">
             <span id="username"> 
