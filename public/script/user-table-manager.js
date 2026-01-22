@@ -1,8 +1,3 @@
-const leftUser = document.querySelector(".left-user");
-const tableContainer = leftUser.querySelector(".table-container");
-const userTable = tableContainer.querySelector(".user-table");
-const userTableBody = userTable.querySelector("tbody");
-
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
   addUserAdd();
@@ -34,43 +29,13 @@ function deleteUser(empid){
   .catch(err => console.error("Error deleting user: ", err));
 }
 
-function sortUser(sortKey) {
-  if (!sortKey) return;
-  const rows = Array.from(userTableBody.querySelectorAll("tr"));
-  rows.sort((a, b) => {
-    let valA = a.dataset[sortKey];
-    let valB = b.dataset[sortKey];
-
-    valA = valA ? valA.toLowerCase() : ""; 
-    valB = valB ? valB.toLowerCase() : "";
-    if (valA < valB) return -1;
-    if (valA > valB) return 1;
-    return 0;
-  });
-
-  rows.forEach(tr => userTableBody.appendChild(tr));
-}
-
 function addTableFuncs() {
-  const tableFuncs = document.createElement("div");
-  tableFuncs.className = "table-func";
-  tableFuncs.innerHTML = `
-    <button id="multi-select">
-      <span class="material-icons"> check_box_outline_blank </span>
-    </button>
-    <button id="sort-by">
-      <span class="material-icons"> sort </span>
-    </button>
-    <div id="sort-menu" class="sort-menu">
-      <a class="menu-item" data-sort="empID">Employee ID</a>
-      <a class="menu-item" data-sort="empMail">Email</a>
-      <a class="menu-item" data-sort="fName">First Name</a>
-      <a class="menu-item" data-sort="mName">Middle Name</a>
-      <a class="menu-item" data-sort="lName">Last Name</a>
-    </div>
-  `;
-
-  leftUser.insertBefore(tableFuncs, tableContainer);
+  const tableFuncsClass = document.querySelector(".table-func");
+  tableFuncsClass.insertAdjacentHTML("afterbegin", `
+  <button id="multi-select">
+    <span class="material-icons"> check_box_outline_blank </span>
+  </button>
+  `);
 }
 
 function addActionsButton() {
@@ -159,38 +124,6 @@ document.addEventListener("click", (e) => {
   document.querySelectorAll(".action-menu").forEach(menu => {
     menu.style.display = "none";
   });
-});
-
-document.addEventListener("click", (e) => {
-  const sortBtn = e.target.closest("#sort-by");
-  if (sortBtn) {
-    e.stopPropagation();
-    const menu = document.querySelector("#sort-menu");
-    const isVisible = menu.style.display === "flex";
-
-    document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
-
-    if (!isVisible) {
-      const boundingRect = sortBtn.getBoundingClientRect();
-      const gap = 8;
-
-      menu.style.top = `${boundingRect.top - gap}px`;
-      menu.style.left = `${boundingRect.right + gap}px`;
-      menu.style.display = "flex";
-    }
-    return;
-  }
-
-  const menuBtn = e.target.closest(".menu-item[data-sort]");
-  if (menuBtn) {
-    const sortKey = menuBtn.dataset.sort;
-    sortUser(sortKey);
-  }
-
-  document.querySelectorAll(".sort-menu").forEach(menu => {
-    menu.style.display = "none";
-  });
-
 });
 
 

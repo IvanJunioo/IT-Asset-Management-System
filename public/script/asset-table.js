@@ -1,8 +1,31 @@
+const leftAsset = document.querySelector(".left-asset");
+const tableContainer = leftAsset.querySelector(".table-container");
+const assetTable = tableContainer.querySelector(".asset-table");
+const assetTableBody = assetTable.querySelector("tbody");
+
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
   const assetTableBody = document.querySelector('.asset-table tbody');
   const filterBox = document.getElementById("filter-box");
+
+  const tableFuncs = document.createElement("div");
+  tableFuncs.className = "table-func";
+  tableFuncs.innerHTML = `
+    <button id="sort-by">
+      <span class="material-icons"> sort </span>
+    </button>
+
+    <div id="sort-menu" class="sort-menu">
+      <a class="menu-item" data-sort="propNum">Property No</a>
+      <a class="menu-item" data-sort="procNum">Procurement No</a>
+      <a class="menu-item" data-sort="purchaseDate">Purchase Date</a>
+      <a class="menu-item" data-sort="price">Price</a>
+      <a class="menu-item" data-sort="assignedTo">Assigned User</a>
+    </div>
+  `;
+
+  leftAsset.insertBefore(tableFuncs, tableContainer);
   
   function fetchAssets() {    
     const searchFilters = searchInput.value;
@@ -103,6 +126,61 @@ document.addEventListener("DOMContentLoaded", () => {
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
     filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.checked = false);
     fetchAssets();
+  });
+
+});
+
+function sortAsset(sortKey) {
+  if (!sortKey) return;
+  const rows = Array.from(assetTableBody.querySelectorAll("tr"));
+  rows.sort((a, b) => {
+    let valA = a.dataset[sortKey];
+    let valB = b.dataset[sortKey];
+
+    const dateA = Date.parse(valA);
+    const dateB = Date.parse(valB);
+    if (!isNaN(dateA) && !isNaN(dateB)) {
+      return dateA - dateB;
+    }
+
+    valA = valA ? valA.toLowerCase() : ""; 
+    valB = valB ? valB.toLowerCase() : "";
+    if (valA < valB) return -1;
+    if (valA > valB) return 1;
+    return 0;
+  });
+
+  rows.forEach(tr => assetTableBody.appendChild(tr));
+}
+
+document.addEventListener("click", (e) => {
+  const sortBtn = e.target.closest("#sort-by");
+  if (sortBtn) {
+    e.stopPropagation();
+    const menu = document.querySelector("#sort-menu");
+    const isVisible = menu.style.display === "flex";
+
+    document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
+
+    if (!isVisible) {
+      const boundingRect = sortBtn.getBoundingClientRect();
+      const gap = 8;
+
+      menu.style.top = `${boundingRect.top - gap}px`;
+      menu.style.left = `${boundingRect.right + gap}px`;
+      menu.style.display = "flex";
+    }
+    return;
+  }
+
+  const menuBtn = e.target.closest(".menu-item[data-sort]");
+  if (menuBtn) {
+    const sortKey = menuBtn.dataset.sort;
+    sortAsset(sortKey);
+  }
+
+  document.querySelectorAll(".sort-menu").forEach(menu => {
+    menu.style.display = "none";
   });
 
 });
