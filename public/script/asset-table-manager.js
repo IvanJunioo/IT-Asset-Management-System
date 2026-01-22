@@ -58,6 +58,36 @@ function assignAssets(propNums) {
   window.location.href = "../views/assign-user.php";
 }
 
+function sortAsset(sortKey) {
+  if (!sortKey) return;
+  const rows = Array.from(assetTableBody.querySelectorAll("tr"));
+  rows.sort((a, b) => {
+    let valA = a.dataset[sortKey];
+    let valB = b.dataset[sortKey];
+
+    // const numA = parseFloat(valA);
+    // const numB = parseFloat(valB);
+    // if (!isNaN(numA) && !isNaN(numB)) {
+    //   return numA - numB;
+    // }
+
+    const dateA = Date.parse(valA);
+    const dateB = Date.parse(valB);
+    if (!isNaN(dateA) && !isNaN(dateB)) {
+      return dateA - dateB;
+    }
+
+
+    valA = valA.toLowerCase();
+    valB = valB.toLowerCase();
+    if (valA < valB) return -1;
+    if (valA > valB) return 1;
+    return 0;
+  });
+
+  rows.forEach(tr => assetTableBody.appendChild(tr));
+}
+
 function addTableFuncs() {
   // uses buttons instead of checkboxes to use google material icons. checks state by icon content
   const tableFuncs = document.createElement("div");
@@ -71,8 +101,12 @@ function addTableFuncs() {
     </button>
 
     <div id="sort-menu" class="sort-menu">
-      <a data-sort="propNum">Property No</a>
-      <a data-sort="procNum">Procurement No</a>
+      <a class="menu-item" data-sort="propNum">Property No</a>
+      <a class="menu-item" data-sort="procNum">Procurement No</a>
+      <a class="menu-item" data-sort="purchaseDate">Purchase Date</a>
+      <a class="menu-item" data-sort="price">Price</a>
+      <a class="menu-item" data-sort="assignedTo">Assigned User</a>
+
     </div>
   `;
 
@@ -208,6 +242,12 @@ document.addEventListener("click", (e) => {
       menu.style.display = "flex";
     }
     return;
+  }
+
+  const menuBtn = e.target.closest(".menu-item[data-sort]");
+  if (menuBtn) {
+    const sortKey = menuBtn.dataset.sort;
+    sortAsset(sortKey);
   }
 
   document.querySelectorAll(".sort-menu").forEach(menu => {
