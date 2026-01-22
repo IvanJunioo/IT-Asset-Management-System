@@ -130,7 +130,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
       ReturnDateTime = :rd,
       Remarks = CONCAT(Remarks, :r)
       WHERE assignment.PropNum = :pn 
-      AND assignment.ReturnDateTime = NULL 
+      AND assignment.ReturnDateTime IS NULL 
     ;";
     
     $this->pdo->prepare($query)->execute([
