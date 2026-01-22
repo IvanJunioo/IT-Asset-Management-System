@@ -44,13 +44,13 @@
         </div> 
 
         <div id="user-panel">
-            <div id="username"> 
+            <span id="username"> 
               <?= htmlspecialchars("{$userLName}, {$userFName}, {$userMName[0]}") ?>
-            </div>
-            <div id="user-role">
+            </span>
+            <span id="user-role">
               <?= htmlspecialchars($privilege) ?>
-            </div>
-            <a id="logout"> Sign Out </a>
+            </span>
+            <a id="logout" href="<?= BASE_URL ?>src/handlers/logout.php"> Sign Out </a>
         </div>
     </section>
 </div>

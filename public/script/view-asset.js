@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'specs': asset['Specs'],
       'desc': asset['ShortDesc'],
       'remarks': asset['Remarks'],
-      'img_url': asset['Url'],
+      'sd_url': asset['Url'],
 			'stats': asset['Status'],
 			'alog' : asset['ActLog']
     };

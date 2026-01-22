@@ -112,6 +112,7 @@ tbody tr:hover {
     position: sticky;
     border-radius: 0.75rem;
     top: 0;
+    z-index: 99999;
 }
 
 .user-table th {
@@ -119,7 +120,6 @@ tbody tr:hover {
     text-align: center;
     font-weight: 600;
     border-bottom: 2px solid var(--darker-primary);
-    z-index: 2;
 }
 
 .right-user {
@@ -296,12 +296,6 @@ tbody tr:hover {
     background-color: #e0e0e0;
 }
 
-.actions {
-    position: relative;
-    display: flex;
-    gap: 1rem;
-}
-
 .action-menu {
     position: fixed;
     background: white;
@@ -311,7 +305,7 @@ tbody tr:hover {
     display: none;
     flex-direction: column;
     min-width: 100px;
-    z-index: 99999;
+    z-index: 10;
 }
 
 .menu-item {
@@ -358,6 +352,7 @@ textarea {
     letter-spacing: 0.4px;
     position: sticky;
     border-radius: 0.75rem;
+    z-index: 99999;
 }
 
 .assign-user th {

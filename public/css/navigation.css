@@ -49,3 +49,7 @@ section#navigation {
     font-weight: 500;
     text-transform: uppercase;
 }
+
+#user-panel a:hover {
+    text-decoration: underline;
+}

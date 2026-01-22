@@ -283,13 +283,6 @@ button {
     background-color: #cacaca;
 }
 
-.asset-table .actions {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .asset-table .action-btn {
     background: none;
     border: none;
@@ -307,12 +300,6 @@ button {
 
 .asset-table .action-btn:hover {
     background-color: #e0e0e0;
-}
-
-.actions {
-    position: relative;
-    display: flex;
-    gap: 1rem;
 }
 
 .action-menu {

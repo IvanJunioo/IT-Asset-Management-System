@@ -39,8 +39,8 @@
 				<div id='price'>
 					<b>Price:</b> 
 				</div>
-				<div id='img_url'>
-					<b>Image URL:</b> 
+				<div id='sd_url'>
+					<b>Support Docs URL:</b> 
 				</div>
 				<div id='alog'>
 					<b>Asset Log:</b> 

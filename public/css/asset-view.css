@@ -8,19 +8,17 @@
   font-family: system-ui, sans-serif;
 }
 
-.asset-info div {
-  margin: 0.5rem 0;
+.asset-info{
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .status.unused { color: #22c55e; font-weight: bold; }
 .status.assigned { color: #f97316; font-weight: bold; }
 
-.view-link {
-  display: inline-block;
-  margin-top: 1rem;
-  color: #2563eb;
-  text-decoration: none;
-}
-.view-link:hover {
+#sd_url:hover {
   text-decoration: underline;
+  cursor: pointer;
 }

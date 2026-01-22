@@ -16,6 +16,7 @@
   $userMName = $_SESSION['user_mname'] ?? '';
   $userLName = $_SESSION['user_lname'] ?? '';
   $privilege = $_SESSION['privilege'] ?? '';
+  $privilege = $privilege == "SuperAdmin" ? "Super Admin" : $privilege
 ?>
 
 <!-- head.php -->
