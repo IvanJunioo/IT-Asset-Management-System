@@ -378,3 +378,24 @@ textarea {
 .select-btn:hover {
     background-color: var(--border-color);
 }
+
+.sort-menu {
+    position: fixed;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    min-width: 100px;
+    z-index: 99999;
+}
+
+.sort-menu a {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.sort-menu a:hover {
+  background: #f2f2f2;
+}

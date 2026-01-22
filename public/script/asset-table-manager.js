@@ -99,7 +99,6 @@ function addTableFuncs() {
       <a class="menu-item" data-sort="purchaseDate">Purchase Date</a>
       <a class="menu-item" data-sort="price">Price</a>
       <a class="menu-item" data-sort="assignedTo">Assigned User</a>
-
     </div>
   `;
 
@@ -221,7 +220,6 @@ document.addEventListener("click", (e) => {
   if (sortBtn) {
     e.stopPropagation();
     const menu = document.querySelector("#sort-menu");
-    const rect = sortBtn.getBoundingClientRect();
     const isVisible = menu.style.display === "flex";
 
     document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
