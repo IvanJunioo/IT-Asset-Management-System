@@ -7,6 +7,46 @@ var inactiveCnt = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
+
+  // Handles all table func clicks dynamically
+  const tableFuncs = leftUser.querySelector(".table-func");
+  tableFuncs.addEventListener("click", (e) => {
+    if (e.target.closest("#multi-select")) {
+      const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
+      
+      if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
+        // Add select-all button
+        const hr = userTable.querySelector("thead tr");
+        hr.lastElementChild.innerHTML = `
+          <button id="select-all">
+            <span class="material-icons"> select_all </span>
+          </button>
+        `;
+
+        // Add checkbox per row
+        for (const tr of userTableBody.querySelectorAll("tr")) {
+          if (tr.dataset.activeStatus === "Inactive"){
+            continue;
+          }
+          tr.lastElementChild.innerHTML = `
+            <button class="selectable-row">
+              <span class="material-icons"> check_box_outline_blank </span>
+            </button>
+          `;
+        }
+
+        multiSelectIcon.textContent = "check_box";
+        return;
+      } 
+
+      if (multiSelectIcon.textContent.trim() === "check_box") {
+        resetMultiSelect();
+        addActionsButton();
+        return;
+      }
+    }
+  });
+
   addUserAdd();
 });
 
@@ -159,105 +199,50 @@ document.addEventListener("click", (e) => {
   });
 });
 
+let selectedRows = new Set();
+
+function selectRow(tr) {
+  selectedRows.add(tr);
+  tr.querySelector(".material-icons").textContent = "check_box";
+}
+
+function deselectRow(tr) {    
+  selectedRows.delete(tr);
+  tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
+}
 
 userTableBody.addEventListener("usersLoaded", () => {
+  selectedRows.clear();
   resetMultiSelect();
-  let selectedRows = new Set();
-
-  function selectRow(tr) {
-    const iconExists = tr.querySelector(".selectable-row .material-icons");
-    if (!iconExists) return;
-
-    selectedRows.add(tr);
-    tr.querySelector(".material-icons").textContent = "check_box";
-  }
-
-  function deselectRow(tr) {
-    const iconExists = tr.querySelector(".selectable-row .material-icons");
-    if (!iconExists) return;
-    
-    selectedRows.delete(tr);
-    tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
-  }
 
   addActionsButton();
+});
 
-  // Handles all table func clicks dynamically
-  const tableFuncs = leftUser.querySelector(".table-func");
-  tableFuncs.addEventListener("click", (e) => {
-    if (e.target.closest("#multi-select")) {
-      const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
-      
-      if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
-        // Add select-all button
-        const hr = userTable.querySelector("thead tr");
-        hr.lastElementChild.innerHTML = `
-          <button id="select-all">
-            <span class="material-icons"> select_all </span>
-          </button>
-        `;
+// Handles all table clicks dynamically
+tableContainer.addEventListener("click", (e) => {
+  if (e.target.closest("#select-all")) {
+    const rows = userTableBody.querySelectorAll("tr");
 
-        // Add checkbox per row
-        for (const tr of userTableBody.querySelectorAll("tr")) {
-          if (tr.dataset.activeStatus === "Inactive"){
-            continue;
-          }
-          tr.lastElementChild.innerHTML = `
-            <button class="selectable-row">
-              <span class="material-icons"> check_box_outline_blank </span>
-            </button>
-          `;
-        }
-
-        multiSelectIcon.textContent = "check_box";
-        return;
-      } 
-
-      if (multiSelectIcon.textContent.trim() === "check_box") {
-        // Remove select-all button
-        document.querySelectorAll("#select-all").forEach(elem => {
-          elem?.remove();
-        })
-
-        // Remove checkbox per row
-        for (const tr of userTableBody.querySelectorAll("tr")) {
-          tr.lastElementChild.remove();
-        }
-
-        addActionsButton();
-
-        multiSelectIcon.textContent = "check_box_outline_blank";
-        return;
-      }
-    }
-  });
-
-  // Handles all table clicks dynamically
-  tableContainer.addEventListener("click", (e) => {
-    if (e.target.closest("#select-all")) {
-      const rows = userTableBody.querySelectorAll("tr");
-
-      if (selectedRows.size === (rows.length - inactiveCnt)) {
-        for (const tr of rows) {
-          deselectRow(tr);
-        }
-      }
-      else {
-        for (const tr of rows) {
-          selectRow(tr);
-        }
-      }
-      return;
-    }
-
-    if (e.target.closest(".selectable-row")) {
-      const tr = e.target.closest("tr");
-      if (selectedRows.has(tr)) {
+    if (selectedRows.size === (rows.length - inactiveCnt)) {
+      for (const tr of rows) {
         deselectRow(tr);
-      } else {
+      }
+    }
+    else {
+      for (const tr of rows) {
         selectRow(tr);
       }
-      return;
     }
-  });
+    return;
+  }
+
+  if (e.target.closest(".selectable-row")) {
+    const tr = e.target.closest("tr");
+    if (selectedRows.has(tr)) {
+      deselectRow(tr);
+    } else {
+      selectRow(tr);
+    }
+    return;
+  }
 });
