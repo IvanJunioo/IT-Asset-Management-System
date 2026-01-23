@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   fillForm(assetsToAssign, userAssigned);
 
   function fillForm(assets, user) {
-    p_asset = assetForm.querySelector('#asset-list');
+    const p_asset = assetForm.querySelector('#asset-list');
 		assetForm.querySelector("#chosen-user").textContent = `EmpID: ${user}`;
-		textContent = "";
-    for (const asset of assets) {
-      textContent += `PropNum: ${asset}, `
-    }
-		p_asset.textContent = textContent.slice(0,-2);
+		// textContent = "";
+    // for (const asset of assets) {
+    //   textContent += `PropNum: ${asset}, `
+    // }
+		p_asset.textContent = `PropNum(s): ${assets}`;
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");

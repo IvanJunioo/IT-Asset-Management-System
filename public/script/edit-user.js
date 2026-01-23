@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   form.action = "../../src/handlers/edit-user-form.php";
   form.method = "post";
 
+  form.querySelector("input#empid").disabled = true;
+
   if (!userData) return;
 
   fillForm(Array.isArray(userData) ? userData[0] : userData);
@@ -20,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'ln': user['LName'],
     };
 
-    childrenInput = userForm.querySelectorAll('input');
+    const childrenInput = userForm.querySelectorAll('input');
     for (const child of childrenInput) {
       if (child.id in data) {
         child.value = data[child.id];

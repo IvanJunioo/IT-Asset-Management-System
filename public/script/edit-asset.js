@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   form.action = "../../src/handlers/edit-asset-form.php"; 
   form.method = "post";
 
+  form.querySelector("input#pnum").disabled = true;
+
   if (!assetData) return;
 
   fillForm(Array.isArray(assetData) ? assetData[0] : assetData);

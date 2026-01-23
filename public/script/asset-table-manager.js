@@ -19,9 +19,9 @@ function viewAsset(propNum) {
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-    window.location.href = "../views/asset-view.php"
+    window.location.href = "../views/asset-view.php";
   })
-  .catch(err => console.error("Error viewing asset: ", err))
+  .catch(err => console.error("Error viewing asset: ", err));
 }
 
 function editAsset(propNum) {
@@ -40,7 +40,7 @@ function editAsset(propNum) {
 
 function returnAsset(propNum) {
   sessionStorage.setItem("assetToReturn", JSON.stringify(propNum));
-  window.location.href = "../views/return-form.php"
+  window.location.href = "../views/return-form.php";
 }
 
 function deleteAsset(propNum) {
