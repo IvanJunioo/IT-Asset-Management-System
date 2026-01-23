@@ -16,6 +16,8 @@ if ($_POST['action'] == 'submit') {
     $_POST['last-name'],
   );
   $status = $_POST['active-status'] === 'Active';
+
+  $old = $repo->identify($empID);
   
   $user = match (UserPrivilege::from($_POST['privilege'])) {
     UserPrivilege::SuperAdmin => new SuperAdmin(
@@ -42,7 +44,7 @@ if ($_POST['action'] == 'submit') {
 
   systemLog(
     "modified user $empID",
-    []
+    array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize()),
   );
 }
 

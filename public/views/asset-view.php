@@ -44,6 +44,7 @@
 				</div>
 				<div id='alog'>
 					<b>Asset Log:</b> 
+          <?php include '../views/act-log.php'?>
 				</div>
 			</div>
 		</div>

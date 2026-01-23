@@ -1,3 +1,5 @@
+import { fetchLogs } from "./act-log.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const assetData = JSON.parse(sessionStorage.getItem("viewAssetData"));
   const assetView = document.querySelector(".asset-info"); 
@@ -19,13 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
       'remarks': asset['Remarks'],
       'sd_url': asset['Url'],
 			'stats': asset['Status'],
-			'alog' : asset['ActLog']
     };
 
     for (const [k,v] of Object.entries(data)) {
       const div = assetView.querySelector(`#${k}`);
       div.innerHTML += v;
     }
+
+    fetchLogs(data["pnum"]);
   }
 });
 		

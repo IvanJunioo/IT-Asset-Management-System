@@ -9,4 +9,4 @@
   <tbody></tbody>
 </table>
 
-<script src="../script/act-log.js" defer></script>
+<script src="../script/act-log.js" type="module" defer></script>
