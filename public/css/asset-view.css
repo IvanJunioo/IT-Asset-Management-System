@@ -18,7 +18,7 @@
 .status.unused { color: #22c55e; font-weight: bold; }
 .status.assigned { color: #f97316; font-weight: bold; }
 
-#sd_url:hover {
+#sd_url a:hover {
   text-decoration: underline;
   cursor: pointer;
 }

@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         asset.ProcNum,
         asset.PurchaseDate,
         asset.Specs,
-        asset.Price,
+        parseFloat(asset.Price).toFixed(2),
         asset.Status,
         asset.AssignedTo,        
       ]) {

@@ -15,11 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
       'prnum': asset['ProcNum'],
       'snum': asset['SerialNum'],
       'pdate': asset['PurchaseDate'],
-      'price': asset['Price'],
+      'price': parseFloat(asset['Price']).toFixed(2),
       'specs': asset['Specs'],
       'desc': asset['ShortDesc'],
       'remarks': asset['Remarks'],
-      'sd_url': asset['Url'],
+      'sd_url': `<a href="${asset['Url']}">${asset['Url']}</a>`,
 			'stats': asset['Status'],
     };
 
