@@ -399,3 +399,12 @@ textarea {
 .sort-menu a:hover {
   background: #f2f2f2;
 }
+
+button {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}

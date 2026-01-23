@@ -3,6 +3,8 @@ const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 
+var condemnedCnt = 0;
+
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
   addAssetAdd();
@@ -78,8 +80,14 @@ function addActionsButton() {
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     if (tr.dataset.status === "Condemned"){
+      condemnedCnt++;
       continue;
     }
+
+    if (tr.querySelector("td.actions")) {
+      continue;
+    }
+    
     actionElem.className = "actions";
     
     let menuHTML = `
@@ -121,6 +129,30 @@ function addAssetAdd() {
   `;
 
   leftAsset.append(assetAdd);
+}
+
+function resetMultiSelect() {
+  const multiSelectBtn = document.querySelector("#multi-select");
+  const icon = multiSelectBtn?.querySelector(".material-icons");
+
+  // Reset icon
+  if (icon) {
+    icon.textContent = "check_box_outline_blank";
+  }
+
+  // Remove select-all button
+  document.querySelectorAll("#select-all").forEach(btn => btn.remove());
+
+  // Remove row checkboxes
+  assetTableBody.querySelectorAll(".selectable-row")
+    .forEach(btn => btn.closest("td")?.remove());
+
+  // Remove extra table funcs
+  document.querySelector(".table-func .assign")?.remove();
+  document.querySelector(".table-func .delete")?.remove();
+
+  // Reset tracking
+  condemnedCnt = 0;
 }
 
 document.addEventListener("click", (e) => {
@@ -178,14 +210,21 @@ document.addEventListener("click", (e) => {
 });
 
 assetTableBody.addEventListener("assetsLoaded", () => {  
+  resetMultiSelect();
   let selectedRows = new Set();
 
   function selectRow(tr) {
+    const iconExists = tr.querySelector(".selectable-row .material-icons");
+    if (!iconExists) return;
+
     selectedRows.add(tr);
     tr.querySelector(".material-icons").textContent = "check_box";
   }
 
   function deselectRow(tr) {
+    const iconExists = tr.querySelector(".selectable-row .material-icons");
+    if (!iconExists) return;
+    
     selectedRows.delete(tr);
     tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
   }
@@ -287,7 +326,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
     if (e.target.closest("#select-all")) {
       const rows = assetTableBody.querySelectorAll("tr");
 
-      if (selectedRows.size === rows.length) {
+      if (selectedRows.size === (rows.length - condemnedCnt)) {
         for (const tr of rows) {
           deselectRow(tr);
         }
