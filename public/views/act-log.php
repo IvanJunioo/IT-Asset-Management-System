@@ -9,4 +9,10 @@
   <tbody></tbody>
 </table>
 
+<div>
+  <button id="prev">Prev</button>
+  <span id="page-info"></span>
+  <button id="next">Next</button>
+</div>
+
 <script src="../script/act-log.js" type="module" defer></script>

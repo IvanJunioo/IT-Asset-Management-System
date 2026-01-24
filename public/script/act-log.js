@@ -1,7 +1,12 @@
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
 
+
 let latest = 0 // latest fetch id to avoid race conditions
+let allLogs = [];
+let curPage = 1;
+let totalPage = 0;
+const rowsPerPage = 10;
 
 export function fetchLogs(search = "") {
   const fetchID = ++latest;
@@ -14,13 +19,26 @@ export function fetchLogs(search = "") {
   .then(res => res.json())
   .then(data => {
     if (fetchID !== latest) return;
-    showLogs(data);
+
+    allLogs = data;
+    curPage = 1;
+    totalPage = Math.ceil(allLogs.length/rowsPerPage)
+    showLogs();
   })
   .catch(err => console.error("Error fetching system logs: ", err));
 }
 
-function showLogs(logs) {
+function showLogs(){
+  renderPage();
+  updatePage();
+}
+
+function renderPage() {
   tbody.innerHTML = "";
+
+  const start = (curPage-1)*rowsPerPage;
+  const end = start+rowsPerPage;
+  const logs = allLogs.slice(start,end);
 
   for (const log of logs) {
     const tr = document.createElement("tr");
@@ -47,3 +65,32 @@ function showLogs(logs) {
 document.addEventListener("DOMContentLoaded", () => {
   fetchLogs();
 });
+
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const pageInfo = document.getElementById("page-info");
+
+function updatePage(){
+  
+  pageInfo.textContent = `Page ${curPage} of ${totalPage}`;
+  prevBtn.disabled = curPage === 1;
+  nextBtn.disabled = curPage === totalPage || totalPage === 0;
+}
+
+prevBtn.addEventListener("click", () => {
+  console.log(curPage);
+  if (curPage>1) {
+    curPage--;
+    showLogs();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  console.log(curPage);
+  if (curPage<totalPage) {
+    curPage++;
+    showLogs();
+  }
+});
+
+
