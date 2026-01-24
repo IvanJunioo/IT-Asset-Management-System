@@ -20,9 +20,9 @@
       <tbody></tbody>
     </table>
     <div>
-      <button id="prev">Prev</button>
+      <button type="button" id="prev">Prev</button>
       <span id="page-info"></span>
-      <button id="next">Next</button>
+      <button type="button" id="next">Next</button>
     </div>
   </div>
   

@@ -76,7 +76,6 @@ function updatePrevNext(){
 }
 
 prevBtn.addEventListener("click", () => {
-  console.log(curPage);
   if (curPage>1) {
     curPage--;
     showLogs();
@@ -84,7 +83,6 @@ prevBtn.addEventListener("click", () => {
 });
 
 nextBtn.addEventListener("click", () => {
-  console.log(curPage);
   if (curPage<totalPage) {
     curPage++;
     showLogs();
