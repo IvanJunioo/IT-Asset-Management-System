@@ -12,12 +12,14 @@ $manag = new AssignmentManager(
 );
 
 if ($_POST["action"] == 'submit') {
-	$propNum = $_POST['asset'];
+	$assets = $_POST['assets'];
   $retDate = new DateTimeImmutable($_POST['return-date']);
-  $manag->returnAsset($propNum, $retDate, $_POST['remarks']);
+  foreach ($assets as $pnum) {
+    $manag->returnAsset($pnum, $retDate, $_POST['remarks']);
+  }
 
   systemLog(
-    "returned asset $propNum",
+    "returned asset(s) "  . count($assets), ["assets" => $assets],
     []
   );
 }

@@ -10,7 +10,7 @@
   <main class="assign-asset-form">
     <form action = '../../src/handlers/add-assignment-form.php' method="post">
       <label class="input-label"> 
-        Selected Assets:
+        Selected Asset(s):
         <p id="asset-list"></p>
       </label>
       

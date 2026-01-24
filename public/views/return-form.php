@@ -10,7 +10,7 @@
   <main class="assign-asset-form">
     <form action = '../../src/handlers/return-asset.php' method="post">
       <label class="input-label"> 
-        Asset:
+        Asset(s):
         <p id="asset-list"></p>
       </label>
       

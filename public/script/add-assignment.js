@@ -10,10 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function fillForm(assets, user) {
     const p_asset = assetForm.querySelector('#asset-list');
 		assetForm.querySelector("#chosen-user").textContent = `EmpID: ${user}`;
-		// textContent = "";
-    // for (const asset of assets) {
-    //   textContent += `PropNum: ${asset}, `
-    // }
 		p_asset.textContent = `PropNum(s): ${assets}`;
 
     // add extra data with form submission by appending hidden input fields

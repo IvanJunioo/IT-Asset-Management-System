@@ -1,21 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const assetToReturn = JSON.parse(sessionStorage.getItem("assetToReturn"));
+  const assetsToReturn = JSON.parse(sessionStorage.getItem("assetsToReturn"));
   const assetForm = document.querySelector(".assign-asset-form"); 
 
-  if (!assetToReturn) return;
+  if (!assetsToReturn) return;
 
-  fillForm(assetToReturn);
+  fillForm(assetsToReturn);
 
-  function fillForm(asset) {
-    assetForm.querySelector('#asset-list').textContent = `PropNum: ${asset}`
+  function fillForm(assets) {
+    const p_asset = assetForm.querySelector('#asset-list');
+		p_asset.textContent = `PropNum(s): ${assets}`;
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "asset";
-    input.value = asset;
-    form.appendChild(input);      
+    for (const asset of assets) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "assets[]";
+      input.value = asset;
+      form.appendChild(input);      
+    }   
   }
 });
 		

@@ -28,6 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (e.target.closest(".return")) {
+      if (selectedRows.size === 0) return;
+      returnAsset([...selectedRows].map(tr => tr.dataset.propNum));
+    }
+
     if (e.target.closest("#multi-select")) {
       const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
 
@@ -51,12 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
           </button>
           `;
         }
+
         
         // Add assign table func
         const assignButton = document.createElement("button");
         assignButton.className = "assign";
         assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
         if (!tableFuncs.querySelector(".assign")) tableFuncs.prepend(assignButton);
+
+        const returnButton = document.createElement("button");
+        returnButton.className = "return";
+        returnButton.innerHTML = `<span class="material-icons">assignment_return</span>`;
+        if (!tableFuncs.querySelector(".return")) tableFuncs.prepend(returnButton);
         
         // Add delete table func
         const deleteButton = document.createElement("button");
@@ -107,8 +118,8 @@ function editAsset(propNum) {
   .catch(err => console.error("Error editing assets: ", err));
 }
 
-function returnAsset(propNum) {
-  sessionStorage.setItem("assetToReturn", JSON.stringify(propNum));
+function returnAsset(propNums) {
+  sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
   window.location.href = "../views/return-form.php";
 }
 
@@ -219,6 +230,7 @@ function resetMultiSelect() {
   // Remove extra table funcs
   document.querySelector(".table-func .assign")?.remove();
   document.querySelector(".table-func .delete")?.remove();
+  document.querySelector(".table-func .return")?.remove();
 
   // Reset tracking
   condemnedCnt = 0;
@@ -267,7 +279,7 @@ document.addEventListener("click", (e) => {
         assignAssets([propNum]);
         break;
       case "return":
-        returnAsset(propNum);
+        returnAsset([propNum]);
     }
     return;
   }
