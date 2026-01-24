@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
   const filterBox = document.getElementById("filter-box");
+  const exportButton = document.getElementById("export");
 
   const tableFuncs = document.createElement("div");
   tableFuncs.className = "table-func";
@@ -129,6 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
     filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.checked = false);
     fetchAssets();
   });
+
+  // exportButton.addEventListener("click", () => {
+
+  // })
 
 });
 

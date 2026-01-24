@@ -19,7 +19,7 @@ if ($_POST["action"] == 'submit') {
   }
 
   systemLog(
-    "returned asset(s) "  . count($assets), ["assets" => $assets],
+    "returned " . count($assets) . "asset(s)"  , ["assets" => $assets],
     []
   );
 }
