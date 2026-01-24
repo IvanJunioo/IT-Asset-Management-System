@@ -44,10 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const statusGroup = assetForm.querySelector('#status-group');
-    if (asset['Status'] === "Assigned" && statusGroup) {
-      statusGroup.style.display = "none";
-    } else if (statusGroup) {
-      statusGroup.style.display = "flex"; 
+    if (asset['Status'] === "Assigned") {
+      statusGroup.innerHTML = '';
+      const assignedLabel = document.createElement('label');
+      const assignedRadio = document.createElement('input');
+      assignedRadio.type = 'radio';
+      assignedRadio.name = 'asset-status';
+      assignedRadio.value = 'Assigned';
+      assignedRadio.checked = true;
+      assignedLabel.appendChild(assignedRadio);
+      assignedLabel.appendChild(document.createTextNode(' Assigned'));
+      statusGroup.appendChild(assignedLabel);
     }
   }
 

@@ -67,7 +67,7 @@
   <label class="input-label"> 
     Privilege: 
     <label>
-      Faculty
+      
       <input 
         type="radio" 
         id="f" 
@@ -75,31 +75,34 @@
         value="Faculty" 
         required 
       > 
+      Faculty
     </label>
     <label>
-      Admin 
+      
       <input 
         type="radio" 
         id="a" 
         name="privilege" 
         value="Admin"
       > 
+      Admin 
     </label>
     <label>
-      Super Admin
+      
       <input 
         type="radio" 
         id="sa" 
         name="privilege" 
         value="SuperAdmin"
       > 
+      Super Admin
     </label>
   </label>
 
   <label class="input-label">
     Status: 
     <label>
-      Active 
+      
       <input 
         type="radio" 
         id="act" 
@@ -107,16 +110,8 @@
         value="Active" 
         checked
       > 
+      Active
     </label>
-    <!-- <label>
-      Inactive 
-      <input 
-        type="radio" 
-        id = "inact" 
-        name="active-status" 
-        value="Inactive"
-      > 
-    </label> -->
   </label>
 
   <button id="reset-button" type="reset">

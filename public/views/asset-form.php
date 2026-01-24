@@ -117,7 +117,7 @@
     <label class="input-label"> 
       Status: 
       <label>
-        Unassigned
+        
         <input 
           type="radio" 
           id="unused" 
@@ -125,15 +125,17 @@
           value="Unassigned" 
           required 
         > 
+        Unassigned
       </label>
       <label>
-        ToCondemn
+        
         <input 
           type="radio" 
           id="inrepair" 
           name="asset-status" 
           value="ToCondemn"
         > 
+        ToCondemn
       </label>
     </label>
   </div>
