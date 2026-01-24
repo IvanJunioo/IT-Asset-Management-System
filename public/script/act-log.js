@@ -1,7 +1,6 @@
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
 
-
 let latest = 0 // latest fetch id to avoid race conditions
 let allLogs = [];
 let curPage = 1;
@@ -29,11 +28,11 @@ export function fetchLogs(search = "") {
 }
 
 function showLogs(){
-  renderPage();
-  updatePage();
+  renderLogs();
+  updatePrevNext();
 }
 
-function renderPage() {
+function renderLogs() {
   tbody.innerHTML = "";
 
   const start = (curPage-1)*rowsPerPage;
@@ -70,8 +69,7 @@ const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const pageInfo = document.getElementById("page-info");
 
-function updatePage(){
-  
+function updatePrevNext(){
   pageInfo.textContent = `Page ${curPage} of ${totalPage}`;
   prevBtn.disabled = curPage === 1;
   nextBtn.disabled = curPage === totalPage || totalPage === 0;

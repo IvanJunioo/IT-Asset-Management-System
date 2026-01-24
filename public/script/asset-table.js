@@ -3,6 +3,11 @@ const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 
+let allAssets = [];
+let curPage = 1;
+let totalPage = 0;
+const rowsPerPage = 5;
+
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
@@ -41,13 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
+      allAssets = data;
+      curPage = 1;
+      totalPage = Math.ceil(allAssets.length/rowsPerPage)
       showAssets(data);
       assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
     })
     .catch(err => console.error("Error fetching assets: ", err));
   }
+
+  function showAssets(){
+    renderAssets();
+    updatePrevNext();
+  }
   
-  function showAssets(assets) {
+  function renderAssets() {
+    const start = (curPage-1)*rowsPerPage;
+    const end = start+rowsPerPage;
+    const assets = allAssets.slice(start,end);
+
     // Add another header
     const hr = document.querySelector(".asset-table thead tr");
     if (!hr.querySelector("#actionsth")) {
@@ -115,6 +132,35 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });    
   }
+
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const pageInfo = document.getElementById("page-info");
+
+  function updatePrevNext(){
+    pageInfo.textContent = `Page ${curPage} of ${totalPage}`;
+    prevBtn.disabled = curPage === 1;
+    nextBtn.disabled = curPage === totalPage || totalPage === 0;
+  }
+
+  prevBtn.addEventListener("click", () => {
+    console.log(curPage);
+    if (curPage>1) {
+      curPage--;
+      showAssets();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    console.log(curPage);
+    if (curPage<totalPage) {
+      curPage++;
+      showAssets();
+    }
+  });
+
+
+
 
   fetchAssets();
   

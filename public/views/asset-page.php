@@ -19,7 +19,14 @@
       </thead>
       <tbody></tbody>
     </table>
+    <div>
+      <button id="prev">Prev</button>
+      <span id="page-info"></span>
+      <button id="next">Next</button>
+    </div>
   </div>
+  
+
 
 </div>
 <div class="right-asset">
