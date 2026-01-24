@@ -113,46 +113,30 @@
     >
   </label>
 
-  <label class="input-label"> 
-    Status: 
-    <label>
-      Unassigned
-      <input 
-        type="radio" 
-        id="unused" 
-        name="asset-status" 
-        value="Unassigned" 
-        required 
-      > 
+  <div id = "status-group">
+    <label class="input-label"> 
+      Status: 
+      <label>
+        Unassigned
+        <input 
+          type="radio" 
+          id="unused" 
+          name="asset-status" 
+          value="Unassigned" 
+          required 
+        > 
+      </label>
+      <label>
+        ToCondemn
+        <input 
+          type="radio" 
+          id="inrepair" 
+          name="asset-status" 
+          value="ToCondemn"
+        > 
+      </label>
     </label>
-    <!-- <label>
-      Assigned
-      <input 
-        type="radio" 
-        id="used" 
-        name="asset-status" 
-        value="Assigned"
-      > 
-    </label> -->
-    <label>
-      ToCondemn
-      <input 
-        type="radio" 
-        id="inrepair" 
-        name="asset-status" 
-        value="ToCondemn"
-      > 
-    </label>
-    <!-- <label>
-      Condemned
-      <input 
-        type="radio" 
-        id="broken" 
-        name="asset-status" 
-        value="Condemned"
-      > 
-    </label> -->
-  </label>
+  </div>
   
   <button id="reset-button" type="reset">
     Reset

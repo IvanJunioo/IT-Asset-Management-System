@@ -11,6 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handles all table func clicks dynamically
   const tableFuncs = leftUser.querySelector(".table-func");
   tableFuncs.addEventListener("click", (e) => {
+    if (e.target.closest(".delete")) {
+      if (selectedRows.size === 0) return;
+      if (!confirm(`Deactivate ${selectedRows.size} user(s)?`)) return;
+      for (const tr of selectedRows) {
+        deleteUser(tr.dataset.empID);
+      }
+      return;
+    }
+
     if (e.target.closest("#multi-select")) {
       const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
       
@@ -34,6 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
           `;
         }
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete";
+        deleteButton.innerHTML = `<span class="material-icons">delete</span>`;
+        if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
 
         multiSelectIcon.textContent = "check_box";
         return;
@@ -202,19 +216,22 @@ document.addEventListener("click", (e) => {
 let selectedRows = new Set();
 
 function selectRow(tr) {
+  console.log(selectedRows);
   selectedRows.add(tr);
-  tr.querySelector(".material-icons").textContent = "check_box";
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box";
 }
 
 function deselectRow(tr) {    
+  console.log(selectedRows);
   selectedRows.delete(tr);
-  tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box_outline_blank";
 }
 
 userTableBody.addEventListener("usersLoaded", () => {
   selectedRows.clear();
   resetMultiSelect();
-
   addActionsButton();
 });
 
@@ -230,6 +247,9 @@ tableContainer.addEventListener("click", (e) => {
     }
     else {
       for (const tr of rows) {
+        if (tr.dataset.activeStatus ==="Inactive") {
+          continue;
+        }
         selectRow(tr);
       }
     }

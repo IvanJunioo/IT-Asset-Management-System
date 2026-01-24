@@ -337,15 +337,13 @@ function updateTableButtons() {
 let selectedRows = new Set();
 
 function selectRow(tr) {
-  console.log(selectedRows);
   selectedRows.add(tr);
   const icon = tr.querySelector(".material-icons");
-  tr.querySelector(".material-icons").textContent = "check_box";
+  if (icon) icon.textContent = "check_box";
   updateTableButtons();
 }
 
 function deselectRow(tr) {
-  console.log(selectedRows);
   selectedRows.delete(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box_outline_blank";
@@ -376,7 +374,7 @@ tableContainer.addEventListener("click", (e) => {
     }
     else {
       for (const tr of rows) {
-        if (tr.dataset.status=="Condemned") {
+        if (tr.dataset.status==="Condemned") {
           continue;
         }
         selectRow(tr);

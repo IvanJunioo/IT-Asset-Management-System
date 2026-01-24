@@ -42,6 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
         child.value = data[child.id];
       }
     }
+
+    const statusGroup = assetForm.querySelector('#status-group');
+    if (asset['Status'] === "Assigned" && statusGroup) {
+      statusGroup.style.display = "none";
+    } else if (statusGroup) {
+      statusGroup.style.display = "flex"; 
+    }
   }
+
 });
 		
