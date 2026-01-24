@@ -75,7 +75,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     $query = "SELECT * FROM 
       assignment INNER JOIN asset ON 
       assignment.PropNum = asset.PropNum
-      WHERE EmpID = :empid AND ReturnDateTime is NULL
+      WHERE assignment.AssigneeID = :empid AND ReturnDateTime is NULL
     ";
 
     $stmt = $this->pdo->prepare($query);
@@ -86,18 +86,20 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $assets = [];
     foreach ($res as $asset) {
-      $assets[] = new Asset(
+      $_asset = new Asset(
         propNum: $asset["PropNum"],
         procNum: $asset["ProcNum"],
         serialNum: $asset["SerialNum"],
         purchaseDate: $asset["PurchaseDate"],
         specs: $asset["Specs"],
         description: $asset["ShortDesc"],
-        status: $asset["Status"],
+        status: AssetStatus::from($asset["Status"]),
         url: $asset["URL"],
         remarks: $asset["Remarks"],
         price: (float)$asset["Price"]
       );
+      $_asset->assignTo($user);
+      $assets[] = $_asset;
     }
     
     return $assets;

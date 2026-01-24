@@ -131,9 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchAssets();
   });
 
-  // exportButton.addEventListener("click", () => {
-
-  // })
+  exportButton.addEventListener("click", () => {
+    window.open("../../src/handlers/export-asset.php", "_blank");
+  })
 
 });
 

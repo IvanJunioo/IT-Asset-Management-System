@@ -1,6 +1,7 @@
 {
     "require": {
         "google/apiclient": "^2.0",
-        "ralouphie/getallheaders": "^3.0"
+        "ralouphie/getallheaders": "^3.0",
+        "dompdf/dompdf": "^3.1"
     }
 }

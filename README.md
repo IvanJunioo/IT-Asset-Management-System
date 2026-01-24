@@ -35,6 +35,14 @@ For login
   4. php -r "unlink('composer-setup.php');"
   5. php composer.phar require google/apiclient:^2.0
   6. php composer.phar require ralouphie/getallheaders
+
+For export
+- install composer require dompdf/dompdf
+  Run in terminal
+  1. php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  2. php composer-setup.php
+  3. php -r "unlink('composer-setup.php');"
+  4. php composer.phar require dompdf/dompdf
 > **Note**: Make sure php is included in your paths.
 
 
