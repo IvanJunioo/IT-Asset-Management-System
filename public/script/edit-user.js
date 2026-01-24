@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.action = "../../src/handlers/edit-user-form.php";
   form.method = "post";
 
-  form.querySelector("input#empid").disabled = true;
+  form.querySelector("input#empid").readOnly = true;
 
   if (!userData) return;
 

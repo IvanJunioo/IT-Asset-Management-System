@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   form.action = "../../src/handlers/edit-asset-form.php"; 
   form.method = "post";
 
-  form.querySelector("input#pnum").disabled = true;
+  form.querySelector("input#pnum").readOnly = true;
+  form.querySelector("input#prnum").readOnly = true;
+  form.querySelector("input#snum").readOnly = true;
 
   if (!assetData) return;
 
