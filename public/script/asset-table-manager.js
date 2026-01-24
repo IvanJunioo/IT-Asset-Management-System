@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
       
       for (const tr of selectedRows) {
+        if (tr.dataset.status != "ToCondemn"){
+          continue;
+        }
         deleteAsset(tr.dataset.propNum);
       }
       return;
@@ -57,12 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         }
 
-        
         // Add assign table func
         const assignButton = document.createElement("button");
         assignButton.className = "assign";
         assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
-        if (!tableFuncs.querySelector(".assign")) tableFuncs.prepend(assignButton);
+        if (!tableFuncs.querySelector(".assign"))  tableFuncs.prepend(assignButton);
 
         const returnButton = document.createElement("button");
         returnButton.className = "return";
@@ -290,16 +292,64 @@ document.addEventListener("click", (e) => {
   });
 });
 
+function updateTableButtons() {
+  const tableFuncs = leftAsset.querySelector(".table-func");
+  const assignButton = tableFuncs.querySelector(".assign");
+  const returnButton = tableFuncs.querySelector(".return");
+  const deleteButton = tableFuncs.querySelector(".delete");
+
+  if (!selectedRows.size) {
+    if (assignButton) assignButton.style.display = "flex";
+    if (returnButton) returnButton.style.display = "flex";
+    if (deleteButton) deleteButton.style.display = "flex";
+    return;
+  }
+
+  let allUnassigned = true;
+  for (const tr of selectedRows) {
+    if (tr.dataset.status !== "Unassigned") {
+      allUnassigned = false;
+      break;
+    }
+  }
+  if (assignButton) assignButton.style.display = allUnassigned ? "flex" : "none";
+
+  let allAssigned = true;
+  for (const tr of selectedRows) {
+    if (tr.dataset.status !== "Assigned") {
+      allAssigned = false;
+      break;
+    }
+  }
+  if (returnButton) returnButton.style.display = allAssigned ? "flex" : "none";
+
+  let allToCondemn = true;
+  for (const tr of selectedRows) {
+    if (tr.dataset.status !== "ToCondemn") {
+      allToCondemn = false; 
+      break;
+    }
+  }
+  if (deleteButton) deleteButton.style.display = allToCondemn ? "flex" : "none";
+}
+
+
 let selectedRows = new Set();
 
 function selectRow(tr) {
+  console.log(selectedRows);
   selectedRows.add(tr);
+  const icon = tr.querySelector(".material-icons");
   tr.querySelector(".material-icons").textContent = "check_box";
+  updateTableButtons();
 }
 
-function deselectRow(tr) {    
+function deselectRow(tr) {
+  console.log(selectedRows);
   selectedRows.delete(tr);
-  tr.querySelector(".material-icons").textContent = "check_box_outline_blank";
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box_outline_blank";
+  updateTableButtons();
 }
 
 assetTableBody.addEventListener("assetsLoaded", () => {  
@@ -326,6 +376,9 @@ tableContainer.addEventListener("click", (e) => {
     }
     else {
       for (const tr of rows) {
+        if (tr.dataset.status=="Condemned") {
+          continue;
+        }
         selectRow(tr);
       }
     }
