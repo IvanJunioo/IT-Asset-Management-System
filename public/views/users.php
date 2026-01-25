@@ -1,4 +1,4 @@
-<?php $REQUIRED_ROLES = ["Admin", "SuperAdmin"];?>
+<?php $REQUIRED_ROLES = ["Admin"];?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -20,7 +20,7 @@ $navItems = [
     ],
     'Assets' => [
         'url' => BASE_URL . 'public/views/assets.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty']
+        'roles' => ['Faculty']
     ],
     'Manage Assets' => [
         'url' => BASE_URL . 'public/views/asset-manager.php',
@@ -28,7 +28,7 @@ $navItems = [
     ],
     'Users' => [
         'url' => BASE_URL . 'public/views/users.php',
-        'roles' => ['Super Admin', 'Admin']
+        'roles' => ['Admin']
     ],
     'Manage Users' => [
         'url' => BASE_URL . 'public/views/user-manager.php',
@@ -43,7 +43,7 @@ $navItems = [
 $dashboardIslands = [
     'View Assets' => [
         'url' => BASE_URL . 'public/views/assets.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'roles' => ['Faculty'],
         'body' => "Preview all the system assets."
     ],
     'Manage Assets' => [
@@ -53,7 +53,7 @@ $dashboardIslands = [
     ],
     'View Users' => [
         'url' => BASE_URL . 'public/views/users.php',
-        'roles' => ['Super Admin', 'Admin'],
+        'roles' => ['Admin'],
         'body' => "Preview all the system users."
     ],
     'Manage Users' => [
