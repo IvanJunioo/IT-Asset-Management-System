@@ -39,3 +39,31 @@ $navItems = [
         'roles' => ['Super Admin', 'Admin', 'Faculty']
     ]
 ];
+
+$dashboardIslands = [
+    'View Assets' => [
+        'url' => BASE_URL . 'public/views/assets.php',
+        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'body' => "Preview all the system assets."
+    ],
+    'Manage Assets' => [
+        'url' => BASE_URL . 'public/views/asset-manager.php',
+        'roles' => ['Super Admin', 'Admin'],
+        'body' => "Add, edit, assign, or condemn assets in the department's inventory."
+    ],
+    'View Users' => [
+        'url' => BASE_URL . 'public/views/users.php',
+        'roles' => ['Super Admin', 'Admin'],
+        'body' => "Preview all the system users."
+    ],
+    'Manage Users' => [
+        'url' => BASE_URL . 'public/views/user-manager.php',
+        'roles' => ['Super Admin'],
+        'body' => "Add users or update their roles, permissions, other details."
+    ],
+    'System Activities' => [
+        'url' => BASE_URL . 'public/views/activity-log.php',
+        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'body' => "Track all system actions and events."
+    ]
+];

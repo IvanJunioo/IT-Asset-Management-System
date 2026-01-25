@@ -18,25 +18,14 @@
       </h2>
 
       <section class="dashboard-cards">
-        <a href="./assets.php" class="card">
-          <h2>View Assets</h2>
-          <p>Preview all the system assets.</p>
-        </a>
-
-        <a href="./activity-log.php" class="card">
-          <h2>View System Activities</h2>
-          <p>Track recent system actions and events.</p>
-        </a>
-
-        <a href="./asset-manager.php" class="card">
-          <h2>Manage Assets</h2>
-          <p>Add, edit, assign, or remove assets in your inventory.</p>
-        </a>
-
-        <a href="./users.php" class="card">
-          <h2>Manage Users</h2>
-          <p>Add or update user roles and permissions.</p>
-        </a>
+        <?php foreach ($dashboardIslands as $label => $data): ?>
+          <?php if (in_array($privilege, $data['roles'])): ?>
+            <a href="<?=htmlspecialchars($data['url'])?>" class="card">
+              <h2><?=htmlspecialchars($label)?></h2>
+              <p><?=htmlspecialchars($data['body'])?></p>
+            </a>
+          <?php endif?>
+        <?php endforeach?>
       </section>
 
       <div class="dashboard-bottom">
