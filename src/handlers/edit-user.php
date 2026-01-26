@@ -6,15 +6,16 @@ require_once '../repos/user.php';
 
 header('Content-Type: application/json');
 
-$search = $_POST['search'] ?? "";
+$empID = $_POST['search'] ?? "";
 
 try {
   $repo = new UserRepo($pdo);
-  $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $repo->search(new UserSearchCriteria(empID: $search))
-  )))));
+  $user = $repo->identify($empID);
   
-  echo json_encode($users);
+  echo json_encode([
+    ...$user->jsonSerialize(), 
+    "ContactNums" => $repo->getContacts($empID)
+  ]);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);
 }

@@ -9,6 +9,7 @@ require_once '../manager/logger.php';
 if ($_POST['action'] == 'submit') {
   $repo = new UserRepo($pdo);
   
+  $empID = $_POST['employee-id'];
   $name = new Fullname(
     $_POST['first-name'],
     $_POST['middle-name'],
@@ -18,19 +19,19 @@ if ($_POST['action'] == 'submit') {
   
   $user = match (UserPrivilege::from($_POST['privilege'])) {
     UserPrivilege::SuperAdmin => new SuperAdmin(
-      empID: $_POST['employee-id'],
+      empID: $empID,
       name: $name,
       email: $_POST['email'],
       isActive: $status,
     ),
     UserPrivilege::Admin => new Admin(
-      empID: $_POST['employee-id'],
+      empID: $empID,
       name: $name,
       email: $_POST['email'],
       isActive: $status,
     ),
     UserPrivilege::Faculty => new Faculty(
-      empID: $_POST['employee-id'],
+      empID: $empID,
       name: $name,
       email: $_POST['email'],
       isActive: $status,
@@ -38,9 +39,10 @@ if ($_POST['action'] == 'submit') {
   };
   
   $repo->add($user);
+  $repo->updateContacts($user, $_POST["phone"]);
 
   systemLog(
-    "added new user " . $_POST['employee-id'],
+    "added new user $empID",
     []
   );
 }

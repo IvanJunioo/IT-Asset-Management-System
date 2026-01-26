@@ -107,7 +107,6 @@ function addCheckboxes() {
       continue;
     }
 
-    console.log("HERE");
     const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
     tr.lastElementChild.innerHTML = `
     <button class="selectable-row">

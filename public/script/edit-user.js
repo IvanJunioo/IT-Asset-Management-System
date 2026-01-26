@@ -32,6 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
 				child.checked = true;
 			}
     }
+
+    const contactNumRows = form.querySelector(".input-rows");
+    const contactNumBtn = contactNumRows.querySelector("button");
+    for (let i = 1; i < user["ContactNums"].length; i++) {
+      contactNumBtn.click();
+    }     
+    for (const [idx, input] of contactNumRows.querySelectorAll("input").entries()) {
+      input.value = user["ContactNums"][idx];
+    }
   }
 });
 		

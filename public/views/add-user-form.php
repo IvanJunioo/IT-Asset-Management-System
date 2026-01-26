@@ -13,12 +13,6 @@
 
   <?php include '../partials/footer.php'?>
   
-  <script defer>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.querySelector("form");
-      form.action = "../../src/handlers/add-user-form.php";
-      form.method = "post";  
-    });
-  </script>
+  <script src="../script/add-user.js" type="module" defer></script>
 </body>
 </html>

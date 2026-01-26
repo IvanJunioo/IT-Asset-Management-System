@@ -65,9 +65,28 @@
   </label>
 
   <label class="input-label"> 
+    Contact Number: 
+    <div class="input-rows">
+      <div class="input-row">
+        <input 
+          type="tel" 
+          name="phone[]" 
+          placeholder="Enter Contact No" 
+          maxlength="16"
+          pattern="^[\+0-9\-\(\)\s]{7,20}$"
+          size="30" 
+          required
+        >
+        <button type="button" class="add-input">
+          <span class="material-icons">add</span>
+        </button>
+      </div>
+    </div>
+  </label>
+
+  <label class="input-label"> 
     Privilege: 
     <label>
-      
       <input 
         type="radio" 
         id="f" 
@@ -78,7 +97,6 @@
       Faculty
     </label>
     <label>
-      
       <input 
         type="radio" 
         id="a" 
@@ -88,7 +106,6 @@
       Admin 
     </label>
     <label>
-      
       <input 
         type="radio" 
         id="sa" 
@@ -102,7 +119,6 @@
   <label class="input-label">
     Status: 
     <label>
-      
       <input 
         type="radio" 
         id="act" 
@@ -122,3 +138,28 @@
     Submit
   </button>  
 </form>
+
+<script type="module" defer>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    form.addEventListener("click", (e) => {
+      if (e.target.closest(".add-input")) {
+        const rows = e.target.closest(".input-rows");
+        
+        const row = rows.querySelector(".input-row").cloneNode(true);
+        row.querySelector("input").value = "";
+        const btn = row.querySelector("button");
+        btn.className = "remove-input";
+        btn.querySelector("span").textContent = "remove";
+
+        rows.appendChild(row);
+        return;
+      }
+
+      if (e.target.closest(".remove-input")) {
+        e.target.closest(".input-row").remove();      
+        return;
+      }
+    });
+  });
+</script>
