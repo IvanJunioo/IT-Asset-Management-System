@@ -1,19 +1,12 @@
 <?php
 // require_once '../utilities/request-guard.php';
 require_once '../../config/config.php';
-require_once '../../vendor/autoload.php';
 require_once '../model/user.php';
 require_once '../repos/user.php';
 
 header('Content-Type: application/json');
 
 session_start();
-
-$client = new Google\Client;
-
-$client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
-$client->setClientSecret("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");
-$client->setRedirectUri("http://localhost:3000/src/handlers/redirect.php");
 
 if (!isset($_GET['code'])) {
   header("Location: ../../public/views/login.php?error=login_failed");
