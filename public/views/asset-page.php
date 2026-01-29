@@ -19,11 +19,6 @@
       </thead>
       <tbody></tbody>
     </table>
-    <div>
-      <button type="button" id="prev">Prev</button>
-      <span id="page-info"></span>
-      <button type="button" id="next">Next</button>
-    </div>
   </div>
   
 

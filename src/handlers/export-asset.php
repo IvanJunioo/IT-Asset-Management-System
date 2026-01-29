@@ -16,17 +16,11 @@ try {
     $assignRepo = new AssignmentRepo($pdo);
     $assets = $assignRepo->getAssignedAssets($user);
 
-    $html = '<html><body><h1>Assigned Assets</h1>';
-    foreach ($assets as $asset) {
-        $data = $asset->jsonSerialize();
-        $html .= '<table border="1" cellpadding="5" style="margin-bottom:15px; width:100%;">';
-        foreach ($data as $key => $value) {
-            $html .= "<tr>
-            <th style='text-align:left'>".htmlspecialchars((string)$key)."</th><td>".htmlspecialchars((string)$value)."</td></tr>";
-        }
-        $html .= '</table>';
-    }
-    $html .= '</body></html>';
+    $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
+    $css = file_get_contents($cssPath);
+    include '../template/assigned-assets.php';
+    $html = ob_get_clean();
+    $html = "<style>{$css}</style>" . $html;
 
     $dompdf = new Dompdf();
     $dompdf->loadHtml($html);
@@ -34,7 +28,7 @@ try {
     $dompdf->render();
     if (ob_get_length()) ob_end_clean();
 
-    $dompdf->stream("assigned_assets.pdf", ["Attachment" => true]);
+    $dompdf->stream($user->name->last . "_assigned_assets.pdf", ["Attachment" => true]);
     exit;
 
 } catch (Exception $e) {

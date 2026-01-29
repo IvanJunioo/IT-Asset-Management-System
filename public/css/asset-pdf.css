@@ -1,0 +1,56 @@
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 40px;
+  color: #2d3436;
+  background-color: #fff;
+}
+h1 {
+  text-align: center;
+  color: #2d3436;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #3d0505;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+.asset-container {
+  margin-bottom: 40px;
+  page-break-inside: avoid;
+}
+.asset-header {
+  background-color: #3d0505;
+  color: #ffffff;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px 4px 0 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  border: 1px solid #dfe6e9;
+}
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dfe6e9;
+}
+th {
+  background-color: #f8f9fa;
+  color: #3d0505;
+  width: 30%;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+tr:nth-child(even) {
+  background-color: #f4efea;
+}
+.remarks-cell {
+  word-break: break-word; 
+  color: #636e72;
+  font-style: italic;
+}
