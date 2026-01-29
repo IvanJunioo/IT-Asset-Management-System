@@ -443,3 +443,65 @@ tableContainer.addEventListener("click", (e) => {
     return;
   }
 })
+
+const reportBtn = document.getElementById('report');
+
+reportBtn.addEventListener('click', () => {
+  const modal = `
+    <div id="reportModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">Generate Report On
+        </div>
+        <div class="modal-body">
+          <button class="report-option" data-type="assigned"> 
+            All Currently Assigned Assets
+          </button>
+          <button class="report-option" data-type="tocondemn"> 
+            All Assets to be Condemned
+          </button>
+          <button class="report-option" data-type="returned">
+            All Returned Assets
+          </button>
+          <button class="report-option" data-type="unassigned">
+            All Unassigned Assets
+          </button>
+        </div>
+        <button id="closeModal" class="btn-cancel">Cancel</button>
+      </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modal);
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('reportModal').remove();
+    });
+
+    const reportModal = document.getElementById('reportModal');
+    reportModal.addEventListener('click', (e)=> {
+      const target = e.target.closest(".report-option");
+
+      if (target) {
+        const report = target.dataset.type;
+
+        switch (report){
+          case "assigned":
+            window.open("../../src/handlers/export-asset.php", "_blank");
+            break;
+          case "unassigned":
+            window.open("../../src/handlers/export-asset-status.php?status=Unassigned", "_blank");
+            break;
+          case "tocondemn":
+            window.open("../../src/handlers/export-asset-status.php?status=ToCondemn", "_blank");
+            break;
+          case "returned":
+            break;
+        }
+
+        document.getElementById('reportModal').remove();
+      }
+    })
+
+  reportModal.style.display = 'block';
+});
+
+

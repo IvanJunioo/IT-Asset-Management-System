@@ -52,7 +52,7 @@
     <button id="apply-filter"> Reset Filters </button>
 
   </div>
-  <button id="export"> Export assets </button>
+    <button id = "export" class="generate"> Export assets </button>
+    <button id = "report" class="generate"> Generate report</button>
 </div>
-
 <script src="../script/asset-table.js" type="module" defer></script>
