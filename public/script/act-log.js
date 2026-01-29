@@ -1,10 +1,8 @@
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
+const paginationDiv = document.getElementById("pagination"); 
 
-let latest = 0 // latest fetch id to avoid race conditions
-let allLogs = [];
-let curPage = 1;
-let totalPage = 0;
+let latest = 0; // latest fetch id to avoid race conditions
 const rowsPerPage = 10;
 
 export function fetchLogs(search = "") {
@@ -13,33 +11,21 @@ export function fetchLogs(search = "") {
   fetch("../../src/handlers/act-log.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${search}`,
+    body: `page=${paginationDiv.dataset.curPage}&limit=${rowsPerPage}&search=${search}`,
   })
   .then(res => res.json())
   .then(data => {
     if (fetchID !== latest) return;
 
-    allLogs = data;
-    curPage = 1;
-    totalPage = Math.ceil(allLogs.length/rowsPerPage)
-    showLogs();
+    showLogs(data);
   })
   .catch(err => console.error("Error fetching system logs: ", err));
 }
 
-function showLogs(){
-  renderLogs();
-  updatePrevNext();
-}
-
-function renderLogs() {
+function showLogs(data) {
   tbody.innerHTML = "";
 
-  const start = (curPage-1)*rowsPerPage;
-  const end = start+rowsPerPage;
-  const logs = allLogs.slice(start,end);
-
-  for (const log of logs) {
+  for (const log of data["logs"]) {
     const tr = document.createElement("tr");
     
     // Store data to row
@@ -59,34 +45,31 @@ function renderLogs() {
 
     tbody.appendChild(tr);
   }
+
+  const curPage = paginationDiv.dataset.curPage;
+  const totalPage = Math.ceil(data["count"] / rowsPerPage);
+  paginationDiv.querySelector("#prev").disabled = curPage === 1;
+  paginationDiv.querySelector("#next").disabled = curPage === totalPage || totalPage === 0;
+  paginationDiv.querySelector("#page-info").textContent = `Page ${curPage} of ${totalPage}`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  paginationDiv.dataset.curPage = 1;
   fetchLogs();
+
+  paginationDiv.addEventListener("click", (e) => {
+    if (e.target.closest("#prev")) {
+      if (1 < paginationDiv.dataset.curPage) {
+        paginationDiv.dataset.curPage--;
+        fetchLogs();
+      }
+    }
+    
+    if (e.target.closest("#next")) {
+      if (true) {
+        paginationDiv.dataset.curPage++;
+        fetchLogs();
+      }
+    }
+  });
 });
-
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const pageInfo = document.getElementById("page-info");
-
-function updatePrevNext(){
-  pageInfo.textContent = `Page ${curPage} of ${totalPage}`;
-  prevBtn.disabled = curPage === 1;
-  nextBtn.disabled = curPage === totalPage || totalPage === 0;
-}
-
-prevBtn.addEventListener("click", () => {
-  if (curPage>1) {
-    curPage--;
-    showLogs();
-  }
-});
-
-nextBtn.addEventListener("click", () => {
-  if (curPage<totalPage) {
-    curPage++;
-    showLogs();
-  }
-});
-
-

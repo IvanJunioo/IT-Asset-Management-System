@@ -9,7 +9,7 @@
   <tbody></tbody>
 </table>
 
-<div>
+<div id="pagination">
   <button id="prev">Prev</button>
   <span id="page-info"></span>
   <button id="next">Next</button>
