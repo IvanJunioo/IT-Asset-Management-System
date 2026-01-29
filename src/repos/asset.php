@@ -147,7 +147,7 @@ final class AssetRepo implements AssetRepoInterface {
       PurchaseDate = :pdate,
       Specs = :s,
       Status = :st,
-      Remarks = CONCAT(Remarks, :r),
+      Remarks = :r,
       ShortDesc = :d,   
       Price = :p, 
       URL = :u

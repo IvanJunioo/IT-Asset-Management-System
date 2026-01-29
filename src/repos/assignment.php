@@ -130,7 +130,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
   ): void {
     $query = "UPDATE assignment SET 
       ReturnDateTime = :rd,
-      Remarks = CONCAT(Remarks, :r)
+      Remarks = :r
       WHERE assignment.PropNum = :pn 
       AND assignment.ReturnDateTime IS NULL 
     ;";

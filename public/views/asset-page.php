@@ -53,6 +53,6 @@
 
   </div>
     <button id = "export" class="generate"> Export assets </button>
-    <button id = "report" class="generate"> Generate report</button>
+    
 </div>
 <script src="../script/asset-table.js" type="module" defer></script>

@@ -6,6 +6,7 @@ body {
   color: #2d3436;
   background-color: #fff;
 }
+
 h1 {
   text-align: center;
   color: #2d3436;
@@ -15,10 +16,12 @@ h1 {
   padding-bottom: 10px;
   margin-bottom: 30px;
 }
+
 .asset-container {
   margin-bottom: 40px;
   page-break-inside: avoid;
 }
+
 .asset-header {
   background-color: #3d0505;
   color: #ffffff;
@@ -27,28 +30,48 @@ h1 {
   font-weight: bold;
   border-radius: 4px 4px 0 0;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 0;
   border: 1px solid #dfe6e9;
 }
+
 th, td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #dfe6e9;
 }
+
 th {
   background-color: #f8f9fa;
   color: #3d0505;
-  width: 30%;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 11px;
 }
+
+table:not(:has(thead)) th {
+  width: 30%;
+}
+
+thead th {
+  background-color: #3d0505 !important; 
+  color: #ffffff !important;
+  border-bottom: none;
+  width: auto; 
+}
+
+
+thead tr {
+  background-color: transparent !important;
+}
+
 tr:nth-child(even) {
   background-color: #f4efea;
 }
+
 .remarks-cell {
   word-break: break-word; 
   color: #636e72;
