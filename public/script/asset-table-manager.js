@@ -3,7 +3,6 @@ const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 
-var condemnedCnt = 0;
 let selectedRows = new Set();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -285,7 +284,6 @@ function addActionsButton() {
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     if (tr.dataset.status === "Condemned"){
-      condemnedCnt++;
       continue;
     }
 
@@ -358,7 +356,6 @@ function resetMultiSelect() {
   document.querySelector(".table-func .return")?.remove();
 
   // Reset tracking
-  condemnedCnt = 0;
   selectedRows.clear();
 }
 
@@ -475,8 +472,11 @@ function deselectRow(tr) {
 tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = assetTableBody.querySelectorAll("tr");
+    const activeRows = [...rows].filter(
+      tr => tr.dataset.status !== "ToCondemn"
+    );
 
-    if (selectedRows.size === (rows.length - condemnedCnt)) {
+    if (selectedRows.size === activeRows.length) {
       for (const tr of rows) {
         deselectRow(tr);
       }

@@ -3,7 +3,6 @@ const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
-var inactiveCnt = 0;
 let selectedRows = new Set();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -182,7 +181,6 @@ function addActionsButton() {
     if (tr.querySelector("td.actions")) {
       continue;
     }
-    
     actionElem.className = "actions";
     if (tr.dataset.activeStatus === "Active"){
       actionElem.innerHTML = `
@@ -195,8 +193,6 @@ function addActionsButton() {
           <a class="menu-item" data-action="deactivate">Deactivate</a>
         </div>
       `;
-    } else {
-      inactiveCnt++;
     }
     tr.appendChild(actionElem);
   }
@@ -236,7 +232,6 @@ function resetMultiSelect() {
   document.querySelector(".table-func .delete")?.remove();
   
   // Reset tracking
-  inactiveCnt = 0;
   selectedRows.clear();
 }
 
@@ -305,8 +300,11 @@ function deselectRow(tr) {
 tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = userTableBody.querySelectorAll("tr");
+    const activeRows = [...rows].filter(
+      tr => tr.dataset.activeStatus !== "Inactive"
+    );
 
-    if (selectedRows.size === (rows.length - inactiveCnt)) {
+    if (selectedRows.size === activeRows.length) {
       for (const tr of rows) {
         deselectRow(tr);
       }

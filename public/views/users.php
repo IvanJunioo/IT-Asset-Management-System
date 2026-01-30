@@ -2,9 +2,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <?php include '../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/table.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/user.css">
+  <?php include '../partials/head.php'?>
+  <?php include '../partials/user-styles.php'?>
 <body>
   <?php include '../partials/header.php'?>
   

@@ -1,79 +1,101 @@
 :root {
-    --primary-color: #550101;
-    --darker-primary: #3e0505;
-    --primary-green: #2a7548;
-    --darker-green: #1d3f2b;
-    --bg-light: #f8f5f2;
-    --text-dark: #222222;
-    --border-color: #cccccc;
-    --beige: #f7e9d8;
+  --primary-color: #550101;
+  --darker-primary: #3e0505;
+  --primary-green: #2a7548;
+  --darker-green: #1d3f2b;
+  --bg-light: #f8f5f2;
+  --text-dark: #222222;
+  --border-color: #cccccc;
+  --beige: #f7e9d8;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
 td {
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: center;
-    line-height: 1.4;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  vertical-align: center;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-left: 2px solid var(--text-dark);
+  border-left: 2px solid var(--text-dark);
+}
+
+th {
+  border-left: 2px solid var(--text-dark);
+  border-left: 2px solid var(--text-dark);
+}
+tr td:first-child {
+  border-left: none;
+}
+
+tr td:last-child {
+  border-right: none;
+}
+
+tbody tr {
+  height: 2rem;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f4efea;
+  background-color: #f4efea;
 }
 
 tbody tr:hover {
-    background-color: var(--beige);
-    transition: background-color 0.3s ease;
+  background-color: var(--beige);
+  transition: background-color 0.3s ease;
 }
 
 td:last-child,
 th:last-child {
-    width: 7%;
+  width: 5%;
 }
 
 #search-box {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
 }
 
 .search-icon {
-    position: absolute;
-    left: 14px;
-    font-size: 20px;
-    color: #9e9e9e;
-    pointer-events: none;
+  position: absolute;
+  left: 14px;
+  font-size: 20px;
+  color: #9e9e9e;
+  pointer-events: none;
 }
 
 #search-input {
-    flex: 1;
-    height: 3rem;
-    font-size: 16px;
-    border: 2px solid black;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    padding-left: 3rem;
-    transition: background-color 0.5s ease;
+  flex: 1;
+  height: 3rem;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 1rem;
+  padding: 0 1rem;
+  padding-left: 3rem;
+  transition: background-color 0.5s ease;
 }
 
 #search-input:focus {
-    background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
-.action-btn {
+.action-btn  {
   background: none;
   border: none;
-  font-size: 1.4rem;
+  font-size: 0.2rem;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s ease, background-color 0.3s ease;
-  border-radius: 50%;
-  padding: 4px 8px;
+  border-radius: 20%;
 }
 
 tr:hover .action-btn {
