@@ -411,3 +411,21 @@ button {
     font-size: 0.9rem;
     transition: background-color 0.2s ease;
 }
+
+.generate {
+    width: 50%;
+    max-width: 300px;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 1rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background-color: var(--primary-color);
+}
+
+.generate:hover {
+    background-color: rgb(69, 0, 0);
+}

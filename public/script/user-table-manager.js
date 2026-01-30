@@ -125,6 +125,23 @@ function addDeactivateButton() {
   if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
 }
 
+function addReportButton(){
+  const rightUser = document.querySelector(".right-user");
+  const reportBtn = document.getElementById("report");
+
+  if (selectedRows.size > 0){
+    if (!reportBtn){
+      const reportBtn = document.createElement("button");
+      reportBtn.id = "report";
+      reportBtn.className = "generate";
+      reportBtn.textContent = "Get Assigned Assets";
+      rightUser.appendChild(reportBtn)
+    }
+  } else {
+    reportBtn?.remove();
+  }
+}
+
 function updateSelectedRows() {
   var toAdd = new Set();
   var toDel = new Set();
@@ -274,12 +291,14 @@ function selectRow(tr) {
   selectedRows.add(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box";
+  addReportButton();
 }
 
 function deselectRow(tr) {    
   selectedRows.delete(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box_outline_blank";
+  addReportButton();
 }
 
 // Handles all table clicks dynamically
@@ -312,4 +331,15 @@ tableContainer.addEventListener("click", (e) => {
     }
     return;
   }
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest("#report")){
+    let users = [];
+    for (const tr of selectedRows) {
+      users.push(tr.dataset.empID);
+    }
+    const url = "../../src/handlers/export-faculty-asset.php?users=" + encodeURIComponent(users);
+    window.location.href = url;
+    }
 });
