@@ -85,11 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchUsers();
   });
 
-  searchButton.addEventListener("click", () => {
-    fetchUsers()
-    searchInput.value = "";
-  });
-
   filterBox.querySelector("#body-filter").addEventListener("change", fetchUsers);
 
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {

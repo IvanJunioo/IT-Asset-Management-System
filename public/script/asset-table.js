@@ -118,12 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchAssets();
   
-  searchInput.addEventListener("input", fetchAssets);
-  searchButton.addEventListener("click", () => {
-    fetchAssets();
-    searchInput.value = "";
-  }); 
-
+  searchInput.addEventListener("input", fetchAssets)
   filterBox.querySelector("#body-filter").addEventListener("change", fetchAssets);
   
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {

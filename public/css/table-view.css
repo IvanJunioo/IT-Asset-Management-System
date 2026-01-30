@@ -1,0 +1,228 @@
+:root {
+    --primary-color: #550101;
+    --darker-primary: #3e0505;
+    --primary-green: #2a7548;
+    --darker-green: #1d3f2b;
+    --bg-light: #f8f5f2;
+    --text-dark: #222222;
+    --border-color: #cccccc;
+    --beige: #f7e9d8;
+}
+
+td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: center;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f4efea;
+}
+
+tbody tr:hover {
+    background-color: var(--beige);
+    transition: background-color 0.3s ease;
+}
+
+td:last-child,
+th:last-child {
+    width: 7%;
+}
+
+#search-box {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 20px;
+    color: #9e9e9e;
+    pointer-events: none;
+}
+
+#search-input {
+    flex: 1;
+    height: 3rem;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 0 1rem;
+    padding-left: 3rem;
+    transition: background-color 0.5s ease;
+}
+
+#search-input:focus {
+    background-color: whitesmoke;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background-color 0.3s ease;
+  border-radius: 50%;
+  padding: 4px 8px;
+}
+
+tr:hover .action-btn {
+  opacity: 1;
+}
+
+.action-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.action-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  min-width: 100px;
+  z-index: 99999;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.menu-item:hover {
+  background-color: #f3f3f3;
+}
+
+/* Table function buttons */
+.select-btn {
+  border: none;
+  background-color: relative;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  font-family: "Source Sans Pro", sans-serif;
+  border: black solid 1pt;
+}
+
+.select-btn:hover {
+  background-color: var(--border-color);
+}
+
+.sort-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  min-width: 100px;
+  z-index: 99999;
+}
+
+.sort-menu a {
+padding: 8px 12px;
+cursor: pointer;
+}
+
+.sort-menu a:hover {
+background: #f2f2f2;
+}
+
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 100000;
+  left: 0; 
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); 
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 0;
+  border: 0.5pt solid var(--primary-color); 
+  width: 100%;
+  max-width: 450px;
+  border-radius: 0.75rem; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  overflow: hidden;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.modal-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--darker-primary);
+}
+
+.modal-body {
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background-color: var(--bg-light);
+}
+
+.report-option {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  padding: 0.85rem 1.2rem;
+  border-radius: 0.5rem;
+  text-align: center; 
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.report-option:hover {
+  background-color: var(--beige); 
+  border-color: var(--primary-green);
+  color: var(--darker-green);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.btn-cancel {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #cacaca;
+}

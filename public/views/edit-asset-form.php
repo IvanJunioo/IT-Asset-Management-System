@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include '../partials/head.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
 <body>
   <?php include '../partials/header.php'?>

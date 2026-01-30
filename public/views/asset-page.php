@@ -1,7 +1,7 @@
 <div class="left-asset">
   <div id="search-box">
     <input type="text" id="search-input" placeholder="Search asset">
-    <button id="search-button"> Search </button>
+    <span class="material-icons search-icon">search</span>
   </div>
   
   <div class="table-container">

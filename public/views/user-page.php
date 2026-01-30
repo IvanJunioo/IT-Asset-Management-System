@@ -1,7 +1,7 @@
 <div class="left-user">
   <div id="search-box">
     <input type="search" id="search-input" placeholder="Search user">
-    <button id="search-button"> Search </button>
+    <span class="material-icons search-icon">search</span>
   </div>
   
   <div class="table-container">
