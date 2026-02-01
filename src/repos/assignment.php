@@ -7,7 +7,8 @@ include_once '../model/asset.php';
 
 interface AssignmentRepoInterface {
   public function getAssignedAssets(User $user): array;
-  public function getCurrAssignedUser(Asset $asset): ?User;  
+  public function getCurrAssignedUser(Asset $asset): ?User; 
+  public function getAssignmentDate(Asset $asset): ?string; 
   public function assign(
     Asset $asset, 
     User $assigner,
@@ -70,6 +71,16 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     }
     return null;
 	}
+
+  public function getAssignmentDate(Asset $asset): ?string{
+    $query = "SELECT * FROM 
+      assignment WHERE PropNum = :pnum AND ReturnDateTime is NULL";
+    
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute([":pnum" => $asset->propNum]);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $res[0]['AssignDateTime'];
+  }
 
   public function getAssignedAssets(User $user): array {
     $query = "SELECT * FROM 

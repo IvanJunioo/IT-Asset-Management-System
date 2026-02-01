@@ -14,13 +14,21 @@ try {
     $userRepo = new UserRepo($pdo);
     $assignRepo = new AssignmentRepo($pdo);
 
-    $users = [];
-    $assetsMapping = [];
-    foreach ($usersID as $ID){
-      $user = $userRepo->identify($ID);
-      $assets = $assignRepo->getAssignedAssets($user);
-      $users[]=$user;
-      $assetsMapping[$user->empID] = $assets;
+    $data = [];
+    foreach ($usersID as $id) {
+        $user = $userRepo->identify($id);
+        $assets = $assignRepo->getAssignedAssets($user);
+
+        $assetDates = [];
+        foreach ($assets as $asset) {
+            $assetDates[$asset->propNum] = $assignRepo->getAssignmentDate($asset);
+        }
+
+        $data[] = [
+            'user'        => $user,
+            'assets'      => $assets,
+            'assignDates' => $assetDates,
+        ];
     }
 
     $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';

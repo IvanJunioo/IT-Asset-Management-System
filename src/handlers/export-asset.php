@@ -14,7 +14,14 @@ try {
     $user = $userRepo->identify($_SESSION['user_id']);
 
     $assignRepo = new AssignmentRepo($pdo);
+
+    $data = [];
     $assets = $assignRepo->getAssignedAssets($user);
+    foreach ($assets as $asset){
+        $data[] = [
+            'asset' => [$asset, $assignRepo->getAssignmentDate($asset)]
+        ];
+    }
 
     $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
     $css = file_get_contents($cssPath);
