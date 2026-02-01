@@ -473,7 +473,7 @@ tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = assetTableBody.querySelectorAll("tr");
     const activeRows = [...rows].filter(
-      tr => tr.dataset.status !== "ToCondemn"
+      tr => tr.dataset.status !== "Condemned"
     );
 
     if (selectedRows.size === activeRows.length) {
