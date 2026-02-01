@@ -13,7 +13,12 @@ $manag = new AssignmentManager(
 
 if ($_POST["action"] == 'submit') {
 	$assets = $_POST['assets'];
+
+  date_default_timezone_set('Asia/Manila');
+  $curTime = new DateTimeImmutable();
   $retDate = new DateTimeImmutable($_POST['return-date']);
+  $retDate = $retDate->setTime((int)$curTime->format('H'), (int)$curTime->format('i'), (int)$curTime->format('s'));
+  
   foreach ($assets as $pnum) {
     $manag->returnAsset($pnum, $retDate, $_POST['remarks']);
   }

@@ -16,7 +16,10 @@ if ($_POST["action"] == 'submit') {
 	
   $empID = $_SESSION['user_id'];
 
+  date_default_timezone_set('Asia/Manila');
+  $curTime = new DateTimeImmutable();
 	$assDate = new DateTimeImmutable($_POST['assign-date']);
+  $assDate= $assDate->setTime((int)$curTime->format('H'), (int)$curTime->format('i'), (int)$curTime->format('s'));
   $assets = $_POST['assets'];
 
   foreach ($assets as $pnum){
