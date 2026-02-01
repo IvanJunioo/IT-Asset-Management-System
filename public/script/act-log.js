@@ -48,6 +48,7 @@ function showLogs(data) {
 
   const curPage = paginationDiv.dataset.curPage;
   const totalPage = Math.ceil(data["count"] / rowsPerPage);
+  paginationDiv.dataset.totalPage = totalPage;
   paginationDiv.querySelector("#prev").disabled = curPage === 1;
   paginationDiv.querySelector("#next").disabled = curPage === totalPage || totalPage === 0;
   paginationDiv.querySelector("#page-info").textContent = `Page ${curPage} of ${totalPage}`;
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     if (e.target.closest("#next")) {
-      if (true) {
+      if (paginationDiv.dataset.curPage<paginationDiv.dataset.totalPage) {
         paginationDiv.dataset.curPage++;
         fetchLogs();
       }
