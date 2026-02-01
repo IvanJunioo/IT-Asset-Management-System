@@ -8,10 +8,10 @@
 
     <?php foreach ($assets as $asset): ?>
       <div class="asset-container">
-        <div class="asset-header">Asset: <?= htmlspecialchars($asset->propNum) ?></div>
+        <div class="asset-header">Property Number: <?= htmlspecialchars($asset->propNum) ?></div>
         <table>
-          <tr><th>Procurement Number</th><td><?= htmlspecialchars($asset->procNum) ?></td></tr>
           <tr><th>Serial Number</th><td><?= htmlspecialchars($asset->serialNum) ?></td></tr>
+          <tr><th>Assignment Date</th><td><?= htmlspecialchars($asset->procNum) ?></td></tr>
           <tr><th>Specs</th><td><?= htmlspecialchars($asset->specs) ?></td></tr>
           <tr><th>Remarks</th><td class="remarks-cell"><?= htmlspecialchars($asset->remarks) ?></td></tr>
         </table>
