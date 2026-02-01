@@ -20,10 +20,8 @@
       <tbody></tbody>
     </table>
   </div>
-  
-
-
 </div>
+
 <div class="right-asset">
   <div id="filter-box">
     <div id="head-filter">
