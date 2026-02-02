@@ -16,5 +16,6 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>public/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>public/css/navigation.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>public/css/footer.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/paging.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
