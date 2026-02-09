@@ -11,7 +11,7 @@ require_once '../repos/user.php';
 function systemLog(
   string $log,
   array $metadata,
-  ): void {
+): void {
   global $pdo;
 
   $logRepo = new ActLogRepo($pdo);
