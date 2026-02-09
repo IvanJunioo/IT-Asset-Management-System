@@ -17,7 +17,11 @@
           <th> Assigned to </th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr>
+          <td> No assets to display. </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>

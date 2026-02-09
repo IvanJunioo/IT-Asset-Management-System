@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
+      if (data.length <= 0) return;
       showAssets(data);
       assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
     })
@@ -115,6 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });    
   }
+
+  assetTableBody.querySelector("td").colSpan = assetTable.querySelector("thead tr").children.length;
 
   fetchAssets();
   

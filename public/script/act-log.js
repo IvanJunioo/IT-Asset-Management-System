@@ -16,7 +16,9 @@ export function fetchLogs(search = "") {
   .then(res => res.json())
   .then(data => {
     if (fetchID !== latest) return;
-
+    if (data["count"] <= 0) return;
+    
+    paginationDiv.dataset.curPage = 1;
     showLogs(data);
   })
   .catch(err => console.error("Error fetching system logs: ", err));
@@ -55,7 +57,8 @@ function showLogs(data) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  paginationDiv.dataset.curPage = 1;
+  tbody.querySelector("td").colSpan = table.querySelector("thead tr").children.length;
+
   fetchLogs();
 
   paginationDiv.addEventListener("click", (e) => {

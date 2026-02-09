@@ -6,13 +6,17 @@
       <th> Description </th>
     </tr>
   </thead>  
-  <tbody></tbody>
+  <tbody>
+    <tr>
+      <td> No logs to display. </td>
+    </tr>
+  </tbody>
 </table>
 
 <div id="pagination">
-  <button id="prev">Prev</button>
+  <button id="prev" disabled>Prev</button>
   <span id="page-info"></span>
-  <button id="next">Next</button>
+  <button id="next" disabled>Next</button>
 </div>
 
 <script src="../script/act-log.js" type="module" defer></script>

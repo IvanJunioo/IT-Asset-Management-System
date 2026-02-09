@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
+      if (data.length <= 0) return;
       showUsers(data);
       userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
     })
@@ -78,6 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			userTableBody.appendChild(tr);
 		}
   }
+
+  userTableBody.querySelector("td").colSpan = userTable.querySelector("thead tr").children.length;
     
   fetchUsers();
   
