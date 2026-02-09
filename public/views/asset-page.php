@@ -12,7 +12,7 @@
           <th> Procurement Number </th>
           <th> Purchase Date </th>
           <th> Detailed Specification </th>
-          <th> Price </th>
+          <th> Price (₱) </th>
           <th> Status  </th>
           <th> Assigned to </th>
         </tr>
@@ -35,19 +35,19 @@
     <div id="body-filter">
       <label>
         <input type="checkbox" name="status" value="Unassigned"> 
-        Unassigned
+        <span class="badge unassigned">Unassigned</span>
       </label>
       <label>
         <input type="checkbox" name="status" value="Assigned"> 
-        Assigned
+        <span class="badge assigned">Assigned</span>
       </label>
       <label>
         <input type="checkbox" name="status" value="ToCondemn"> 
-        ToCondemn
+        <span class="badge tocondemn">ToCondemn</span>
       </label>
       <label>
         <input type="checkbox" name="status" value="Condemned">  
-        Condemned
+        <span class="badge condemned">Condemned</span>
       </label>
     </div>
       

@@ -77,11 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
         asset.PurchaseDate,
         asset.Specs,
         parseFloat(asset.Price).toFixed(2),
-        asset.Status,
-        asset.AssignedTo,        
+        `<span class="badge ${asset.Status.toLowerCase()}">${asset.Status}</span>`,
+        asset.AssignedTo,   
       ]) {
         const td = document.createElement("td");
-        td.textContent = col;
+        td.innerHTML = col;
         tr.appendChild(td);
       }
 

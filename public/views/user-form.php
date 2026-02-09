@@ -126,7 +126,7 @@
         value="Active" 
         checked
       > 
-      Active
+      <span class="badge active">Active</span>
     </label>
   </label>
 

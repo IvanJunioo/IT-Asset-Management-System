@@ -53,7 +53,7 @@
   </label>
 
   <label class="input-label"> 
-    Price: 
+    Price (₱): 
     <input 
       type="number" 
       id="price" 
@@ -117,7 +117,6 @@
     <label class="input-label"> 
       Status: 
       <label>
-        
         <input 
           type="radio" 
           id="unused" 
@@ -125,17 +124,16 @@
           value="Unassigned" 
           required 
         > 
-        Unassigned
+        <span class="badge unassigned">Unassigned</span>
       </label>
       <label>
-        
         <input 
           type="radio" 
           id="inrepair" 
           name="asset-status" 
           value="ToCondemn"
         > 
-        ToCondemn
+        <span class="badge tocondemn">ToCondemn</span>
       </label>
     </label>
   </div>

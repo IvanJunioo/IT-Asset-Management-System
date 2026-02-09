@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'desc': asset['ShortDesc'],
       'remarks': asset['Remarks'],
       'sd_url': `<a href="${asset['Url']}">${asset['Url']}</a>`,
-			'stats': asset['Status'],
+			'stats': `<span class="badge ${asset['Status'].toLowerCase()}">${asset['Status']}</span>`,
     };
 
     for (const [k,v] of Object.entries(data)) {

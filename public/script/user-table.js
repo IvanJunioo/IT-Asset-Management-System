@@ -69,10 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
         user.MName,
         user.LName,
         user.Privilege,
-        user.ActiveStatus,
+        `<span class="badge ${user.ActiveStatus.toLowerCase()}">${user.ActiveStatus}</span>`,
       ]) {
         const td = document.createElement("td");
-        td.textContent = col;
+        td.innerHTML = col;
         tr.appendChild(td);
       }
 

@@ -37,7 +37,7 @@
 					<b>Status:</b> 
 				</div>
 				<div id='price'>
-					<b>Price:</b> 
+					<b>Price (₱):</b> 
 				</div>
 				<div id='sd_url'>
 					<b>Support Docs URL:</b> 

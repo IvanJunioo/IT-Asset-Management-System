@@ -149,6 +149,34 @@ form {
   justify-content: center;
 }
 
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.badge.active, .badge.unassigned {
+  background-color: #e6f7ee;
+  color: #0f7a4a;
+}
+
+.badge.inactive, .badge.condemned {
+  background-color: #fdecea;
+  color: #a61b1b;
+}
+
+.badge.assigned {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge.tocondemn {
+  background-color: #fff7ed;
+  color: #9a3412;
+}
+
 /* animation */
 
 @keyframes slideUp {
