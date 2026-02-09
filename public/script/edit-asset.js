@@ -53,7 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
       assignedRadio.value = 'Assigned';
       assignedRadio.checked = true;
       assignedLabel.appendChild(assignedRadio);
-      assignedLabel.appendChild(document.createTextNode(' Assigned'));
+      const assignedSpan = document.createElement("span");
+      assignedSpan.className = "badge assigned";
+      assignedSpan.textContent = "Assigned";
+      assignedLabel.appendChild(assignedSpan);
       statusGroup.appendChild(assignedLabel);
     }
   }
