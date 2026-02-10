@@ -246,4 +246,4 @@ INSERT INTO actlog (Timestamp, ActorID, Log, Metadata) VALUES
 INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES
 ('EMP99999', 'iljunio@up.edu.ph', 'Ivan Ahron', 'L', 'Junio', 'SuperAdmin', 'Active'),
 ('EMP99998', 'hmdollison@up.edu.ph', 'Therd', 'M', 'Dollison', 'SuperAdmin', 'Active'),
-('EMP99997', 'lmdianito@up.edu.ph', 'Levie', 'M', 'Dianito', 'SuperAdmin', 'Active'),
+('EMP99997', 'lmdianito@up.edu.ph', 'Levie', 'M', 'Dianito', 'SuperAdmin', 'Active');
