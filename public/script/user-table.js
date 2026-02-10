@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchFilters = searchInput.value;
     const privFilters = [...filterBox.querySelectorAll("input[name='privilege']:checked")].map(cb => cb.value);
       
-    fetch("../../src/handlers/user-table.php", {
+    fetch(`${window.location.origin}/src/handlers/user-table.php`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}`,

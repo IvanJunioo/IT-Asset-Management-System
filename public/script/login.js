@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("../../src/handlers/login-url.php", {
+  fetch(`${window.location.origin}/src/handlers/login-url.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   })

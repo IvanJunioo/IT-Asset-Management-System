@@ -57,7 +57,7 @@ userTableBody.addEventListener("usersLoaded", () => {
 });
 
 function editUser(empid){
-  fetch("../../src/handlers/edit-user.php", {
+  fetch(`${window.location.origin}/src/handlers/edit-user.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `search=${empid}`,
@@ -65,19 +65,19 @@ function editUser(empid){
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem("userData", JSON.stringify(data));
-    window.location.href = "../views/edit-user-form.php";
+    window.location.href = `${window.location.origin}/views/edit-user-form.php`;
   })
   .catch(err => console.error("Error editing user: ", err));
 }
 
 function deleteUser(empid){
-  fetch("../../src/handlers/delete-user.php", {
+  fetch(`${window.location.origin}/src/handlers/delete-user.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `search=${empid}`,
   })
   .then(_ => {
-    window.location.href = "../views/user-manager.php";
+    window.location.href = `${window.location.origin}/views/user-manager.php`;
   })
   .catch(err => console.error("Error deleting user: ", err));
 }
@@ -337,7 +337,7 @@ document.addEventListener("click", (e) => {
     for (const tr of selectedRows) {
       users.push(tr.dataset.empID);
     }
-    const url = "../../src/handlers/export-faculty-asset.php?users=" + encodeURIComponent(users);
+    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
     window.location.href = url;
     }
 });

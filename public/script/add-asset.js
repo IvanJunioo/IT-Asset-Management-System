@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
-  form.action = "../../src/handlers/add-asset-form.php";
+  form.action = `${window.location.origin}/src/handlers/add-asset-form.php`;
   form.method = "post";
 
   // Replace Property Num input field

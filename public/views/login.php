@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/navigation.css">
 <body>  
   <!-- header -->
-  <?php include '../partials/header-login.php' ?>
+  <?php include __DIR__ . '/../partials/header-login.php' ?>
 
   <!-- main -->
   <main class="login-page">
@@ -45,8 +45,8 @@
     </div>
   </main>
 
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
 
-  <script src="../script/login.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>public/script/login.js" type="module" defer></script>
 </body>
 </html>

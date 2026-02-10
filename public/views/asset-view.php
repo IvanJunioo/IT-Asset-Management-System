@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/asset-styles.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset-view.css">
 <body>
   <!-- menu -->
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
 
   <!-- asset-page -->
   <main class="asset-page">
@@ -44,14 +45,14 @@
 				</div>
 				<div id='alog'>
 					<b>Asset Log:</b> 
-          <?php include '../views/act-log.php'?>
+          <?php include __DIR__ . '/act-log.php'?>
 				</div>
 			</div>
 		</div>
 
-		<script src= ../script/view-asset.js type="module" defer></script>
+		<script src="<?= BASE_URL ?>public/script/view-asset.js" type="module" defer></script>
   </main>
 
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
 </html>

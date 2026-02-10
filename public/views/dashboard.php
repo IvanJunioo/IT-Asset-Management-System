@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php';?>
+  <?php include __DIR__ . '/../partials/head.php';?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/dashboard.css">
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
     
   <main class="dashboard">
       <h1 class="dashboard-title">
@@ -55,8 +55,8 @@
       </div>
   </main>
 
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
 
-  <script src="../script/dashboard.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>public/script/dashboard.js" type="module" defer></script>
 </body>
 </html>

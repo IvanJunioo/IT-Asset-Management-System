@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const assetForm = document.querySelector(".asset-form"); 
   const form = assetForm.querySelector("form");
 
-  form.action = "../../src/handlers/edit-asset-form.php"; 
+  form.action = `${window.location.origin}/src/handlers/edit-asset-form.php`; 
   form.method = "post";
 
   form.querySelector("input#pnum").readOnly = true;

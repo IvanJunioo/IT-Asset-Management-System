@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const div = document.getElementById("asset-distribution");
 
-  fetch("../../src/handlers/dashboard.php", {
+  fetch(`${window.location.origin}/src/handlers/dashboard.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   })

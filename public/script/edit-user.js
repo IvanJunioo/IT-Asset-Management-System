@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userForm = document.querySelector(".user-form"); 
   const form = userForm.querySelector("form");
 
-  form.action = "../../src/handlers/edit-user-form.php";
+  form.action = `${window.location.origin}/src/handlers/edit-user-form.php`;
   form.method = "post";
 
   form.querySelector("input#empid").readOnly = true;

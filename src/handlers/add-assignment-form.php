@@ -1,9 +1,9 @@
 <?php
 
-require_once '../utilities/request-guard.php';
-require_once '../../config/config.php';
-require_once '../manager/assign.php';
-require_once '../manager/logger.php';
+require_once __DIR__ . '/../utilities/request-guard.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../manager/assign.php';
+require_once __DIR__ . '/../manager/logger.php';
 
 $manag = new AssignmentManager(
   new AssetRepo($pdo),

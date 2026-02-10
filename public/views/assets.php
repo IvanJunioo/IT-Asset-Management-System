@@ -2,16 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/asset-styles.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/table.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="asset-page">
-    <?php include '../views/asset-page.php'?>
+    <?php include __DIR__ . '/asset-page.php'?>
   </main>
 
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
 </html>

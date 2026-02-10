@@ -8,7 +8,7 @@ const rowsPerPage = 10;
 export function fetchLogs(search = "") {
   const fetchID = ++latest;
 
-  fetch("../../src/handlers/act-log.php", {
+  fetch(`${window.location.origin}/src/handlers/act-log.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `page=${paginationDiv.dataset.curPage}&limit=${rowsPerPage}&search=${search}`,

@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchFilters = searchInput.value;
     const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
     
-    fetch("../../src/handlers/asset-table.php", {
+    fetch(`${window.location.origin}/src/handlers/asset-table.php`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `search=${encodeURIComponent(searchFilters)}&status=${encodeURIComponent(statusFilters)}`,
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!tr) return;
 
       if (e.target.closest(".select-btn")) {
-        fetch("../../src/handlers/fetch-asset.php", {
+        fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: `search=${tr.dataset.propNum}`,
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
           sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-          window.location.href = "../views/asset-view.php";
+          window.location.href = `${window.location.origin}/views/asset-view.php`;
         })
         .catch(err => console.error("Error fetching asset: ", err));
         return;
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   exportButton.addEventListener("click", () => {
-    window.open("../../src/handlers/export-asset.php", "_blank");
+    window.open(`${window.location.origin}/src/handlers/export-asset.php`, "_blank");
   })
 
 });

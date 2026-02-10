@@ -1,9 +1,9 @@
 <?php
-require '../../vendor/autoload.php'; 
-require_once '../../config/config.php';
-require_once '../repos/user.php';
-require_once '../repos/asset.php';
-require_once '../repos/assignment.php';
+require __DIR__ . '/../../vendor/autoload.php'; 
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../repos/user.php';
+require_once __DIR__ . '/../repos/asset.php';
+require_once __DIR__ . '/../repos/assignment.php';
 
 ob_start();
 use Dompdf\Dompdf;

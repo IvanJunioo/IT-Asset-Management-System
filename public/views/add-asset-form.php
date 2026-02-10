@@ -2,18 +2,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="asset-form">
-    <?php include '../views/asset-form.php'?>
+    <?php include __DIR__ . '/asset-form.php'?>
   </main>
   
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
   
-  <script src="../script/add-asset.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>public/script/add-asset.js" type="module" defer></script>
 </body>
 </html>

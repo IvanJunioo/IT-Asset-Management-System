@@ -2,14 +2,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = '../../src/handlers/return-asset.php' method="post">
+    <form action = "<?= BASE_URL ?>src/handlers/return-asset.php" method="post">
       <label class="input-label"> 
         Asset(s):
         <p id="asset-list"></p>
@@ -48,8 +48,8 @@
     </form>
   </main>
 
-  <script src="../script/edit-assignment.js" type="module" defer> </script>
+  <script src="<?= BASE_URL ?>public/script/return-asset.js" type="module" defer> </script>
 
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
 </html>

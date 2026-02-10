@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         switch (report){
           case "assigned-p":
-            window.open("../../src/handlers/export-asset.php", "_blank");
+            window.open(`${window.location.origin}/src/handlers/export-asset.php`, "_blank");
             break;
           case "unassigned":
-            window.open("../../src/handlers/export-asset-status.php?status=Unassigned", "_blank");
+            window.open(`${window.location.origin}/src/handlers/export-asset-status.php?status=Unassigned`, "_blank");
             break;
           case "tocondemn":
-            window.open("../../src/handlers/export-asset-status.php?status=ToCondemn", "_blank");
+            window.open(`${window.location.origin}/src/handlers/export-asset-status.php?status=ToCondemn`, "_blank");
             break;
         }
 
@@ -138,7 +138,7 @@ assetTableBody.addEventListener("assetsLoaded", () => {
 });
 
 function viewAsset(propNum) {
-  fetch("../../src/handlers/fetch-asset.php", {
+  fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `search=${propNum}`,
@@ -146,13 +146,13 @@ function viewAsset(propNum) {
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-    window.location.href = "../views/asset-view.php";
+    window.location.href = `${window.location.origin}/views/asset-view.php`;
   })
   .catch(err => console.error("Error viewing asset: ", err));
 }
 
 function editAsset(propNum) {
-  fetch("../../src/handlers/fetch-asset.php", {
+  fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `search=${propNum}`,
@@ -160,30 +160,30 @@ function editAsset(propNum) {
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem("assetData", JSON.stringify(data));
-    window.location.href = "../views/edit-asset-form.php";
+    window.location.href = `${window.location.origin}/views/edit-asset-form.php`;
   })
   .catch(err => console.error("Error editing assets: ", err));
 }
 
 function returnAsset(propNums) {
   sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
-  window.location.href = "../views/return-form.php";
+  window.location.href = `${window.location.origin}/views/return-form.php`;
 }
 
 function deleteAsset(propNum) {
-  fetch("../../src/handlers/delete-asset.php", {
+  fetch(`${window.location.origin}/src/handlers/delete-asset.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `search=${propNum}`,
   }).then(_ => {
-    window.location.href = "../views/asset-manager.php";
+    window.location.href = `${window.location.origin}/views/asset-manager.php`;
   })
   .catch(err => console.error("Error deleting assets: ", err));
 }
 
 function assignAssets(propNums) {
   sessionStorage.setItem("assetsToAssign", JSON.stringify(propNums));
-  window.location.href = "../views/assign-user.php";
+  window.location.href = `${window.location.origin}/views/assign-user.php`;
 }
 
 function addTableFuncs() {

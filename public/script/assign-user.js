@@ -32,7 +32,7 @@ userTableBody.addEventListener("usersLoaded", () => {
     if (e.target.closest(".select-btn")) {
       const tr = e.target.closest("tr");      
       sessionStorage.setItem("assignToUser", JSON.stringify(tr.dataset.empID));
-      window.location.href = "../views/assignment-form.php";
+      window.location.href = `${window.location.origin}/views/assignment-form.php`;
       return;
     }
   });

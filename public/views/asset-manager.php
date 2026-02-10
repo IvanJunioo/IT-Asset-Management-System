@@ -2,17 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
-  <?php include '../partials/asset-styles.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/asset-styles.php'?>
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
   
   <main class="asset-page">
-    <?php include '../views/asset-page.php'?>
+    <?php include __DIR__ . '/asset-page.php'?>
   </main>
   
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
   
-  <script src="../script/asset-table-manager.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>public/script/asset-table-manager.js" type="module" defer></script>
 </body>
 </html>

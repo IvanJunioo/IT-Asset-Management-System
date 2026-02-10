@@ -2,17 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <?php include '../partials/head.php'?>
-  <?php include '../partials/user-styles.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/user-styles.php'?>
 <body>
-  <?php include '../partials/header.php'?>
+  <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="user-page">
-    <?php include '../views/user-page.php'?>
+    <?php include __DIR__ . '/user-page.php'?>
   </main>
   
-  <?php include '../partials/footer.php'?>
+  <?php include __DIR__ . '/../partials/footer.php'?>
   
-  <script src="../script/user-table-manager.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>public/script/user-table-manager.js" type="module" defer></script>
 </body>
 </html>

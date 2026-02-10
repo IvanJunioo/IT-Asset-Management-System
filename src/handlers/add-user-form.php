@@ -1,10 +1,10 @@
 <?php
 
-require_once '../utilities/request-guard.php';
-require_once '../../config/config.php';
-require_once '../model/user.php';
-require_once '../repos/user.php';
-require_once '../manager/logger.php';
+require_once __DIR__ . '/../utilities/request-guard.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../model/user.php';
+require_once __DIR__ . '/../repos/user.php';
+require_once __DIR__ . '/../manager/logger.php';
 
 if ($_POST['action'] == 'submit') {
   $repo = new UserRepo($pdo);
