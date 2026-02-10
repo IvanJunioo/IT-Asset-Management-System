@@ -65,7 +65,7 @@ function editUser(empid){
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem("userData", JSON.stringify(data));
-    window.location.href = `${window.location.origin}/views/edit-user-form.php`;
+    window.location.href = `${window.location.origin}/public/views/edit-user-form.php`;
   })
   .catch(err => console.error("Error editing user: ", err));
 }
@@ -77,7 +77,7 @@ function deleteUser(empid){
     body: `search=${empid}`,
   })
   .then(_ => {
-    window.location.href = `${window.location.origin}/views/user-manager.php`;
+    window.location.href = `${window.location.origin}/public/views/user-manager.php`;
   })
   .catch(err => console.error("Error deleting user: ", err));
 }

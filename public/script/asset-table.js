@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
           sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-          window.location.href = `${window.location.origin}/views/asset-view.php`;
+          window.location.href = `${window.location.origin}/public/views/asset-view.php`;
         })
         .catch(err => console.error("Error fetching asset: ", err));
         return;
