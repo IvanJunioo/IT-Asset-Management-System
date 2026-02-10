@@ -1,4 +1,13 @@
-<?php $REQUIRED_ROLES = ["Admin", "SuperAdmin"];?>
+<?php 
+  $REQUIRED_ROLES = ["Admin", "SuperAdmin"];
+  if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../../config/config.php';
+  }
+  require_once '../../src/utilities/auth-guard.php';
+  require_once '../../src/utilities/role-guard.php';
+
+  requireRole(allowedRoles: $REQUIRED_ROLES ?? []);
+?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -242,3 +242,8 @@ INSERT INTO actlog (Timestamp, ActorID, Log, Metadata) VALUES
 ('2026-01-05 15:00:00','EMP00001','Assigned PROP000018 to EMP00007','{"PropNum":"PROP000018","Assignee":"EMP00007"}'),
 ('2026-01-06 09:30:00','EMP00003','Assigned PROP000020 to EMP00010','{"PropNum":"PROP000020","Assignee":"EMP00010"}');
 
+
+INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES
+('EMP99999', 'iljunio@up.edu.ph', 'Ivan Ahron', 'L', 'Junio', 'SuperAdmin', 'Active'),
+('EMP99998', 'hmdollison@up.edu.ph', 'Therd', 'M', 'Dollison', 'SuperAdmin', 'Active'),
+('EMP99997', 'lmdianito@up.edu.ph', 'Levie', 'M', 'Dianito', 'SuperAdmin', 'Active'),
