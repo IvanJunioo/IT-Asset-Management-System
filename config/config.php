@@ -15,13 +15,15 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 define('BASE_URL', $protocol . $host . $projectRoot);
 
 // Database
-$dbname = "itam"; # Change database here
-$dbsource = "mysql:host=db;dbname=$dbname;charset=utf8mb4"; 
-$dbusername = "user";      // match docker-compose.yml
-$dbpassword = "userpassword";
+$dbhost = getenv('DB_HOST');
+$dbport = getenv('DB_PORT');
+$dbname = getenv('DB_NAME');
+$dbusername = getenv('DB_USER');
+$dbpassword = getenv('DB_PASS');
 
+$dbsource = "mysql:host=$dbhost;port=$dbport;dbname=$dbname;charset=utf8mb4";
 
-$pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object
+$pdo = new PDO($dbsource, $dbusername, $dbpassword);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
