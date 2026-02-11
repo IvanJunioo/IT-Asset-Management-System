@@ -34,7 +34,7 @@
             <span id="user-role">
               <?= htmlspecialchars($privilege) ?>
             </span>
-            <a id="logout" href="<?= BASE_URL ?>src/handlers/logout.php"> Sign Out </a>
+            <a id="logout" href="/../../public/src/handlers/logout.php"> Sign Out </a>
         </div>
     </section>
 </div>
