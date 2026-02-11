@@ -14,16 +14,21 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 
 define('BASE_URL', $protocol . $host . $projectRoot);
 
-// Database
-$dbHost = getenv('DB_HOST') ?: 'itab-';
+// Database (ngrok public MySQL)
+$dbHost = getenv('DB_HOST') ?: '0.tcp.ap.ngrok.io';
+$dbPort = getenv('DB_PORT') ?: '19806';
 $dbName = getenv('DB_NAME') ?: 'itam';
-$dbUser = getenv('DB_USER') ?: 'user';
-$dbPass = getenv('DB_PASS') ?: 'userpassword';
+$dbUser = getenv('DB_USER') ?: 'demo_user';
+$dbPass = getenv('DB_PASS') ?: 'password';
 
-$dbsource = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
+$dsn = "mysql:host=$dbHost;port=$dbPort;dbname=$dbName;charset=utf8mb4";
 
-$pdo = new PDO($dbHost, $dbName, $dbPass);  # PHP Data Object
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    $pdo = new PDO($dsn, $dbUser, $dbPass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 // Google Client API
 $client = new Google\Client;
