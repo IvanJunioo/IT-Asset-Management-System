@@ -15,14 +15,14 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 define('BASE_URL', $protocol . $host . $projectRoot);
 
 // Database
-$dbHost = getenv('DB_HOST') ?: 'db';
+$dbHost = getenv('DB_HOST') ?: 'itab-';
 $dbName = getenv('DB_NAME') ?: 'itam';
 $dbUser = getenv('DB_USER') ?: 'user';
 $dbPass = getenv('DB_PASS') ?: 'userpassword';
 
 $dbsource = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
 
-$pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object
+$pdo = new PDO($dbHost, $dbName, $dbPass);  # PHP Data Object
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
