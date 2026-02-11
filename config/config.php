@@ -15,11 +15,11 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 define('BASE_URL', $protocol . $host . $projectRoot);
 
 // Database (ngrok public MySQL)
-$dbHost = getenv('DB_HOST');
-$dbPort = getenv('DB_PORT');
-$dbName = getenv('DB_NAME');
-$dbUser = getenv('DB_USER');
-$dbPass = getenv('DB_PASS');
+$dbHost = getenv('DB_HOST') ?: 'gondola.proxy.rlwy.net';
+$dbPort = getenv('DB_PORT') ?: '34299';
+$dbName = getenv('DB_NAME') ?: 'railway';
+$dbUser = getenv('DB_USER') ?: 'root';
+$dbPass = getenv('DB_PASS') ?: 'oniqhqwTfFIqIHmsgyZBBFRvcxWhILdz';
 
 $dsn = "mysql:host=$dbHost;port=$dbPort;dbname=$dbName;charset=utf8mb4";
 
