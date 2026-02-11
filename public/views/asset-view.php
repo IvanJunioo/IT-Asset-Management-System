@@ -13,8 +13,8 @@
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
   <?php include __DIR__ . '/../partials/asset-styles.php'?>
-  <link rel="stylesheet" href="public/css/asset.css">
-	<link rel="stylesheet" href="public/css/asset-view.css">
+  <link rel="stylesheet" href="/../../public/css/asset.css">
+	<link rel="stylesheet" href="/../../public/css/asset-view.css">
 <body>
   <!-- menu -->
   <?php include __DIR__ . '/../partials/header.php'?>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 
-		<script src="public/script/view-asset.js" type="module" defer></script>
+		<script src="/../../public/script/view-asset.js" type="module" defer></script>
   </main>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

@@ -12,8 +12,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="public/css/forms.css">
-  <link rel="stylesheet" href="public/css/asset.css">
+  <link rel="stylesheet" href="/../../public/css/forms.css">
+  <link rel="stylesheet" href="/../../public/css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
@@ -61,7 +61,7 @@
     </form>
   </main>
 
-  <script src="public/script/add-assignment.js" type="module" defer> </script>
+  <script src="/../../public/script/add-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
