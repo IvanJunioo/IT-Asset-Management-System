@@ -22,11 +22,8 @@ $dbPass = getenv('DB_PASS') ?: 'userpassword';
 
 $dbsource = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
 
-$pdo = new PDO($dbsource, $dbUser, $dbPass, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
-
-// $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
 $client = new Google\Client;
