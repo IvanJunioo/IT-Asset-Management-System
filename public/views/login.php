@@ -9,15 +9,15 @@
 <head>
     <meta charset="UTF-8">
     <title>IAMS</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/general.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/header.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/navigation.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/footer.css">
+    <link rel="stylesheet" href="public/css/general.css">
+    <link rel="stylesheet" href="public/css/header.css">
+    <link rel="stylesheet" href="public/css/navigation.css">
+    <link rel="stylesheet" href="public/css/footer.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/login.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/header.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/navigation.css">
+  <link rel="stylesheet" href="public/css/login.css">
+  <link rel="stylesheet" href="public/css/header.css">
+  <link rel="stylesheet" href="public/css/navigation.css">
 <body>  
   <!-- header -->
   <?php include __DIR__ . '/../partials/header-login.php' ?>
@@ -47,6 +47,6 @@
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 
-  <script src="<?= BASE_URL ?>public/script/login.js" type="module" defer></script>
+  <script src="public/script/login.js" type="module" defer></script>
 </body>
 </html>

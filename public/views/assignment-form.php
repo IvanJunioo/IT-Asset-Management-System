@@ -12,13 +12,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/forms.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>public/css/asset.css">
+  <link rel="stylesheet" href="public/css/forms.css">
+  <link rel="stylesheet" href="public/css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "<?= BASE_URL ?>src/handlers/add-assignment-form.php" method="post">
+    <form action = "src/handlers/add-assignment-form.php" method="post">
       <label class="input-label"> 
         Selected Asset(s):
         <p id="asset-list"></p>
@@ -61,7 +61,7 @@
     </form>
   </main>
 
-  <script src="<?= BASE_URL ?>public/script/add-assignment.js" type="module" defer> </script>
+  <script src="public/script/add-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
