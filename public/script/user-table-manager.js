@@ -78,7 +78,9 @@ function addSelectAll() {
 
 function addCheckboxes() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
-    if (tr.dataset.activeStatus === "Inactive"){
+    if (tr.dataset.activeStatus === "Inactive" || 
+      document.body.dataset.session == tr.dataset.empID
+    ){
       continue;
     }
 
@@ -100,29 +102,31 @@ function addDeactivateButton() {
   if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
 }
 
-function addReportButton(){
-  const rightUser = document.querySelector(".right-user");
-  const reportBtn = document.getElementById("report");
+// function addReportButton(){
+//   const rightUser = document.querySelector(".right-user");
+//   const reportBtn = document.getElementById("report");
 
-  if (selectedRows.size > 0){
-    if (!reportBtn){
-      const reportBtn = document.createElement("button");
-      reportBtn.id = "report";
-      reportBtn.className = "generate";
-      reportBtn.textContent = "Get Assigned Assets";
-      rightUser.appendChild(reportBtn)
-    }
-  } else {
-    reportBtn?.remove();
-  }
-}
+//   if (selectedRows.size > 0){
+//     if (!reportBtn){
+//       const reportBtn = document.createElement("button");
+//       reportBtn.id = "report";
+//       reportBtn.className = "generate";
+//       reportBtn.textContent = "Get Assigned Assets";
+//       rightUser.appendChild(reportBtn)
+//     }
+//   } else {
+//     reportBtn?.remove();
+//   }
+// }
 
 function updateSelectedRows() {
   var toAdd = new Set();
   var toDel = new Set();
 
   for (const tr1 of userTableBody.querySelectorAll("tr")) {
-    if (tr1.dataset.activeStatus === "Inactive"){
+    if (tr1.dataset.activeStatus === "Inactive" ||
+      document.body.dataset.session == tr.dataset.empID
+    ){
       continue;
     }
 
@@ -159,16 +163,23 @@ function addActionsButton() {
     }
     actionElem.className = "actions";
     if (tr.dataset.activeStatus === "Active"){
-      actionElem.innerHTML = `
+
+      let html = `
         <button class="action-btn">
           <span class="material-icons">more_horiz</span>
         </button>
         
         <div class="action-menu">
           <a class="menu-item" data-action="modify">Modify</a>
-          <a class="menu-item" data-action="deactivate">Deactivate</a>
-        </div>
       `;
+
+      if (document.body.dataset.session != tr.dataset.empID){
+        html += `<a class="menu-item" data-action="deactivate">Deactivate</a>`
+        
+      }
+      html += "</div>"
+
+      actionElem.innerHTML = html;
     }
     tr.appendChild(actionElem);
   }
@@ -262,14 +273,14 @@ function selectRow(tr) {
   selectedRows.add(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box";
-  addReportButton();
+  // addReportButton();
 }
 
 function deselectRow(tr) {    
   selectedRows.delete(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box_outline_blank";
-  addReportButton();
+  // addReportButton();
 }
 
 // Handles all table clicks dynamically
@@ -277,17 +288,25 @@ tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = userTableBody.querySelectorAll("tr");
     const activeRows = [...rows].filter(
-      tr => tr.dataset.activeStatus !== "Inactive"
+      tr => tr.dataset.activeStatus !== "Inactive" &&
+      document.body.dataset.session != tr.dataset.empID
     );
 
     if (selectedRows.size === activeRows.length) {
       for (const tr of rows) {
+        if (tr.dataset.activeStatus ==="Inactive" ||
+          document.body.dataset.session == tr.dataset.empID
+        ) {
+          continue;
+        }
         deselectRow(tr);
       }
     }
     else {
       for (const tr of rows) {
-        if (tr.dataset.activeStatus ==="Inactive") {
+        if (tr.dataset.activeStatus ==="Inactive" ||
+          document.body.dataset.session == tr.dataset.empID
+        ) {
           continue;
         }
         selectRow(tr);
@@ -309,11 +328,15 @@ tableContainer.addEventListener("click", (e) => {
 
 document.addEventListener("click", (e) => {
   if (e.target.closest("#report")){
-    let users = [];
-    for (const tr of selectedRows) {
-      users.push(tr.dataset.empID);
+    if (selectedRows.size > 0) {
+      let users = [];
+      for (const tr of selectedRows) {
+        users.push(tr.dataset.empID);
+      }
+      const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
+      window.location.href = url;
+    } else {
+      alert('Select a user first to get their assets');
     }
-    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
-    window.location.href = url;
     }
 });
