@@ -18,7 +18,7 @@
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "src/handlers/add-assignment-form.php" method="post">
+    <form action = "/../../src/handlers/add-assignment-form.php" method="post">
       <label class="input-label"> 
         Selected Asset(s):
         <p id="asset-list"></p>
@@ -35,7 +35,7 @@
           type="date" 
           id="adate" 
           name="assign-date" 
-          placeholder="Enter Assign Date" 
+          placeholder="Enter Assign Date"
           required
         >
       </label>
@@ -61,6 +61,12 @@
     </form>
   </main>
 
+  <script>
+    const date = new Date();
+    const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+    console.log(today);
+    document.getElementById('adate').setAttribute('max', today);
+  </script>
   <script src="/../../public/script/add-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

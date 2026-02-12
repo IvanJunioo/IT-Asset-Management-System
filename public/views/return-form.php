@@ -57,6 +57,12 @@
     </form>
   </main>
 
+  <script>
+    const date = new Date();
+    const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+    console.log(today);
+    document.getElementById('adate').setAttribute('max', today);
+  </script>
   <script src="/../../public/script/return-asset.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
