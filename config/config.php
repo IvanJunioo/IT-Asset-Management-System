@@ -14,21 +14,17 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 
 define('BASE_URL', $protocol . $host . $projectRoot);
 
-// Database (ngrok public MySQL)
-$dbHost = getenv('DB_HOST') ?: 'gondola.proxy.rlwy.net';
-$dbPort = getenv('DB_PORT') ?: '34299';
-$dbName = getenv('DB_NAME') ?: 'railway';
-$dbUser = getenv('DB_USER') ?: 'root';
-$dbPass = getenv('DB_PASS') ?: 'oniqhqwTfFIqIHmsgyZBBFRvcxWhILdz';
+// Database
+$dbhost = getenv('DB_HOST');
+$dbport = getenv('DB_PORT');
+$dbname = getenv('DB_NAME');
+$dbusername = getenv('DB_USER');
+$dbpassword = getenv('DB_PASS');
 
-$dsn = "mysql:host=$dbHost;port=$dbPort;dbname=$dbName;charset=utf8mb4";
+$dbsource = "mysql:host=$dbhost;port=$dbport;dbname=$dbname;charset=utf8mb4";
 
-try {
-    $pdo = new PDO($dsn, $dbUser, $dbPass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+$pdo = new PDO($dbsource, $dbusername, $dbpassword);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
 $client = new Google\Client;
