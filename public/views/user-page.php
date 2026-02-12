@@ -50,4 +50,4 @@
   </div>
 </div>
 
-<script src="../script/user-table.js" type="module" defer></script>
+<script src="/../../public/script/user-table.js" type="module" defer></script>

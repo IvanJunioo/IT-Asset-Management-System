@@ -30,7 +30,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost:8080/src/handlers/redirect.php");
+$client->setRedirectUri("https://itam-zunc.onrender.com/src/handlers/redirect.php");
 
 $client->addScope("email");
 $client->addScope("profile");
