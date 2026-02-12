@@ -11,9 +11,7 @@
           <tr>
             <th> Property No. </th>
             <th> Serial No. </th>
-            <th> Procurement No. </th>
             <th> Acquisition Date </th>
-            <th> Unit Cost </th>
             <th> Remarks  </th>
           </tr>
         </thead>
@@ -22,9 +20,7 @@
             <tr>
               <td><?=  htmlspecialchars($asset->propNum) ?></td>
               <td><?=  htmlspecialchars($asset->serialNum) ?></td>
-              <td><?=  htmlspecialchars($asset->procNum) ?></td>
               <td><?=  htmlspecialchars($asset->purchaseDate) ?></td>
-              <td><?=  htmlspecialchars($asset->price) ?></td>
               <td><?=  htmlspecialchars($asset->remarks) ?></td>
             </tr>
           <?php endforeach; ?>

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             All Assets to be Condemned
           </button>
           <button class="report-option" data-type="unassigned">
-            All Unassigned/Returned Assets
+            All Unassigned Assets
           </button>
         </div>
         <button id="closeModal" class="btn-cancel">Cancel</button>
