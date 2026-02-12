@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fillForm(assets) {
     const p_asset = assetForm.querySelector('#asset-list');
-		p_asset.textContent = `PropNum(s): ${assets}`;
+		p_asset.textContent = `${assets}`;
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");
