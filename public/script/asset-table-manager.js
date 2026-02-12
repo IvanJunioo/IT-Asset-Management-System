@@ -503,4 +503,3 @@ tableContainer.addEventListener("click", (e) => {
   }
 })
 
-
