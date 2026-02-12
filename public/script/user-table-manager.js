@@ -4,6 +4,7 @@ const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
+const session = JSON.parse(document.body.dataset.session);
 
 let selectedRows = new Set();
 
@@ -79,7 +80,7 @@ function addSelectAll() {
 function addCheckboxes() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     if (tr.dataset.activeStatus === "Inactive" || 
-      document.body.dataset.session == tr.dataset.empID
+      session.user_id == tr.dataset.empID
     ){
       continue;
     }
@@ -125,7 +126,7 @@ function updateSelectedRows() {
 
   for (const tr1 of userTableBody.querySelectorAll("tr")) {
     if (tr1.dataset.activeStatus === "Inactive" ||
-      document.body.dataset.session == tr.dataset.empID
+      session.user_id == tr.dataset.empID
     ){
       continue;
     }
@@ -173,7 +174,7 @@ function addActionsButton() {
           <a class="menu-item" data-action="modify">Modify</a>
       `;
 
-      if (document.body.dataset.session != tr.dataset.empID){
+      if (session.user_id != tr.dataset.empID){
         html += `<a class="menu-item" data-action="deactivate">Deactivate</a>`
         
       }
@@ -289,13 +290,13 @@ tableContainer.addEventListener("click", (e) => {
     const rows = userTableBody.querySelectorAll("tr");
     const activeRows = [...rows].filter(
       tr => tr.dataset.activeStatus !== "Inactive" &&
-      document.body.dataset.session != tr.dataset.empID
+      session.user_id != tr.dataset.empID
     );
 
     if (selectedRows.size === activeRows.length) {
       for (const tr of rows) {
         if (tr.dataset.activeStatus ==="Inactive" ||
-          document.body.dataset.session == tr.dataset.empID
+          session.user_id == tr.dataset.empID
         ) {
           continue;
         }
@@ -305,7 +306,7 @@ tableContainer.addEventListener("click", (e) => {
     else {
       for (const tr of rows) {
         if (tr.dataset.activeStatus ==="Inactive" ||
-          document.body.dataset.session == tr.dataset.empID
+          session.user_id == tr.dataset.empID
         ) {
           continue;
         }

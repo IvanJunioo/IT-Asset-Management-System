@@ -8,6 +8,7 @@ require_once __DIR__ . '/../repos/assignment.php';
 require_once __DIR__ . '/../manager/logger.php';
 
 $empID = $_POST['search'] ?? "";
+session_start();
 
 $assignRepo = new AssignmentRepo($pdo);
 $userRepo = new UserRepo($pdo);
@@ -18,11 +19,11 @@ $manag = new AssignmentManager(
 );
 
 $user = $userRepo->identify($empID);
-$assets = $assignRepo->getAssignedAssets($user);
-$retDate = new DateTimeImmutable('now');
-foreach ($assets as $asset){
-  $manag->returnAsset($asset->propNum, $retDate, "");
-}
+// $assets = $assignRepo->getAssignedAssets($user);
+// $retDate = new DateTimeImmutable('now');
+// foreach ($assets as $asset){
+//   $manag->returnAsset($asset->propNum, $retDate, "");
+// }
 
 $user->isActive = false;
 $userRepo->update($user);
