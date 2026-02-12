@@ -18,7 +18,11 @@ $empID = $_SESSION["user_id"];
 
 systemLog(
   "condemned asset $propNum",
-  []
+  [
+    "action" => "condemn",
+    "object" => "asset",
+    "propNum" => $propNum,
+  ]
 );
 
 exit;

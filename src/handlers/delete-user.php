@@ -29,7 +29,11 @@ $userRepo->update($user);
 
 systemLog(
   "deactivated user $empID",
-  []
+  [
+    "action" => "deactivate",
+    "object" => "user",
+    "empID" => $empID,
+  ]
 );
 
 

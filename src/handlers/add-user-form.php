@@ -43,7 +43,11 @@ if ($_POST['action'] == 'submit') {
 
   systemLog(
     "added new user $empID",
-    []
+    [
+      "action" => "add",
+      "object" => "user",
+      "empID" => $empID,
+    ]
   );
 }
 

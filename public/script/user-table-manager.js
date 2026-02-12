@@ -1,3 +1,5 @@
+import { editUser, deleteUser } from "./user-router.js";
+
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
@@ -55,32 +57,6 @@ userTableBody.addEventListener("usersLoaded", () => {
     resetMultiSelect();
   }
 });
-
-function editUser(empid){
-  fetch(`${window.location.origin}/src/handlers/edit-user.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${empid}`,
-  })
-  .then(res => res.json())
-  .then(data => {
-    sessionStorage.setItem("userData", JSON.stringify(data));
-    window.location.href = `${window.location.origin}/public/views/edit-user-form.php`;
-  })
-  .catch(err => console.error("Error editing user: ", err));
-}
-
-function deleteUser(empid){
-  fetch(`${window.location.origin}/src/handlers/delete-user.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${empid}`,
-  })
-  .then(_ => {
-    window.location.href = `${window.location.origin}/public/views/user-manager.php`;
-  })
-  .catch(err => console.error("Error deleting user: ", err));
-}
 
 function addTableFuncs() {
   const tableFuncsClass = document.querySelector(".table-func");

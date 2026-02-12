@@ -33,7 +33,7 @@ final class ActLogRepo implements ActlogRepoInterface {
     $offset = ($page-1) * $limit;
     $query = "SELECT * FROM actlog 
       WHERE ActorID LIKE ?
-      OR Log LIKE ?
+      OR Message LIKE ?
       OR JSON_SEARCH(Metadata, 'one', ?) IS NOT NULL  
       ORDER BY Timestamp DESC 
       LIMIT $limit
@@ -56,7 +56,7 @@ final class ActLogRepo implements ActlogRepoInterface {
   ): int {
     $query = "SELECT COUNT(*) FROM actlog 
       WHERE ActorID LIKE ?
-      OR Log LIKE ?
+      OR Message LIKE ?
       OR JSON_SEARCH(Metadata, 'one', ?) IS NOT NULL  
     ";
     $stmt = $this->pdo->prepare($query);
@@ -76,7 +76,7 @@ final class ActLogRepo implements ActlogRepoInterface {
     string $log,
     array $metadata,
   ): void {
-    $query = "INSERT INTO actlog (ActorID, Log, Metadata) VALUES (?,?,?)";
+    $query = "INSERT INTO actlog (ActorID, Message, Metadata) VALUES (?,?,?)";
 
     $this->pdo->prepare($query)->execute([
       $user->empID,

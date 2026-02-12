@@ -31,7 +31,11 @@ if ($action == 'submit') {
 
     systemLog(
       "added new asset $propNum",
-      []
+      [
+        "action" => "add",
+        "object" => "asset",
+        "propNum" => $propNum,
+      ]
     );
   }
 

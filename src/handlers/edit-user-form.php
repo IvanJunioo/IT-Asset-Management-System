@@ -45,7 +45,12 @@ if ($_POST['action'] == 'submit') {
 
   systemLog(
     "modified user $empID",
-    array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize()),
+    [
+      "action" => "modify",
+      "object" => "user",
+      "empID" => $empID,
+      "diff" => array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize()),
+    ]
   );
 }
 

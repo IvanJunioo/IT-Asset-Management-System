@@ -32,7 +32,7 @@ USE itam;
 CREATE TABLE `actlog` (
   `Timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `ActorID` char(8) NOT NULL,
-  `Log` mediumtext NOT NULL,
+  `Message` mediumtext NOT NULL,
   `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`Metadata`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

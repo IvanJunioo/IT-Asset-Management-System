@@ -24,7 +24,11 @@ if ($_POST["action"] == 'submit') {
 
     systemLog(
       "returned asset $pnum",
-      []
+      [
+        "action" => "return",
+        "object" => "asset",
+        "propNum" => $pnum,
+      ]
     );
   }
 }

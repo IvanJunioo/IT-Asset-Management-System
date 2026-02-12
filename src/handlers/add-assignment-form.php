@@ -33,7 +33,12 @@ if ($_POST["action"] == 'submit') {
 
     systemLog(
       "assigned asset $pnum to user $empID",
-      []
+      [
+        "action" => "assign",
+        "object" => "asset",
+        "propNum" => $pnum,
+        "assigneeID" => $empID,
+      ]
     );
 	}
 

@@ -1,9 +1,10 @@
-const leftAsset = document.querySelector(".left-asset");
-const tableContainer = leftAsset.querySelector(".table-container");
-const assetTable = tableContainer.querySelector(".asset-table");
-const assetTableBody = assetTable.querySelector("tbody");
+import { viewAsset } from "./asset-router.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  const leftAsset = document.querySelector(".left-asset");
+  const tableContainer = leftAsset.querySelector(".table-container");
+  const assetTable = tableContainer.querySelector(".asset-table");
+  const assetTableBody = assetTable.querySelector("tbody");
   const searchInput = document.getElementById("search-input");
   const searchButton = document.getElementById("search-button");
   const filterBox = document.getElementById("filter-box");
@@ -101,17 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!tr) return;
 
       if (e.target.closest(".select-btn")) {
-        fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `search=${tr.dataset.propNum}`,
-        })
-        .then(res => res.json())
-        .then(data => {
-          sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-          window.location.href = `${window.location.origin}/public/views/asset-view.php`;
-        })
-        .catch(err => console.error("Error fetching asset: ", err));
+        viewAsset(tr.dataset.propNum);
         return;
       }
     });    
@@ -133,74 +124,72 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(`${window.location.origin}/src/handlers/export-asset.php`, "_blank");
   })
 
-});
-
-let currentSortKey = "propNum"; // track which column is sorted
-let sortOrder = "asc"; 
-
-function sortAsset(sortKey) {
-  if (!sortKey) return;
-  currentSortKey = sortKey; 
-  const rows = Array.from(assetTableBody.querySelectorAll("tr"));
-
-  rows.sort((a, b) => {
-    let valA = a.dataset[sortKey] || "";
-    let valB = b.dataset[sortKey] || "";
-
-    const dateA = Date.parse(valA);
-    const dateB = Date.parse(valB);
-    if (!isNaN(dateA) && !isNaN(dateB)) {
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+  let currentSortKey = "propNum"; // track which column is sorted
+  let sortOrder = "asc"; 
+  
+  function sortAsset(sortKey) {
+    if (!sortKey) return;
+    currentSortKey = sortKey; 
+    const rows = Array.from(assetTableBody.querySelectorAll("tr"));
+  
+    rows.sort((a, b) => {
+      let valA = a.dataset[sortKey] || "";
+      let valB = b.dataset[sortKey] || "";
+  
+      const dateA = Date.parse(valA);
+      const dateB = Date.parse(valB);
+      if (!isNaN(dateA) && !isNaN(dateB)) {
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+      }
+  
+      valA = valA ? valA.toLowerCase() : ""; 
+      valB = valB ? valB.toLowerCase() : "";
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  
+    rows.forEach(tr => assetTableBody.appendChild(tr));
+  }
+  
+  document.addEventListener("click", (e) => {
+    const sortBtn = e.target.closest("#sort-by");
+    if (sortBtn) {
+      e.stopPropagation();
+      const menu = document.querySelector("#sort-menu");
+      const isVisible = menu.style.display === "flex";
+  
+      document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
+  
+      if (!isVisible) {
+        const boundingRect = sortBtn.getBoundingClientRect();
+        const gap = 8;
+  
+        menu.style.top = `${boundingRect.top - gap}px`;
+        menu.style.left = `${boundingRect.right + gap}px`;
+        menu.style.display = "flex";
+      }
+      return;
     }
-
-    valA = valA ? valA.toLowerCase() : ""; 
-    valB = valB ? valB.toLowerCase() : "";
-    if (valA < valB) return sortOrder === "asc" ? -1 : 1;
-    if (valA > valB) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  rows.forEach(tr => assetTableBody.appendChild(tr));
-}
-
-document.addEventListener("click", (e) => {
-  const sortBtn = e.target.closest("#sort-by");
-  if (sortBtn) {
-    e.stopPropagation();
-    const menu = document.querySelector("#sort-menu");
-    const isVisible = menu.style.display === "flex";
-
-    document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");
-
-    if (!isVisible) {
-      const boundingRect = sortBtn.getBoundingClientRect();
-      const gap = 8;
-
-      menu.style.top = `${boundingRect.top - gap}px`;
-      menu.style.left = `${boundingRect.right + gap}px`;
-      menu.style.display = "flex";
+  
+    const menuBtn = e.target.closest(".menu-item[data-sort]");
+    if (menuBtn) {
+      sortOrder = 'asc'
+      const sortKey = menuBtn.dataset.sort;
+      sortAsset(sortKey);
+      
     }
-    return;
-  }
-
-  const menuBtn = e.target.closest(".menu-item[data-sort]");
-  if (menuBtn) {
-    sortOrder = 'asc'
-    const sortKey = menuBtn.dataset.sort;
-    sortAsset(sortKey);
-    
-  }
-
-  const reverseBtn = e.target.closest("#reverse-sort");
-  if (reverseBtn) {
-    if (!currentSortKey) return;
-    sortOrder = sortOrder === "asc" ? "desc" : "asc";
-    sortAsset(currentSortKey);
-  }
-
-  document.querySelectorAll(".sort-menu").forEach(menu => {
-    menu.style.display = "none";
+  
+    const reverseBtn = e.target.closest("#reverse-sort");
+    if (reverseBtn) {
+      if (!currentSortKey) return;
+      sortOrder = sortOrder === "asc" ? "desc" : "asc";
+      sortAsset(currentSortKey);
+    }
+  
+    document.querySelectorAll(".sort-menu").forEach(menu => {
+      menu.style.display = "none";
+    });
+  
   });
-
 });
-

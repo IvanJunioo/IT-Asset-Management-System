@@ -32,7 +32,12 @@ if ($action == 'submit') {
 
   systemLog(
     "modified asset $propNum",
-    array_diff_assoc($asset->jsonSerialize(), $old->jsonSerialize()),
+    [ 
+      "action" => "modify",
+      "object" => "asset",
+      "propNum" => $propNum,
+      "diff" => array_diff_assoc($asset->jsonSerialize(), $old->jsonSerialize()),
+    ],
   );
 }
 

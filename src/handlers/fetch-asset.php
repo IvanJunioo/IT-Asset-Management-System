@@ -10,9 +10,8 @@ $search =  $_POST['search'] ?? "";
 
 try{
   $repo = new AssetRepo($pdo);
-  $assets = array_values(array_map("unserialize", array_unique(array_map("serialize",
-    $repo->search(new AssetSearchCriteria(propNum: $search))
-  ))));
+  
+  $assets = $repo->search(new AssetSearchCriteria(propNum: $search));
 
   echo json_encode($assets);
 } catch (Exception $e) {

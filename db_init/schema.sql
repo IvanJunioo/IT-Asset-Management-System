@@ -32,7 +32,7 @@ USE railway;
 CREATE TABLE `actlog` (
   `Timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `ActorID` char(8) NOT NULL,
-  `Log` mediumtext NOT NULL,
+  `Message` mediumtext NOT NULL,
   `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`Metadata`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -234,7 +234,7 @@ INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, ReturnD
 -- --------------------------------------------------------
 -- Activity logs
 -- --------------------------------------------------------
-INSERT INTO actlog (Timestamp, ActorID, Log, Metadata) VALUES
+INSERT INTO actlog (Timestamp, ActorID, Message, Metadata) VALUES
 ('2026-01-01 09:00:00','EMP00003','Assigned PROP000006 to EMP00001','{"PropNum":"PROP000006","Assignee":"EMP00001"}'),
 ('2026-01-02 10:30:00','EMP00003','Assigned PROP000008 to EMP00002','{"PropNum":"PROP000008","Assignee":"EMP00002"}'),
 ('2026-01-03 11:00:00','EMP00001','Assigned PROP000012 to EMP00005','{"PropNum":"PROP000012","Assignee":"EMP00005"}'),

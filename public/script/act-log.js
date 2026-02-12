@@ -1,3 +1,6 @@
+import { viewAsset } from "./asset-router.js";
+import { editUser } from "./user-router.js";
+
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
 const paginationDiv = document.getElementById("pagination"); 
@@ -30,18 +33,31 @@ function showLogs(data) {
   for (const log of data["logs"]) {
     const tr = document.createElement("tr");
     
+    const metadata = JSON.parse(log.Metadata);
+
+    const objID = {
+      "asset": metadata["propNum"],
+      "user": metadata["empID"]
+    }[metadata["object"]];
+
     // Store data to row
     tr.dataset.time = log.Timestamp;
-    tr.dataset.empID = log.ActorID;
-    tr.dataset.desc = log.Log;
+    tr.dataset.actorid = log.ActorID;
+    tr.dataset.objid = objID;
+    tr.dataset.object = metadata["object"];
+
+    const action = {
+      "modify": "modified",
+      "deactivate": "deactivated"
+    }[metadata["action"]] || `${metadata["action"]}ed`;
     
     for (const col of [
       log.Timestamp,
-      log.ActorID,
-      log.Log,
+      `<a data-type="actor">${log.ActorID}</a>`,
+      `User <a data-type="actor">${log.ActorID}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objID}</a>`,
     ]) {
       const td = document.createElement("td");
-      td.textContent = col;
+      td.innerHTML = col;
       tr.appendChild(td);
     }
 
@@ -60,6 +76,28 @@ document.addEventListener("DOMContentLoaded", () => {
   tbody.querySelector("td").colSpan = table.querySelector("thead tr").children.length;
 
   fetchLogs();
+
+  table.addEventListener("click", (e) => {
+    const tr = e.target.closest("tr");
+    if (!tr) return;
+
+    const a = e.target.closest("a");
+    if (!a) return;
+
+    switch (a.dataset.type) {
+      case "actor":
+        editUser(tr.dataset.actorid);
+        break;
+      case "asset":
+        viewAsset(tr.dataset.objid);
+        break;
+      case "user":
+        editUser(tr.dataset.objid)
+        break;
+      default:
+        console.warn(`Unknown object type: ${a.dataset.type}`);
+    }
+  });
 
   paginationDiv.addEventListener("click", (e) => {
     if (e.target.closest("#prev")) {
