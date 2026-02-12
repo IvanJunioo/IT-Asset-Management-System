@@ -1,4 +1,4 @@
-import { viewAsset, editAsset, returnAsset, deleteAsset, assignAssets} from "./asset-router.js";
+import { editAsset, returnAsset, deleteAsset, assignAssets} from "./asset-router.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const leftAsset = document.querySelector(".left-asset");
@@ -250,7 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </button>
         
         <div class="action-menu">
-          <a class="menu-item" data-action="view">View</a>
           <a class="menu-item" data-action="modify">Modify</a>
       `;
       if (tr.dataset.status === "ToCondemn"){
@@ -340,9 +339,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const propNum = tr.dataset.propNum;
   
       switch (menuBtn.dataset.action) {
-        case "view":
-          viewAsset(propNum);
-          break;
         case "modify":
           editAsset(propNum);
           break;
