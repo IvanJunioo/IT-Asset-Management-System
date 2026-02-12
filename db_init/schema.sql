@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `itam`
 --
-CREATE DATABASE IF NOT EXISTS itam;
-USE itam;
+CREATE DATABASE IF NOT EXISTS railway;
+USE railway;
 
 -- --------------------------------------------------------
 
@@ -163,7 +163,7 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-USE itam;
+USE railway;
 
 -- --------------------------------------------------------
 -- Employees
