@@ -30,12 +30,13 @@ if ($_POST["action"] == 'submit') {
       $assDate, 
       $_POST['remarks']
     );
+
+    systemLog(
+      "assigned asset $pnum to user $empID",
+      []
+    );
 	}
 
-  systemLog(
-    "assigned " . count($assets) . "assets to user $empID",
-    ["assets" => $assets]
-  );
 }
 
 header('Location: ../../public/views/asset-manager.php');

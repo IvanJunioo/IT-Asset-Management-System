@@ -21,12 +21,12 @@ if ($_POST["action"] == 'submit') {
   
   foreach ($assets as $pnum) {
     $manag->returnAsset($pnum, $retDate, $_POST['remarks']);
-  }
 
-  systemLog(
-    "returned " . count($assets) . "asset(s)"  , ["assets" => $assets],
-    []
-  );
+    systemLog(
+      "returned asset $pnum",
+      []
+    );
+  }
 }
 
 header('Location: ../../public/views/asset-manager.php');

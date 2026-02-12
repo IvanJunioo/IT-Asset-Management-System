@@ -28,12 +28,13 @@ if ($action == 'submit') {
     );
   
     $assetRepo->add($asset);
+
+    systemLog(
+      "added new asset $propNum",
+      []
+    );
   }
 
-  systemLog(
-    "added " . count($propNums) . " new asset(s).", 
-    ["assets" => $propNums]
-  );
 }
 
 header('Location: ../../public/views/asset-manager.php');

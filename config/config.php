@@ -15,22 +15,24 @@ $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 define('BASE_URL', $protocol . $host . $projectRoot);
 
 // Database
-$dbhost = getenv('DB_HOST');
-$dbport = getenv('DB_PORT');
-$dbname = getenv('DB_NAME');
-$dbusername = getenv('DB_USER');
-$dbpassword = getenv('DB_PASS');
+$dbname = "itam"; # Change database here
+// $dbsource = "mysql:host=db;dbname=$dbname;charset=utf8mb4"; 
+// $dbusername = "user";      // match docker-compose.yml
+// $dbpassword = "userpassword";
+$dbsource = "mysql:host=localhost;dbname=$dbname;charset=utf8mb4"; 
+$dbusername = "root";      // match docker-compose.yml
+$dbpassword = "";
 
-$dbsource = "mysql:host=$dbhost;port=$dbport;dbname=$dbname;charset=utf8mb4";
 
-$pdo = new PDO($dbsource, $dbusername, $dbpassword);
+$pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("https://itam-zunc.onrender.com/src/handlers/redirect.php");
+// $client->setRedirectUri("http://localhost:8080/src/handlers/redirect.php");
+$client->setRedirectUri("http://localhost:3000/src/handlers/redirect.php");
 
 $client->addScope("email");
 $client->addScope("profile");
