@@ -5,7 +5,7 @@ const userTableBody = userTable.querySelector("tbody");
 
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
-  const searchButton = document.getElementById("search-button");
+  // const searchButton = document.getElementById("search-button");
   const userTableBody = document.querySelector('.user-table tbody');
   const filterBox = document.getElementById("filter-box");
 

@@ -25,6 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
+  // Hide toCondemn radio button
+  const toCondemnGrp = document.getElementById('tocondemn');
+  toCondemnGrp.style.display = 'none';
+  const unassignedBtn = document.getElementById('unused');
+  unassignedBtn.setAttribute('checked', true);
+
   form.addEventListener("click", (e) => {
     if (e.target.closest(".add-input")) {
       const rows = e.target.closest(".input-rows");

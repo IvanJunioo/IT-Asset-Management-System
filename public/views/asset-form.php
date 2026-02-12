@@ -126,7 +126,7 @@
         > 
         <span class="badge unassigned">Unassigned</span>
       </label>
-      <label>
+      <label id = 'tocondemn'>
         <input 
           type="radio" 
           id="inrepair" 
