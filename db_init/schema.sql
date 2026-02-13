@@ -91,7 +91,6 @@ CREATE TABLE `employee` (
   `EmpID` char(8) NOT NULL,
   `EmpMail` varchar(50) NOT NULL,
   `FName` varchar(20) NOT NULL,
-  `MName` varchar(20) NOT NULL,
   `LName` varchar(20) NOT NULL,
   `Privilege` enum('Faculty','Admin','SuperAdmin') NOT NULL,
   `ActiveStatus` enum('Active','Inactive') NOT NULL
@@ -168,17 +167,17 @@ USE railway;
 -- --------------------------------------------------------
 -- Employees
 -- --------------------------------------------------------
-INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES
-('EMP00001', 'alice@example.com', 'Alice', 'M', 'Smith', 'Admin', 'Active'),
-('EMP00002', 'bob@example.com', 'Bob', 'J', 'Johnson', 'Faculty', 'Active'),
-('EMP00003', 'carol@example.com', 'Carol', 'K', 'Lee', 'SuperAdmin', 'Active'),
-('EMP00004', 'dave@example.com', 'Dave', 'L', 'Brown', 'Faculty', 'Inactive'),
-('EMP00005', 'eve@example.com', 'Eve', 'A', 'White', 'Faculty', 'Active'),
-('EMP00006', 'frank@example.com', 'Frank', 'B', 'Green', 'Admin', 'Active'),
-('EMP00007', 'grace@example.com', 'Grace', 'C', 'Hall', 'Faculty', 'Active'),
-('EMP00008', 'henry@example.com', 'Henry', 'D', 'King', 'Admin', 'Inactive'),
-('EMP00009', 'ivy@example.com', 'Ivy', 'E', 'Scott', 'SuperAdmin', 'Active'),
-('EMP00010', 'jack@example.com', 'Jack', 'F', 'Adams', 'Faculty', 'Active');
+INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('EMP00001', 'alice@example.com', 'Alice', 'Smith', 'Admin', 'Active'),
+('EMP00002', 'bob@example.com', 'Bob', 'Johnson', 'Faculty', 'Active'),
+('EMP00003', 'carol@example.com', 'Carol', 'Lee', 'SuperAdmin', 'Active'),
+('EMP00004', 'dave@example.com', 'Dave', 'Brown', 'Faculty', 'Inactive'),
+('EMP00005', 'eve@example.com', 'Eve', 'White', 'Faculty', 'Active'),
+('EMP00006', 'frank@example.com', 'Frank', 'Green', 'Admin', 'Active'),
+('EMP00007', 'grace@example.com', 'Grace', 'Hall', 'Faculty', 'Active'),
+('EMP00008', 'henry@example.com', 'Henry', 'King', 'Admin', 'Inactive'),
+('EMP00009', 'ivy@example.com', 'Ivy', 'Scott', 'SuperAdmin', 'Active'),
+('EMP00010', 'jack@example.com', 'Jack', 'Adams', 'Faculty', 'Active');
 
 -- --------------------------------------------------------
 -- Employee contacts
@@ -243,7 +242,7 @@ INSERT INTO actlog (Timestamp, ActorID, Message, Metadata) VALUES
 ('2026-01-06 09:30:00','EMP00003','Assigned PROP000020 to EMP00010','{"PropNum":"PROP000020","Assignee":"EMP00010"}');
 
 
-INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES
-('EMP99999', 'iljunio@up.edu.ph', 'Ivan Ahron', 'L', 'Junio', 'SuperAdmin', 'Active'),
-('EMP99998', 'hmdollison@up.edu.ph', 'Therd', 'M', 'Dollison', 'SuperAdmin', 'Active'),
-('EMP99997', 'lmdianito@up.edu.ph', 'Levie', 'M', 'Dianito', 'SuperAdmin', 'Active');
+INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('EMP99999', 'iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
+('EMP99998', 'hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
+('EMP99997', 'lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active');

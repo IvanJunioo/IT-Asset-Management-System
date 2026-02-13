@@ -35,7 +35,6 @@ final class UserRepo implements UserRepoInterface {
       AND EmpID LIKE ?
       AND EmpMail LIKE ?
       AND FName LIKE ?
-      AND MName LIKE ?
       AND LName LIKE ?
       LIMIT $criteria->limit
     ";
@@ -46,7 +45,6 @@ final class UserRepo implements UserRepoInterface {
     $params[] = "%$criteria->empID%";
     $params[] = "%$criteria->email%";
     $params[] = "%" . $criteria->fullname->first . "%";
-    $params[] = "%" . $criteria->fullname->middle . "%";
     $params[] = "%" . $criteria->fullname->last . "%";
 
     $stmt->execute($params);
@@ -55,7 +53,7 @@ final class UserRepo implements UserRepoInterface {
     $emps = [];
     foreach ($res as $emp) {
       $id = $emp["EmpID"];
-      $name = new Fullname($emp["FName"], $emp["MName"], $emp["LName"]);
+      $name = new Fullname(first: $emp["FName"], last: $emp["LName"]);
       $email = $emp["EmpMail"];
       $isActive = $emp["ActiveStatus"] == "Active";
 
@@ -80,7 +78,6 @@ final class UserRepo implements UserRepoInterface {
       AND EmpID LIKE ?
       AND EmpMail LIKE ?
       AND FName LIKE ?
-      AND MName LIKE ?
       AND LName LIKE ?
       LIMIT $criteria->limit
     ";
@@ -91,7 +88,6 @@ final class UserRepo implements UserRepoInterface {
     $params[] = "%$criteria->empID%";
     $params[] = "%$criteria->email%";
     $params[] = "%" . $criteria->fullname->first . "%";
-    $params[] = "%" . $criteria->fullname->middle . "%";
     $params[] = "%" . $criteria->fullname->last . "%";
 
     $stmt->execute($params);
@@ -108,13 +104,12 @@ final class UserRepo implements UserRepoInterface {
   }
 
   public function add(User $user): void {
-    $query = "INSERT INTO employee (EmpID, EmpMail, FName, MName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
+    $query = "INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
     
     $this->pdo->prepare($query)->execute([
       $user->empID,
       $user->email,
       $user->name->first,
-      $user->name->middle,
       $user->name->last,
       $user->getPrivilege()->value,
       $user->isActive? "Active" : "Inactive",
@@ -149,7 +144,6 @@ final class UserRepo implements UserRepoInterface {
     $query = "UPDATE employee SET 
       EmpMail = :mail,
       FName = :fn,
-      MName = :mn,
       LName = :ln,
       Privilege = :priv,
       ActiveStatus = :astat
@@ -160,7 +154,6 @@ final class UserRepo implements UserRepoInterface {
       ":id" => $user->empID,
       ":mail" => $user->email,
       ":fn" => $user->name->first,
-      ":mn" => $user->name->middle,
       ":ln" => $user->name->last,
       ":priv" => $user->getPrivilege()->name,
       ":astat" => $user->isActive? "Active" : "Inactive",

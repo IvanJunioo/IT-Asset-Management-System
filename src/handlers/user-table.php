@@ -16,7 +16,6 @@ try {
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
     $repo->search(new UserSearchCriteria(empID: $search, privileges: $privilege)),
     $repo->search(new UserSearchCriteria(fullname: new Fullname(first: $search), privileges: $privilege)),
-    $repo->search(new UserSearchCriteria(fullname: new Fullname(middle: $search), privileges: $privilege)),
     $repo->search(new UserSearchCriteria(fullname: new Fullname(last: $search), privileges: $privilege)),
     $repo->search(new UserSearchCriteria(email: $search, privileges: $privilege)),
   )))));

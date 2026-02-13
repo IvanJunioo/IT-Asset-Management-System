@@ -11,9 +11,8 @@ if ($_POST['action'] == 'submit') {
   
   $empID = $_POST['employee-id'];
   $name = new Fullname(
-    $_POST['first-name'],
-    $_POST['middle-name'],
-    $_POST['last-name'],
+    first: $_POST['first-name'],
+    last: $_POST['last-name'],
   );
   $status = $_POST['active-status'] === 'Active';
 

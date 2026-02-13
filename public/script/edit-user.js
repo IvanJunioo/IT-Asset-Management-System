@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
       'empid': user['EmpID'],
       'e': user['EmpMail'],
       'fn': user['FName'],
-      'mn': user['MName'],
       'ln': user['LName'],
     };
 

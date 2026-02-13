@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <a class="menu-item" data-sort="empID">Employee ID</a>
       <a class="menu-item" data-sort="empMail">Email</a>
       <a class="menu-item" data-sort="fName">First Name</a>
-      <a class="menu-item" data-sort="mName">Middle Name</a>
       <a class="menu-item" data-sort="lName">Last Name</a>
     </div>
   `;
@@ -57,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.dataset.empID = user.EmpID;
       tr.dataset.empMail = user.EmpMail;
       tr.dataset.fName = user.FName;
-      tr.dataset.mName = user.MName;
       tr.dataset.lName = user.LName;
       tr.dataset.privilege = user.Privilege;
       tr.dataset.activeStatus = user.ActiveStatus;
@@ -66,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
         user.EmpID,
         user.EmpMail,
         user.FName,
-        user.MName,
         user.LName,
         user.Privilege,
         `<span class="badge ${user.ActiveStatus.toLowerCase()}">${user.ActiveStatus}</span>`,

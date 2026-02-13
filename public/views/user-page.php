@@ -11,7 +11,6 @@
           <th> Employee ID </th>
           <th> Email </th> 
           <th> First Name </th>
-          <th> Middle Name </th>
           <th> Last Name </th>
           <th> Privilege </th>
           <th> Status  </th>

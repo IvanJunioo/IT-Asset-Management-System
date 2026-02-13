@@ -27,18 +27,6 @@
   </label>
 
   <label class="input-label"> 
-    Middle Name: 
-    <input 
-      type="text" 
-      id="mn" 
-      name="middle-name" 
-      placeholder="Enter Middle Name" 
-      maxlength="20" 
-      size="20"
-    >
-  </label>
-
-  <label class="input-label"> 
     Last Name: 
     <input 
       type="text" 

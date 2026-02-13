@@ -31,7 +31,6 @@ abstract class User implements JsonSerializable{
       'EmpID' => $this->empID,
       'EmpMail' => $this->email,        
       'FName' => $this->name->first,
-      'MName' => $this->name->middle,
       'LName' => $this->name->last,	
       'Privilege' => $this->getPrivilege()->value,
       'ActiveStatus' => $this->isActive? "Active" : "Inactive",	

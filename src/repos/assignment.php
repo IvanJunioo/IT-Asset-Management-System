@@ -43,7 +43,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($res as $user) {
       $privilege = $user['Privilege'];
-      $name = new Fullname($user['FName'], $user['MName'], $user['LName']);
+      $name = new Fullname(first: $user['FName'], last: $user['LName']);
       $status = $user['ActiveStatus'] === 'Active';
 
       $ret = match (UserPrivilege::from($privilege)) {

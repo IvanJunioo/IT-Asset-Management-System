@@ -37,7 +37,6 @@ $user = $users[0];
 
 $_SESSION['user_id'] = $user->empID;
 $_SESSION['user_fname'] = $user->name->first;
-$_SESSION['user_mname'] = $user->name->middle;
 $_SESSION['user_lname'] = $user->name->last;
 $_SESSION['privilege'] = $user->getPrivilege()->value;
 $_SESSION['logged_in'] = true;

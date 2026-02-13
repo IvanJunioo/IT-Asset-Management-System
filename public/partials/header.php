@@ -29,7 +29,7 @@
 
         <div id="user-panel">
             <span id="username"> 
-              <?= htmlspecialchars("{$userLName}, {$userFName}, {$userMName[0]}") ?>
+              <?= htmlspecialchars("{$userLName}, {$userFName}") ?>
             </span>
             <span id="user-role">
               <?= htmlspecialchars($privilege) ?>

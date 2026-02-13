@@ -11,7 +11,7 @@
         $assets = $d['assets'];
         $dates  = $d['assignDates'];
 
-        $fullName = trim("{$user->name->first} {$user->name->middle} {$user->name->last}");
+        $fullName = trim("{$user->name->first} {$user->name->last}");
         $priv     = $user->getPrivilege()->value ?? '';
       ?>
         
