@@ -40,7 +40,6 @@ if ($_POST['action'] == 'submit') {
   };
   
   $repo->update($user);
-  $repo->updateContacts($user, $_POST["phone"]);
 
   systemLog(
     "modified user $empID",

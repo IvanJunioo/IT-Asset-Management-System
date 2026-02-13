@@ -156,6 +156,12 @@ ALTER TABLE `assignment`
 --
 ALTER TABLE `empcontact`
   ADD CONSTRAINT `empcontact_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`);
+
+INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('00000000', 'iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
+('00000001', 'hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
+('00000002', 'lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active');
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

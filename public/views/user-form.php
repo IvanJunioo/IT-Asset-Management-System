@@ -53,26 +53,6 @@
   </label>
 
   <label class="input-label"> 
-    Contact Number: 
-    <div class="input-rows">
-      <div class="input-row">
-        <input 
-          type="tel" 
-          name="phone[]" 
-          placeholder="Enter Contact No" 
-          maxlength="16"
-          pattern="^[\+0-9\-\(\)\s]{7,20}$"
-          size="30" 
-          required
-        >
-        <button type="button" class="add-input">
-          <span class="material-icons">add</span>
-        </button>
-      </div>
-    </div>
-  </label>
-
-  <label class="input-label"> 
     Privilege: 
     <label>
       <input 

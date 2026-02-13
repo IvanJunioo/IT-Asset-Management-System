@@ -38,7 +38,6 @@ if ($_POST['action'] == 'submit') {
   };
   
   $repo->add($user);
-  $repo->updateContacts($user, $_POST["phone"]);
 
   systemLog(
     "added new user $empID",
