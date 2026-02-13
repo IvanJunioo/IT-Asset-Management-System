@@ -24,45 +24,46 @@ final class AssetRepo implements AssetRepoInterface {
     return $assets[0];
   }
   
-  public function search(AssetSearchCriteria $criteria = new AssetSearchCriteria()): array {     
-    $st = implode(',',array_fill(0, count($criteria->status), '?'));
-    $query = "SELECT * FROM asset WHERE 
-      Status IN ($st)
-      AND Price >= ? 
-      AND Price <= ?
-      AND PurchaseDate >= ? 
-      AND PurchaseDate <= ?
-      AND PropNum LIKE ?
-      AND ProcNum LIKE ?
-      AND SerialNum LIKE ?
-      AND ShortDesc LIKE ?
-      AND Specs LIKE ?
-      AND Remarks LIKE ?
-      LIMIT $criteria->limit
-    ;";
+  public function search(AssetSearchCriteria $criteria = new AssetSearchCriteria()): array {
+    $conds = ["1=1"];
+    $params = [];
     
-    $stmt = $this->pdo->prepare($query);
-    
-    foreach ($criteria->status as $s ) {
-      $params[] = $s->name;
+    if (!empty($criteria->status)) {
+      $placeholders = implode(',',array_fill(0, count($criteria->status), '?'));
+      $conds[] = "Status IN ($placeholders)";
+      foreach ($criteria->status as $s) $params[] = $s->name; 
     }
-    
-    $params[] = (string) $criteria->price_min;
-    $params[] = (string) $criteria->price_max;
+
+    $conds[] = "Price >= ?"; 
+    $conds[] = "Price <= ?";
+    $conds[] = "PurchaseDate >= ?"; 
+    $conds[] = "PurchaseDate <= ?";
+    $params[] = $criteria->price_min;
+    $params[] = $criteria->price_max;
     $params[] = $criteria->base_date->format("Y-m-d");
     $params[] = $criteria->end_date->format("Y-m-d");
-    $params[] = "%$criteria->propNum%";
-    $params[] = "%$criteria->procNum%";
-    $params[] = "%$criteria->serialNum%";
-    $params[] = "%$criteria->description%";
-    $params[] = "%$criteria->specs%";
-    $params[] = "%$criteria->remarks%";
+  
+    foreach ([
+      "PropNum" => $criteria->propNum,
+      "ProcNum" => $criteria->procNum,
+      "SerialNum" => $criteria->serialNum,
+      "ShortDesc" => $criteria->description,
+      "Specs" => $criteria->specs,
+      "Remarks" => $criteria->remarks,
+    ] as $col => $val) {
+      if (empty($val)) continue;
+      $conds[] = "$col LIKE ?";
+      $params[] = "%$val%";
+    }
+
+    $query = "SELECT * FROM asset WHERE " . implode(" AND ", $conds) . " LIMIT $criteria->limit";
     
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute($params);
     
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    $assets = []; # Initially empty list (not null)
+    $assets = [];
     foreach ($result as $ass) {
       $asset = new Asset(
         propNum: $ass["PropNum"],
@@ -83,39 +84,40 @@ final class AssetRepo implements AssetRepoInterface {
   }
 
   public function count(AssetSearchCriteria $criteria = new AssetSearchCriteria()): int {
-    $st = implode(',',array_fill(0, count($criteria->status), '?'));
-    $query = "SELECT COUNT(*) FROM asset WHERE 
-      Status IN ($st)
-      AND Price >= ? 
-      AND Price <= ?
-      AND PurchaseDate >= ? 
-      AND PurchaseDate <= ?
-      AND PropNum LIKE ?
-      AND ProcNum LIKE ?
-      AND SerialNum LIKE ?
-      AND ShortDesc LIKE ?
-      AND Specs LIKE ?
-      AND Remarks LIKE ?
-      LIMIT $criteria->limit
-    ;";
+    $conds = ["1=1"];
+    $params = [];
     
-    $stmt = $this->pdo->prepare($query);
-    
-    foreach ($criteria->status as $s ) {
-      $params[] = $s->name;
+    if (!empty($criteria->status)) {
+      $placeholders = implode(',',array_fill(0, count($criteria->status), '?'));
+      $conds[] = "Status IN ($placeholders)";
+      foreach ($criteria->status as $s) $params[] = $s->name; 
     }
-    
-    $params[] = (string) $criteria->price_min;
-    $params[] = (string) $criteria->price_max;
+
+    $conds[] = "Price >= ?"; 
+    $conds[] = "Price <= ?";
+    $conds[] = "PurchaseDate >= ?"; 
+    $conds[] = "PurchaseDate <= ?";
+    $params[] = $criteria->price_min;
+    $params[] = $criteria->price_max;
     $params[] = $criteria->base_date->format("Y-m-d");
     $params[] = $criteria->end_date->format("Y-m-d");
-    $params[] = "%$criteria->propNum%";
-    $params[] = "%$criteria->procNum%";
-    $params[] = "%$criteria->serialNum%";
-    $params[] = "%$criteria->description%";
-    $params[] = "%$criteria->specs%";
-    $params[] = "%$criteria->remarks%";
+  
+    foreach ([
+      "PropNum" => $criteria->propNum,
+      "ProcNum" => $criteria->procNum,
+      "SerialNum" => $criteria->serialNum,
+      "ShortDesc" => $criteria->description,
+      "Specs" => $criteria->specs,
+      "Remarks" => $criteria->remarks,
+    ] as $col => $val) {
+      if (empty($val)) continue;
+      $conds[] = "$col LIKE ?";
+      $params[] = "%$val%";
+    }
+
+    $query = "SELECT COUNT(*) FROM asset WHERE " . implode(" AND ", $conds) . " LIMIT $criteria->limit";
     
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute($params);
     
     $result = $stmt->fetchColumn();

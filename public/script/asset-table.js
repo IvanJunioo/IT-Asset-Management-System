@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.length <= 0) return;
       showAssets(data);
       assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
     })
@@ -58,7 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
       hr.appendChild(actionsth);
     }
 
-    assetTableBody.innerHTML = "";
+    assetTableBody.innerHTML = assets.length <= 0? `
+      <tr>
+        <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
+      </tr>
+    ` : "";
     
     for (const asset of assets) {
       const tr = document.createElement('tr');
@@ -107,8 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });    
   }
-
-  assetTableBody.querySelector("td").colSpan = assetTable.querySelector("thead tr").children.length;
 
   fetchAssets();
   
