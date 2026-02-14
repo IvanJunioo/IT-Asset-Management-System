@@ -42,8 +42,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
-      showAssets(data);
-      assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
+      if (data.length <= 0) {
+        assetTableBody.innerHTML = `
+        <tr>
+        <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
+        </tr>
+        `;
+      } else {
+        showAssets(data);
+        assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
+      }
+      
+      for (const tableFunc of tableFuncs.querySelectorAll("button")) {
+        tableFunc.disabled = data.length <= 0;
+      }
     })
     .catch(err => console.error("Error fetching assets: ", err));
   }
@@ -57,11 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hr.appendChild(actionsth);
     }
 
-    assetTableBody.innerHTML = assets.length <= 0? `
-      <tr>
-        <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
-      </tr>
-    ` : "";
+    assetTableBody.innerHTML = "";
     
     for (const asset of assets) {
       const tr = document.createElement('tr');

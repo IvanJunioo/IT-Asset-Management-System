@@ -16,11 +16,7 @@
           <th> Status  </th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td> No users to display. </td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 </div>

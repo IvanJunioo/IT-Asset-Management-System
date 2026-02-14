@@ -39,9 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.length <= 0) return;
-      showUsers(data);
-      userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
+      if (data.length <= 0) {
+        userTableBody.innerHTML = `
+          <tr>
+            <td colSpan="${userTable.querySelector("thead tr").children.length}"> No users to display. </td>
+          </tr>
+        `;
+      } else {
+        showUsers(data);
+        userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
+      }
+
+      for (const tableFunc of tableFuncs.querySelectorAll("button")) {
+        tableFunc.disabled = data.length <= 0;
+      }
     })
     .catch(err => console.error("Error fetching users: ", err));
   }
@@ -76,8 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			userTableBody.appendChild(tr);
 		}
   }
-
-  userTableBody.querySelector("td").colSpan = userTable.querySelector("thead tr").children.length;
     
   fetchUsers();
   

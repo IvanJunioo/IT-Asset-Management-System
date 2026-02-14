@@ -19,8 +19,6 @@ try {
     $assetRepo->search(new AssetSearchCriteria(procNum: $search, status: $status)),
     $assetRepo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
     $assetRepo->search(new AssetSearchCriteria(specs: $search, status: $status)),
-    $assetRepo->search(new AssetSearchCriteria(description: $search, status: $status)),
-    $assetRepo->search(new AssetSearchCriteria(remarks: $search, status: $status)),
   )))));  
 
   $assignRepo = new AssignmentRepo($pdo);

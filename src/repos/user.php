@@ -26,28 +26,38 @@ final class UserRepo implements UserRepoInterface {
     return $users[0];
   }
 
-  public function search(UserSearchCriteria $criteria = new UserSearchCriteria()): array {      
-    $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
-    $priv = implode(",", array_fill(0, count($criteria->privileges), "?"));
-    $query = "SELECT * FROM employee WHERE 
-      ActiveStatus IN ($act)
-      AND Privilege IN ($priv)
-      AND EmpID LIKE ?
-      AND EmpMail LIKE ?
-      AND FName LIKE ?
-      AND LName LIKE ?
-      LIMIT $criteria->limit
-    ";
+  public function search(UserSearchCriteria $criteria = new UserSearchCriteria()): array {
+    $conds = ["1=1"];
+    $params = [];
+
+    if (!empty($criteria->isActive)) {
+      $placeholders = implode(",", array_fill(0, count($criteria->isActive),"?"));
+      $conds[] = "ActiveStatus IN ($placeholders)";
+      foreach ($criteria->isActive as $a) $params[] = $a;
+    }
+
+    if (!empty($criteria->privileges)) {
+      $placeholders = implode(",", array_fill(0, count($criteria->privileges),"?"));
+      $conds[] = "Privilege IN ($placeholders)";
+      foreach ($criteria->privileges as $p) $params[] = $p->value;
+    }
+
+    foreach([
+      "EmpID" => $criteria->empID,
+      "EmpMail" => $criteria->email,
+      "FName" => $criteria->fullname->first,
+      "LName" => $criteria->fullname->last,
+    ] as $col => $val) {
+      if (empty($val)) continue;
+      $conds[] = "$col LIKE ?";
+      $params[] = "%$val%";
+    }
+
+    $query = "SELECT * FROM employee WHERE " . implode(" AND ", $conds) . " LIMIT $criteria->limit";
 
     $stmt = $this->pdo->prepare($query);
-    foreach ($criteria->isActive as $a) {$params[] = $a;}
-    foreach ($criteria->privileges as $p) {$params[] = $p->value;}
-    $params[] = "%$criteria->empID%";
-    $params[] = "%$criteria->email%";
-    $params[] = "%" . $criteria->fullname->first . "%";
-    $params[] = "%" . $criteria->fullname->last . "%";
-
     $stmt->execute($params);
+
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $emps = [];
@@ -70,27 +80,37 @@ final class UserRepo implements UserRepoInterface {
   }
 
   public function count(UserSearchCriteria $criteria = new UserSearchCriteria()): int {
-    $act = implode(",", array_fill(0, count($criteria->isActive),"?"));
-    $priv = implode(",", array_fill(0, count($criteria->privileges), "?"));
-    $query = "SELECT COUNT(*) FROM employee WHERE 
-      ActiveStatus IN ($act)
-      AND Privilege IN ($priv)
-      AND EmpID LIKE ?
-      AND EmpMail LIKE ?
-      AND FName LIKE ?
-      AND LName LIKE ?
-      LIMIT $criteria->limit
-    ";
+    $conds = ["1=1"];
+    $params = [];
+
+    if (!empty($criteria->isActive)) {
+      $placeholders = implode(",", array_fill(0, count($criteria->isActive),"?"));
+      $conds[] = "ActiveStatus IN ($placeholders)";
+      foreach ($criteria->isActive as $a) $params[] = $a;
+    }
+
+    if (!empty($criteria->privileges)) {
+      $placeholders = implode(",", array_fill(0, count($criteria->privileges),"?"));
+      $conds[] = "Privilege IN ($placeholders)";
+      foreach ($criteria->privileges as $p) $params[] = $p->value;
+    }
+
+    foreach([
+      "EmpID" => $criteria->empID,
+      "EmpMail" => $criteria->email,
+      "FName" => $criteria->fullname->first,
+      "LName" => $criteria->fullname->last,
+    ] as $col => $val) {
+      if (empty($val)) continue;
+      $conds[] = "$col LIKE ?";
+      $params[] = "%$val%";
+    }
+
+    $query = "SELECT COUNT(*) FROM employee WHERE " . implode(" AND ", $conds) . " LIMIT $criteria->limit";
 
     $stmt = $this->pdo->prepare($query);
-    foreach ($criteria->isActive as $a) {$params[] = $a;}
-    foreach ($criteria->privileges as $p) {$params[] = $p->value;}
-    $params[] = "%$criteria->empID%";
-    $params[] = "%$criteria->email%";
-    $params[] = "%" . $criteria->fullname->first . "%";
-    $params[] = "%" . $criteria->fullname->last . "%";
-
     $stmt->execute($params);
+
     $res = $stmt->fetchColumn();
 
     return (int)$res;

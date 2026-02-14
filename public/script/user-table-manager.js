@@ -99,7 +99,7 @@ function addDeactivateButton() {
 
   const deleteButton = document.createElement("button");
   deleteButton.className = "delete";
-  deleteButton.innerHTML = `<span class="material-icons">delete</span>`;
+  deleteButton.innerHTML = `<span class="material-icons">person_off</span>`;  
   if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
 }
 
