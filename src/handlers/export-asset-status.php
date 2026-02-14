@@ -21,8 +21,7 @@ try {
 
     $assets = $repo->search(new AssetSearchCriteria(status: $status));
     usort($assets, function ($a, $b) {
-        return $b->purchaseDate <=> $a->purchaseDate
-            ?: $a->procNum <=> $b->procNum;
+        return $b->purchaseDate <=> $a->purchaseDate;
     });
 
     $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';

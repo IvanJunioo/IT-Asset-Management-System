@@ -7,18 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
   form.method = "post";
 
   form.querySelector("input#pnum").readOnly = true;
-  form.querySelector("input#prnum").readOnly = true;
   form.querySelector("input#snum").readOnly = true;
 
   if (!assetData) return;
 
   fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
   // sessionStorage.removeItem("assetData");
-
+  
   function fillForm(asset) {
     const data = {
       'pnum': asset['PropNum'],
-      'prnum': asset['ProcNum'],
       'snum': asset['SerialNum'],
       'pdate': asset['PurchaseDate'],
       'price': asset['Price'],
@@ -34,6 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (child.value === asset['Status']) {
         child.checked = true; 
       }
+    }
+
+    const procNumRows = form.querySelector(".prnum").closest(".input-rows");
+    const procNumBtn = procNumRows.querySelector("button");
+    for (let i = 1; i < asset['ProcNums'].length; i++) procNumBtn.click();
+    for (const [i, input] of procNumRows.querySelectorAll("input").entries()) {
+      input.value = asset['ProcNums'][i];
     }
 
     const childrenText = assetForm.querySelectorAll('textarea');

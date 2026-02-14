@@ -9,7 +9,6 @@
       <thead>
         <tr>
           <th> Property Number </th>
-          <th> Procurement Number </th>
           <th> Purchase Date </th>
           <th> Detailed Specification </th>
           <th> Price (₱) </th>

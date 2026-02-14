@@ -76,12 +76,14 @@ final class ActLogRepo implements ActlogRepoInterface {
     string $log,
     array $metadata,
   ): void {
-    $query = "INSERT INTO actlog (ActorID, Message, Metadata) VALUES (?,?,?)";
+    $assoc = [
+      "ActorID" => $user->empID, 
+      "Message" => $log,
+      "Metadata" => json_encode($metadata),
+    ];
 
-    $this->pdo->prepare($query)->execute([
-      $user->empID,
-      $log,
-      json_encode($metadata),
-    ]);
+    $query = "INSERT INTO actlog (" . implode(',', array_keys($assoc)) .") VALUES (" . implode(',', array_fill(0, count($assoc), '?')) . ");"; 
+    
+    $this->pdo->prepare($query)->execute(array_values($assoc));      
   }
 }

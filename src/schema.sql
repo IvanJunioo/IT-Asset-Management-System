@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2026 at 11:11 AM
+-- Generation Time: Feb 14, 2026 at 04:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,6 @@ CREATE TABLE `actlog` (
 CREATE TABLE `asset` (
   `PropNum` char(12) NOT NULL,
   `SerialNum` char(12) NOT NULL,
-  `ProcNum` char(12) NOT NULL,
   `PurchaseDate` date NOT NULL,
   `Specs` varchar(420) NOT NULL,
   `Remarks` tinytext NOT NULL,
@@ -96,6 +95,17 @@ CREATE TABLE `employee` (
   `ActiveStatus` enum('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `procurement`
+--
+
+CREATE TABLE `procurement` (
+  `PropNum` char(12) NOT NULL,
+  `ProcNum` char(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -134,6 +144,12 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`EmpID`);
 
 --
+-- Indexes for table `procurement`
+--
+ALTER TABLE `procurement`
+  ADD PRIMARY KEY (`PropNum`,`ProcNum`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -156,6 +172,12 @@ ALTER TABLE `assignment`
 --
 ALTER TABLE `empcontact`
   ADD CONSTRAINT `empcontact_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`);
+
+--
+-- Constraints for table `procurement`
+--
+ALTER TABLE `procurement`
+  ADD CONSTRAINT `procurement_ibfk_1` FOREIGN KEY (`PropNum`) REFERENCES `asset` (`PropNum`);
 
 INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
 ('00000000', 'iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),

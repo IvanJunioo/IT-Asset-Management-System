@@ -124,16 +124,18 @@ final class UserRepo implements UserRepoInterface {
   }
 
   public function add(User $user): void {
-    $query = "INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES (?,?,?,?,?,?,?);"; 
+    $assoc = [
+      "EmpID" => $user->empID,
+      "EmpMail" => $user->email,
+      "FName" => $user->name->first,
+      "LName" => $user->name->last,
+      "Privilege" => $user->getPrivilege()->value,
+      "ActiveStatus" => $user->isActive? "Active" : "Inactive",
+    ];
+
+    $query = "INSERT INTO employee (" . implode(',', array_keys($assoc)) .") VALUES (" . implode(',', array_fill(0, count($assoc), '?')) . ");"; 
     
-    $this->pdo->prepare($query)->execute([
-      $user->empID,
-      $user->email,
-      $user->name->first,
-      $user->name->last,
-      $user->getPrivilege()->value,
-      $user->isActive? "Active" : "Inactive",
-    ]);  
+    $this->pdo->prepare($query)->execute(array_values($assoc));        
   }
 
   public function updateContacts(User $user, array $contacts) : void {
@@ -161,22 +163,22 @@ final class UserRepo implements UserRepoInterface {
   }
   
   public function update(User $user): void {
-    $query = "UPDATE employee SET 
-      EmpMail = :mail,
-      FName = :fn,
-      LName = :ln,
-      Privilege = :priv,
-      ActiveStatus = :astat
-      WHERE employee.EmpID = :id;
-    ";
+    $conds = [];
+    $params = [];
+  
+    foreach([
+      "EmpMail" => $user->email,
+      "FName" => $user->name->first,
+      "LName" => $user->name->last,
+      "Privilege" => $user->getPrivilege()->name,
+      "ActiveStatus" => $user->isActive? "Active" : "Inactive",
+    ] as $col => $val) {
+      $conds[] = "$col = ?";
+      $params[] = "$val";
+    }
+
+    $query = "UPDATE employee SET " . implode(',', $conds) . " WHERE employee.EmpID = ?;";
           
-    $this->pdo->prepare($query)->execute([
-      ":id" => $user->empID,
-      ":mail" => $user->email,
-      ":fn" => $user->name->first,
-      ":ln" => $user->name->last,
-      ":priv" => $user->getPrivilege()->name,
-      ":astat" => $user->isActive? "Active" : "Inactive",
-    ]);      
+    $this->pdo->prepare($query)->execute([...$params, $user->empID]);      
   }
 }

@@ -14,21 +14,28 @@
   </label>
 
   <label class="input-label"> 
-    Procurement Number: 
-    <input 
-      type="text" 
-      id="prnum" 
-      name="procurement-num" 
-      placeholder="Enter Procurement Number" 
-      maxlength="12" 
-      minlength="12" 
-      size="12" 
-      required
-    >
+    Procurement Number(s): 
+    <div class="input-rows">
+      <div class="input-row">
+        <input 
+          type="text"
+          class="prnum"
+          name="procurement-num[]" 
+          placeholder="Enter Procurement Number" 
+          maxlength="12" 
+          minlength="12" 
+          size="12" 
+          required
+        >
+        <button type="button" class="add-input">
+          <span class="material-icons">add</span>
+        </button>
+      </div>
+    </div>
   </label>
 
   <label class="input-label"> 
-    Serial Number: 
+    Serial Number(s): 
     <input 
       type="text" 
       id="snum" 
@@ -103,7 +110,7 @@
   </label>
 
   <label class="input-label"> 
-    Img URL: 
+    Img URL(s): 
     <input 
       type="url" 
       id="img_url" 
@@ -151,4 +158,24 @@
   const date = new Date();
   const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
   document.getElementById('pdate').setAttribute('max', today);
+
+  const form = document.querySelector("form");
+  form.addEventListener("click", (e) => {
+    if (e.target.closest(".add-input")) {
+      const rows = e.target.closest(".input-rows");
+      
+      const row = rows.querySelector(".input-row").cloneNode(true);
+      const btn = row.querySelector("button");
+      btn.className = "remove-input";
+      btn.querySelector("span").textContent = "remove";
+
+      rows.appendChild(row);
+      return;
+    }
+
+    if (e.target.closest(".remove-input")) {
+      e.target.closest(".input-row").remove();      
+      return;
+    }
+  });
 </script>

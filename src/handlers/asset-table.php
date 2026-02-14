@@ -16,7 +16,6 @@ try {
   $assetRepo = new AssetRepo($pdo);
   $assets = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
     $assetRepo->search(new AssetSearchCriteria(propNum: $search, status: $status)),
-    $assetRepo->search(new AssetSearchCriteria(procNum: $search, status: $status)),
     $assetRepo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
     $assetRepo->search(new AssetSearchCriteria(specs: $search, status: $status)),
   )))));  

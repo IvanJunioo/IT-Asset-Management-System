@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div id="sort-menu" class="sort-menu">
       <a class="menu-item" data-sort="propNum">Property No</a>
-      <a class="menu-item" data-sort="procNum">Procurement No</a>
       <a class="menu-item" data-sort="purchaseDate">Purchase Date</a>
       <a class="menu-item" data-sort="price">Price</a>
       <a class="menu-item" data-sort="assignedTo">Assigned User</a>
@@ -52,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showAssets(data);
         assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
       }
-      
+
       for (const tableFunc of tableFuncs.querySelectorAll("button")) {
         tableFunc.disabled = data.length <= 0;
       }
@@ -76,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // store asset data locally
       tr.dataset.propNum = asset.PropNum;
-      tr.dataset.procNum = asset.ProcNum; 
       tr.dataset.purchaseDate = asset.PurchaseDate; 
       tr.dataset.specs = asset.Specs; 
       tr.dataset.price = asset.Price; 
@@ -85,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       for (const col of [
         asset.PropNum,
-        asset.ProcNum,
         asset.PurchaseDate,
         asset.Specs,
         parseFloat(asset.Price).toFixed(2),

@@ -30,23 +30,4 @@ document.addEventListener("DOMContentLoaded", () => {
   toCondemnGrp.style.display = 'none';
   const unassignedBtn = document.getElementById('unused');
   unassignedBtn.setAttribute('checked', true);
-
-  form.addEventListener("click", (e) => {
-    if (e.target.closest(".add-input")) {
-      const rows = e.target.closest(".input-rows");
-      
-      const row = rows.querySelector(".input-row").cloneNode(true);
-      const btn = row.querySelector("button");
-      btn.className = "remove-input";
-      btn.querySelector("span").textContent = "remove";
-
-      rows.appendChild(row);
-      return;
-    }
-
-    if (e.target.closest(".remove-input")) {
-      e.target.closest(".input-row").remove();      
-      return;
-    }
-  });
 });

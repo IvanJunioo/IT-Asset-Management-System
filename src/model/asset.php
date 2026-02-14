@@ -13,7 +13,7 @@ enum AssetStatus: string {
 final class Asset implements JsonSerializable {
   public function __construct(
     public readonly string $propNum,
-    public readonly string $procNum,
+    public readonly array $procNums,
     public readonly string $serialNum,
     public readonly string $purchaseDate,
     public readonly string $specs,
@@ -32,7 +32,7 @@ final class Asset implements JsonSerializable {
   public function jsonSerialize(): mixed {
     return [
       'PropNum' => $this->propNum,
-      'ProcNum' => $this->procNum,
+      'ProcNums' => $this->procNums,
       'SerialNum' => $this->serialNum,
       'PurchaseDate' => $this->purchaseDate,
       'Specs' => $this->specs,
