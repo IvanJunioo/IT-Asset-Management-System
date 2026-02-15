@@ -28,7 +28,7 @@
       FILTERS
     </div>
 
-    <div id="body-filter">
+    <div class="body-filter">
       <label>
         <input type="checkbox" name="status" value="Unassigned"> 
         <span class="badge unassigned">Unassigned</span>

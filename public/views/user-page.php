@@ -26,7 +26,7 @@
       FILTERS
     </div>
 
-    <div id="body-filter">
+    <div class="body-filter">
       <label>
         <input type="checkbox" name="privilege" value="Faculty"> 
         Faculty
@@ -38,6 +38,17 @@
       <label>
         <input type="checkbox" name="privilege" value="SuperAdmin"> 
         SuperAdmin
+      </label>
+    </div>
+
+    <div class="body-filter">
+      <label>
+        <input type="checkbox" name="status" value="Active"> 
+        <span class="badge active">Active</span>
+      </label>
+      <label>
+        <input type="checkbox" name="status" value="Inactive"> 
+        <span class="badge inactive">Inactive</span>
       </label>
     </div>
       

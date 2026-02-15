@@ -92,9 +92,17 @@
         id="act" 
         name="active-status" 
         value="Active" 
-        checked
       > 
       <span class="badge active">Active</span>
+    </label>
+    <label>
+      <input 
+        type="radio" 
+        id="inact" 
+        name="active-status"
+        value="Inactive" 
+      > 
+      <span class="badge inactive">Inactive</span>
     </label>
   </label>
 
