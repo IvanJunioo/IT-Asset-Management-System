@@ -12,32 +12,35 @@ $action = $_POST['action'];
 
 if ($action == 'submit') {
   $propNums = $_POST['property-num'];
+  $serialNums = $_POST['serial-num'];
+  $urls = $_POST['img-url'];
 
-  foreach ($propNums as $propNum) {
+  foreach ($propNums as $i => $propNum) {
     $asset = new Asset(
       propNum: $propNum,
       procNum: $_POST['procurement-num'],
-      serialNum: $_POST['serial-num'],
+      serialNum: $serialNums[$i],
       purchaseDate: $_POST['purchase-date'],
       specs: $_POST['specs'],
       description: $_POST['short-desc'],
-      url: $_POST['img-url'],
+      url: $urls[$i],
       remarks: $_POST['remarks'],
       price: $_POST['price'],
       status: AssetStatus::from($_POST['asset-status']),
     );
   
     $assetRepo->add($asset);
-
-    systemLog(
-      "added new asset $propNum",
-      [
-        "action" => "add",
-        "object" => "asset",
-        "propNum" => $propNum,
-      ]
-    );
   }
+  
+  $propNumList = count($propNums) > 1 ? implode(', ', $propNums) : $propNums[0];
+  systemLog(
+    "added new asset(s) $propNumList",
+    [
+      "action" => "add",
+      "object" => "asset",
+      "propNum" => $propNums,
+    ]
+  );
 
 }
 
