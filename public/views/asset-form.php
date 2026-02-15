@@ -14,28 +14,21 @@
   </label>
 
   <label class="input-label"> 
-    Procurement Number(s): 
-    <div class="input-rows">
-      <div class="input-row">
-        <input 
-          type="text"
-          class="prnum"
-          name="procurement-num[]" 
-          placeholder="Enter Procurement Number" 
-          maxlength="12" 
-          minlength="12" 
-          size="12" 
-          required
-        >
-        <button type="button" class="add-input">
-          <span class="material-icons">add</span>
-        </button>
-      </div>
-    </div>
+    Procurement Number: 
+    <input 
+      type="text" 
+      id="prnum" 
+      name="procurement-num" 
+      placeholder="Enter Procurement Number" 
+      maxlength="12" 
+      minlength="12" 
+      size="12" 
+      required
+    >
   </label>
 
   <label class="input-label"> 
-    Serial Number(s): 
+    Serial Number: 
     <input 
       type="text" 
       id="snum" 
@@ -110,7 +103,7 @@
   </label>
 
   <label class="input-label"> 
-    Img URL(s): 
+    Img URL: 
     <input 
       type="url" 
       id="img_url" 

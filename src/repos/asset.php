@@ -8,7 +8,6 @@ interface AssetRepoInterface {
   public function identify(string $propNum): Asset;
   public function search(AssetSearchCriteria $criteria): array;
   public function count(AssetSearchCriteria $criteria): int;
-  public function getProcNums(string $propNum): array;
 
   public function add(Asset $asset): void;
   public function update(Asset $asset): void;
@@ -46,6 +45,7 @@ final class AssetRepo implements AssetRepoInterface {
   
     foreach ([
       "PropNum" => $criteria->propNum,
+      "ProcNum" => $criteria->procNum,
       "SerialNum" => $criteria->serialNum,
       "ShortDesc" => $criteria->description,
       "Specs" => $criteria->specs,
@@ -67,7 +67,7 @@ final class AssetRepo implements AssetRepoInterface {
     foreach ($result as $ass) {
       $asset = new Asset(
         propNum: $ass["PropNum"],
-        procNums: $this->getProcNums($ass["PropNum"]),
+        procNum: $ass["ProcNum"],
         serialNum: $ass["SerialNum"],
         purchaseDate: $ass["PurchaseDate"],
         specs: $ass["Specs"],
@@ -104,6 +104,7 @@ final class AssetRepo implements AssetRepoInterface {
   
     foreach ([
       "PropNum" => $criteria->propNum,
+      "ProcNum" => $criteria->procNum,
       "SerialNum" => $criteria->serialNum,
       "ShortDesc" => $criteria->description,
       "Specs" => $criteria->specs,
@@ -123,17 +124,11 @@ final class AssetRepo implements AssetRepoInterface {
 
     return (int)$result;
   }
-
-  public function getProcNums(string $propNum): array {
-    $query = "SELECT ProcNum FROM procurement WHERE PropNum = ?";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute([$propNum]);
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-  }
     
   public function add(Asset $asset): void {
     $assoc = [
       "PropNum" => $asset->propNum,
+      "ProcNum" => $asset->procNum,
       "SerialNum" => $asset->serialNum,
       "PurchaseDate" => $asset->purchaseDate,
       "Specs" => $asset->specs,
@@ -147,8 +142,6 @@ final class AssetRepo implements AssetRepoInterface {
     $query = "INSERT INTO asset (" . implode(',', array_keys($assoc)) .") VALUES (" . implode(',', array_fill(0, count($assoc), '?')) . ");"; 
     
     $this->pdo->prepare($query)->execute(array_values($assoc));      
-  
-    $this->updateProcNums($asset);
   }
     
   public function update(Asset $asset): void {
@@ -156,6 +149,7 @@ final class AssetRepo implements AssetRepoInterface {
     $params = [];
 
     foreach([
+      "ProcNum" => $asset->procNum,
       "SerialNum" => $asset->serialNum,
       "PurchaseDate" => $asset->purchaseDate,
       "Specs" => $asset->specs,
@@ -171,32 +165,6 @@ final class AssetRepo implements AssetRepoInterface {
     
     $query = "UPDATE asset SET " . implode(',', $conds) . " WHERE PropNum = ?;";
     
-    $this->pdo->prepare($query)->execute([...$params, $asset->propNum]);
-    
-    $this->updateProcNums($asset);
-  }
-
-  private function updateProcNums(Asset $asset): void {
-    $this->pdo->beginTransaction();
-    try {
-      $stmt = $this->pdo->prepare("DELETE FROM procurement WHERE PropNum = ?");
-      $stmt->execute([$asset->propNum]);
-
-      $placeholders = implode(',', array_fill(0, count($asset->procNums), "(?, ?)"));
-      $query = "INSERT INTO procurement (PropNum, ProcNum) VALUES $placeholders";
-
-      $vals = [];
-      foreach ($asset->procNums as $num) {
-        $vals[] = $asset->propNum;
-        $vals[] = $num;
-      }
-
-      $this->pdo->prepare($query)->execute($vals);
-
-      $this->pdo->commit();
-    } catch (Exception $e) {
-      $this->pdo->rollBack();
-      throw $e;
-    }
+    $this->pdo->prepare($query)->execute([...$params, $asset->propNum]);    
   }
 }

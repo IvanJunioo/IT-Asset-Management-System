@@ -17,7 +17,7 @@ if ($action == 'submit') {
 
   $asset = new Asset(
     propNum: $propNum,
-    procNums: $_POST['procurement-num'],
+    procNum: $_POST['procurement-num'],
     serialNum: $_POST['serial-num'],
     purchaseDate: $_POST['purchase-date'],
     specs: $_POST['specs'],

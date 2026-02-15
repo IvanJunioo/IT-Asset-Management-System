@@ -99,7 +99,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     foreach ($res as $asset) {
       $_asset = new Asset(
         propNum: $asset["PropNum"],
-        procNums: [],
+        procNum: $asset["ProcNum"],
         serialNum: $asset["SerialNum"],
         purchaseDate: $asset["PurchaseDate"],
         specs: $asset["Specs"],
