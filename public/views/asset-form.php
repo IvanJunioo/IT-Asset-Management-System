@@ -1,19 +1,5 @@
 <form>
   <label class="input-label"> 
-    Property Number: 
-    <input 
-      type="text" 
-      id="pnum" 
-      name="property-num" 
-      placeholder="Enter Property Number" 
-      maxlength="12" 
-      minlength="12" 
-      size="12" 
-      required
-    >
-  </label>
-
-  <label class="input-label"> 
     Procurement Number: 
     <input 
       type="text" 
@@ -27,19 +13,58 @@
     >
   </label>
 
-  <label class="input-label"> 
-    Serial Number: 
-    <input 
-      type="text" 
-      id="snum" 
-      name="serial-num" 
-      placeholder="Enter Serial Number" 
-      maxlength="12" 
-      minlength="12" 
-      size="12" 
-      required
-    > 
-  </label>
+  <table id="unique-asset-attr">
+    <thead>
+      <tr>
+        <th>Property Number</th>
+        <th>Serial Number</th>
+        <th>Img URL</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="input-row">
+        <td>
+          <input 
+            type="text" 
+            id="pnum" 
+            name="property-num[]" 
+            placeholder="Enter Property Number" 
+            maxlength="12" 
+            minlength="12" 
+            size="12" 
+            required
+          >
+        </td>
+        <td>
+          <input 
+            type="text" 
+            id="snum" 
+            name="serial-num[]" 
+            placeholder="Enter Serial Number" 
+            maxlength="12" 
+            minlength="12" 
+            size="12" 
+            required
+          > 
+        </td>
+        <td>
+          <input 
+            type="url" 
+            id="img_url" 
+            name="img-url[]" 
+            placeholder="Enter Img URL" 
+            required
+          >
+        </td>
+        <td>
+          <button type="button" class="add-input">
+            <span class="material-icons">add</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <label class="input-label"> 
     Purchase Date: 
@@ -102,17 +127,6 @@
     ></textarea>
   </label>
 
-  <label class="input-label"> 
-    Img URL: 
-    <input 
-      type="url" 
-      id="img_url" 
-      name="img-url" 
-      placeholder="Enter Img URL" 
-      required
-    >
-  </label>
-
   <div id = "status-group">
     <label class="input-label"> 
       Status: 
@@ -146,29 +160,3 @@
     Submit
   </button>  
 </form>
-
-<script>
-  const date = new Date();
-  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-  document.getElementById('pdate').setAttribute('max', today);
-
-  const form = document.querySelector("form");
-  form.addEventListener("click", (e) => {
-    if (e.target.closest(".add-input")) {
-      const rows = e.target.closest(".input-rows");
-      
-      const row = rows.querySelector(".input-row").cloneNode(true);
-      const btn = row.querySelector("button");
-      btn.className = "remove-input";
-      btn.querySelector("span").textContent = "remove";
-
-      rows.appendChild(row);
-      return;
-    }
-
-    if (e.target.closest(".remove-input")) {
-      e.target.closest(".input-row").remove();      
-      return;
-    }
-  });
-</script>

@@ -61,3 +61,47 @@ button {
 textarea {
   resize: none;
 }
+
+#unique-asset-attr {
+  width: 100%;
+  table-layout: fixed;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+#unique-asset-attr tr {
+  text-align: left;
+}
+
+#unique-asset-attr th {
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+}
+
+#unique-asset-attr input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#unique-asset-attr button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-input {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.add-input:hover {
+  background-color: var(--darker-primary);
+}
+
+#unique-asset-attr th:last-child,
+#unique-asset-attr td:last-child {
+  width: 50px; 
+  text-align: center;
+}
