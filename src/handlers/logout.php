@@ -20,5 +20,5 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-header("Location: " . __DIR__ . "/../../public/views/login.php");
+header("Location: ../../public/views/login.php");
 exit;
