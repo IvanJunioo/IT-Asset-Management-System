@@ -32,7 +32,6 @@
             placeholder="Enter Property Number" 
             maxlength="12" 
             minlength="12" 
-            size="12" 
             required
           >
         </td>
@@ -44,7 +43,6 @@
             placeholder="Enter Serial Number" 
             maxlength="12" 
             minlength="12" 
-            size="12" 
             required
           > 
         </td>
