@@ -67,6 +67,15 @@
     <label>
       <input 
         type="radio" 
+        id="s" 
+        name="privilege" 
+        value="Staff"
+      > 
+      Staff 
+    </label>
+    <label>
+      <input 
+        type="radio" 
         id="a" 
         name="privilege" 
         value="Admin"

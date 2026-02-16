@@ -33,6 +33,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
       assignment INNER JOIN employee ON 
       assignment.AssigneeID = employee.EmpID
       WHERE PropNum = :pnum AND ReturnDateTime is NULL
+      LIMIT 1
     ";
 
     $stmt = $this->pdo->prepare($query);
@@ -40,36 +41,20 @@ final class AssignmentRepo implements AssignmentRepoInterface {
       ":pnum" => $asset->propNum,
     ]);
   
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($res as $user) {
-      $privilege = $user['Privilege'];
-      $name = new Fullname(first: $user['FName'], last: $user['LName']);
-      $status = $user['ActiveStatus'] === 'Active';
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $ret = match (UserPrivilege::from($privilege)) {
-        UserPrivilege::SuperAdmin => new SuperAdmin(
-          empID: $user['EmpID'],
-          name: $name,
-          email: $user['EmpMail'],
-          isActive: $status,
-        ),
-        UserPrivilege::Admin => new Admin(
-          empID: $user['EmpID'],
-          name: $name,
-          email: $user['EmpMail'],
-          isActive: $status,
-        ),
-        UserPrivilege::Faculty => new Faculty(
-          empID: $user['EmpID'],
-          name: $name,
-          email: $user['EmpMail'],
-          isActive: $status,
-        ),
-      };
+    if (!$user) {return null;}
 
-      return $ret;
-    }
-    return null;
+    return new User(
+      empID: $user['EmpID'],
+      name: new Fullname(
+        first: $user['FName'], 
+        last: $user['LName']
+      ),
+      email: $user['EmpMail'],
+      privilege: UserPrivilege::from($user['Privilege']),
+      isActive: $user['ActiveStatus'] === 'Active',
+    );
 	}
 
   public function getAssignmentDate(Asset $asset): ?string{

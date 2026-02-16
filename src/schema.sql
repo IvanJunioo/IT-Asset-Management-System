@@ -92,7 +92,7 @@ CREATE TABLE `employee` (
   `EmpMail` varchar(50) NOT NULL,
   `FName` varchar(20) NOT NULL,
   `LName` varchar(20) NOT NULL,
-  `Privilege` enum('Faculty','Admin','SuperAdmin') NOT NULL,
+  `Privilege` enum('Faculty','Staff','Admin','SuperAdmin') NOT NULL,
   `ActiveStatus` enum('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

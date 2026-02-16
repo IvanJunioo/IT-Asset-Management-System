@@ -13,7 +13,7 @@ INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VAL
 ('EMP00007', 'grace@example.com', 'Grace', 'Hall', 'Faculty', 'Active'),
 ('EMP00008', 'henry@example.com', 'Henry', 'King', 'Admin', 'Inactive'),
 ('EMP00009', 'ivy@example.com', 'Ivy', 'Scott', 'SuperAdmin', 'Active'),
-('EMP00010', 'jack@example.com', 'Jack', 'Adams', 'Faculty', 'Active');
+('EMP00010', 'jack@example.com', 'Jack', 'Adams', 'Staff', 'Active');
 
 -- --------------------------------------------------------
 -- Employee contacts
