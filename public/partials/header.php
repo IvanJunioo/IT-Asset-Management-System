@@ -29,12 +29,20 @@
 
         <div id="user-panel">
             <span id="username"> 
-              <?= htmlspecialchars("{$userLName}, {$userFName}") ?>
+              <a><?= htmlspecialchars("{$userLName}, {$userFName}") ?></a>
             </span>
             <span id="user-role">
               <?= htmlspecialchars($privilege) ?>
             </span>
-            <a id="logout" href="/../../public/src/handlers/logout.php"> Sign Out </a>
+            <a id="logout" href="/../../src/handlers/logout.php"> Sign Out </a>
         </div>
     </section>
 </div>
+
+<script type="module" defer>
+  import {editUser} from '/public/script/user-router.js';
+  const userName = document.getElementById("username");
+  userName.addEventListener("click", () => {
+    editUser(JSON.parse(sessionStorage.getItem("user-info")).empID);
+  });
+</script>

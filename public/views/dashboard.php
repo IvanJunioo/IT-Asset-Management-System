@@ -50,19 +50,19 @@
         </div>
 
         <section id="asset-distribution">
-          <a href="./assets.php" class="distr-card" id="total-assets">
+          <a class="distr-card" id="total-assets">
             <p>Assets</p>
           </a>
 
-          <a href="./assets.php" class="distr-card" id="total-users">
+          <a class="distr-card" id="total-users">
             <p>Users</p>
           </a>
 
-          <a href="./assets.php" class="distr-card" id="avail-assets">
+          <a class="distr-card" id="avail-assets">
             <p>Available Assets</p>
           </a>
 
-          <a href="./assets.php" class="distr-card" id="active-users">
+          <a class="distr-card" id="active-users">
             <p>Active Users</p>
           </a>
 
