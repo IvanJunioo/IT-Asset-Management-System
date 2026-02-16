@@ -1,4 +1,4 @@
-import { editUser } from "./user-router.js";
+import { editUser, modifyUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
@@ -22,15 +22,23 @@ document.addEventListener("DOMContentLoaded", () => {
         addSelectAll();
         addCheckboxes();
 
+        for (const tfn of tableFuncs.querySelectorAll(".table-fn")) tfn.style.display = "flex";
         multiSelectIcon.textContent = "check_box";
         return;
       } 
-
+      
       if (multiSelectIcon.textContent.trim() === "check_box") {
         resetMultiSelect();
         addActionsButton();
+        for (const tfn of tableFuncs.querySelectorAll(".table-fn")) tfn.style.display = "none";
         return;
       }
+    }
+
+    if (e.target.closest(".table-fn")) {
+      const btn = e.target.closest(".table-fn");
+      if (selectedRows.size === 0) return;
+      for (const tr of selectedRows) modifyUser(tr.dataset.empID, btn.value);
     }
   });
 
@@ -52,9 +60,15 @@ userTableBody.addEventListener("usersLoaded", () => {
 function addTableFuncs() {
   const tableFuncsClass = document.querySelector(".table-func");
   tableFuncsClass.insertAdjacentHTML("afterbegin", `
-  <button id="multi-select">
-    <span class="material-icons"> check_box_outline_blank </span>
-  </button>
+    <button class="table-fn" name="activate" value="activate" style="display: none">
+      <span class="material-icons"> check_circle </span>
+    </button>
+    <button class="table-fn" name="deactivate" value="deactivate" style="display: none">
+      <span class="material-icons"> block </span>
+    </button>
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span>
+    </button>
   `);
 }
 
@@ -101,13 +115,13 @@ function updateSelectedRows() {
 
   for (const tr1 of userTableBody.querySelectorAll("tr")) {
     if (tr1.dataset.activeStatus === "Inactive" ||
-      session.user_id == tr.dataset.empID
+      session.user_id === tr1.dataset.empID
     ){
       continue;
     }
 
     for (const tr2 of selectedRows) {
-      if (tr2.dataset.empID == tr1.dataset.empID) {
+      if (tr2.dataset.empID === tr1.dataset.empID) {
         toDel.add(tr2);
         toAdd.add(tr1);
       }
@@ -238,14 +252,20 @@ function selectRow(tr) {
   selectedRows.add(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box";
-  // addReportButton();
 }
 
 function deselectRow(tr) {    
   selectedRows.delete(tr);
   const icon = tr.querySelector(".material-icons");
   if (icon) icon.textContent = "check_box_outline_blank";
-  // addReportButton();
+}
+
+function updateTableFuncs() {
+  const tableFuncs = leftUser.querySelector(".table-func");
+  const actBtn = tableFuncs.querySelector('button[name="activate"]');
+  actBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Inactive")? "flex" : "none";
+  const deactBtn = tableFuncs.querySelector('button[name="deactivate"]');
+  deactBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Active") && [...selectedRows].every(tr => tr.dataset.empID !== JSON.parse(sessionStorage.getItem("user-info")).empID)? "flex" : "none";
 }
 
 // Handles all table clicks dynamically
@@ -261,6 +281,7 @@ tableContainer.addEventListener("click", (e) => {
         selectRow(tr);
       }
     }
+    updateTableFuncs();
     return;
   }
 
@@ -271,6 +292,7 @@ tableContainer.addEventListener("click", (e) => {
     } else {
       selectRow(tr);
     }
+    updateTableFuncs();
     return;
   }
 });
