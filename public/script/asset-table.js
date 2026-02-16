@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       if (data.length <= 0) {
         assetTableBody.innerHTML = `
-        <tr>
-        <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
-        </tr>
+          <tr>
+            <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
+          </tr>
         `;
       } else {
         showAssets(data);

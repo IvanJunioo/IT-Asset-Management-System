@@ -10,7 +10,7 @@ if ($_POST['action'] == 'submit') {
   $repo = new UserRepo($pdo);
         
   $user = new User(
-    empID: $_POST['employee-id'],
+    empID: 0, // DB auto-increments
     name: new Fullname(
       first: $_POST['first-name'],
       last: $_POST['last-name'],
@@ -23,7 +23,7 @@ if ($_POST['action'] == 'submit') {
   $repo->add($user);
 
   systemLog(
-    "added new user $user->empID",
+    "added new user " . $user->name->last,
     [
       "action" => "add",
       "object" => "user",

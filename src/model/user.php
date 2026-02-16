@@ -19,7 +19,7 @@ final class Fullname {
 
 final class User implements JsonSerializable{
   public function __construct(
-    public readonly string $empID, 
+    public readonly int $empID, 
     public readonly Fullname $name, 
     public readonly string $email,
     public readonly UserPrivilege $privilege,
@@ -44,7 +44,7 @@ final class UserSearchCriteria {
   public readonly array $privileges;
 
   public function __construct(
-    public readonly string $empID = "",
+    public readonly ?int $empID = null,
     ?Fullname $fullname = null,
     public readonly string $email = "",
     ?array $isActive = null,

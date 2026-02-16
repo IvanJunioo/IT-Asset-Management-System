@@ -31,11 +31,12 @@ final class ActLogRepo implements ActlogRepoInterface {
     int $limit = 50,
   ): array {
     $offset = ($page-1) * $limit;
-    $query = "SELECT * FROM actlog 
-      WHERE ActorID LIKE ?
-      OR Message LIKE ?
-      OR JSON_SEARCH(Metadata, 'one', ?) IS NOT NULL  
-      ORDER BY Timestamp DESC 
+    $query = "SELECT a.*, e.FName, e.LName 
+      FROM actlog a LEFT JOIN employee e ON a.ActorID = e.EmpID
+      WHERE a.ActorID LIKE ?
+      OR a.Message LIKE ?
+      OR JSON_SEARCH(a.Metadata, 'one', ?) IS NOT NULL  
+      ORDER BY a.Timestamp DESC 
       LIMIT $limit
       OFFSET $offset
     ";
@@ -47,8 +48,7 @@ final class ActLogRepo implements ActlogRepoInterface {
       $search,
     ]);
 
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function countLogs(

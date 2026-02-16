@@ -16,7 +16,6 @@ try {
 
   $repo = new UserRepo($pdo);
   $users = array_values(array_map("unserialize", array_unique(array_map("serialize", array_merge(
-    $repo->search(new UserSearchCriteria(empID: $search, isActive: $status, privileges: $privilege)),
     $repo->search(new UserSearchCriteria(fullname: new Fullname(first: $search), isActive: $status, privileges: $privilege)),
     $repo->search(new UserSearchCriteria(fullname: new Fullname(last: $search), isActive: $status, privileges: $privilege)),
     $repo->search(new UserSearchCriteria(email: $search, isActive: $status, privileges: $privilege)),

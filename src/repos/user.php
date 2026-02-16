@@ -5,10 +5,10 @@ declare (strict_types=1);
 require_once __DIR__ . '/../model/user.php';
 
 interface UserRepoInterface {
-  public function identify(string $empID): User;
+  public function identify(?int $empID): User;
   public function search(UserSearchCriteria $criteria): array;
   public function count(UserSearchCriteria $criteria): int;
-  public function getContacts(string $empID): array;
+  public function getContacts(int $empID): array;
 
   public function add(User $user) : void;
   public function updateContacts(User $user, array $contacts) : void;
@@ -20,15 +20,20 @@ final class UserRepo implements UserRepoInterface {
     public readonly PDO $pdo,
   ) {}
 
-  public function identify(string $empID): User {
+  public function identify(?int $empID): User {
     $users = $this->search(new UserSearchCriteria(empID: $empID));
     if (count($users) == 0) throw new Exception("User not found!");
     return $users[0];
   }
 
   public function search(UserSearchCriteria $criteria = new UserSearchCriteria()): array {
-    $conds = ["1=1"];
+    $conds = ["1=1"]; // identity
     $params = [];
+
+    if ($criteria->empID) {
+      $conds[] = "EmpID = ?";
+      $params[] = $criteria->empID;
+    }
 
     if (!empty($criteria->isActive)) {
       $placeholders = implode(",", array_fill(0, count($criteria->isActive),"?"));
@@ -43,7 +48,6 @@ final class UserRepo implements UserRepoInterface {
     }
 
     foreach([
-      "EmpID" => $criteria->empID,
       "EmpMail" => $criteria->email,
       "FName" => $criteria->fullname->first,
       "LName" => $criteria->fullname->last,
@@ -63,11 +67,11 @@ final class UserRepo implements UserRepoInterface {
     $emps = [];
     foreach ($res as $emp) {
       $emps[] = new User(
-        $emp["EmpID"], 
-        new Fullname(first: $emp["FName"], last: $emp["LName"]), 
-        $emp["EmpMail"], 
-        UserPrivilege::from($emp["Privilege"]),
-        $emp["ActiveStatus"] == "Active",
+        empID: $emp["EmpID"], 
+        name: new Fullname(first: $emp["FName"], last: $emp["LName"]), 
+        email: $emp["EmpMail"], 
+        privilege: UserPrivilege::from($emp["Privilege"]),
+        isActive: $emp["ActiveStatus"] == "Active",
       );
     }
 
@@ -111,7 +115,7 @@ final class UserRepo implements UserRepoInterface {
     return (int)$res;
   }
 
-  public function getContacts(string $empID): array {
+  public function getContacts(int $empID): array {
     $query = "SELECT ContactNum FROM empcontact WHERE EmpID = ?";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute([$empID]);
@@ -120,7 +124,6 @@ final class UserRepo implements UserRepoInterface {
 
   public function add(User $user): void {
     $assoc = [
-      "EmpID" => $user->empID,
       "EmpMail" => $user->email,
       "FName" => $user->name->first,
       "LName" => $user->name->last,

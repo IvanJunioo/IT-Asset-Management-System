@@ -3,32 +3,32 @@ USE itam;
 -- --------------------------------------------------------
 -- Employees
 -- --------------------------------------------------------
-INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
-('EMP00001', 'alice@example.com', 'Alice', 'Smith', 'Admin', 'Active'),
-('EMP00002', 'bob@example.com', 'Bob', 'Johnson', 'Faculty', 'Active'),
-('EMP00003', 'carol@example.com', 'Carol', 'Lee', 'SuperAdmin', 'Active'),
-('EMP00004', 'dave@example.com', 'Dave', 'Brown', 'Faculty', 'Inactive'),
-('EMP00005', 'eve@example.com', 'Eve', 'White', 'Faculty', 'Active'),
-('EMP00006', 'frank@example.com', 'Frank', 'Green', 'Admin', 'Active'),
-('EMP00007', 'grace@example.com', 'Grace', 'Hall', 'Faculty', 'Active'),
-('EMP00008', 'henry@example.com', 'Henry', 'King', 'Admin', 'Inactive'),
-('EMP00009', 'ivy@example.com', 'Ivy', 'Scott', 'SuperAdmin', 'Active'),
-('EMP00010', 'jack@example.com', 'Jack', 'Adams', 'Staff', 'Active');
+INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('alice@example.com', 'Alice', 'Smith', 'Admin', 'Active'),
+('bob@example.com', 'Bob', 'Johnson', 'Faculty', 'Active'),
+('carol@example.com', 'Carol', 'Lee', 'SuperAdmin', 'Active'),
+('dave@example.com', 'Dave', 'Brown', 'Faculty', 'Inactive'),
+('eve@example.com', 'Eve', 'White', 'Faculty', 'Active'),
+('frank@example.com', 'Frank', 'Green', 'Admin', 'Active'),
+('grace@example.com', 'Grace', 'Hall', 'Faculty', 'Active'),
+('henry@example.com', 'Henry', 'King', 'Admin', 'Inactive'),
+('ivy@example.com', 'Ivy', 'Scott', 'SuperAdmin', 'Active'),
+('jack@example.com', 'Jack', 'Adams', 'Staff', 'Active');
 
 -- --------------------------------------------------------
 -- Employee contacts
 -- --------------------------------------------------------
 INSERT INTO empcontact (EmpID, ContactNum) VALUES
-('EMP00001','09170000001'),
-('EMP00002','09170000002'),
-('EMP00003','09170000003'),
-('EMP00004','09170000004'),
-('EMP00005','09170000005'),
-('EMP00006','09170000006'),
-('EMP00007','09170000007'),
-('EMP00008','09170000008'),
-('EMP00009','09170000009'),
-('EMP00010','09170000010');
+(1,'09170000001'),
+(2,'09170000002'),
+(3,'09170000003'),
+(4,'09170000004'),
+(5,'09170000005'),
+(6,'09170000006'),
+(7,'09170000007'),
+(8,'09170000008'),
+(9,'09170000009'),
+(10,'09170000010');
 
 -- --------------------------------------------------------
 -- Assets
@@ -59,20 +59,20 @@ INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, St
 -- Assignments
 -- --------------------------------------------------------
 INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, ReturnDateTime, Remarks) VALUES
-('PROP000006','2026-01-01 09:00:00','EMP00003','EMP00001',NULL,'Assigned to Alice'),
-('PROP000008','2026-01-02 10:30:00','EMP00003','EMP00002',NULL,'Assigned to Bob'),
-('PROP000012','2026-01-03 11:00:00','EMP00001','EMP00005',NULL,'Assigned to Eve'),
-('PROP000015','2026-01-04 14:00:00','EMP00003','EMP00006',NULL,'Assigned to Frank'),
-('PROP000018','2026-01-05 15:00:00','EMP00001','EMP00007',NULL,'Assigned to Grace'),
-('PROP000020','2026-01-06 09:30:00','EMP00003','EMP00010',NULL,'Assigned to Jack');
+('PROP000006','2026-01-01 09:00:00',3,1,NULL,'Assigned to Alice'),
+('PROP000008','2026-01-02 10:30:00',3,2,NULL,'Assigned to Bob'),
+('PROP000012','2026-01-03 11:00:00',1,5,NULL,'Assigned to Eve'),
+('PROP000015','2026-01-04 14:00:00',3,6,NULL,'Assigned to Frank'),
+('PROP000018','2026-01-05 15:00:00',1,7,NULL,'Assigned to Grace'),
+('PROP000020','2026-01-06 09:30:00',3,10,NULL,'Assigned to Jack');
 
 -- --------------------------------------------------------
 -- Activity logs
 -- --------------------------------------------------------
 INSERT INTO actlog (Timestamp, ActorID, Message, Metadata) VALUES
-('2026-01-01 09:00:00','EMP00003','success!','{"action":"assign","object":"asset","propNum":"PROP000006","assigneeID":"EMP00001"}'),
-('2026-01-02 10:30:00','EMP00003','success!','{"action":"assign","object":"asset","propNum":"PROP000008","assigneeID":"EMP00002"}'),
-('2026-01-03 11:00:00','EMP00001','success!','{"action":"assign","object":"asset","propNum":"PROP000012","assigneeID":"EMP00005"}'),
-('2026-01-04 14:00:00','EMP00003','success!','{"action":"assign","object":"asset","propNum":"PROP000015","assigneeID":"EMP00006"}'),
-('2026-01-05 15:00:00','EMP00001','success!','{"action":"assign","object":"asset","propNum":"PROP000018","assigneeID":"EMP00007"}'),
-('2026-01-06 09:30:00','EMP00003','success!','{"action":"assign","object":"asset","propNum":"PROP000020","assigneeID":"EMP00010"}');
+('2026-01-01 09:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000006","assigneeID":1}'),
+('2026-01-02 10:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000008","assigneeID":2}'),
+('2026-01-03 11:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000012","assigneeID":5}'),
+('2026-01-04 14:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000015","assigneeID":6}'),
+('2026-01-05 15:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000018","assigneeID":7}'),
+('2026-01-06 09:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000020","assigneeID":10}');

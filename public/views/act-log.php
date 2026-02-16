@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th> Timestamp </th>
-      <th> Employee ID </th>
+      <th> Employee Name </th>
       <th> Description </th>
     </tr>
   </thead>  

@@ -1,19 +1,5 @@
 <form>
   <label class="input-label"> 
-    Employee ID: 
-    <input 
-      type="text" 
-      id="empid" 
-      name="employee-id" 
-      placeholder="Enter Employee ID" 
-      maxlength="8" 
-      minlength="8" 
-      size="8" 
-      required
-    >
-  </label>
-
-  <label class="input-label"> 
     First Name: 
     <input 
       type="text" 
