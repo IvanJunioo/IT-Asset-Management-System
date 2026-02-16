@@ -7,21 +7,22 @@ require_once '../../config/config.php';
 require_once '../repos/actlog.php';
 require_once '../repos/user.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+$logRepo = new ActLogRepo($pdo);
 
 function systemLog(
   string $log,
   array $metadata,
 ): void {
-  global $pdo;
-
-  $logRepo = new ActLogRepo($pdo);
-  $userRepo = new UserRepo($pdo);
-
-  if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-  }
+  global $logRepo;
   
   $empID = $_SESSION["user_id"];
-  $user = $userRepo->identify($empID);
-  $logRepo->add($user, "User $empID $log", $metadata);
+  $logRepo->add(
+    new User($empID, new Fullname(), "", UserPrivilege::Staff), // temporary User data object
+    "User $empID $log", 
+    $metadata
+  );
 }

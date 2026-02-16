@@ -12,14 +12,17 @@ export function editUser(empid){
   .catch(err => console.error("Error editing user: ", err));
 }
 
-export function deactivateUser(empid){
-  fetch(`${window.location.origin}/src/handlers/delete-user.php`, {
+export function modifyUser(empID, actionType) {  
+  fetch(`${window.location.origin}/src/handlers/user-modify.php`, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${empid}`,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      empID: empID, 
+      action: actionType,
+    }),
   })
   .then(_ => {
     window.location.href = `${window.location.origin}/public/views/user-manager.php`;
   })
-  .catch(err => console.error("Error deactivating user: ", err));
+  .catch(err => console.error("Error modifying user: ", err));
 }
