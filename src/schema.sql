@@ -31,7 +31,7 @@ USE itam;
 
 CREATE TABLE `actlog` (
   `Timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `ActorID` char(8) NOT NULL,
+  `ActorID` INT NOT NULL,
   `Message` mediumtext NOT NULL,
   `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`Metadata`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -64,8 +64,8 @@ CREATE TABLE `asset` (
 CREATE TABLE `assignment` (
   `PropNum` char(12) NOT NULL,
   `AssignDateTime` datetime NOT NULL,
-  `AssignerID` char(8) NOT NULL,
-  `AssigneeID` char(8) NOT NULL,
+  `AssignerID` INT NOT NULL,
+  `AssigneeID` INT NOT NULL,
   `ReturnDateTime` datetime DEFAULT NULL,
   `Remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -77,7 +77,7 @@ CREATE TABLE `assignment` (
 --
 
 CREATE TABLE `empcontact` (
-  `EmpID` char(8) NOT NULL,
+  `EmpID` INT NOT NULL,
   `ContactNum` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -88,7 +88,7 @@ CREATE TABLE `empcontact` (
 --
 
 CREATE TABLE `employee` (
-  `EmpID` char(8) NOT NULL,
+  `EmpID` INT AUTO_INCREMENT PRIMARY KEY,
   `EmpMail` varchar(50) NOT NULL,
   `FName` varchar(20) NOT NULL,
   `LName` varchar(20) NOT NULL,
@@ -128,12 +128,6 @@ ALTER TABLE `empcontact`
   ADD PRIMARY KEY (`EmpID`,`ContactNum`);
 
 --
--- Indexes for table `employee`
---
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`EmpID`);
-
---
 -- Constraints for dumped tables
 --
 
@@ -157,10 +151,10 @@ ALTER TABLE `assignment`
 ALTER TABLE `empcontact`
   ADD CONSTRAINT `empcontact_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`);
 
-INSERT INTO employee (EmpID, EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
-('00000000', 'iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
-('00000001', 'hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
-('00000002', 'lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active');
+INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
+('hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
+('lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active');
 
 COMMIT;
 

@@ -13,12 +13,14 @@ $search =  $_POST['search'] ?? "";
 try {
   $repo = new ActLogRepo($pdo);
   
+  $logs = $repo->getLogs(
+    search: $search,
+    page: $page,
+    limit: $limit,
+  );
+
   echo json_encode([
-    "logs" => $repo->getLogs(
-      search: $search,
-      page: $page,
-      limit: $limit,
-    ),
+    "logs" => $logs,
     "count" => $repo->countLogs(search: $search),
   ]);
 } catch (Exception $e) {

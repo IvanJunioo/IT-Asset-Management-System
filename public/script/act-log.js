@@ -36,7 +36,7 @@ function showLogs(data) {
 
     const objID = {
       "asset": metadata["propNum"],
-      "user": metadata["empID"]
+      "user": metadata["empID"],
     }[metadata["object"]];
 
     // Store data to row
@@ -52,8 +52,8 @@ function showLogs(data) {
     
     for (const col of [
       log.Timestamp,
-      `<a data-type="actor">${log.ActorID}</a>`,
-      `User <a data-type="actor">${log.ActorID}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objID}</a>`,
+      `<a data-type="actor">${log.FName} ${log.LName}</a>`,
+      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objID}</a>`,
     ]) {
       const td = document.createElement("td");
       td.innerHTML = col;

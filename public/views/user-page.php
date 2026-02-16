@@ -8,7 +8,6 @@
     <table class="user-table">
       <thead>
         <tr>
-          <th> Employee ID </th>
           <th> Email </th> 
           <th> First Name </th>
           <th> Last Name </th>

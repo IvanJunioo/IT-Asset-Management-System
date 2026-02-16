@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.dataset.activeStatus = user.ActiveStatus;
 
       for (const col of [
-        user.EmpID,
         user.EmpMail,
         user.FName,
         user.LName,

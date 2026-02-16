@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.action = `${window.location.origin}/src/handlers/edit-user-form.php`;
   form.method = "post";
-  
-  form.querySelector("input#empid").readOnly = true;
-  
+    
   if (!userData) return;
   
   const user = Array.isArray(userData) ? userData[0] : userData;
@@ -15,13 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
   fillForm(user);
   
   if (user['EmpID'] === JSON.parse(sessionStorage.getItem("user-info")).empID) {
-    form.querySelector("input#act").disabled = true;
     form.querySelector("input#inact").disabled = true;
   }
 
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "employee-id";
+  input.value = user["EmpID"];
+  form.appendChild(input);
+
   function fillForm(user) {
     const data = {
-      'empid': user['EmpID'],
       'e': user['EmpMail'],
       'fn': user['FName'],
       'ln': user['LName'],

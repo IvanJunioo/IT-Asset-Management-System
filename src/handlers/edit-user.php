@@ -6,7 +6,9 @@ require_once __DIR__ . '/../repos/user.php';
 
 header('Content-Type: application/json');
 
-$empID = $_POST['search'] ?? "";
+$rawSearch = $_POST['search'] ?? null;
+
+$empID = filter_var($rawSearch, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
 
 try {
   $repo = new UserRepo($pdo);
@@ -14,7 +16,6 @@ try {
   
   echo json_encode([
     ...$user->jsonSerialize(), 
-    "ContactNums" => $repo->getContacts($empID)
   ]);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);

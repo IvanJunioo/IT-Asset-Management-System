@@ -18,7 +18,7 @@ try {
     $userRepo,
   );
   
-  $empID = $data["empID"];
+  $empID = (int)$data["empID"];
   $action = $data["action"];
   
   $user = $userRepo->identify($empID);
