@@ -65,7 +65,7 @@ textarea {
 #unique-asset-attr {
   width: 100%;
   table-layout: fixed;
-  overflow: hidden;
+  overflow: auto;
   font-size: 0.9rem;
 }
 
@@ -76,6 +76,14 @@ textarea {
 #unique-asset-attr th {
   padding: 0.5rem 0.75rem;
   font-weight: 600;
+}
+
+#unique-asset-attr thead,
+#unique-asset-attr tbody,
+#unique-asset-attr tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 #unique-asset-attr input {
@@ -89,6 +97,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .add-input {
