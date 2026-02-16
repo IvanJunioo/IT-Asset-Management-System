@@ -12,7 +12,7 @@ export function editUser(empid){
   .catch(err => console.error("Error editing user: ", err));
 }
 
-export function deleteUser(empid){
+export function deactivateUser(empid){
   fetch(`${window.location.origin}/src/handlers/delete-user.php`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -21,5 +21,5 @@ export function deleteUser(empid){
   .then(_ => {
     window.location.href = `${window.location.origin}/public/views/user-manager.php`;
   })
-  .catch(err => console.error("Error deleting user: ", err));
+  .catch(err => console.error("Error deactivating user: ", err));
 }

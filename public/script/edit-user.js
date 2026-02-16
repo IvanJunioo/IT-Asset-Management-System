@@ -5,13 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.action = `${window.location.origin}/src/handlers/edit-user-form.php`;
   form.method = "post";
-
+  
   form.querySelector("input#empid").readOnly = true;
-
+  
   if (!userData) return;
-
-  fillForm(Array.isArray(userData) ? userData[0] : userData);
-  // sessionStorage.removeItem("userData");
+  
+  const user = Array.isArray(userData) ? userData[0] : userData;
+  
+  fillForm(user);
+  
+  if (user['EmpID'] === JSON.parse(sessionStorage.getItem("user-info")).empID) {
+    form.querySelector("input#act").disabled = true;
+    form.querySelector("input#inact").disabled = true;
+  }
 
   function fillForm(user) {
     const data = {

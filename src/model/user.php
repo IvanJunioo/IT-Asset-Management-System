@@ -52,17 +52,19 @@ final class Faculty extends User {
 
 final class UserSearchCriteria {
   public readonly Fullname $fullname;
+  public readonly array $isActive;
   public readonly array $privileges;
 
   public function __construct(
     public readonly string $empID = "",
     ?Fullname $fullname = null,
     public readonly string $email = "",
-    public readonly array $isActive = ["Active", "Inactive"],
+    ?array $isActive = null,
     ?array $privileges = null,
     public readonly int $limit = 50,
   ) {
     $this->fullname = $fullname ?? new Fullname();
+    $this->isActive = $isActive ?? ["Active", "Inactive"];
     $this->privileges = $privileges ?? UserPrivilege::cases();
   }
 }

@@ -12,7 +12,7 @@
   gap: 1rem;
 }
 
-#body-filter {
+.body-filter {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   width: 100%;

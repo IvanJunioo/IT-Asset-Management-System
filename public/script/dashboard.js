@@ -27,4 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
         
   })
   .catch(err => console.error("Error fetching: ", err));
+
+  fetch(`${window.location.origin}/src/handlers/user-info.php`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  })
+  .then(res => res.json())
+  .then(data => {
+    sessionStorage.setItem("user-info", JSON.stringify(data));
+  })
+  .catch(err => console.error("Error fetching: ", err));
 });

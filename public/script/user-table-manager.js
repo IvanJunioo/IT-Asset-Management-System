@@ -1,9 +1,10 @@
-import { editUser, deleteUser } from "./user-router.js";
+import { editUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
+
 const session = JSON.parse(document.body.dataset.session);
 
 let selectedRows = new Set();
@@ -14,22 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handles all table func clicks dynamically
   const tableFuncs = leftUser.querySelector(".table-func");
   tableFuncs.addEventListener("click", (e) => {
-    if (e.target.closest(".delete")) {
-      if (selectedRows.size === 0) return;
-      if (!confirm(`Deactivate ${selectedRows.size} user(s)?`)) return;
-      for (const tr of selectedRows) {
-        deleteUser(tr.dataset.empID);
-      }
-      return;
-    }
-
     if (e.target.closest("#multi-select")) {
       const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
       
       if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
         addSelectAll();
         addCheckboxes();
-        addDeactivateButton();
 
         multiSelectIcon.textContent = "check_box";
         return;
@@ -53,7 +44,6 @@ userTableBody.addEventListener("usersLoaded", () => {
   if (multiSelectIcon.textContent.trim() === "check_box") {
     updateSelectedRows();
     addCheckboxes();
-    return;
   } else {
     resetMultiSelect();
   }
@@ -79,28 +69,13 @@ function addSelectAll() {
 
 function addCheckboxes() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
-    if (tr.dataset.activeStatus === "Inactive" || 
-      session.user_id == tr.dataset.empID
-    ){
-      continue;
-    }
-
     const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
     tr.lastElementChild.innerHTML = `
-    <button class="selectable-row">
-      <span class="material-icons"> ${icon} </span>
-    </button>
+      <button class="selectable-row">
+        <span class="material-icons"> ${icon} </span>
+      </button>
     `;
   }
-}
-
-function addDeactivateButton() {
-  const tableFuncs = leftUser.querySelector(".table-func");
-
-  const deleteButton = document.createElement("button");
-  deleteButton.className = "delete";
-  deleteButton.innerHTML = `<span class="material-icons">person_off</span>`;  
-  if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
 }
 
 // function addReportButton(){
@@ -163,25 +138,15 @@ function addActionsButton() {
       continue;
     }
     actionElem.className = "actions";
-    if (tr.dataset.activeStatus === "Active"){
-
-      let html = `
-        <button class="action-btn">
-          <span class="material-icons">more_horiz</span>
-        </button>
-        
-        <div class="action-menu">
-          <a class="menu-item" data-action="modify">Modify</a>
-      `;
-
-      if (session.user_id != tr.dataset.empID){
-        html += `<a class="menu-item" data-action="deactivate">Deactivate</a>`
-        
-      }
-      html += "</div>"
-
-      actionElem.innerHTML = html;
-    }
+    actionElem.innerHTML = `
+      <button class="action-btn">
+        <span class="material-icons">more_horiz</span>
+      </button>
+      
+      <div class="action-menu">
+        <a class="menu-item" data-action="modify">Modify</a>
+      </div>
+    `;
     tr.appendChild(actionElem);
   }
 }
@@ -256,9 +221,9 @@ document.addEventListener("click", (e) => {
       case "modify":
         editUser(empid);
         break;
-      case "deactivate": 
-        if (confirm(`Deactivate user ${empid}?`)) deleteUser(empid);
-        break;
+      // case "deactivate": 
+      //   if (confirm(`Deactivate user ${empid}?`)) deactivateUser(empid);
+      //   break;
     }
     return;
   }
@@ -268,7 +233,6 @@ document.addEventListener("click", (e) => {
     menu.style.display = "none";
   });
 });
-
 
 function selectRow(tr) {
   selectedRows.add(tr);
@@ -288,28 +252,12 @@ function deselectRow(tr) {
 tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = userTableBody.querySelectorAll("tr");
-    const activeRows = [...rows].filter(
-      tr => tr.dataset.activeStatus !== "Inactive" &&
-      session.user_id != tr.dataset.empID
-    );
-
-    if (selectedRows.size === activeRows.length) {
+    if (selectedRows.size === rows.length) {
       for (const tr of rows) {
-        if (tr.dataset.activeStatus ==="Inactive" ||
-          session.user_id == tr.dataset.empID
-        ) {
-          continue;
-        }
         deselectRow(tr);
       }
-    }
-    else {
+    } else {
       for (const tr of rows) {
-        if (tr.dataset.activeStatus ==="Inactive" ||
-          session.user_id == tr.dataset.empID
-        ) {
-          continue;
-        }
         selectRow(tr);
       }
     }

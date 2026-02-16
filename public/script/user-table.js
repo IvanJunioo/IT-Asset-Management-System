@@ -31,11 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchUsers() {
     const searchFilters = searchInput.value;
     const privFilters = [...filterBox.querySelectorAll("input[name='privilege']:checked")].map(cb => cb.value);
-      
+    const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
+        
     fetch(`${window.location.origin}/src/handlers/user-table.php`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}`,
+      body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}&status=${encodeURIComponent(statusFilters)}`,
     })
     .then(res => res.json())
     .then(data => {
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchUsers();
   });
 
-  filterBox.querySelector("#body-filter").addEventListener("change", fetchUsers);
+  filterBox.addEventListener("change", fetchUsers);
 
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
     filterBox.querySelectorAll('input[name="privilege"]').forEach(cb => cb.checked = false);
