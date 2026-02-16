@@ -3,6 +3,7 @@ declare (strict_types= 1);
 
 enum UserPrivilege: string {
   case Faculty = "Faculty";
+  case Staff = "Staff";
   case Admin = "Admin";
   case SuperAdmin = "SuperAdmin";
 }
@@ -16,15 +17,14 @@ final class Fullname {
   ) {}
 }
 
-abstract class User implements JsonSerializable{
+final class User implements JsonSerializable{
   public function __construct(
     public readonly string $empID, 
     public readonly Fullname $name, 
     public readonly string $email,
+    public readonly UserPrivilege $privilege,
     public bool $isActive = True,
   ) {}
-
-  abstract public function getPrivilege(): UserPrivilege;
 
   public function jsonSerialize(): mixed {
     return [
@@ -32,22 +32,10 @@ abstract class User implements JsonSerializable{
       'EmpMail' => $this->email,        
       'FName' => $this->name->first,
       'LName' => $this->name->last,	
-      'Privilege' => $this->getPrivilege()->value,
+      'Privilege' => $this->privilege->value,
       'ActiveStatus' => $this->isActive? "Active" : "Inactive",	
     ];
   }
-}
-
-final class SuperAdmin extends User {
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::SuperAdmin;}
-}
-
-final class Admin extends User {
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::Admin;}
-}
-
-final class Faculty extends User {
-  public function getPrivilege(): UserPrivilege {return UserPrivilege::Faculty;}
 }
 
 final class UserSearchCriteria {

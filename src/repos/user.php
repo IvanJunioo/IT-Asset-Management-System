@@ -62,18 +62,13 @@ final class UserRepo implements UserRepoInterface {
 
     $emps = [];
     foreach ($res as $emp) {
-      $id = $emp["EmpID"];
-      $name = new Fullname(first: $emp["FName"], last: $emp["LName"]);
-      $email = $emp["EmpMail"];
-      $isActive = $emp["ActiveStatus"] == "Active";
-
-      $employee = match (UserPrivilege::from($emp["Privilege"])) {
-        UserPrivilege::SuperAdmin => new SuperAdmin($id, $name, $email, $isActive),
-        UserPrivilege::Admin => new Admin($id, $name, $email, $isActive),
-        UserPrivilege::Faculty => new Faculty($id, $name, $email, $isActive),
-      };
-
-      $emps[] = $employee;
+      $emps[] = new User(
+        $emp["EmpID"], 
+        new Fullname(first: $emp["FName"], last: $emp["LName"]), 
+        $emp["EmpMail"], 
+        UserPrivilege::from($emp["Privilege"]),
+        $emp["ActiveStatus"] == "Active",
+      );
     }
 
     return $emps;
@@ -129,7 +124,7 @@ final class UserRepo implements UserRepoInterface {
       "EmpMail" => $user->email,
       "FName" => $user->name->first,
       "LName" => $user->name->last,
-      "Privilege" => $user->getPrivilege()->value,
+      "Privilege" => $user->privilege->value,
       "ActiveStatus" => $user->isActive? "Active" : "Inactive",
     ];
 
@@ -170,7 +165,7 @@ final class UserRepo implements UserRepoInterface {
       "EmpMail" => $user->email,
       "FName" => $user->name->first,
       "LName" => $user->name->last,
-      "Privilege" => $user->getPrivilege()->name,
+      "Privilege" => $user->privilege->name,
       "ActiveStatus" => $user->isActive? "Active" : "Inactive",
     ] as $col => $val) {
       $conds[] = "$col = ?";

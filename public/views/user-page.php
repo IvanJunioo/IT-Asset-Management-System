@@ -32,6 +32,10 @@
         Faculty
       </label>
       <label>
+        <input type="checkbox" name="privilege" value="Staff"> 
+        Staff
+      </label>
+      <label>
         <input type="checkbox" name="privilege" value="Admin"> 
         Admin
       </label>
