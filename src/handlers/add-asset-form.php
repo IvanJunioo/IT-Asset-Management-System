@@ -38,15 +38,7 @@ if ($action == 'submit') {
     header('Location: ../../public/views/add-asset-form.php?pNumError=exists');
     exit;
   }
-
-  $uniquePnum = array_unique($propNums);
-  $uniqueSnum = array_unique($serialNums);
-
-  if (count($propNums)!=count($uniquePnum) ||
-  count($serialNums)!= count($uniqueSnum)) {
-    header('Location: ../../public/views/add-asset-form.php?pNumError=dupEntry');
-      exit;
-  }
+  
 
   foreach ($propNums as $i => $propNum) {
     $asset = new Asset(
@@ -74,6 +66,7 @@ if ($action == 'submit') {
       "propNum" => $propNums,
     ]
   );
+
 }
 
 header('Location: ../../public/views/asset-manager.php');
