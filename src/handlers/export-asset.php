@@ -19,13 +19,13 @@ try {
     $assets = $assignRepo->getAssignedAssets($user);
     foreach ($assets as $asset){
         $data[] = [
-            'asset' => [$asset, $assignRepo->getAssignmentDate($asset)]
+            'asset' => [$asset, explode(' ',$assignRepo->getAssignmentDate($asset))[0]]
         ];
     }
 
     $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
     $css = file_get_contents($cssPath);
-    include '../template/assigned-assets.php';
+    include '../../public/template/assigned-assets.php';
     $html = ob_get_clean();
     $html = "<style>{$css}</style>" . $html;
 

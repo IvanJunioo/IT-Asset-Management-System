@@ -23,10 +23,17 @@ try {
 
         $assets = $assignRepo->getAssignedAssets($user);
 
+        usort($assets, function($a, $b) use ($assignRepo) {
+            $dateA = strtotime($assignRepo->getAssignmentDate($a));
+            $dateB = strtotime($assignRepo->getAssignmentDate($b));
+            
+            return $dateB <=> $dateA;
+        });
+
         $assetDates = [];
         foreach ($assets as $asset) {
             $assetDates[$asset->propNum] =
-                $assignRepo->getAssignmentDate($asset);
+                explode(' ', $assignRepo->getAssignmentDate($asset))[0];
         }
 
         $data[] = [
@@ -40,7 +47,7 @@ try {
     $css = file_get_contents($cssPath);
 
     ob_start();
-    include '../template/faculty-assigned-assets.php';
+    include '../../public/template/faculty-assigned-assets.php';
     $html = ob_get_clean();
 
     $html = "<style>{$css}</style>" . $html;
