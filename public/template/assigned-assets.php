@@ -5,23 +5,36 @@
   </head>
 <body>
     <h1>Currently Assigned Assets</h1>
-
-    <?php foreach ($data as $d): ?>
-      <?php 
-        $assetDetails = $d['asset'];
-        $asset = $assetDetails[0];
-        $assDate = $assetDetails[1];
-      ?>
-      <div class="asset-container">
-        <div class="asset-header">Property Number: <?= htmlspecialchars($asset->propNum) ?></div>
+    <div class="asset-container">
         <table>
-          <tr><th>Serial Number</th><td><?= htmlspecialchars($asset->serialNum) ?></td></tr>
-          <tr><th>Assignment Date</th><td><?= htmlspecialchars($assDate) ?></td></tr>
-          <tr><th>Specs</th><td><?= htmlspecialchars($asset->specs) ?></td></tr>
-          <tr><th>Description</th><td><?=  htmlspecialchars($asset->description) ?></td></tr>
-          <tr><th>Remarks</th><td class="remarks-cell"><?= htmlspecialchars($asset->remarks) ?></td></tr>
-        </table>
-      </div>
-    <?php endforeach; ?>
+          <thead>
+            <tr>
+              <th>Property No.</th>
+              <th>Serial No.</th>
+              <th>Assignment Date</th>
+              <th>Specifications </th>
+              <th>Description</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($data as $d): ?>
+              <?php 
+                $assetDetails = $d['asset'];
+                $asset = $assetDetails[0];
+                $assDate = $assetDetails[1];
+              ?>
+              <tr>
+                <td><?= htmlspecialchars($asset->propNum) ?></td> 
+                <td><?= htmlspecialchars($asset->serialNum) ?></td>
+                <td><?= htmlspecialchars($assDate) ?></td>
+                <td><?= htmlspecialchars($asset->specs !== ''? $asset->specs: 'None') ?></td>
+                <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
+                <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+      </table>
+    </div>
   </body>
 </html>

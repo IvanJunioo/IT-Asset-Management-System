@@ -22,8 +22,8 @@
               <td><?=  htmlspecialchars($asset->propNum) ?></td>
               <td><?=  htmlspecialchars($asset->serialNum) ?></td>
               <td><?=  htmlspecialchars($asset->purchaseDate) ?></td>
-              <td><?=  htmlspecialchars($asset->description) ?></td>
-              <td class="remarks-cell"><?=  htmlspecialchars($asset->remarks) ?></td>
+              <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
+              <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

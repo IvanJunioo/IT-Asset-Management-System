@@ -11,7 +11,7 @@
         $assets = $d['assets'];
         $dates  = $d['assignDates'];
 
-        $fullName = trim("{$user->name->first[0]}. {$user->name->last}");
+        $fullName = trim("{$user->name->first} {$user->name->last}");
         $priv     = $user->privilege->value;
       ?>
         
@@ -35,9 +35,9 @@
               <tr>
                   <td><?= htmlspecialchars($asset->propNum) ?></td>
                   <td><?= htmlspecialchars($asset->serialNum) ?></td>
-                  <td><?= htmlspecialchars($dates[$asset->propNum] ?? '') ?></td>
-                  <td><?=  htmlspecialchars($asset->description) ?></td>
-                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks ?? '') ?></td>
+                  <td><?= htmlspecialchars($dates[$asset->propNum]) ?></td>
+                  <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
+                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>

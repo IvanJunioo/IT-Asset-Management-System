@@ -19,7 +19,6 @@ h1 {
 
 .asset-container {
   margin-bottom: 25px;
-  page-break-inside: avoid;
 }
 
 .asset-header {
@@ -36,6 +35,11 @@ table {
   border-collapse: collapse;
   margin-top: 0;
   border: 1px solid #dfe6e9;
+  page-break-inside: auto;
+}
+
+tr {
+  break-inside: avoid;
 }
 
 th, td {
@@ -55,11 +59,6 @@ th {
   font-weight: 600;
   text-transform: uppercase;
   font-size: 11px;
-}
-
-tr th {
-  width: 30%;
-  padding: 5px 15px;
 }
 
 thead th {
