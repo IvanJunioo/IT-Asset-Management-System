@@ -45,6 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
   form.querySelector("input#snum").name = "serial-num[]";
   form.querySelector("input#img_url").name = "img-url[]";
   
+form.addEventListener("input", (e) => {
+  if (e.target.closest("input#pnum")){
+    const pnums = Array.from(document.querySelectorAll("input#pnum"));
+    let dupPnum = checkDuplicate(pnums);
+    if (dupPnum){
+      alert("You entered a duplicate property number");
+    }
+  } 
+  if (e.target.closest("input#snum")){
+    const snums = Array.from(document.querySelectorAll("input#snum"));
+    let dupSnum = checkDuplicate(snums);
+    if (dupSnum) {
+      alert("You entered a duplicate serial number");
+    }
+  }
+}) 
+
+
 form.addEventListener("click", (e) => {
   const addBtn = e.target.closest(".add-input");
   if (addBtn) {
@@ -70,3 +88,12 @@ form.addEventListener("click", (e) => {
 });
 
 });
+
+function checkDuplicate(array) {
+  const set = new Set();
+  array.forEach(inp => set.add(inp.value.trim()));
+  if (set.size != array.length) {
+    return true;
+  }
+  return false;
+}
