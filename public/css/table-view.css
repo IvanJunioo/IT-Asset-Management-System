@@ -100,6 +100,8 @@ th:last-child {
   opacity: 0;
   transition: opacity 0.2s ease, background-color 0.3s ease;
   border-radius: 20%;
+  display: flex;
+  align-items: center;
 }
 
 tr:hover .action-btn {

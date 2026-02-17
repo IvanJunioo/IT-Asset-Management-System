@@ -19,7 +19,6 @@
         <th>Property Number</th>
         <th>Serial Number</th>
         <th>Img URL</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -54,11 +53,6 @@
             placeholder="Enter Img URL" 
             required
           >
-        </td>
-        <td>
-          <button type="button" class="add-input">
-            <span class="material-icons">add</span>
-          </button>
         </td>
       </tr>
     </tbody>
@@ -150,8 +144,8 @@
     </label>
   </div>
   
-  <button id="reset-button" type="reset">
-    Reset
+  <button id="reset-button" type="button">
+    Reset Changes
   </button>
 
   <button id="submit-button" type="submit" name="action" value="submit">

@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!assetData) return;
 
   fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
-  // sessionStorage.removeItem("assetData");
   
   function fillForm(asset) {
     const data = {
@@ -60,6 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
       statusGroup.appendChild(assignedLabel);
     }
   }
-
+  
+  const resetBtn = document.querySelector("#reset-button");
+  resetBtn?.addEventListener("click", (_) => {
+    fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
+    document.querySelector("#remarks").value = "";
+  })
 });
 		
