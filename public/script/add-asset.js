@@ -50,14 +50,14 @@ form.addEventListener("input", (e) => {
     const pnums = Array.from(document.querySelectorAll("input#pnum"));
     let dupPnum = checkDuplicate(pnums);
     if (dupPnum){
-      alert("You entered a duplicate property number");
+      alert(`Oops! You already entered Property Number ${dupPnum}`);
     }
   } 
   if (e.target.closest("input#snum")){
     const snums = Array.from(document.querySelectorAll("input#snum"));
     let dupSnum = checkDuplicate(snums);
     if (dupSnum) {
-      alert("You entered a duplicate serial number");
+      alert(`Oops! You already entered Serial Number ${dupSnum}`);
     }
   }
 }) 
@@ -89,11 +89,13 @@ form.addEventListener("click", (e) => {
 
 });
 
-function checkDuplicate(array) {
+function checkDuplicate(inputs) {
   const set = new Set();
-  array.forEach(inp => set.add(inp.value.trim()));
-  if (set.size != array.length) {
-    return true;
+  for (const inp of inputs) {
+    if (set.has(inp.value)){
+      return inp.value;
+    }
+    set.add(inp.value);
   }
-  return false;
+  return "";
 }
