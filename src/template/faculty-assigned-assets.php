@@ -12,7 +12,7 @@
         $dates  = $d['assignDates'];
 
         $fullName = trim("{$user->name->first} {$user->name->last}");
-        $priv     = $user->getPrivilege()->value ?? '';
+        $priv     = $user->privilege->value ?? '';
       ?>
         
       <div class="asset-container">

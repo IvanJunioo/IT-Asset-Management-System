@@ -18,7 +18,7 @@
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "src/handlers/return-asset.php" method="post">
+    <form action = "/src/handlers/return-asset.php" method="post">
       <label class="input-label"> 
         Asset(s):
         <p id="asset-list"></p>
