@@ -19,16 +19,14 @@ if (!hr.querySelector("#actionsth")) {
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
   
-  const multiSelectBtn = document.querySelector("#multi-select");
-  multiSelectBtn?.addEventListener("click", () => {
-    multiSelectBtn.classList.toggle('active');
-  });
-
   // Handles all table func clicks dynamically
   const tableFuncs = leftUser.querySelector(".table-func");
   tableFuncs.addEventListener("click", (e) => {
     if (e.target.closest("#multi-select")) {
-      const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
+      const multiSelectBtn = e.target.closest("#multi-select");
+      const multiSelectIcon = multiSelectBtn.querySelector(".material-icons");
+      
+      multiSelectBtn.classList.toggle('active');
       
       if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
         addSelectAll();

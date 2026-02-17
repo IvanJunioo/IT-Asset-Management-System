@@ -1,4 +1,5 @@
 import { editAsset, returnAsset, deleteAsset, assignAssets} from "./asset-router.js";
+import {editUser} from './user-router.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   const leftAsset = document.querySelector(".left-asset");
@@ -107,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (e.target.closest("#multi-select")) {
-      const multiSelectIcon = e.target.closest("#multi-select").querySelector(".material-icons");
+      const multiSelectBtn = e.target.closest("#multi-select");
+      const multiSelectIcon = multiSelectBtn.querySelector(".material-icons");
+      
+      multiSelectBtn.classList.toggle('active');
 
       if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
         addSelectAll();
@@ -133,6 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Replace view buttons
     for (const tr of assetTableBody.querySelectorAll("tr")) {
       tr.lastElementChild.remove();
+
+      // Replace assignee with clickable link to user
+      tr.lastElementChild.innerHTML = `
+        <a data-type="assignee">${tr.lastElementChild.textContent.trim()}</a>
+      `;
     }
     addActionsButton();
   
@@ -450,6 +459,16 @@ document.addEventListener("DOMContentLoaded", () => {
         selectRow(tr);
       }
       return;
+    }
+
+    if (e.target.closest("a")) {
+      const a = e.target.closest("a");
+      const tr = e.target.closest("tr");
+      if (!tr) return;
+
+      if (a.dataset.type === "assignee") {
+        editUser(tr.dataset.assignedTo);
+      }
     }
   })
 });  

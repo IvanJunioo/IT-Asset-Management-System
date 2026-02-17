@@ -5,7 +5,6 @@ const userTableBody = userTable.querySelector("tbody");
 
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
-  // const searchButton = document.getElementById("search-button");
   const userTableBody = document.querySelector('.user-table tbody');
   const filterBox = document.getElementById("filter-box");
 
@@ -99,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
   filterBox.addEventListener("change", fetchUsers);
 
   filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
-    filterBox.querySelectorAll('input[name="privilege"]').forEach(cb => cb.checked = false);
+    filterBox.querySelectorAll('input').forEach(cb => cb.checked = false);
     fetchUsers();
   });
 

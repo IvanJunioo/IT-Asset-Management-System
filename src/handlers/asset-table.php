@@ -22,12 +22,18 @@ try {
   )))));  
 
   $assignRepo = new AssignmentRepo($pdo);
+  $payload = [];
   foreach($assets as $asset){
     $user = $assignRepo->getCurrAssignedUser($asset);
     $asset->assignTo($user);
+    $pl = [
+      ...$asset->jsonSerialize(),
+      "Assignee" => $user? $user->name->first . " " . $user->name->last : "",
+    ];
+    $payload[] = $pl;
   }
 
-  echo json_encode($assets);
+  echo json_encode($payload);
 } catch (Exception $e) {
   echo json_encode(["error"=> $e->getMessage()]);
 }

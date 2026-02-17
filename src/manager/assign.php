@@ -9,8 +9,8 @@ include_once '../repos/user.php';
 interface AssignmentManagerInterface {
   public function assignAsset(
     string $propNum, 
-    string $assignerID,
-    string $assigneeID,
+    int $assignerID,
+    int $assigneeID,
     DateTimeImmutable $assDate, 
     string $remarks,
   ): void;
@@ -30,8 +30,8 @@ final class AssignmentManager implements AssignmentManagerInterface {
 
   public function assignAsset(
     string $propNum, 
-    string $assignerID,
-    string $assigneeID,
+    int $assignerID,
+    int $assigneeID,
     DateTimeImmutable $assDate, 
     string $remarks = "",
   ): void {

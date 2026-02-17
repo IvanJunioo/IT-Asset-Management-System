@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const assetTable = tableContainer.querySelector(".asset-table");
   const assetTableBody = assetTable.querySelector("tbody");
   const searchInput = document.getElementById("search-input");
-  const searchButton = document.getElementById("search-button");
   const filterBox = document.getElementById("filter-box");
   const exportButton = document.getElementById("export");
 
@@ -92,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         asset.Specs,
         parseFloat(asset.Price).toFixed(2),
         `<span class="badge ${asset.Status.toLowerCase()}">${asset.Status}</span>`,
-        asset.AssignedTo,   
+        asset.Assignee,   
       ]) {
         const td = document.createElement("td");
         td.innerHTML = col;
@@ -117,6 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target.closest(".select-btn")) {
         viewAsset(tr.dataset.propNum);
         return;
+      }
+
+      if (e.target.closest("a")) {
+        const a = e.target.closest("a");
+
       }
     });    
   }
@@ -197,6 +201,11 @@ document.addEventListener("DOMContentLoaded", () => {
       sortOrder = sortOrder === "asc" ? "desc" : "asc";
       sortAsset(currentSortKey);
     }
+
+    if (e.target.closest("#reverse-sort")) {
+      const btn = e.target.closest("#reverse-sort");
+      btn.classList.toggle('active');
+    }
   
     document.querySelectorAll(".sort-menu").forEach(menu => {
       menu.style.display = "none";
@@ -204,15 +213,4 @@ document.addEventListener("DOMContentLoaded", () => {
   
   });
 
-  // active toggle for visual indication
-  const buttons = [
-    document.querySelector("#multi-select"),
-    document.querySelector("#reverse-sort")
-  ];
-
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      button.classList.toggle('active');
-    });
-  });
 });
