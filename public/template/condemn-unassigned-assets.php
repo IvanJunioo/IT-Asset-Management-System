@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>All <?= htmlspecialchars($statusName) ?> Assets</h1>
+    <div class="asset-container">
+      <table>
+        <thead>
+          <tr>
+            <th> Property No. </th>
+            <th> Serial No. </th>
+            <th> Acquisition Date </th>
+            <th> Description </th>
+            <th> Remarks  </th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($assets as $asset): ?>
+            <tr>
+              <td><?=  htmlspecialchars($asset->propNum) ?></td>
+              <td><?=  htmlspecialchars($asset->serialNum) ?></td>
+              <td><?=  htmlspecialchars($asset->purchaseDate) ?></td>
+              <td><?=  htmlspecialchars($asset->description) ?></td>
+              <td class="remarks-cell"><?=  htmlspecialchars($asset->remarks) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
