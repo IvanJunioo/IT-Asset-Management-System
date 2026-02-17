@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const date = new Date();
   const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-  document.getElementById('pdate').setAttribute('max', today);
+  const pdate = document.getElementById('pdate');
+  pdate.setAttribute('max', today);
+  pdate.value = today;
 
 form.addEventListener("click", (e) => {
   const addBtn = e.target.closest(".add-input");

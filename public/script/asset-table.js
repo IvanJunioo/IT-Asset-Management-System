@@ -84,8 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.dataset.assignedTo = asset.AssignedTo; 
 
       for (const col of [
-        asset.PropNum,
         asset.ProcNum,
+        asset.PropNum,
         asset.PurchaseDate,
         asset.Specs,
         parseFloat(asset.Price).toFixed(2),
