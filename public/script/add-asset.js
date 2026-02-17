@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (params.get("pNumError") === "exists") {
     alert("One or more property numbers entered already exists");
   } 
-  if (params.get("pNumError") === "dupEntry") {
-    alert("You entered a duplicate entry");
-  }
 
   const form = document.querySelector("form");
   form.action = `${window.location.origin}/src/handlers/add-asset-form.php`;
@@ -45,22 +42,26 @@ document.addEventListener("DOMContentLoaded", () => {
   form.querySelector("input#snum").name = "serial-num[]";
   form.querySelector("input#img_url").name = "img-url[]";
   
-form.addEventListener("input", (e) => {
-  if (e.target.closest("input#pnum")){
-    const pnums = Array.from(document.querySelectorAll("input#pnum"));
-    let dupPnum = checkDuplicate(pnums);
-    if (dupPnum){
-      alert(`Oops! You already entered Property Number ${dupPnum}`);
-    }
-  } 
-  if (e.target.closest("input#snum")){
-    const snums = Array.from(document.querySelectorAll("input#snum"));
-    let dupSnum = checkDuplicate(snums);
-    if (dupSnum) {
-      alert(`Oops! You already entered Serial Number ${dupSnum}`);
-    }
+
+form.addEventListener("submit", (e) => {
+  const pnums = Array.from(document.querySelectorAll("input#pnum"));
+  const snums = Array.from(document.querySelectorAll("input#snum"));
+
+  let dupPnum = checkDuplicate(pnums);
+  let dupSnum = checkDuplicate(snums);
+
+  if (dupPnum) {
+    e.preventDefault();
+    alert(`Please fix the duplicate Property Number: ${dupPnum}`);
+    return;
   }
-}) 
+
+  if (dupSnum) {
+    e.preventDefault();
+    alert(`Please fix the duplicate Serial Number: ${dupSnum}`);
+    return;
+  }
+});
 
 
 form.addEventListener("click", (e) => {
@@ -84,7 +85,6 @@ form.addEventListener("click", (e) => {
     removeBtn.closest("#input-row").remove();
     return;
   }
-
 });
 
 });
