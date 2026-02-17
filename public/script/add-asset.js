@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
   document.getElementById('pdate').setAttribute('max', today);
 
-  // Add + button
+  // Add "+" button
   const table = document.querySelector("#unique-asset-attr");
   const head = table.querySelector("thead").querySelector("tr");
   const body = table.querySelector("#input-row");
@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
   head.appendChild(lastHead);
   body.appendChild(entry);
 
+  // Make propNum, serialNum, Support Docs URL multivalued
+  form.querySelector("input#pnum").name = "property-num[]";
+  form.querySelector("input#snum").name = "serial-num[]";
+  form.querySelector("input#img_url").name = "img-url[]";
+  
 form.addEventListener("click", (e) => {
   const addBtn = e.target.closest(".add-input");
   if (addBtn) {

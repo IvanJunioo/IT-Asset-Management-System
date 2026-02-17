@@ -27,7 +27,7 @@
           <input 
             type="text" 
             id="pnum" 
-            name="property-num[]" 
+            name="property-num" 
             placeholder="Enter Property Number" 
             maxlength="12" 
             minlength="12" 
@@ -38,7 +38,7 @@
           <input 
             type="text" 
             id="snum" 
-            name="serial-num[]" 
+            name="serial-num" 
             placeholder="Enter Serial Number" 
             maxlength="12" 
             minlength="12" 
@@ -49,7 +49,7 @@
           <input 
             type="url" 
             id="img_url" 
-            name="img-url[]" 
+            name="img-url" 
             placeholder="Enter Img URL" 
             required
           >
