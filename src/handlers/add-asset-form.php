@@ -15,12 +15,20 @@ if ($action == 'submit') {
   $serialNums = $_POST['serial-num'];
   $urls = $_POST['img-url'];
 
+  $purchaseDate = $_POST['purchase-date'];
+  $today = date('Y-m-d');
+  
+  if ($purchaseDate > $today) {
+    header('Location: ../../public/views/add-asset-form.php');
+    exit;
+  }
+
   foreach ($propNums as $i => $propNum) {
     $asset = new Asset(
       propNum: $propNum,
       procNum: $_POST['procurement-num'],
       serialNum: $serialNums[$i],
-      purchaseDate: $_POST['purchase-date'],
+      purchaseDate: $purchaseDate,
       specs: $_POST['specs'],
       description: $_POST['short-desc'],
       url: $urls[$i],
