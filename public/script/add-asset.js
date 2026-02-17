@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("pNumError") === "exists") {
+    alert("One or more property numbers entered already exists");
+  } 
+  if (params.get("pNumError") === "dupEntry") {
+    alert("You entered a duplicate entry");
+  }
+
   const form = document.querySelector("form");
   form.action = `${window.location.origin}/src/handlers/add-asset-form.php`;
   form.method = "post";

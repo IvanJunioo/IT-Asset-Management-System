@@ -89,3 +89,23 @@
   border-bottom: 2px solid var(--darker-primary);
   white-space: nowrap;
 }
+
+.select-btn{
+  background-color: var(--primary-color);
+  color: var(--beige);
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  font-size: 0.8rem;
+}
+
+.select-btn:hover {
+  background-color: var(--darker-primary);
+}
+
+.select-btn:active {
+  transform: scale(0.96);
+}
