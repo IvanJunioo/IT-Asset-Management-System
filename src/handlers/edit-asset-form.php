@@ -11,34 +11,46 @@ $repo = new AssetRepo($pdo);
 $action = $_POST['action'];
 
 if ($action == 'submit') {
-  $propNum = $_POST['property-num'];
+  $propNum = $_POST['property-num'][0];
 
   $old = $repo->identify($propNum);
 
   $asset = new Asset(
     propNum: $propNum,
     procNum: $_POST['procurement-num'],
-    serialNum: $_POST['serial-num'],
+    serialNum: $_POST['serial-num'][0],
     purchaseDate: $_POST['purchase-date'],
     specs: $_POST['specs'],
     description: $_POST['short-desc'],
-    url: $_POST['img-url'],
+    url: $_POST['img-url'][0],
     remarks: $_POST['remarks'],
     price: $_POST['price'],
     status: AssetStatus::from($_POST['asset-status']),
   );
 
-  $repo->update($asset);
-
-  systemLog(
-    "modified asset $propNum",
-    [ 
-      "action" => "modify",
+  $diff = array_diff_assoc($asset->jsonSerialize(), $old->jsonSerialize());
+  if (empty($diff)){
+    systemLog(
+      "viewed asset $propNum",
+      [
+      "action" => "view",
       "object" => "asset",
       "propNum" => $propNum,
-      "diff" => array_diff_assoc($asset->jsonSerialize(), $old->jsonSerialize()),
-    ],
-  );
+      ],); 
+  } else {
+    $repo->update($asset);
+  
+    systemLog(
+      "modified asset $propNum",
+      [ 
+        "action" => "modify",
+        "object" => "asset",
+        "propNum" => $propNum,
+        "diff" => $diff,
+      ],
+    );
+  }
+
 }
 
 header('Location: ../../public/views/asset-manager.php');
