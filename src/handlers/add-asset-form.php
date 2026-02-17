@@ -23,6 +23,31 @@ if ($action == 'submit') {
     exit;
   }
 
+  $exists = false;
+  foreach ($propNums as $propNum) {
+    try {
+      $assetRepo->identify($propNum);
+      $exists = true; 
+      break;
+    } catch (Exception $e) {
+      continue;
+    }
+  }
+
+  if ($exists) {
+    header('Location: ../../public/views/add-asset-form.php?pNumError=exists');
+    exit;
+  }
+
+  $uniquePnum = array_unique($propNums);
+  $uniqueSnum = array_unique($serialNums);
+
+  if (count($propNums)!=count($uniquePnum) ||
+  count($serialNums)!= count($uniqueSnum)) {
+    header('Location: ../../public/views/add-asset-form.php?pNumError=dupEntry');
+      exit;
+  }
+
   foreach ($propNums as $i => $propNum) {
     $asset = new Asset(
       propNum: $propNum,
@@ -49,7 +74,6 @@ if ($action == 'submit') {
       "propNum" => $propNums,
     ]
   );
-
 }
 
 header('Location: ../../public/views/asset-manager.php');
