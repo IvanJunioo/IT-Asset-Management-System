@@ -12,7 +12,6 @@ $manag = new AssignmentManager(
 );
 
 if ($_POST["action"] == 'submit') {
-	session_start();
 	
   $empID = $_SESSION['user_id'];
 

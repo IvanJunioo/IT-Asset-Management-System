@@ -18,7 +18,7 @@ h1 {
 }
 
 .asset-container {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   page-break-inside: avoid;
 }
 
@@ -26,7 +26,7 @@ h1 {
   background-color: #3d0505;
   color: #ffffff;
   padding: 10px 15px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 4px 4px 0 0;
 }
@@ -39,12 +39,17 @@ table {
 }
 
 th, td {
-  padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #dfe6e9;
 }
 
+td {
+  padding: 5px 15px;
+  font-size: 12px;
+}
+
 th {
+  padding: 12px 15px;
   background-color: #f8f9fa;
   color: #3d0505;
   font-weight: 600;
@@ -52,8 +57,9 @@ th {
   font-size: 11px;
 }
 
-table:not(:has(thead)) th {
+tr th {
   width: 30%;
+  padding: 5px 15px;
 }
 
 thead th {
