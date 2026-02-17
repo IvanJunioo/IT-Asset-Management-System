@@ -15,9 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
   tableFuncs.innerHTML = `
     <button id="reverse-sort">
       <span class="material-icons">swap_vert</span>
+      Reverse
     </button>
     <button id="sort-by">
       <span class="material-icons"> sort </span>
+      Sort by
     </button>
 
     <div id="sort-menu" class="sort-menu">
@@ -200,5 +202,17 @@ document.addEventListener("DOMContentLoaded", () => {
       menu.style.display = "none";
     });
   
+  });
+
+  // active toggle for visual indication
+  const buttons = [
+    document.querySelector("#multi-select"),
+    document.querySelector("#reverse-sort")
+  ];
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      button.classList.toggle('active');
+    });
   });
 });

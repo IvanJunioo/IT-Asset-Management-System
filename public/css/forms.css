@@ -109,8 +109,7 @@ textarea {
   background-color: var(--darker-primary);
 }
 
-#unique-asset-attr th:last-child,
-#unique-asset-attr td:last-child {
+#unique-asset-attr .last-child {
   width: 50px; 
   text-align: center;
 }

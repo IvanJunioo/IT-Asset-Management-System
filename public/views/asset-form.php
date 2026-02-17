@@ -19,7 +19,6 @@
         <th>Property Number</th>
         <th>Serial Number</th>
         <th>Img URL</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -28,7 +27,7 @@
           <input 
             type="text" 
             id="pnum" 
-            name="property-num[]" 
+            name="property-num" 
             placeholder="Enter Property Number" 
             maxlength="12" 
             minlength="12" 
@@ -39,7 +38,7 @@
           <input 
             type="text" 
             id="snum" 
-            name="serial-num[]" 
+            name="serial-num" 
             placeholder="Enter Serial Number" 
             maxlength="12" 
             minlength="12" 
@@ -50,15 +49,10 @@
           <input 
             type="url" 
             id="img_url" 
-            name="img-url[]" 
+            name="img-url" 
             placeholder="Enter Img URL" 
             required
           >
-        </td>
-        <td>
-          <button type="button" class="add-input">
-            <span class="material-icons">add</span>
-          </button>
         </td>
       </tr>
     </tbody>
@@ -150,8 +144,8 @@
     </label>
   </div>
   
-  <button id="reset-button" type="reset">
-    Reset
+  <button id="reset-button" type="button">
+    Reset Changes
   </button>
 
   <button id="submit-button" type="submit" name="action" value="submit">
