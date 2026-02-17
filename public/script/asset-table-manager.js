@@ -8,13 +8,22 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let selectedRows = new Set();
 
+  // Immediately add header for actions
+  const hr = assetTable.querySelector("thead tr");
+  if (!hr.querySelector("#actionsth")) {
+    const actionsth = document.createElement("th");
+    actionsth.id = "actionsth";
+    hr.appendChild(actionsth);
+  }
+
+  // reports
   document.getElementById("export").remove();
   const reportBtn = document.createElement("button");
   reportBtn.id = "report";
   reportBtn.className = "generate";
   reportBtn.textContent = "Generate Report";
   document.querySelector(".right-asset").appendChild(reportBtn);
-
+  
   reportBtn.addEventListener('click', () => {
   const modal = `
     <div id="reportModal" class="modal">
@@ -72,14 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handles all table func clicks dynamically
   const tableFuncs = leftAsset.querySelector(".table-func");
   tableFuncs.addEventListener("click", (e) => {
-    if (e.target.closest(".assign")) {
+    if (e.target.closest("#assign")) {
       if (selectedRows.size === 0) return;
 
       assignAssets([...selectedRows].map(tr => tr.dataset.propNum));
       return;
     }
 
-    if (e.target.closest(".delete")) {
+    if (e.target.closest("#delete")) {
       if (selectedRows.size === 0) return;
       if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
       
@@ -92,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (e.target.closest(".return")) {
+    if (e.target.closest("#return")) {
       if (selectedRows.size === 0) return;
       returnAsset([...selectedRows].map(tr => tr.dataset.propNum));
     }
@@ -136,13 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
       resetMultiSelect();
     }
   });
-  
+
   function addTableFuncs() {
     // uses buttons instead of checkboxes to use google material icons. checks state by icon content
     const tableFuncsClass = document.querySelector(".table-func");
     tableFuncsClass.insertAdjacentHTML("afterbegin", `
       <button id="multi-select">
         <span class="material-icons"> check_box_outline_blank </span>
+        Select Multiple
       </button>
     `);
   }
@@ -175,27 +185,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableFuncs = leftAsset.querySelector(".table-func");
   
     const assignButton = document.createElement("button");
-    assignButton.className = "assign";
-    assignButton.innerHTML = `<span class="material-icons">assignment_ind</span>`;
-    if (!tableFuncs.querySelector(".assign")) tableFuncs.prepend(assignButton);
+    assignButton.id = "assign";
+    assignButton.innerHTML = `<span class="material-icons">assignment_ind</span> Assign Asset`;
+    if (!tableFuncs.querySelector("#assign")) tableFuncs.prepend(assignButton);
   }
   
   function addReturnButton() {
     const tableFuncs = leftAsset.querySelector(".table-func");
   
     const returnButton = document.createElement("button");
-    returnButton.className = "return";
-    returnButton.innerHTML = `<span class="material-icons">assignment_return</span>`;
-    if (!tableFuncs.querySelector(".return")) tableFuncs.prepend(returnButton);
+    returnButton.id = "return";
+    returnButton.innerHTML = `<span class="material-icons">assignment_return</span> Return Asset`;
+    if (!tableFuncs.querySelector("#return")) tableFuncs.prepend(returnButton);
   }
   
   function addCondemnButton() {
     const tableFuncs = leftAsset.querySelector(".table-func");
   
     const deleteButton = document.createElement("button");
-    deleteButton.className = "delete";
-    deleteButton.innerHTML = `<span class="material-icons">block</span>`;
-    if (!tableFuncs.querySelector(".delete")) tableFuncs.prepend(deleteButton);
+    deleteButton.id = "delete";
+    deleteButton.innerHTML = `<span class="material-icons">block</span> Condemn Asset`;
+    if (!tableFuncs.querySelector("#delete")) tableFuncs.prepend(deleteButton);
   }
   
   function updateSelectedRows() {
@@ -225,13 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   function addActionsButton() {  
-    const hr = assetTable.querySelector("thead tr");
-    if (!hr.querySelector("#actionsth")) {
-      const actionsth = document.createElement("th");
-      actionsth.id = "actionsth";
-      hr.appendChild(actionsth);
-    }
-  
     for (const tr of assetTableBody.querySelectorAll("tr")) {
       const actionElem = document.createElement("td");
       if (tr.dataset.status === "Condemned"){
@@ -301,9 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach(btn => btn.closest("td")?.remove());
   
     // Remove extra table funcs
-    document.querySelector(".table-func .assign")?.remove();
-    document.querySelector(".table-func .delete")?.remove();
-    document.querySelector(".table-func .return")?.remove();
+    document.querySelector("#assign")?.remove();
+    document.querySelector("#delete")?.remove();
+    document.querySelector("#return")?.remove();
   
     // Reset tracking
     selectedRows.clear();
@@ -362,9 +365,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function updateTableButtons() {
     const tableFuncs = leftAsset.querySelector(".table-func");
-    const assignButton = tableFuncs.querySelector(".assign");
-    const returnButton = tableFuncs.querySelector(".return");
-    const deleteButton = tableFuncs.querySelector(".delete");
+    const assignButton = tableFuncs.querySelector("#assign");
+    const returnButton = tableFuncs.querySelector("#return");
+    const deleteButton = tableFuncs.querySelector("#delete");
   
     if (!selectedRows.size) {
       if (assignButton) assignButton.style.display = "flex";

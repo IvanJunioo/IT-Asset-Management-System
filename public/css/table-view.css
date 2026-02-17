@@ -254,3 +254,25 @@ background: #f2f2f2;
 .btn-cancel:hover {
   background-color: #cacaca;
 }
+
+.table-func button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 0.2pt solid var(--darker-primary);
+  padding: 0.2rem 0.3rem;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  background-color: var(--beige);
+  cursor: pointer;
+}
+
+.table-func button:hover {
+  background-color: var(--bg-light);
+}
+
+.table-func button.active {
+  border: 1pt solid var(--primary-color);
+}

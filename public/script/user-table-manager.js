@@ -9,8 +9,20 @@ const session = JSON.parse(document.body.dataset.session);
 
 let selectedRows = new Set();
 
+// Immediately add header for actions
+const hr = userTable.querySelector("thead tr");
+if (!hr.querySelector("#actionsth")) {
+  const actionsth = document.createElement("th");
+  actionsth.id = "actionsth";
+  hr.appendChild(actionsth);
+}
 document.addEventListener("DOMContentLoaded", () => {
   addTableFuncs();
+  
+  const multiSelectBtn = document.querySelector("#multi-select");
+  multiSelectBtn?.addEventListener("click", () => {
+    multiSelectBtn.classList.toggle('active');
+  });
 
   // Handles all table func clicks dynamically
   const tableFuncs = leftUser.querySelector(".table-func");
@@ -61,13 +73,13 @@ function addTableFuncs() {
   const tableFuncsClass = document.querySelector(".table-func");
   tableFuncsClass.insertAdjacentHTML("afterbegin", `
     <button class="table-fn" name="activate" value="activate" style="display: none">
-      <span class="material-icons"> check_circle </span>
+      <span class="material-icons"> check_circle </span> Reactivate User
     </button>
     <button class="table-fn" name="deactivate" value="deactivate" style="display: none">
-      <span class="material-icons"> block </span>
+      <span class="material-icons"> block </span> Deactivate User
     </button>
     <button id="multi-select">
-      <span class="material-icons"> check_box_outline_blank </span>
+      <span class="material-icons"> check_box_outline_blank </span> Select Multiple
     </button>
   `);
 }
@@ -138,13 +150,6 @@ function updateSelectedRows() {
 }
 
 function addActionsButton() {
-  const hr = userTable.querySelector("thead tr");
-  if (!hr.querySelector("#actionsth")) {
-    const actionsth = document.createElement("th");
-    actionsth.id = "actionsth";
-    hr.appendChild(actionsth);
-  }
-
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
 
