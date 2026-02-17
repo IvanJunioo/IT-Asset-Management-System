@@ -40,5 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
     }
   }
+
+  const resetBtn = document.querySelector("#reset-button");
+  resetBtn?.addEventListener("click", (_) => {
+    fillForm(user);
+    document.querySelector("#remarks").value = "";
+  })
 });
 		

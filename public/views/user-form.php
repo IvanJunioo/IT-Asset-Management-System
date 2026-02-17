@@ -101,8 +101,8 @@
     </label>
   </label>
 
-  <button id="reset-button" type="reset">
-    Reset
+  <button id="reset-button" type="button">
+    Reset Changes
   </button>
 
   <button id="submit-button" type="submit" name="action" value="submit">
