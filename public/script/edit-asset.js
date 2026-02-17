@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'price': asset['Price'],
       'specs': asset['Specs'],
       'desc': asset['ShortDesc'],
+      'remarks': asset['Remarks'],
       'img_url': asset['Url'],
     };
 
