@@ -36,7 +36,7 @@ function showLogs(data) {
 
     const objID = {
       "asset": metadata["propNum"],
-      "user": metadata["empID"],
+      "user": log.objName,
     }[metadata["object"]];
 
     // Store data to row

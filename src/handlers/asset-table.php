@@ -26,11 +26,10 @@ try {
   foreach($assets as $asset){
     $user = $assignRepo->getCurrAssignedUser($asset);
     $asset->assignTo($user);
-    $pl = [
+    $payload[] = [
       ...$asset->jsonSerialize(),
-      "Assignee" => $user? $user->name->first . " " . $user->name->last : "",
+      "Assignee" => $user? $user->name->FirstLast() : "",
     ];
-    $payload[] = $pl;
   }
 
   echo json_encode($payload);

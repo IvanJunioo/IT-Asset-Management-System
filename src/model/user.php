@@ -15,6 +15,14 @@ final class Fullname {
     public readonly string $last = "", 
     public readonly string $suffix = ""
   ) {}
+
+  public function FLast(): string {
+    return strtoupper($this->first[0]) . ". " . $this->last;
+  }
+
+  public function FirstLast(): string {
+    return "$this->first $this->last";
+  }
 }
 
 final class User implements JsonSerializable{
