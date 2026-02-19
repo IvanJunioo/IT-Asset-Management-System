@@ -12,12 +12,12 @@
         $dates  = $d['assignDates'];
 
         $fullName = trim("{$user->name->first} {$user->name->last}");
-        $priv     = $user->privilege->value ?? '';
+        $priv     = $user->privilege->value;
       ?>
         
       <div class="asset-container">
         <div class="asset-header">
-          <?= htmlspecialchars($priv) ?>: <?= htmlspecialchars("$fullName ({$user->empID})") ?>
+          <?= htmlspecialchars($priv) ?>: <?= htmlspecialchars("{$fullName}") ?>
         </div>
         <table>
           <thead>
@@ -25,6 +25,7 @@
               <th>Property No.</th>
               <th>Serial No.</th>
               <th>Assignment Date</th>
+              <th>Description</th>
               <th>Remarks</th>
             </tr>
           </thead>
@@ -34,8 +35,9 @@
               <tr>
                   <td><?= htmlspecialchars($asset->propNum) ?></td>
                   <td><?= htmlspecialchars($asset->serialNum) ?></td>
-                  <td><?= htmlspecialchars($dates[$asset->propNum] ?? '') ?></td>
-                  <td><?= htmlspecialchars($asset->remarks ?? '') ?></td>
+                  <td><?= htmlspecialchars($dates[$asset->propNum]) ?></td>
+                  <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
+                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>
@@ -47,3 +49,4 @@
     <?php endforeach; ?>
   </body>
 </html>
+

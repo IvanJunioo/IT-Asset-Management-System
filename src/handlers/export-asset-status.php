@@ -29,7 +29,7 @@ try {
     $css = file_get_contents($cssPath);
 
     ob_start();
-    include '../template/condemn-unassigned-assets.php';
+    include '../../public/template/condemn-unassigned-assets.php';
     $html = ob_get_clean();
 
     $html = "<style>{$css}</style>" . $html;

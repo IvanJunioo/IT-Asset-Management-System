@@ -39,8 +39,8 @@ final class AssignmentManager implements AssignmentManagerInterface {
     if ($asset->status !== AssetStatus::Unassigned) return;
     $asset->status = AssetStatus::Assigned;
 
-    $assigner = $this->userRepo->identify($assignerID);
-    $assignee = $this->userRepo->identify($assigneeID);
+    $assigner = $this->userRepo->identify((int)$assignerID);
+    $assignee = $this->userRepo->identify((int)$assigneeID);
 
     $asset->assignTo($assignee);
 
