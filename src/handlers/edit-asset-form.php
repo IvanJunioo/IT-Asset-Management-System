@@ -11,18 +11,18 @@ $repo = new AssetRepo($pdo);
 $action = $_POST['action'];
 
 if ($action == 'submit') {
-  $propNum = $_POST['property-num'][0];
+  $propNum = $_POST['property-num'];
 
   $old = $repo->identify($propNum);
 
   $asset = new Asset(
     propNum: $propNum,
     procNum: $_POST['procurement-num'],
-    serialNum: $_POST['serial-num'][0],
+    serialNum: $_POST['serial-num'],
     purchaseDate: $_POST['purchase-date'],
     specs: $_POST['specs'],
     description: $_POST['short-desc'],
-    url: $_POST['img-url'][0],
+    url: $_POST['img-url'],
     remarks: $_POST['remarks'],
     price: $_POST['price'],
     status: AssetStatus::from($_POST['asset-status']),
