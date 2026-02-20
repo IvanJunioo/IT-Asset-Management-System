@@ -29,7 +29,7 @@
 
         <div id="user-panel">
             <span id="username"> 
-              <a><?= htmlspecialchars("{$userLName}, {$userFName}") ?></a>
+              <?= htmlspecialchars("{$userLName}, {$userFName}") ?>
             </span>
             <span id="user-role">
               <?= htmlspecialchars($privilege) ?>
@@ -38,11 +38,3 @@
         </div>
     </section>
 </div>
-
-<script type="module" defer>
-  import {editUser} from '/public/script/user-router.js';
-  const userName = document.getElementById("username");
-  userName.addEventListener("click", () => {
-    editUser(JSON.parse(sessionStorage.getItem("user-info")).empID);
-  });
-</script>

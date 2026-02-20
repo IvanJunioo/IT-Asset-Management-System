@@ -1,6 +1,7 @@
 import { editUser, modifyUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
+const tableFuncs = leftUser.querySelector(".table-func");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
@@ -8,203 +9,21 @@ const userTableBody = userTable.querySelector("tbody");
 const session = JSON.parse(document.body.dataset.session);
 
 let selectedRows = new Set();
+let inMultiSelect = false;
 
-// Immediately add header for actions
+addTableFuncs();
+
+// Immediately add table header for actions column
 const hr = userTable.querySelector("thead tr");
 if (!hr.querySelector("#actionsth")) {
   const actionsth = document.createElement("th");
   actionsth.id = "actionsth";
   hr.appendChild(actionsth);
 }
-document.addEventListener("DOMContentLoaded", () => {
-  addTableFuncs();
-  
-  // Handles all table func clicks dynamically
-  const tableFuncs = leftUser.querySelector(".table-func");
-  tableFuncs.addEventListener("click", (e) => {
-    if (e.target.closest("#multi-select")) {
-      const multiSelectBtn = e.target.closest("#multi-select");
-      const multiSelectIcon = multiSelectBtn.querySelector(".material-icons");
-      
-      multiSelectBtn.classList.toggle('active');
-      
-      if (multiSelectIcon.textContent.trim() === "check_box_outline_blank") {
-        addSelectAll();
-        addCheckboxes();
 
-        for (const tfn of tableFuncs.querySelectorAll(".table-fn")) tfn.style.display = "flex";
-        multiSelectIcon.textContent = "check_box";
-        return;
-      } 
-      
-      if (multiSelectIcon.textContent.trim() === "check_box") {
-        resetMultiSelect();
-        addActionsButton();
-        for (const tfn of tableFuncs.querySelectorAll(".table-fn")) tfn.style.display = "none";
-        return;
-      }
-    }
+addUserAdd();
 
-    if (e.target.closest(".table-fn")) {
-      const btn = e.target.closest(".table-fn");
-      if (selectedRows.size === 0) return;
-      for (const tr of selectedRows) modifyUser(tr.dataset.empID, btn.value);
-    }
-  });
-
-  addUserAdd();
-});
-
-userTableBody.addEventListener("usersLoaded", () => {
-  addActionsButton();
-
-  const multiSelectIcon = document.querySelector("#multi-select").querySelector(".material-icons")
-  if (multiSelectIcon.textContent.trim() === "check_box") {
-    updateSelectedRows();
-    addCheckboxes();
-  } else {
-    resetMultiSelect();
-  }
-});
-
-function addTableFuncs() {
-  const tableFuncsClass = document.querySelector(".table-func");
-  tableFuncsClass.insertAdjacentHTML("afterbegin", `
-    <button class="table-fn" name="activate" value="activate" style="display: none">
-      <span class="material-icons"> check_circle </span> Reactivate User
-    </button>
-    <button class="table-fn" name="deactivate" value="deactivate" style="display: none">
-      <span class="material-icons"> block </span> Deactivate User
-    </button>
-    <button id="multi-select">
-      <span class="material-icons"> check_box_outline_blank </span> Select Multiple
-    </button>
-  `);
-}
-
-function addSelectAll() {
-  const hr = userTable.querySelector("thead tr");
-  hr.lastElementChild.innerHTML = `
-    <button id="select-all">
-      <span class="material-icons"> select_all </span>
-    </button>
-  `;
-}
-
-function addCheckboxes() {
-  for (const tr of userTableBody.querySelectorAll("tr")) {
-    const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
-    tr.lastElementChild.innerHTML = `
-      <button class="selectable-row">
-        <span class="material-icons"> ${icon} </span>
-      </button>
-    `;
-  }
-}
-
-// function addReportButton(){
-//   const rightUser = document.querySelector(".right-user");
-//   const reportBtn = document.getElementById("report");
-
-//   if (selectedRows.size > 0){
-//     if (!reportBtn){
-//       const reportBtn = document.createElement("button");
-//       reportBtn.id = "report";
-//       reportBtn.className = "generate";
-//       reportBtn.textContent = "Get Assigned Assets";
-//       rightUser.appendChild(reportBtn)
-//     }
-//   } else {
-//     reportBtn?.remove();
-//   }
-// }
-
-function updateSelectedRows() {
-  var toAdd = new Set();
-  var toDel = new Set();
-
-  for (const tr1 of userTableBody.querySelectorAll("tr")) {
-    if (tr1.dataset.activeStatus === "Inactive" ||
-      session.user_id === tr1.dataset.empID
-    ){
-      continue;
-    }
-
-    for (const tr2 of selectedRows) {
-      if (tr2.dataset.empID === tr1.dataset.empID) {
-        toDel.add(tr2);
-        toAdd.add(tr1);
-      }
-    }
-  }
-
-  for (const tr of toDel) {
-    selectedRows.delete(tr)
-  }
-
-  for (const tr of toAdd) {
-    selectedRows.add(tr)
-  }
-}
-
-function addActionsButton() {
-  for (const tr of userTableBody.querySelectorAll("tr")) {
-    const actionElem = document.createElement("td");
-
-    if (tr.querySelector("td.actions")) {
-      continue;
-    }
-    actionElem.className = "actions";
-    actionElem.innerHTML = `
-      <button class="action-btn">
-        <span class="material-icons">more_horiz</span>
-      </button>
-      
-      <div class="action-menu">
-        <a class="menu-item" data-action="modify">Modify</a>
-      </div>
-    `;
-    tr.appendChild(actionElem);
-  }
-}
-
-function addUserAdd() {
-  const leftUser = document.querySelector(".left-user");
-
-  const userAdd = document.createElement("a");
-  userAdd.href = "add-user-form.php";
-  userAdd.id = "addUser";
-  userAdd.innerHTML = `
-    <span class="material-icons" id="add-asset-button">add</span>
-    Add a New User
-  `;
-
-  leftUser.append(userAdd);
-}
-
-function resetMultiSelect() {
-  const multiSelectBtn = document.querySelector("#multi-select");
-  const icon = multiSelectBtn?.querySelector(".material-icons");
-
-  // Reset icon
-  if (icon) {
-    icon.textContent = "check_box_outline_blank";
-  }
-
-  // Remove select-all button
-  document.querySelectorAll("#select-all").forEach(btn => btn.remove());
-
-  // Remove row checkboxes
-  userTableBody.querySelectorAll(".selectable-row")
-    .forEach(btn => btn.closest("td")?.remove());
-
-  // Remove deactivate button
-  document.querySelector(".table-func .delete")?.remove();
-  
-  // Reset tracking
-  selectedRows.clear();
-}
-
+// ----- EVENT LISTENERS (KEEP MINIMAL) -----
 document.addEventListener("click", (e) => {
   // Actions dropdown toggle
   const actionBtn = e.target.closest(".action-btn");
@@ -249,34 +68,39 @@ document.addEventListener("click", (e) => {
   document.querySelectorAll(".action-menu").forEach(menu => {
     menu.style.display = "none";
   });
+
+  // Reports
+  if (e.target.closest("#report")){
+    if (selectedRows.size <= 0) {
+      alert('Select a user first to get their assets');
+      return;
+    }
+    let users = [...selectedRows].map(tr => tr.dataset.empID);
+    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
+    window.location.href = url;
+  }
 });
 
-function selectRow(tr) {
-  selectedRows.add(tr);
-  const icon = tr.querySelector(".material-icons");
-  if (icon) icon.textContent = "check_box";
-}
+tableFuncs.addEventListener("click", (e) => {
+  if (e.target.closest("#multi-select")) {
+    const multiSelectBtn = e.target.closest("#multi-select");
+    
+    multiSelectBtn.classList.toggle('active');
+    
+    setInMulSel(!inMultiSelect);
+  }
 
-function deselectRow(tr) {    
-  selectedRows.delete(tr);
-  const icon = tr.querySelector(".material-icons");
-  if (icon) icon.textContent = "check_box_outline_blank";
-}
+  if (e.target.closest(".table-fn")) {
+    const btn = e.target.closest(".table-fn");
+    for (const tr of selectedRows) modifyUser(tr.dataset.empID, btn.value);
+  }
+});
 
-function updateTableFuncs() {
-  const tableFuncs = leftUser.querySelector(".table-func");
-  const actBtn = tableFuncs.querySelector('button[name="activate"]');
-  actBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Inactive")? "flex" : "none";
-  const deactBtn = tableFuncs.querySelector('button[name="deactivate"]');
-  deactBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Active") && [...selectedRows].every(tr => tr.dataset.empID !== JSON.parse(sessionStorage.getItem("user-info")).empID)? "flex" : "none";
-}
-
-// Handles all table clicks dynamically
 tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = userTableBody.querySelectorAll("tr");
     if (selectedRows.size === rows.length) {
-      for (const tr of rows) {
+      for (const tr of selectedRows) {
         deselectRow(tr);
       }
     } else {
@@ -284,33 +108,190 @@ tableContainer.addEventListener("click", (e) => {
         selectRow(tr);
       }
     }
-    updateTableFuncs();
     return;
   }
 
-  if (e.target.closest(".selectable-row")) {
+  if (e.target.closest("tr") && inMultiSelect) {
     const tr = e.target.closest("tr");
+    if (!tr.closest("tbody")) return;
     if (selectedRows.has(tr)) {
       deselectRow(tr);
     } else {
       selectRow(tr);
     }
-    updateTableFuncs();
     return;
   }
 });
 
-document.addEventListener("click", (e) => {
-  if (e.target.closest("#report")){
-    if (selectedRows.size > 0) {
-      let users = [];
-      for (const tr of selectedRows) {
-        users.push(tr.dataset.empID);
-      }
-      const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
-      window.location.href = url;
-    } else {
-      alert('Select a user first to get their assets');
-    }
-    }
+userTableBody.addEventListener("usersLoaded", () => {
+  addActionsButton();
+
+  if (inMultiSelect) {
+    updateSelectedRows();
+    addCheckboxes();
+  } 
 });
+
+// ----- FUNCTION DEFINITIONS -----
+function selectRow(tr) {
+  selectedRows.add(tr);
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box";
+  updateTableFuncs();
+}
+
+function deselectRow(tr) {    
+  selectedRows.delete(tr);
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box_outline_blank";
+  updateTableFuncs();
+}
+
+function setInMulSel(val) {
+  if (inMultiSelect && !val) {
+    // Remove select-all button
+    document.querySelectorAll("#select-all").forEach(btn => btn.remove());
+
+    // Remove row checkboxes
+    userTableBody.querySelectorAll(".selectable-row")
+      .forEach(btn => btn.closest("td")?.remove());
+    
+    // Reset tracking
+    selectedRows.clear();
+
+    addActionsButton();
+  }
+
+  if (!inMultiSelect && val) {
+    addSelectAll();
+    addCheckboxes();
+  }   
+
+  inMultiSelect = val;
+
+  const multiSelectIcon = document.querySelector("#multi-select .material-icons");
+  if (multiSelectIcon) multiSelectIcon.textContent = val? "check_box" : "check_box_outline_blank";
+
+  const tfDiv = leftUser.querySelector(".table-func");
+  for (const btn of tfDiv.querySelectorAll(".table-fn")) btn.style.display = val? "flex" : "none";
+}
+
+function addTableFuncs() {
+  tableFuncs.insertAdjacentHTML("afterbegin", `
+    <button class="table-fn" name="activate" value="activate" style="display: none">
+      <span class="material-icons"> check_circle </span> Reactivate
+    </button>
+    <button class="table-fn" name="deactivate" value="deactivate" style="display: none">
+      <span class="material-icons"> block </span> Deactivate
+    </button>
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span> Select Multiple
+    </button>
+  `);
+}
+
+function addSelectAll() {
+  const hr = userTable.querySelector("thead tr");
+  hr.lastElementChild.innerHTML = `
+    <button id="select-all">
+      <span class="material-icons"> select_all </span>
+    </button>
+  `;
+}
+
+function addCheckboxes() {
+  for (const tr of userTableBody.querySelectorAll("tr")) {
+    const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
+    tr.lastElementChild.innerHTML = `
+      <button class="selectable-row">
+        <span class="material-icons"> ${icon} </span>
+      </button>
+    `;
+  }
+}
+
+// function addReportButton(){
+//   const rightUser = document.querySelector(".right-user");
+//   const reportBtn = document.getElementById("report");
+
+//   if (selectedRows.size > 0){
+//     if (!reportBtn){
+//       const reportBtn = document.createElement("button");
+//       reportBtn.id = "report";
+//       reportBtn.className = "generate";
+//       reportBtn.textContent = "Get Assigned Assets";
+//       rightUser.appendChild(reportBtn)
+//     }
+//   } else {
+//     reportBtn?.remove();
+//   }
+// }
+
+function addActionsButton() {
+  for (const tr of userTableBody.querySelectorAll("tr")) {
+    const actionElem = document.createElement("td");
+
+    if (tr.querySelector("td.actions")) {
+      continue;
+    }
+    actionElem.className = "actions";
+    actionElem.innerHTML = `
+      <button class="action-btn">
+        <span class="material-icons">more_horiz</span>
+      </button>
+      
+      <div class="action-menu">
+        <a class="menu-item" data-action="modify">Modify</a>
+      </div>
+    `;
+    tr.appendChild(actionElem);
+  }
+}
+
+function addUserAdd() {
+  const leftUser = document.querySelector(".left-user");
+
+  const userAdd = document.createElement("a");
+  userAdd.href = "add-user-form.php";
+  userAdd.id = "addUser";
+  userAdd.innerHTML = `
+    <span class="material-icons" id="add-asset-button">add</span>
+    Add a New User
+  `;
+
+  leftUser.append(userAdd);
+}
+
+function updateTableFuncs() {
+  const actBtn = tableFuncs.querySelector('button[name="activate"]');
+  actBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Inactive")? "flex" : "none";
+
+  const deactBtn = tableFuncs.querySelector('button[name="deactivate"]');
+  deactBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Active" && tr.dataset.empID !== JSON.parse(sessionStorage.getItem("user-info")).empID)? "flex" : "none";
+}
+
+function updateSelectedRows() {
+  var toAdd = new Set();
+  var toDel = new Set();
+
+  for (const tr1 of userTableBody.querySelectorAll("tr")) {
+    if (tr1.dataset.activeStatus === "Inactive" ||
+      session.user_id === tr1.dataset.empID
+    ) {continue;}
+
+    for (const tr2 of selectedRows) {
+      if (tr2.dataset.empID === tr1.dataset.empID) {
+        toDel.add(tr2);
+        toAdd.add(tr1);
+      }
+    }
+  }
+
+  for (const tr of toDel) {
+    selectedRows.delete(tr)
+  }
+
+  for (const tr of toAdd) {
+    selectedRows.add(tr)
+  }
+}

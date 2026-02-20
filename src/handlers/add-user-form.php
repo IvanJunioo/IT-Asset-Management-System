@@ -22,6 +22,9 @@ if ($_POST['action'] == 'submit') {
 
   $repo->add($user);
 
+  // Sets user empID (assuming unique email)
+  $user = $repo->search(new UserSearchCriteria(email: $user->email))[0];
+
   systemLog(
     "added new user " . $user->name->last,
     [

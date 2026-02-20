@@ -32,7 +32,7 @@
         DCS IT Assets Management System
       </div>
       <p class="system-caption">
-        IT Assets Inventory and Management System for UP Diliman Department of Computer Science.
+        IT Assets Inventory and Management System for UP Diliman Department of Computer Science
       </p>
   </div>
 
