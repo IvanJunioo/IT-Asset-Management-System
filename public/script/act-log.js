@@ -8,22 +8,28 @@ const paginationDiv = document.getElementById("pagination");
 let latest = 0; // latest fetch id to avoid race conditions
 const rowsPerPage = 10;
 
-export function fetchLogs(search = "") {
+export async function fetchLogs(search = "") {
   const fetchID = ++latest;
 
-  fetch(`${window.location.origin}/src/handlers/act-log.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `page=${paginationDiv.dataset.curPage}&limit=${rowsPerPage}&search=${search}`,
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (fetchID !== latest) return;
-    if (data["count"] <= 0) return;
+  const url = new URL(`${window.location.origin}/public/api/index.php`)
+  url.search = new URLSearchParams({
+    resource: "logs",
+    search: search,
+    page: paginationDiv.dataset.curPage,
+    limit: rowsPerPage,
+  }).toString();
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
+    const data = await resp.json();
+    
+    if (fetchID !== latest) return;
     showLogs(data);
-  })
-  .catch(err => console.error("Error fetching system logs: ", err));
+  } catch (err) {
+    console.error("Error fetching system logs: ", err);
+  }
 }
 
 function showLogs(data) {

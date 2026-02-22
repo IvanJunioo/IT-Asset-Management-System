@@ -13,6 +13,8 @@
     javascripts for dynamic html
   - views
     html/php
+  - api
+    connects to src handlers
 - src
   backend. inaccessible via browser.
   - handlers

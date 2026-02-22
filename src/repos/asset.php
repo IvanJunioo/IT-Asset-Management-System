@@ -2,7 +2,7 @@
 
 declare (strict_types=1);
 
-include_once '../model/asset.php';
+require_once __DIR__ . '/../model/asset.php';
 
 interface AssetRepoInterface {
   public function identify(string $propNum): Asset;

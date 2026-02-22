@@ -2,7 +2,7 @@
 
 declare (strict_types=1);
 
-include_once '../model/user.php';
+require_once __DIR__ . '/../model/user.php';
 
 interface ActLogRepoInterface {
   public function getLogs(
