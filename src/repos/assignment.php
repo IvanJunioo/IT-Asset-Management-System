@@ -2,8 +2,8 @@
 
 declare (strict_types=1);
 
-include_once '../model/user.php';
-include_once '../model/asset.php';
+require_once __DIR__ . '/../model/user.php';
+require_once __DIR__ . '/../model/asset.php';
 
 interface AssignmentRepoInterface {
   public function getAssignedAssets(User $user): array;

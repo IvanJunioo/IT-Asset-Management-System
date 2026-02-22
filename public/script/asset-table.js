@@ -101,39 +101,46 @@ assetTableBody.addEventListener("click", (e) => {
 });
 
 // ----- FUNCTION DEFINITIONS -----
-function fetchAssets() {    
+async function fetchAssets() {    
+  const fetchID = ++latest;
   const searchFilters = searchInput.value;
   const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
   
-  const fetchID = ++latest;
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assets",
+    action: "search",
+    search: searchFilters,
+    status: statusFilters,
+  }).toString();
 
-  fetch(`${window.location.origin}/src/handlers/asset-table.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${encodeURIComponent(searchFilters)}&status=${encodeURIComponent(statusFilters)}`,
-  })
-  .then(res => res.json())
-  .then(data => {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+
     if (fetchID !== latest) return;
-    if (data.length <= 0) {
-      assetTableBody.innerHTML = `
-        <tr>
-          <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
-        </tr>
-      `;
-    } else {
-      showAssets(data);
-      assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"))
-    }
-
-    for (const tableFunc of tableFuncs.querySelectorAll("button")) {
-      tableFunc.disabled = data.length <= 0;
-    }
-  })
-  .catch(err => console.error("Error fetching assets: ", err));
+    showAssets(data);
+  } catch (err) {
+    console.error("Error fetching assets: ", err);
+  }
 }
 
 function showAssets(assets) {
+  for (const tableFunc of tableFuncs.querySelectorAll("button")) {
+    tableFunc.disabled = assets.length <= 0;
+  }  
+  
+  if (assets.length <= 0) {
+    assetTableBody.innerHTML = `
+      <tr>
+        <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
+      </tr>
+    `;
+    return;
+  }
+
   // Add another header
   const hr = document.querySelector(".asset-table thead tr");
   if (!hr.querySelector("#actionsth")) {
@@ -181,6 +188,7 @@ function showAssets(assets) {
   }
 
   sortAssets();
+  assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"));
 }
 
 function sortAssets() {

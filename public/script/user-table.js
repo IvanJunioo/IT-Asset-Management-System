@@ -82,40 +82,48 @@ filterBox.querySelector("button[id='apply-filter']").addEventListener("click", (
 });
 
 // ----- FUNCTION DEFINITIONS -----
-function fetchUsers() {
+async function fetchUsers() {
+  const fetchID = ++latest;
   const searchFilters = searchInput.value;
   const privFilters = [...filterBox.querySelectorAll("input[name='privilege']:checked")].map(cb => cb.value);
   const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
-      
-  const fetchID = ++latest;
 
-  fetch(`${window.location.origin}/src/handlers/user-table.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${encodeURIComponent(searchFilters)}&priv=${encodeURIComponent(privFilters)}&status=${encodeURIComponent(statusFilters)}`,
-  })
-  .then(res => res.json())
-  .then(data => {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "users",
+    action: "search",
+    search: searchFilters,
+    status: statusFilters,
+    priv: privFilters,
+  }).toString();
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+
     if (fetchID !== latest) return;
-    if (data.length <= 0) {
-      userTableBody.innerHTML = `
-        <tr>
-          <td colSpan="${userTable.querySelector("thead tr").children.length}"> No users to display. </td>
-        </tr>
-      `;
-    } else {
-      showUsers(data);
-      userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
-    }
-
-    for (const tableFunc of tableFuncs.querySelectorAll("button")) {
-      tableFunc.disabled = data.length <= 0;
-    }
-  })
-  .catch(err => console.error("Error fetching users: ", err));
+    showUsers(data);
+  } catch (err) {
+    console.error("Error fetching users: ", err);
+  }
 }
 
 function showUsers(users) {
+  for (const tableFunc of tableFuncs.querySelectorAll("button")) {
+    tableFunc.disabled = users.length <= 0;
+  }
+
+  if (users.length <= 0) {
+    userTableBody.innerHTML = `
+      <tr>
+        <td colSpan="${userTable.querySelector("thead tr").children.length}"> No users to display. </td>
+      </tr>
+    `;
+    return;
+  }
+
   userTableBody.innerHTML = "";
   
   for (const user of users) {
@@ -145,6 +153,7 @@ function showUsers(users) {
   }
 
   sortUsers();
+  userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
 }
 
 function sortUsers() {
