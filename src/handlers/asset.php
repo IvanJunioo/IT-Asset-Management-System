@@ -64,19 +64,18 @@ final class AssetHandler {
       exit;
     }
 
-    foreach ($assets as $asset) $this->assetRepo->add($asset);
-
-    // TODO: fix db log identification for batch log separation
-    $propNums = array_map(fn($asset) => $asset->propNum, $assets);
-    $propNumsStr = count($assets) > 1 ? implode(', ', $propNums) : $assets[0]->propNum;
-    systemLog(
-      "added new asset(s) $propNumsStr",
-      [
-        "action" => "add",
-        "object" => "asset",
-        "propNum" => $propNums,
-      ]
-    );
+    foreach ($assets as $asset) {
+      $this->assetRepo->add($asset);
+      
+      systemLog(
+        "added new asset $asset->propNum",
+        [
+          "action" => "add",
+          "object" => "asset",
+          "propNum" => $asset->propNum,
+        ]
+      );
+    }
   }
 
   public function editAsset(Asset $asset): void {

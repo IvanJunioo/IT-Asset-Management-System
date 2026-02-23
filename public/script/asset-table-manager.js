@@ -189,6 +189,7 @@ tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("tr") && inMultiSelect) {
     const tr = e.target.closest("tr");
     if (!tr.closest("tbody")) return;
+    if (tr.dataset.status === "Condemned") return;
     if (selectedRows.has(tr)) {
       deselectRow(tr);
     } else {
@@ -235,11 +236,7 @@ function setInMulSel(val) {
   if (inMultiSelect && !val) {
     // Remove select-all button
     document.querySelectorAll("#select-all").forEach(btn => btn.remove());
-  
-    // Remove row checkboxes
-    assetTableBody.querySelectorAll(".selectable-row")
-      .forEach(btn => btn.closest("td")?.remove());
-  
+    
     // Remove extra table funcs
     document.querySelector("#assign")?.remove();
     document.querySelector("#delete")?.remove();
@@ -248,6 +245,8 @@ function setInMulSel(val) {
     // Reset tracking
     selectedRows.clear();
 
+    // Replace last td's
+    assetTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
     addActionsButton();
   }
 
@@ -327,41 +326,32 @@ function addCondemnButton() {
 
 function addActionsButton() {  
   for (const tr of assetTableBody.querySelectorAll("tr")) {
-    const actionElem = document.createElement("td");
-    if (tr.dataset.status === "Condemned"){
-      tr.appendChild(actionElem);
-      continue;
+    const actionBtn = document.createElement("button");
+    actionBtn.className = "action-btn";
+    actionBtn.innerHTML = `<span class="material-icons">more_horiz</span>`;
+    
+    const actionMenu = document.createElement("div");
+    actionMenu.className = "action-menu";
+    Object.entries({
+      "modify": "Modify",
+      ...(tr.dataset.status === "ToCondemn" && {"condemn": "Condemn"}), // adds only if satisfied
+      ...(tr.dataset.status === "Assigned" && {"return": "Return"}),
+      ...(tr.dataset.status === "Unassigned" && {"assign": "Assign"}),
+    }).forEach(([action, label]) => {
+      const a = document.createElement("a");
+      a.className = "menu-item";
+      a.dataset.action = action;
+      a.textContent = label;
+      actionMenu.appendChild(a);
+    });
+    
+    const actionTd = document.createElement("td");
+    if (tr.dataset.status !== "Condemned") {
+      actionTd.appendChild(actionBtn);
+      actionTd.appendChild(actionMenu);
     }
 
-    if (tr.querySelector("td.actions")) {
-      continue;
-    }
-    
-    actionElem.className = "actions";
-    
-    let menuHTML = `
-      <button class="action-btn">
-        <span class="material-icons">more_horiz</span>
-      </button>
-      
-      <div class="action-menu">
-        <a class="menu-item" data-action="modify">Modify</a>
-    `;
-    if (tr.dataset.status === "ToCondemn"){
-      menuHTML += `<a class="menu-item" data-action="condemn">Condemn</a>`
-    }
-
-    if (tr.dataset.status === "Assigned"){
-      menuHTML += `<a class="menu-item" data-action="return">Return</a>`
-    }
-
-    if (tr.dataset.status === "Unassigned"){
-      menuHTML += `<a class="menu-item" data-action="assign">Assign</a>
-    </div>`
-    }
-    
-    actionElem.innerHTML = menuHTML;
-    tr.appendChild(actionElem);
+    tr.appendChild(actionTd)
   }
 }
 

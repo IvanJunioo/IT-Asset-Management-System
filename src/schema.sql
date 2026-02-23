@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2026 at 04:08 PM
+-- Generation Time: Feb 23, 2026 at 07:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,8 +30,9 @@ USE itam;
 --
 
 CREATE TABLE `actlog` (
+  `LogID` int(11) NOT NULL,
   `Timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `ActorID` INT NOT NULL,
+  `ActorID` int(11) NOT NULL,
   `Message` mediumtext NOT NULL,
   `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`Metadata`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -88,7 +89,7 @@ CREATE TABLE `empcontact` (
 --
 
 CREATE TABLE `employee` (
-  `EmpID` INT AUTO_INCREMENT PRIMARY KEY,
+  `EmpID` int(11) NOT NULL,
   `EmpMail` varchar(50) NOT NULL,
   `FName` varchar(20) NOT NULL,
   `LName` varchar(20) NOT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE `employee` (
 -- Indexes for table `actlog`
 --
 ALTER TABLE `actlog`
-  ADD PRIMARY KEY (`Timestamp`,`ActorID`),
+  ADD PRIMARY KEY (`LogID`),
   ADD KEY `ActorID` (`ActorID`);
 
 --
@@ -126,6 +127,28 @@ ALTER TABLE `assignment`
 --
 ALTER TABLE `empcontact`
   ADD PRIMARY KEY (`EmpID`,`ContactNum`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`EmpID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `actlog`
+--
+ALTER TABLE `actlog`
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `EmpID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -150,11 +173,6 @@ ALTER TABLE `assignment`
 --
 ALTER TABLE `empcontact`
   ADD CONSTRAINT `empcontact_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`);
-
-INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
-('iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
-('hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
-('lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active');
 
 COMMIT;
 
