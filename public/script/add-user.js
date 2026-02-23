@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
-  form.action = `${window.location.origin}/src/handlers/add-user-form.php`;
+  form.action = `${window.location.origin}/public/api/index.php?resource=users&action=add`;
   form.method = "post"; 
   
   const date = new Date();

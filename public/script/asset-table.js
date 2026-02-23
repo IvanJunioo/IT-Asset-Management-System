@@ -112,14 +112,14 @@ async function fetchAssets() {
     action: "search",
     search: searchFilters,
     status: statusFilters,
-  }).toString();
+  });
 
   try {
     const resp = await fetch(url);
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
     const data = await resp.json();
-
+    
     if (fetchID !== latest) return;
     showAssets(data);
   } catch (err) {

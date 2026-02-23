@@ -1,48 +1,62 @@
-export function viewAsset(propNum) {
-  fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${propNum}`,
-  })
-  .then(res => res.json())
-  .then(data => {
-    sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-    window.location.href = `${window.location.origin}/public/views/asset-view.php`;
-  })
-  .catch(err => console.error("Error viewing asset: ", err));
+async function fetchAsset(propNum) {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assets",
+    action: "fetch",
+    search: propNum,
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+    
+    return data;
+  } catch (err) {
+    console.error("Error fetching asset: ", err);
+  }
 }
 
-export function editAsset(propNum) {
-  fetch(`${window.location.origin}/src/handlers/fetch-asset.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${propNum}`,
-  })
-  .then(res => res.json())
-  .then(data => {
-    sessionStorage.setItem("assetData", JSON.stringify(data));
-    window.location.href = `${window.location.origin}/public/views/edit-asset-form.php`;
-  })
-  .catch(err => console.error("Error editing assets: ", err));
+export async function viewAsset(propNum) {
+  const data = await fetchAsset(propNum);
+  sessionStorage.setItem("viewAssetData", JSON.stringify(data));
+  window.location.href = `${window.location.origin}/public/views/asset-view.php`;
 }
 
-export function returnAsset(propNums) {
-  sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
-  window.location.href = `${window.location.origin}/public/views/return-form.php`;
+export async function editAsset(propNum) {
+  const data = await fetchAsset(propNum);
+  sessionStorage.setItem("assetData", JSON.stringify(data));
+  window.location.href = `${window.location.origin}/public/views/edit-asset-form.php`;
 }
 
-export function deleteAsset(propNum) {
-  fetch(`${window.location.origin}/src/handlers/delete-asset.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `search=${propNum}`,
-  }).then(_ => {
+export async function condemnAsset(propNum) {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assets",
+    action: "condemn",
+  });
+
+  try {
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({search: propNum}),
+    });
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
     window.location.href = `${window.location.origin}/public/views/asset-manager.php`;
-  })
-  .catch(err => console.error("Error deleting assets: ", err));
+  } catch (err) {
+    console.error("Error condemning asset: ", err);    
+  }
 }
 
 export function assignAssets(propNums) {
   sessionStorage.setItem("assetsToAssign", JSON.stringify(propNums));
   window.location.href = `${window.location.origin}/public/views/assign-user.php`;
+}
+
+export function returnAsset(propNums) {
+  sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
+  window.location.href = `${window.location.origin}/public/views/return-form.php`;
 }

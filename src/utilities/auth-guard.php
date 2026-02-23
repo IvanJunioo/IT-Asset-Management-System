@@ -8,8 +8,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-$userFName = $_SESSION['user_fname'] ?? '';
-$userLName = $_SESSION['user_lname'] ?? '';
 $privilege = $_SESSION['privilege'] ?? '';
 $privilege = $privilege == "SuperAdmin" ? "Super Admin" : $privilege;
 $navItems = [

@@ -95,7 +95,7 @@ async function fetchUsers() {
     search: searchFilters,
     status: statusFilters,
     priv: privFilters,
-  }).toString();
+  });
 
   try {
     const resp = await fetch(url);

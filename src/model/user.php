@@ -27,10 +27,10 @@ final class Fullname {
 
 final class User implements JsonSerializable{
   public function __construct(
-    public readonly int $empID, 
     public readonly Fullname $name, 
     public readonly string $email,
     public readonly UserPrivilege $privilege,
+    public readonly int $empID = 0,   // DB auto-increments
     public bool $isActive = True,
   ) {}
 

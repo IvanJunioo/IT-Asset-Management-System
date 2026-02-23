@@ -1,12 +1,20 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch(`${window.location.origin}/src/handlers/login-url.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  })
-  .then(res => res.json())
-  .then(data => {
-    const loginA = document.getElementById("login-upmail");
-    loginA.href = data;
-  })
-  .catch(err => console.error("Error fetching: ", err));
-});
+getUrl();
+
+async function getUrl() {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "logs",
+    action: "logurl",
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+    
+    document.getElementById("login-upmail").href = data;
+  } catch (err) {
+    console.error("Error fetching: ", err);
+  }
+}
