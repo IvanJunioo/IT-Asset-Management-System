@@ -4,6 +4,9 @@ USE itam;
 -- Employees
 -- --------------------------------------------------------
 INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
+('iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
+('hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
+('lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active'),
 ('alice@example.com', 'Alice', 'Smith', 'Admin', 'Active'),
 ('bob@example.com', 'Bob', 'Johnson', 'Faculty', 'Active'),
 ('carol@example.com', 'Carol', 'Lee', 'SuperAdmin', 'Active'),
@@ -43,7 +46,7 @@ INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, St
 ('PROP000007','SN000007','PRC00007','2025-12-07','Scanner, A4','New scanner','Unassigned','Document Scanner',150.00,'https://example.com/scanner7'),
 ('PROP000008','SN000008','PRC00008','2025-12-08','Laptop, i5, 8GB RAM, 256GB SSD','Backup laptop','Assigned','Backup Laptop',900.00,'https://example.com/laptop8'),
 ('PROP000009','SN000009','PRC00009','2025-12-09','Monitor, 24 inch','Secondary monitor','Unassigned','Secondary Monitor',200.00,'https://example.com/monitor9'),
-('PROP000010','SN000010','PRC00010','2025-12-10','Projector, 3000 lumens','Backup projector','Unassigned','Backup Projector',600.00,'https://example.com/projector10'),
+('PROP000010','SN000010','PRC00010','2025-12-10','Projector, 3000 lumens','Backup projector','ToCondemn','Backup Projector',600.00,'https://example.com/projector10'),
 ('PROP000011','SN000011','PRC00011','2025-12-11','Laptop, i7, 32GB RAM, 1TB SSD','High-end laptop','Unassigned','High-End Laptop',1800.00,'https://example.com/laptop11'),
 ('PROP000012','SN000012','PRC00012','2025-12-12','Monitor, 32 inch, 4K','Design monitor','Assigned','Design Monitor',500.00,'https://example.com/monitor12'),
 ('PROP000013','SN000013','PRC00013','2025-12-13','Router, 10Gb','Backup router','Unassigned','Backup Router',400.00,'https://example.com/router13'),
@@ -52,8 +55,8 @@ INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, St
 ('PROP000016','SN000016','PRC00016','2025-12-16','Scanner, A3','Large format scanner','Unassigned','Large Scanner',300.00,'https://example.com/scanner16'),
 ('PROP000017','SN000017','PRC00017','2025-12-17','Laptop, i9, 64GB RAM, 2TB SSD','Server laptop','Unassigned','Server Laptop',2500.00,'https://example.com/laptop17'),
 ('PROP000018','SN000018','PRC00018','2025-12-18','Monitor, 34 inch ultrawide','Ultra monitor','Assigned','Ultra Monitor',700.00,'https://example.com/monitor18'),
-('PROP000019','SN000019','PRC00019','2025-12-19','Projector, 5000 lumens','Conference projector','Unassigned','Conference Projector',1200.00,'https://example.com/projector19'),
-('PROP000020','SN000020','PRC00020','2025-12-20','Laptop, i5, 16GB RAM, 512GB SSD','Staff laptop','Assigned','Staff Laptop',1000.00,'https://example.com/laptop20');
+('PROP000019','SN000019','PRC00019','2025-12-19','Projector, 5000 lumens','Conference projector','Condemned','Conference Projector',1200.00,'https://example.com/projector19'),
+('PROP000020','SN000020','PRC00020','2025-12-20','Laptop, i5, 16GB RAM, 512GB SSD','Staff laptop','Condemned','Staff Laptop',1000.00,'https://example.com/laptop20');
 
 -- --------------------------------------------------------
 -- Assignments
@@ -69,10 +72,10 @@ INSERT INTO assignment (PropNum, AssignDateTime, AssignerID, AssigneeID, ReturnD
 -- --------------------------------------------------------
 -- Activity logs
 -- --------------------------------------------------------
-INSERT INTO actlog (Timestamp, ActorID, Message, Metadata) VALUES
-('2026-01-01 09:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000006","assigneeID":1}'),
-('2026-01-02 10:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000008","assigneeID":2}'),
-('2026-01-03 11:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000012","assigneeID":5}'),
-('2026-01-04 14:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000015","assigneeID":6}'),
-('2026-01-05 15:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000018","assigneeID":7}'),
-('2026-01-06 09:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000020","assigneeID":10}');
+INSERT INTO actlog (LogID, Timestamp, ActorID, Message, Metadata) VALUES
+(1,'2026-01-01 09:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000006","assigneeID":1}'),
+(2,'2026-01-02 10:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000008","assigneeID":2}'),
+(3,'2026-01-03 11:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000012","assigneeID":5}'),
+(4,'2026-01-04 14:00:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000015","assigneeID":6}'),
+(5,'2026-01-05 15:00:00',1,'success!','{"action":"assign","object":"asset","propNum":"PROP000018","assigneeID":7}'),
+(6,'2026-01-06 09:30:00',3,'success!','{"action":"assign","object":"asset","propNum":"PROP000020","assigneeID":10}');
