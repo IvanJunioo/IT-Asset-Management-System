@@ -18,7 +18,7 @@
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "/../../src/handlers/add-assignment-form.php" method="post">
+    <form action = "/../../public/api/index.php?resource=assignment&action=assign" method="post">
       <label class="input-label"> 
         Selected Asset(s):
         <p id="asset-list"></p>
@@ -32,7 +32,7 @@
       <label class="input-label"> 
         Assign Date: 
         <input 
-          type="date" 
+          type="datetime-local" 
           id="adate" 
           name="assign-date" 
           placeholder="Enter Assign Date"

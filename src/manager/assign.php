@@ -2,9 +2,9 @@
 
 declare (strict_types=1);
 
-include_once '../repos/asset.php';
-include_once '../repos/assignment.php';
-include_once '../repos/user.php';
+require_once __DIR__ . '/../repos/asset.php';
+require_once __DIR__ . '/../repos/assignment.php';
+require_once __DIR__ . '/../repos/user.php';
 
 interface AssignmentManagerInterface {
   public function assignAsset(

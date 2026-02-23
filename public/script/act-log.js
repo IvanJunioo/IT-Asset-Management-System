@@ -14,10 +14,11 @@ export async function fetchLogs(search = "") {
   const url = new URL(`${window.location.origin}/public/api/index.php`)
   url.search = new URLSearchParams({
     resource: "logs",
+    action: "search",
     search: search,
     page: paginationDiv.dataset.curPage,
     limit: rowsPerPage,
-  }).toString();
+  });
 
   try {
     const resp = await fetch(url);

@@ -1,4 +1,4 @@
-import { editAsset, returnAsset, deleteAsset, assignAssets} from "./asset-router.js";
+import { editAsset, returnAsset, condemnAsset, assignAssets} from "./asset-router.js";
 import {editUser} from './user-router.js';
 
 const leftAsset = document.querySelector(".left-asset");
@@ -64,7 +64,7 @@ document.addEventListener("click", (e) => {
         editAsset(propNum);
         break;
       case "condemn": 
-        if (confirm(`Condemn item ${propNum}?`)) deleteAsset(propNum);
+        if (confirm(`Condemn item ${propNum}?`)) condemnAsset(propNum);
         break;
       case "assign":
         assignAssets([propNum]);
@@ -127,7 +127,7 @@ tableFuncs.addEventListener("click", (e) => {
       if (tr.dataset.status != "ToCondemn"){
         continue;
       }
-      deleteAsset(tr.dataset.propNum);
+      condemnAsset(tr.dataset.propNum);
     }
     return;
   }
@@ -329,6 +329,7 @@ function addActionsButton() {
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     if (tr.dataset.status === "Condemned"){
+      tr.appendChild(actionElem);
       continue;
     }
 

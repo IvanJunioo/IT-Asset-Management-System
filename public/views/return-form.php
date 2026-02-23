@@ -18,7 +18,7 @@
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "/../../src/handlers/return-asset.php" method="post">
+    <form action = "/../../public/api/index.php?resource=assignment&action=return" method="post">
       <label class="input-label"> 
         Asset(s):
         <p id="asset-list"></p>
@@ -39,7 +39,7 @@
       <label class="input-label"> 
         Return Date: 
         <input 
-          type="date" 
+          type="datetime-local" 
           id="adate" 
           name="return-date" 
           placeholder="Enter Return Date" 

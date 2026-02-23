@@ -1,4 +1,58 @@
-function link(privilege, entityClass) {
+const sect = document.getElementById("asset-distribution");
+
+document.getElementById("actlog-table").className = "recent-system-logs";
+
+getDBstats();
+getSessionUser();
+
+async function getDBstats() {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assets",
+    action: "stats",
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+
+    const totalAssetCnt = document.createElement("h2");
+    totalAssetCnt.textContent = data.assetsTotal;
+    sect.querySelector("#total-assets").prepend(totalAssetCnt);
+
+    const availAssetCnt = document.createElement("h2");
+    availAssetCnt.textContent = data.assetsAvail;
+    sect.querySelector("#avail-assets").prepend(availAssetCnt);
+  } catch (err) {
+    console.error("Error fetching: ", err);
+  }
+
+  url.search = new URLSearchParams({
+    resource: "users",
+    action: "stats",
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    const data = await resp.json();
+
+    const totalUserCnt = document.createElement("h2");
+    totalUserCnt.textContent = data.usersTotal;
+    sect.querySelector("#total-users").prepend(totalUserCnt);
+
+    const activeUserCnt = document.createElement("h2");
+    activeUserCnt.textContent = data.usersActive;
+    sect.querySelector("#active-users").prepend(activeUserCnt);
+  } catch (err) {
+    console.error("Error fetching: ", err);
+  }
+}
+
+function linkStat(privilege, entityClass) {
   const isAdmin = privilege === "SuperAdmin" || privilege === "Admin";
   
   const routes = {
@@ -9,47 +63,25 @@ function link(privilege, entityClass) {
   return routes[entityClass] || "";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("actlog-table").className = "recent-system-logs";
+async function getSessionUser() {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "users",
+    action: "session",
+  }); 
 
-  const sect = document.getElementById("asset-distribution");
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
-  fetch(`${window.location.origin}/src/handlers/dashboard.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  })
-  .then(res => res.json())
-  .then(data => {
-    const totalAssetCnt = document.createElement("h2");
-    totalAssetCnt.textContent = data.assetsTotal;
-    sect.querySelector("#total-assets").prepend(totalAssetCnt);
+    const data = await resp.json();
 
-    const availAssetCnt = document.createElement("h2");
-    availAssetCnt.textContent = data.assetsAvail;
-    sect.querySelector("#avail-assets").prepend(availAssetCnt);
-        
-    const totalUserCnt = document.createElement("h2");
-    totalUserCnt.textContent = data.usersTotal;
-    sect.querySelector("#total-users").prepend(totalUserCnt);
-
-    const activeUserCnt = document.createElement("h2");
-    activeUserCnt.textContent = data.usersActive;
-    sect.querySelector("#active-users").prepend(activeUserCnt);
-        
-  })
-  .catch(err => console.error("Error fetching: ", err));
-
-  fetch(`${window.location.origin}/src/handlers/user-info.php`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  })
-  .then(res => res.json())
-  .then(data => {
     sessionStorage.setItem("user-info", JSON.stringify(data));
-    sect.querySelector("#total-assets").href = link(data["privilege"], "asset");
-    sect.querySelector("#avail-assets").href = link(data["privilege"], "asset");
-    sect.querySelector("#total-users").href = link(data["privilege"], "user");
-    sect.querySelector("#active-users").href = link(data["privilege"], "user");
-  })
-  .catch(err => console.error("Error fetching: ", err));
-});
+    sect.querySelector("#total-assets").href = linkStat(data["Privilege"], "asset");
+    sect.querySelector("#avail-assets").href = linkStat(data["Privilege"], "asset");
+    sect.querySelector("#total-users").href = linkStat(data["Privilege"], "user");
+    sect.querySelector("#active-users").href = linkStat(data["Privilege"], "user");
+  } catch (err) {
+    console.error("Error fetching: ", err);
+  }
+}

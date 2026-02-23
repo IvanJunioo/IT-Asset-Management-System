@@ -28,13 +28,23 @@
         </div>
 
         <div id="user-panel">
-            <span id="username"> 
-              <?= htmlspecialchars("{$userLName}, {$userFName}") ?>
-            </span>
-            <span id="user-role">
-              <?= htmlspecialchars($privilege) ?>
-            </span>
-            <a id="logout" href="/../../src/handlers/logout.php"> Sign Out </a>
+            <span id="username"></span>
+            <span id="user-role"></span>
+            <a id="logout"> Sign Out </a>
         </div>
     </section>
 </div>
+
+<script type="module" defer>
+  const userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+  document.getElementById("username").textContent = `${userInfo.LName}, ${userInfo.FName}`;
+  document.getElementById("user-role").textContent = userInfo.Privilege;
+
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "logs",
+    action: "logout",
+  });
+
+  document.getElementById("logout").href = url.href;
+</script>

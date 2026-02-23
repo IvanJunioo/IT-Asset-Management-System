@@ -5,7 +5,7 @@ declare (strict_types=1);
 require_once __DIR__ . '/../model/user.php';
 
 interface UserRepoInterface {
-  public function identify(?int $empID): User;
+  public function identify(int $empID): User;
   public function search(UserSearchCriteria $criteria): array;
   public function count(UserSearchCriteria $criteria): int;
   public function getContacts(int $empID): array;
@@ -20,7 +20,7 @@ final class UserRepo implements UserRepoInterface {
     public readonly PDO $pdo,
   ) {}
 
-  public function identify(?int $empID): User {
+  public function identify(int $empID): User {
     $users = $this->search(new UserSearchCriteria(empID: $empID));
     if (count($users) == 0) throw new Exception("User not found!");
     return $users[0];

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } 
 
   const form = document.querySelector("form");
-  form.action = `${window.location.origin}/src/handlers/add-asset-form.php`;
+  form.action = `${window.location.origin}/public/api/index.php?resource=assets&action=add`;
   form.method = "post";
 
   // Hide toCondemn radio button
