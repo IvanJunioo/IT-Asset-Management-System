@@ -1,12 +1,13 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/user.php';
+require_once __DIR__ . '/../repos/assignment.php';
 require_once __DIR__ . '/../manager/logger.php';
 
 final class UserHandler {
   public function __construct(
-    private readonly ActLogRepoInterface $logRepo,
     private readonly UserRepoInterface $userRepo,
+    private readonly AssignmentRepo $assignRepo,
   ) {}
 
   public function getUser(int $empID): User {
@@ -32,11 +33,18 @@ final class UserHandler {
     $status = $status !== ""? explode(',', $status) : null;
     $privilege = $privilege !== ""? array_map("UserPrivilege::from", explode(',', $privilege)) : null;
 
-    return array_values(array_map("unserialize", array_unique(array_map("serialize", [
+    $users = [];
+    foreach (array_values(array_map("unserialize", array_unique(array_map("serialize", [
       ...$this->userRepo->search(new UserSearchCriteria(fullname: new Fullname(first: $search), isActive: $status, privileges: $privilege)),
       ...$this->userRepo->search(new UserSearchCriteria(fullname: new Fullname(last: $search), isActive: $status, privileges: $privilege)),
       ...$this->userRepo->search(new UserSearchCriteria(email: $search, isActive: $status, privileges: $privilege)),
-    ]))));
+    ])))) as $user) {
+      $users[] = [
+        ...$user->jsonSerialize(),
+        "assignments" => array_map(fn($asset) => $asset->propNum, $this->assignRepo->getAssignedAssets($user)),
+      ];
+    }
+    return $users;
   }
 
   public function addUser(User $user): void {

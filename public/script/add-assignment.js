@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fillForm(assets, user) {
     document.getElementById('asset-list').textContent = `Property No's: ${assets}`;
-		document.getElementById("chosen-user").textContent = `${user.fName} ${user.lName}`;
+		document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
 
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.createElement("input");
     input.type = "hidden";
     input.name = "user";
-    input.value = user.empID;
+    input.value = user.EmpID;
     form.appendChild(input);      
   }
 });

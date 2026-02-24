@@ -1,3 +1,4 @@
+import { tableData } from "./user-table.js";
 import { editUser, modifyUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
@@ -51,7 +52,7 @@ document.addEventListener("click", (e) => {
   const menuBtn = e.target.closest(".menu-item[data-action]");
   if (menuBtn) {
     const tr = menuBtn.closest("tr");
-    const empid = tr.dataset.empID;
+    const empid = tr.dataset.empid;
 
     switch (menuBtn.dataset.action) {
       case "modify":
@@ -75,7 +76,7 @@ document.addEventListener("click", (e) => {
       alert('Select a user first to get their assets');
       return;
     }
-    let users = [...selectedRows].map(tr => tr.dataset.empID);
+    let users = [...tableData.keys()];
     const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
     window.location.href = url;
   }
@@ -92,7 +93,7 @@ tableFuncs.addEventListener("click", (e) => {
 
   if (e.target.closest(".table-fn")) {
     const btn = e.target.closest(".table-fn");
-    for (const tr of selectedRows) modifyUser(tr.dataset.empID, btn.value);
+    for (const tr of selectedRows) modifyUser(tr.dataset.empid, btn.value);
   }
 });
 
@@ -264,10 +265,10 @@ function addUserAdd() {
 
 function updateTableFuncs() {
   const actBtn = tableFuncs.querySelector('button[name="activate"]');
-  actBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Inactive")? "flex" : "none";
+  actBtn.style.display = [...selectedRows].every(tr => tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Inactive")? "flex" : "none";
 
   const deactBtn = tableFuncs.querySelector('button[name="deactivate"]');
-  deactBtn.style.display = [...selectedRows].every(tr => tr.dataset.activeStatus === "Active" && tr.dataset.empID !== JSON.parse(sessionStorage.getItem("user-info")).empID)? "flex" : "none";
+  deactBtn.style.display = [...selectedRows].every(tr => tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" && tableData.get(Number(tr.dataset.empid)).EmpID !== JSON.parse(sessionStorage.getItem("user-info")).EmpID)? "flex" : "none";
 }
 
 function updateSelectedRows() {

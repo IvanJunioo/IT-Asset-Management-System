@@ -1,3 +1,4 @@
+import { tableData } from "./asset-table.js";
 import { editAsset, returnAsset, condemnAsset, assignAssets} from "./asset-router.js";
 import {editUser} from './user-router.js';
 
@@ -124,7 +125,7 @@ tableFuncs.addEventListener("click", (e) => {
     if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
     
     for (const tr of selectedRows) {
-      if (tr.dataset.status != "ToCondemn"){
+      if (tableData.get(tr.dataset.propNum).Status !== "ToCondemn"){
         continue;
       }
       condemnAsset(tr.dataset.propNum);
@@ -150,7 +151,7 @@ tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = assetTableBody.querySelectorAll("tr");
     const activeRows = [...rows].filter(
-      tr => tr.dataset.status !== "Condemned"
+      tr => tableData.get(tr.dataset.propNum).Status !== "Condemned"
     );
 
     if (selectedRows.size === activeRows.length) {
@@ -181,7 +182,7 @@ tableContainer.addEventListener("click", (e) => {
     if (!tr) return;
 
     if (a.dataset.type === "assignee") {
-      editUser(tr.dataset.assignedTo);
+      editUser(tableData.get(tr.dataset.propNum).AssignedTo);
     }
     return;
   }
@@ -189,7 +190,7 @@ tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("tr") && inMultiSelect) {
     const tr = e.target.closest("tr");
     if (!tr.closest("tbody")) return;
-    if (tr.dataset.status === "Condemned") return;
+    if (tableData.get(tr.dataset.propNum).Status === "Condemned") return;
     if (selectedRows.has(tr)) {
       deselectRow(tr);
     } else {
@@ -284,7 +285,7 @@ function addSelectAll() {
 
 function addCheckboxes() {
   for (const tr of assetTableBody.querySelectorAll("tr")) {
-    if (tr.dataset.status === "Condemned"){
+    if (tableData.get(tr.dataset.propNum).Status === "Condemned"){
       continue;
     }
 
@@ -334,9 +335,9 @@ function addActionsButton() {
     actionMenu.className = "action-menu";
     Object.entries({
       "modify": "Modify",
-      ...(tr.dataset.status === "ToCondemn" && {"condemn": "Condemn"}), // adds only if satisfied
-      ...(tr.dataset.status === "Assigned" && {"return": "Return"}),
-      ...(tr.dataset.status === "Unassigned" && {"assign": "Assign"}),
+      ...(tableData.get(tr.dataset.propNum).Status === "ToCondemn" && {"condemn": "Condemn"}), // adds only if satisfied
+      ...(tableData.get(tr.dataset.propNum).Status === "Assigned" && {"return": "Return"}),
+      ...(tableData.get(tr.dataset.propNum).Status === "Unassigned" && {"assign": "Assign"}),
     }).forEach(([action, label]) => {
       const a = document.createElement("a");
       a.className = "menu-item";
@@ -346,7 +347,7 @@ function addActionsButton() {
     });
     
     const actionTd = document.createElement("td");
-    if (tr.dataset.status !== "Condemned") {
+    if (tableData.get(tr.dataset.propNum).Status !== "Condemned") {
       actionTd.appendChild(actionBtn);
       actionTd.appendChild(actionMenu);
     }
@@ -399,13 +400,13 @@ function updateTableButtons() {
   const tableFuncs = leftAsset.querySelector(".table-func");
 
   const assignButton = tableFuncs.querySelector("#assign");
-  assignButton.style.display = [...selectedRows].every(tr => tr.dataset.status === "Unassigned")? "flex" : "none";
+  assignButton.style.display = [...selectedRows].every(tr => tableData.get(tr.dataset.propNum).Status === "Unassigned")? "flex" : "none";
 
   const returnButton = tableFuncs.querySelector("#return");
-  returnButton.style.display = [...selectedRows].every(tr => tr.dataset.status === "Assigned")? "flex" : "none";
+  returnButton.style.display = [...selectedRows].every(tr => tableData.get(tr.dataset.propNum).Status === "Assigned")? "flex" : "none";
 
   const deleteButton = tableFuncs.querySelector("#delete");
-  deleteButton.style.display = [...selectedRows].every(tr => tr.dataset.status === "ToCondemn")?"flex" : "none";
+  deleteButton.style.display = [...selectedRows].every(tr => tableData.get(tr.dataset.propNum).Status === "ToCondemn")?"flex" : "none";
 }
 
 function updateSelectedRows() {
