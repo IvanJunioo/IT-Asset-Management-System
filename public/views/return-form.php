@@ -19,12 +19,13 @@
 
   <main class="assign-asset-form">
     <form action = "/../../public/api/index.php?resource=assignment&action=return" method="post">
-      <label class="input-label"> 
-        Asset(s):
+      <h2>Return Asset(s)</h2>
+      <hr>
+      <div class="input-label"> 
+        <b>Selected Asset(s):</b>
         <p id="asset-list"></p>
-      </label>
+      </div>
       
-
 			<label class="input-label"> 
         Remarks: 
         <textarea 
@@ -37,7 +38,7 @@
       </label>
 
       <label class="input-label"> 
-        Return Date: 
+        Datetime:
         <input 
           type="datetime-local" 
           id="adate" 
@@ -58,8 +59,10 @@
   </main>
 
   <script>
-    const date = new Date();
-    const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    const today = `${now.getFullYear().toString()}-${(now.getMonth() + 1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')}`;
+    document.getElementById("adate").value = now.toISOString().slice(0, 16);
     document.getElementById('adate').setAttribute('max', today);
   </script>
   <script src="/../../public/script/edit-assignment.js" type="module" defer> </script>

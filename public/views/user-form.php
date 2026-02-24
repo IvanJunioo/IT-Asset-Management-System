@@ -31,7 +31,7 @@
       type="email" 
       id="e" 
       name="email" 
-      placeholder="Enter UP Mail" 
+      placeholder="user@up.edu.ph" 
       maxlength="50" 
       size="30" 
       required

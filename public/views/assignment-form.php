@@ -19,18 +19,20 @@
 
   <main class="assign-asset-form">
     <form action = "/../../public/api/index.php?resource=assignment&action=assign" method="post">
-      <label class="input-label"> 
-        Selected Asset(s):
+      <h2>Assign Asset(s)</h2>
+      <hr>
+      <div class="input-label"> 
+        <b>Selected Asset(s):</b>
         <p id="asset-list"></p>
-      </label>
+      </div>
       
-      <label class="input-label"> 
-        Selected User: 
+      <div class="input-label"> 
+        <b>Selected User:</b>
         <p id="chosen-user" name = 'user'></p>
-      </label>
+      </div>
 
       <label class="input-label"> 
-        Assign Date: 
+        Datetime: 
         <input 
           type="datetime-local" 
           id="adate" 

@@ -8,9 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   fillForm(assetsToAssign, userAssigned);
 
   function fillForm(assets, user) {
-    const p_asset = assetForm.querySelector('#asset-list');
-		assetForm.querySelector("#chosen-user").textContent = `EmpID: ${user}`;
-		p_asset.textContent = `PropNum(s): ${assets}`;
+    document.getElementById('asset-list').textContent = `Property No's: ${assets}`;
+		document.getElementById("chosen-user").textContent = `${user.fName} ${user.lName}`;
+
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById("adate").value = now.toISOString().slice(0, 16);
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");
@@ -24,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.createElement("input");
     input.type = "hidden";
     input.name = "user";
-    input.value = user;
+    input.value = user.empID;
     form.appendChild(input);      
   }
 });

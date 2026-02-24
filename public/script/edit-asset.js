@@ -61,10 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   
-  const resetBtn = document.querySelector("#reset-button");
+  const resetBtn = document.getElementById("reset-button");
   resetBtn?.addEventListener("click", (_) => {
     fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
-    document.querySelector("#remarks").value = "";
+    document.getElementById("remarks").value = "";
   })
 });
 		

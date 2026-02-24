@@ -238,9 +238,9 @@ function setInMulSel(val) {
     document.querySelectorAll("#select-all").forEach(btn => btn.remove());
     
     // Remove extra table funcs
-    document.querySelector("#assign")?.remove();
-    document.querySelector("#delete")?.remove();
-    document.querySelector("#return")?.remove();
+    document.getElementById("assign")?.remove();
+    document.getElementById("delete")?.remove();
+    document.getElementById("return")?.remove();
   
     // Reset tracking
     selectedRows.clear();

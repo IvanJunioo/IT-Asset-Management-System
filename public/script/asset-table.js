@@ -41,7 +41,7 @@ document.addEventListener("click", (e) => {
   const sortBtn = e.target.closest("#sort-by");
   if (sortBtn) {
     e.stopPropagation();
-    const menu = document.querySelector("#sort-menu");
+    const menu = document.getElementById("sort-menu");
     const isVisible = menu.style.display === "flex";
 
     document.querySelectorAll(".sort-menu").forEach(m => m.style.display = "none");

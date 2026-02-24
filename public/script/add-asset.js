@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   pdate.value = today;
 
   // Add "+" button
-  const table = document.querySelector("#unique-asset-attr");
+  const table = document.getElementById("unique-asset-attr");
   const head = table.querySelector("thead").querySelector("tr");
   const body = table.querySelector("#input-row");
 

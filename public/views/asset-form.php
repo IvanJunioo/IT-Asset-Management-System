@@ -18,7 +18,7 @@
       <tr>
         <th>Property Number</th>
         <th>Serial Number</th>
-        <th>Img URL</th>
+        <th>Image URL</th>
       </tr>
     </thead>
     <tbody>
@@ -50,7 +50,7 @@
             type="url" 
             id="img_url" 
             name="img-url" 
-            placeholder="Enter Img URL" 
+            placeholder="https://example.com" 
             required
           >
         </td>
