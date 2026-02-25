@@ -3,7 +3,7 @@
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
 
-  $REQUIRED_ROLES = ["Faculty", "Admin", "SuperAdmin", "Staff"];
+  $REQUIRED_ROLES = ["Faculty", "Staff", "Admin", "SuperAdmin"];
   if (!defined('BASE_URL')) {
     require_once __DIR__ . '/../../config/config.php';
   }
@@ -23,7 +23,7 @@
     
   <main class="dashboard">
       <h1 class="dashboard-title">
-        <?= htmlspecialchars("Hello, $privilege!") ?>
+        <?= htmlspecialchars("Hello, $name!") ?>
       </h1>
 
       <hr>

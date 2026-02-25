@@ -5,7 +5,7 @@ const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 const searchInput = document.getElementById("search-input");
-const filterBox = document.getElementById("filter-box");
+const filterBox = document.getElementsByClassName("filter-box");
 const exportButton = document.getElementById("export");
 
 export let tableData = new Map();
@@ -82,11 +82,15 @@ document.addEventListener("click", (e) => {
 
 searchInput.addEventListener("input", fetchAssets)
 
-filterBox.querySelector(".body-filter").addEventListener("change", fetchAssets);
+document.querySelectorAll(".filter-box .body-filter").forEach(box => {
+  box.addEventListener("change", fetchAssets);
+});
 
-filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
-  filterBox.querySelectorAll("input[name='status']").forEach(cb => cb.checked = false);
-  fetchAssets();
+document.querySelectorAll(".apply-filter").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
+    fetchAssets();
+  });
 });
 
 exportButton.addEventListener("click", () => {
@@ -107,7 +111,9 @@ assetTableBody.addEventListener("click", (e) => {
 async function fetchAssets() {    
   const fetchID = ++latest;
   const searchFilters = searchInput.value;
-  const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
+  const statusFilters = [...new Set(
+  [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
+)];
   
   const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
