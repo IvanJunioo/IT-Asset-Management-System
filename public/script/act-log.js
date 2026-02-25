@@ -5,6 +5,8 @@ const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
 const paginationDiv = document.getElementById("pagination"); 
 
+export let tableData = new Map();
+let totalLogs = 0;
 let latest = 0; // latest fetch id to avoid race conditions
 const rowsPerPage = 10;
 
@@ -25,32 +27,37 @@ export async function fetchLogs(search = "") {
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
     const data = await resp.json();
+    tableData = new Map(data["logs"].map(log => [log.LogID, log]));
+    totalLogs = Number(data["count"]);
     
     if (fetchID !== latest) return;
-    showLogs(data);
+    showLogs();
   } catch (err) {
     console.error("Error fetching system logs: ", err);
   }
 }
 
-function showLogs(data) {
+function showLogs() {
   tbody.innerHTML = "";
 
-  for (const log of data["logs"]) {
+  for (const [_, log] of tableData) {
     const tr = document.createElement("tr");
     
     const metadata = JSON.parse(log.Metadata);
 
     const objID = {
       "asset": metadata["propNum"],
+      "user": metadata["empID"],
+    }[metadata["object"]];
+
+    const objName = {
+      "asset": metadata["propNum"],
       "user": log.objName,
     }[metadata["object"]];
 
-    // Store data to row
-    tr.dataset.time = log.Timestamp;
-    tr.dataset.actorid = log.ActorID;
+    // Store id
+    tr.dataset.logid = log.LogID;
     tr.dataset.objid = objID;
-    tr.dataset.object = metadata["object"];
 
     const action = {
       "modify": "modified",
@@ -60,7 +67,7 @@ function showLogs(data) {
     for (const col of [
       log.Timestamp,
       `<a data-type="actor">${log.FName} ${log.LName}</a>`,
-      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objID}</a>`,
+      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objName}</a>`,
     ]) {
       const td = document.createElement("td");
       td.innerHTML = col;
@@ -71,7 +78,7 @@ function showLogs(data) {
   }
 
   const curPage = Number(paginationDiv.dataset.curPage);
-  const totalPage = Math.ceil(data["count"] / rowsPerPage);
+  const totalPage = Math.ceil(totalLogs / rowsPerPage);
   paginationDiv.dataset.totalPage = totalPage;
   document.getElementById("prev").disabled = curPage === 1 || totalPage === 0;
   document.getElementById("next").disabled = curPage === totalPage || totalPage === 0;
@@ -93,13 +100,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switch (a.dataset.type) {
       case "actor":
-        editUser(tr.dataset.actorid);
+        editUser(tableData.get(Number(tr.dataset.logid)).ActorID);
         break;
       case "asset":
         viewAsset(tr.dataset.objid);
         break;
       case "user":
-        editUser(tr.dataset.objid)
+        editUser(Number(tr.dataset.objid))
         break;
       default:
         console.warn(`Unknown object type: ${a.dataset.type}`);

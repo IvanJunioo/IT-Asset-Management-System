@@ -5,9 +5,10 @@ const userTableBody = userTable.querySelector("tbody");
 const searchInput = document.getElementById("search-input");
 const filterBox = document.getElementsByClassName("filter-box");
 
+export let tableData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
-let currentSortKey = "lName"; // track which column is sorted
-let sortOrder = "asc"; 
+let currentSortKey = "LName"; // track which column is sorted
+let sortOrder = "asc";
 
 fetchUsers();
 
@@ -23,9 +24,9 @@ tableFuncs.innerHTML = `
     Sort by
   </button>
   <div id="sort-menu" class="sort-menu">
-    <a class="menu-item" data-sort="empMail">Email</a>
-    <a class="menu-item" data-sort="fName">First Name</a>
-    <a class="menu-item" data-sort="lName">Last Name</a>
+    <a class="menu-item" data-sort="EmpMail">Email</a>
+    <a class="menu-item" data-sort="FName">First Name</a>
+    <a class="menu-item" data-sort="LName">Last Name</a>
   </div>
 `;
 leftUser.insertBefore(tableFuncs, tableContainer);
@@ -108,20 +109,21 @@ async function fetchUsers() {
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
     const data = await resp.json();
-
+    tableData = new Map(data.map(user => [user.EmpID, user]));
+    
     if (fetchID !== latest) return;
-    showUsers(data);
+    showUsers();
   } catch (err) {
     console.error("Error fetching users: ", err);
   }
 }
 
-function showUsers(users) {
+function showUsers() {
   for (const tableFunc of tableFuncs.querySelectorAll("button")) {
-    tableFunc.disabled = users.length <= 0;
+    tableFunc.disabled = tableData.size <= 0;
   }
 
-  if (users.length <= 0) {
+  if (tableData.size <= 0) {
     userTableBody.innerHTML = `
       <tr>
         <td colSpan="${userTable.querySelector("thead tr").children.length}"> No users to display. </td>
@@ -132,16 +134,11 @@ function showUsers(users) {
 
   userTableBody.innerHTML = "";
   
-  for (const user of users) {
+  for (const [_, user] of tableData) {
     const tr = document.createElement('tr');
 
-    // store user data locally
-    tr.dataset.empID = user.EmpID;
-    tr.dataset.empMail = user.EmpMail;
-    tr.dataset.fName = user.FName;
-    tr.dataset.lName = user.LName;
-    tr.dataset.privilege = user.Privilege;
-    tr.dataset.activeStatus = user.ActiveStatus;
+    // store identifier
+    tr.dataset.empid = user.EmpID;
 
     for (const col of [
       user.EmpMail,
@@ -163,10 +160,10 @@ function showUsers(users) {
 }
 
 function sortUsers() {
-  const rows = Array.from(userTableBody.querySelectorAll("tr"));
+  const rows = [...userTableBody.querySelectorAll("tr")];
   rows.sort((a, b) => {
-    let valA = a.dataset[currentSortKey] || "";
-    let valB = b.dataset[currentSortKey] || "";
+    let valA = tableData.get(Number(a.dataset.empid))[currentSortKey] || "";
+    let valB = tableData.get(Number(b.dataset.empid))[currentSortKey] || "";
 
     valA = valA ? valA.toLowerCase() : ""; 
     valB = valB ? valB.toLowerCase() : "";
@@ -174,6 +171,5 @@ function sortUsers() {
     if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     return 0;
   });
-
-  rows.forEach(tr => userTableBody.appendChild(tr));
+  for (const tr of rows) userTableBody.appendChild(tr);
 }

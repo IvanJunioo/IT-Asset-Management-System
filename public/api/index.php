@@ -16,8 +16,8 @@ $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
 switch ($_GET["resource"]) {
   case 'users':
     $handler = new UserHandler(
-      logRepo: new ActLogRepo($pdo),
       userRepo: new UserRepo($pdo),
+      assignRepo: new AssignmentRepo($pdo),
     );
 
     switch ($_GET["action"]) {

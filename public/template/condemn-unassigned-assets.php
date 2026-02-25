@@ -30,7 +30,7 @@
         </tbody>
       </table>
       <?php else: ?>
-        <span class="empty"> No <?= htmlspecialchars(strtolower($statusName)) ?> assets</span>
+        <p class="empty"> No <?= htmlspecialchars(strtolower($statusName)) ?> assets</p>
       <?php endif; ?>
     </div>
   </body>

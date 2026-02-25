@@ -6,6 +6,7 @@
 <body>
     <h1>Assets Currently Assigned</h1>
     <div class="asset-container">
+      <?php if (!empty($assets)): ?>
         <table>
           <thead>
             <tr>
@@ -35,6 +36,9 @@
             <?php endforeach; ?>
           </tbody>
       </table>
+      <?php else: ?>
+        <p class="empty"> No assets assigned</p>
+      <?php endif; ?>
     </div>
   </body>
 </html>
