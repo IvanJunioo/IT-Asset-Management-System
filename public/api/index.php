@@ -233,7 +233,11 @@ switch ($_GET["resource"]) {
     exit;
 
   case "export":
-    $handler = new ExportHandler($pdo);
+    $handler = new ExportHandler(
+      userRepo: new UserRepo($pdo),
+      assetRepo: new AssetRepo($pdo),
+      assignRepo: new AssignmentRepo($pdo)
+    );
 
     switch ($_GET["action"] ?? "") {
       case "status":
