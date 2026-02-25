@@ -9,7 +9,9 @@ use Dompdf\Dompdf;
 final class ExportHandler
 {
     public function __construct(
-        private readonly PDO $pdo
+        private readonly UserRepo $userRepo,
+        private readonly AssetRepo $assetRepo,
+        private readonly AssignmentRepo $assignRepo
     ) {}
 
     private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
@@ -46,7 +48,7 @@ final class ExportHandler
 
     public function exportAssetsByStatus(?string $statusName): void
     {
-        $repo = new AssetRepo($this->pdo);
+        $repo = $this->assetRepo;
         $status = null;
 
         if (!empty($statusName)) {
@@ -78,8 +80,8 @@ final class ExportHandler
     {
         session_start();
 
-        $userRepo = new UserRepo($this->pdo);
-        $assignRepo = new AssignmentRepo($this->pdo);
+        $userRepo = $this->userRepo;
+        $assignRepo = $this->assignRepo;
 
         $user = $userRepo->identify($_SESSION['user_id']);
 
@@ -111,8 +113,8 @@ final class ExportHandler
 
     public function exportFacultyAssignedAssets(?string $usersParam): void
     {
-        $userRepo = new UserRepo($this->pdo);
-        $assignRepo = new AssignmentRepo($this->pdo);
+        $userRepo = $this->userRepo;
+        $assignRepo = $this->assignRepo;
 
         $usersID = [];
 
@@ -160,8 +162,8 @@ final class ExportHandler
 
     public function exportMultipleFiles(string $usersParam): void
     {
-        $userRepo = new UserRepo($this->pdo);
-        $assignRepo = new AssignmentRepo($this->pdo);
+        $userRepo = $this->userRepo;
+        $assignRepo = $this->assignRepo;
         $usersID = array_filter(explode(",", $usersParam));
         $tempDir = __DIR__ . "/../../storage/exports/";
 
