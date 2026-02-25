@@ -79,7 +79,7 @@ document.querySelectorAll(".filter-box .body-filter").forEach(box => {
   box.addEventListener("change", fetchUsers);
 });
 
-document.getElementById("apply-filter").addEventListener("click", () => {
+document.querySelector(".apply-filter").addEventListener("click", () => {
   document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
   fetchUsers();
 });
@@ -145,7 +145,7 @@ function showUsers() {
       user.FName,
       user.LName,
       user.Privilege,
-      `<span class="badge ${user.ActiveStatus.toLowerCase()}">${user.ActiveStatus}</span>`,
+      `<span class="badge ${user.ActiveStatus.toLowerCase()}">${user.ActiveStatus}</span>`
     ]) {
       const td = document.createElement("td");
       td.innerHTML = col;

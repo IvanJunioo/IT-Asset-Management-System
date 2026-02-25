@@ -13,6 +13,7 @@ let selectedRows = new Set();
 let inMultiSelect = false;
 
 addTableFuncs();
+addActionsButton();
 
 // Immediately add table header for actions column
 const hr = userTable.querySelector("thead tr");
@@ -58,6 +59,10 @@ document.addEventListener("click", (e) => {
       case "modify":
         editUser(empid);
         break;
+      case "get-report":
+        let user = [tableData[empid]];
+        generateReport(user);
+        break;
       // case "deactivate": 
       //   if (confirm(`Deactivate user ${empid}?`)) deactivateUser(empid);
       //   break;
@@ -77,8 +82,7 @@ document.addEventListener("click", (e) => {
       return;
     }
     let users = [...tableData.keys()];
-    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
-    window.location.href = url;
+    generateReport(users);
   }
 });
 
@@ -124,14 +128,14 @@ tableContainer.addEventListener("click", (e) => {
   }
 });
 
-userTableBody.addEventListener("usersLoaded", () => {
-  addActionsButton();
+// userTableBody.addEventListener("usersLoaded", () => {
+//   addActionsButton();
 
-  if (inMultiSelect) {
-    updateSelectedRows();
-    addCheckboxes();
-  } 
-});
+//   if (inMultiSelect) {
+//     updateSelectedRows();
+//     addCheckboxes();
+//   } 
+// });
 
 // ----- FUNCTION DEFINITIONS -----
 function selectRow(tr) {
@@ -211,22 +215,10 @@ function addCheckboxes() {
   }
 }
 
-// function addReportButton(){
-//   const rightUser = document.querySelector(".right-user");
-//   const reportBtn = document.getElementById("report");
-
-//   if (selectedRows.size > 0){
-//     if (!reportBtn){
-//       const reportBtn = document.createElement("button");
-//       reportBtn.id = "report";
-//       reportBtn.className = "generate";
-//       reportBtn.textContent = "Get Assigned Assets";
-//       rightUser.appendChild(reportBtn)
-//     }
-//   } else {
-//     reportBtn?.remove();
-//   }
-// }
+function generateReport(users) {
+  const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
+  window.location.href = url;
+}
 
 function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
@@ -243,6 +235,10 @@ function addActionsButton() {
       
       <div class="action-menu">
         <a class="menu-item" data-action="modify">Modify</a>
+      </div>
+
+      <div class="action-menu">
+        <a class="menu-item" data-action="get-report">Get Assets</a>
       </div>
     `;
     tr.appendChild(actionElem);
