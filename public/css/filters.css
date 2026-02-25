@@ -1,4 +1,4 @@
-#filter-box {
+.filter-box {
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
   flex-direction: column;
 }
 
-#apply-filter, .generate {
+.apply-filter, .generate {
   width: 50%;
   max-width: 300px;
   height: 3rem;
@@ -43,7 +43,7 @@
   background-color: var(--primary-color);
 }
 
-#apply-filter {
+.apply-filter {
   background-color: var(--primary-green);
 }
 
@@ -51,11 +51,11 @@
   background-color: rgb(69, 0, 0);
 }
 
-#apply-filter:hover {
+.apply-filter:hover {
   background-color: #24643f;
 }
 
-#apply-filter {
+.apply-filter {
   height: 3rem;
   padding: 0 1.5rem;
   border-radius: 1rem;
@@ -67,3 +67,27 @@
   transition: background-color 0.2s ease;
 }
 
+#filter-box-inline {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  #filter-box-inline {
+    width: 80%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1pt solid black;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: var(--beige);
+    gap: 1rem;
+  }
+
+  #filter-box-reg {
+    display: none;
+  }
+}

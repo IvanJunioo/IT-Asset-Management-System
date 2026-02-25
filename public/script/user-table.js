@@ -3,7 +3,7 @@ const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 const searchInput = document.getElementById("search-input");
-const filterBox = document.getElementById("filter-box");
+const filterBox = document.getElementsByClassName("filter-box");
 
 let latest = 0; // latest fetch id to avoid race conditions
 let currentSortKey = "lName"; // track which column is sorted
@@ -74,10 +74,12 @@ searchInput.addEventListener("input", () => {
   fetchUsers();
 });
 
-filterBox.addEventListener("change", fetchUsers);
+document.querySelectorAll(".filter-box .body-filter").forEach(box => {
+  box.addEventListener("change", fetchUsers);
+});
 
-filterBox.querySelector("button[id='apply-filter']").addEventListener("click", () => {
-  filterBox.querySelectorAll('input').forEach(cb => cb.checked = false);
+document.getElementById("apply-filter").addEventListener("click", () => {
+  document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
   fetchUsers();
 });
 
@@ -85,8 +87,12 @@ filterBox.querySelector("button[id='apply-filter']").addEventListener("click", (
 async function fetchUsers() {
   const fetchID = ++latest;
   const searchFilters = searchInput.value;
-  const privFilters = [...filterBox.querySelectorAll("input[name='privilege']:checked")].map(cb => cb.value);
-  const statusFilters = [...filterBox.querySelectorAll("input[name='status']:checked")].map(cb => cb.value);
+  const privFilters = [...new Set(
+  [...document.querySelectorAll(".filter-box input[name='privilege']:checked")].map(cb => cb.value)
+)];
+  const statusFilters = [...new Set(
+  [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
+)];
 
   const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
