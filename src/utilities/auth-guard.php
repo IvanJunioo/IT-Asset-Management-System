@@ -13,11 +13,11 @@ $privilege = $privilege == "SuperAdmin" ? "Super Admin" : $privilege;
 $navItems = [
     'Dashboard' => [
         'url' => BASE_URL . 'public/views/dashboard.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff'],
     ],
     'Assets' => [
         'url' => BASE_URL . 'public/views/assets.php',
-        'roles' => ['Faculty']
+        'roles' => ['Faculty', 'Staff']
     ],
     'Manage Assets' => [
         'url' => BASE_URL . 'public/views/asset-manager.php',
@@ -33,7 +33,7 @@ $navItems = [
     ],
     'System Activities' => [
         'url' => BASE_URL . 'public/views/activity-log.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty']
+        'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff']
     ]
 ];
 
