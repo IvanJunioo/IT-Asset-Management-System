@@ -4,10 +4,12 @@ require_once __DIR__ . '/../../src/handlers/syslog.php';
 require_once __DIR__ . '/../../src/handlers/asset.php';
 require_once __DIR__ . '/../../src/handlers/assignment.php';
 require_once __DIR__ . '/../../src/handlers/user.php';
+require_once __DIR__ . '/../../src/handlers/export.php';
 require_once __DIR__ . '/../../src/repos/actlog.php';
 require_once __DIR__ . '/../../src/repos/asset.php';
 require_once __DIR__ . '/../../src/repos/assignment.php';
 require_once __DIR__ . '/../../src/repos/user.php';
+
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -229,6 +231,27 @@ switch ($_GET["resource"]) {
         echo json_encode(["error" => "Handler action unknown"]);
     }
     exit;
+
+  case "export":
+    $handler = new ExportHandler($pdo);
+
+    switch ($_GET["action"] ?? "") {
+      case "status":
+      $handler->exportAssetsByStatus($_GET["status"] ?? null);
+      exit;
+
+      case "user-assets":
+        $handler->exportUserAssignedAssets($_GET["user"] ?? null);
+        exit;
+
+      case "faculty-assets":
+        $handler->exportFacultyAssignedAssets($_GET["users"] ?? null);
+        exit;
+
+      default:
+        http_response_code(404);
+        echo json_encode(["error" => "Handler action unknown"]);
+    }
 
   default:
     http_response_code(404);

@@ -61,12 +61,11 @@ document.addEventListener("click", (e) => {
         break;
       case "get-report":
         let user = [Number(empid)];
-        const url = `${window.location.origin}/src/handlers/export-asset.php?user=` + encodeURIComponent(user);
-        window.location.href = url;
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(user),
+          "_blank"
+        );
         break;
-      // case "deactivate": 
-      //   if (confirm(`Deactivate user ${empid}?`)) deactivateUser(empid);
-      //   break;
     }
     return;
   }
@@ -83,9 +82,10 @@ document.addEventListener("click", (e) => {
       return;
     }
     let users = [...tableData.keys()];
-    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
-    window.location.href = url;
-    generateReport(users);
+    window.open(
+      `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+      "_blank"
+    );
   }
 });
 
@@ -233,7 +233,7 @@ function addActionsButton() {
       
       <div class="action-menu">
         <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="get-report">Get assets</a>
+        <a class="menu-item" data-action="get-report">Get assignments</a>
       </div>
     `;
     tr.appendChild(actionElem);

@@ -92,13 +92,22 @@ document.addEventListener("click", (e) => {
 
     switch (target.dataset.type) {
       case "assigned-p":
-        window.open(`${window.location.origin}/src/handlers/export-asset.php`, "_blank");
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
+          "_blank"
+        );
         break;
       case "unassigned":
-        window.open(`${window.location.origin}/src/handlers/export-asset-status.php?status=Unassigned`, "_blank");
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=status&status=Unassigned`,
+          "_blank"
+        );
         break;
       case "tocondemn":
-        window.open(`${window.location.origin}/src/handlers/export-asset-status.php?status=ToCondemn`, "_blank");
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=status&status=ToCondemn`,
+          "_blank"
+        );
         break;
     }
 
