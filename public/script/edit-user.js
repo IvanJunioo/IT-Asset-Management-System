@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("reset-button");
   resetBtn?.addEventListener("click", (_) => {
     fillForm(user);
-    document.getElementById("remarks").value = "";
   })
 });
 		

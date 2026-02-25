@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("reset-button");
   resetBtn?.addEventListener("click", (_) => {
     fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
-    document.getElementById("remarks").value = "";
   })
 });
 		
