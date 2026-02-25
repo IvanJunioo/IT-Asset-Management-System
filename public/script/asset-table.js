@@ -8,8 +8,9 @@ const searchInput = document.getElementById("search-input");
 const filterBox = document.getElementById("filter-box");
 const exportButton = document.getElementById("export");
 
+export let tableData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
-let currentSortKey = "propNum"; // track which column is sorted
+let currentSortKey = "PropNum"; // track which column is sorted
 let sortOrder = "asc"; 
 
 fetchAssets();
@@ -27,11 +28,11 @@ tableFuncs.innerHTML = `
   </button>
 
   <div id="sort-menu" class="sort-menu">
-    <a class="menu-item" data-sort="propNum">Property No</a>
-    <a class="menu-item" data-sort="procNum">Procurement No</a>
-    <a class="menu-item" data-sort="purchaseDate">Purchase Date</a>
-    <a class="menu-item" data-sort="price">Price</a>
-    <a class="menu-item" data-sort="assignedTo">Assigned User</a>
+    <a class="menu-item" data-sort="PropNum">Property No</a>
+    <a class="menu-item" data-sort="ProcNum">Procurement No</a>
+    <a class="menu-item" data-sort="PurchaseDate">Purchase Date</a>
+    <a class="menu-item" data-sort="Price">Price</a>
+    <a class="menu-item" data-sort="AssignedTo">Assigned User</a>
   </div>
 `;
 leftAsset.insertBefore(tableFuncs, tableContainer);
@@ -60,7 +61,8 @@ document.addEventListener("click", (e) => {
   const menuBtn = e.target.closest(".menu-item[data-sort]");
   if (menuBtn) {
     currentSortKey = menuBtn.dataset.sort;
-    sortAssets();    
+    sortAssets();
+    showAssets();
   }
 
   const reverseBtn = e.target.closest("#reverse-sort");
@@ -68,6 +70,7 @@ document.addEventListener("click", (e) => {
     reverseBtn.classList.toggle('active');
     sortOrder = sortOrder === "asc" ? "desc" : "asc";
     sortAssets();
+    showAssets();
     reverseBtn.querySelector(".material-icons").textContent = sortOrder === "asc"? "north": "south";
   }
 
@@ -119,20 +122,21 @@ async function fetchAssets() {
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
     const data = await resp.json();
+    tableData = new Map(data.map(asset => [asset.PropNum, asset]));
     
     if (fetchID !== latest) return;
-    showAssets(data);
+    showAssets();
   } catch (err) {
     console.error("Error fetching assets: ", err);
   }
 }
 
-function showAssets(assets) {
+function showAssets() {
   for (const tableFunc of tableFuncs.querySelectorAll("button")) {
-    tableFunc.disabled = assets.length <= 0;
+    tableFunc.disabled = tableData.size <= 0;
   }  
   
-  if (assets.length <= 0) {
+  if (tableData.size <= 0) {
     assetTableBody.innerHTML = `
       <tr>
         <td colSpan="${assetTable.querySelector("thead tr").children.length}"> No assets to display. </td>
@@ -151,17 +155,11 @@ function showAssets(assets) {
 
   assetTableBody.innerHTML = "";
   
-  for (const asset of assets) {
+  for (const [_, asset] of tableData) {
     const tr = document.createElement('tr');
 
-    // store asset data locally
+    // Store id
     tr.dataset.propNum = asset.PropNum;
-    tr.dataset.procNum = asset.ProcNum;
-    tr.dataset.purchaseDate = asset.PurchaseDate; 
-    tr.dataset.specs = asset.Specs; 
-    tr.dataset.price = asset.Price; 
-    tr.dataset.status = asset.Status; 
-    tr.dataset.assignedTo = asset.AssignedTo; 
 
     for (const col of [
       asset.ProcNum,
@@ -192,11 +190,14 @@ function showAssets(assets) {
 }
 
 function sortAssets() {
-  const rows = Array.from(assetTableBody.querySelectorAll("tr"));
-
+  const rows = [...assetTableBody.querySelectorAll("tr")];
   rows.sort((a, b) => {
-    let valA = a.dataset[currentSortKey] || "";
-    let valB = b.dataset[currentSortKey] || "";
+    let valA = tableData.get(a.dataset.propNum)[currentSortKey] || "";
+    let valB = tableData.get(b.dataset.propNum)[currentSortKey] || "";
+
+    if (currentSortKey === "Price") {
+      return sortOrder === "asc" ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+    }
 
     const dateA = Date.parse(valA);
     const dateB = Date.parse(valB);
@@ -204,12 +205,15 @@ function sortAssets() {
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     }
 
-    valA = valA ? valA.toLowerCase() : ""; 
-    valB = valB ? valB.toLowerCase() : "";
+    if (currentSortKey === "AssignedTo") {
+      valA = tableData.get(a.dataset.propNum)["Assignee"];
+      valB = tableData.get(b.dataset.propNum)["Assignee"];
+      if (valA > valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA < valB) return sortOrder === "asc" ? 1 : -1;
+    }
     if (valA < valB) return sortOrder === "asc" ? -1 : 1;
     if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     return 0;
   });
-
-  rows.forEach(tr => assetTableBody.appendChild(tr));
+  for (const tr of rows) assetTableBody.appendChild(tr);
 }
