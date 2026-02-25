@@ -115,7 +115,6 @@ function checkDuplicate(inputs) {
 }
 
 async function checkIfExists(inputs) {
-  console.log(inputs);
   const url = new URL(`${window.location.origin}/public/api/index.php`);
   for (const inp of inputs){
     url.search = new URLSearchParams({
@@ -128,7 +127,6 @@ async function checkIfExists(inputs) {
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
       const data = await resp.json();
-      console.log(data);
       if (data && data.length > 0) return data[0];
     } catch (err) {
       console.error("Error fetching users: ", err);
