@@ -248,6 +248,10 @@ switch ($_GET["resource"]) {
         $handler->exportFacultyAssignedAssets($_GET["users"] ?? null);
         exit;
 
+      case "faculty-assets-multiple":
+        $handler->exportMultipleFiles($_GET["users"]?? null);
+        exit;
+
       default:
         http_response_code(404);
         echo json_encode(["error" => "Handler action unknown"]);

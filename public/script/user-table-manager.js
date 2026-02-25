@@ -60,9 +60,8 @@ document.addEventListener("click", (e) => {
         editUser(empid);
         break;
       case "get-report":
-        let user = [Number(empid)];
         window.open(
-          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(user),
+          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
           "_blank"
         );
         break;
@@ -75,18 +74,73 @@ document.addEventListener("click", (e) => {
     menu.style.display = "none";
   });
 
+
   // Reports
-  if (e.target.closest("#report")){
+  if (e.target.closest("#report")) {
     if (selectedRows.size <= 0) {
       alert('Select a user first to get their assets');
       return;
     }
-    let users = [...tableData.keys()];
-    window.open(
-      `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
-      "_blank"
-    );
+
+    if (selectedRows.size == 1) {
+      const [tr] = selectedRows;
+      window.open(
+        `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
+        "_blank"
+      );
+      return;
+    }
+
+    addReportModal();
+    return;
   }
+
+  if (e.target.closest("#closeModal")) {
+    e.target.closest("#reportModal").remove();
+    return;
+  }
+
+  if (e.target.closest("#reportModal")) {
+    const target = e.target.closest(".report-option");
+    if (!target) return;
+
+    let users = [];
+    for (const tr of selectedRows) {
+      users.push(tr.dataset.empid);
+    }
+
+    switch (target.dataset.type) {
+      case "single":
+        
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+          "_blank"
+        );
+        break;
+      case "multiple":
+        window.open(
+          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
+          "_blank"
+        );
+        break;
+    }
+
+    e.target.closest("#reportModal").remove();
+    return;
+  }
+
+  
+  // if (e.target.closest("#report")){
+  //   if (selectedRows.size <= 0) {
+  //     alert('Select a user first to get their assets');
+  //     return;
+  //   }
+    // let users = [...tableData.keys()];
+    // window.open(
+    //   `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+    //   "_blank"
+    // );
+  // }
 });
 
 tableFuncs.addEventListener("click", (e) => {
@@ -286,4 +340,27 @@ function updateSelectedRows() {
   for (const tr of toAdd) {
     selectedRows.add(tr)
   }
+}
+
+function addReportModal() {
+  const modalDiv = document.createElement("div");
+  modalDiv.id = "reportModal";
+  modalDiv.className = "modal";
+  modalDiv.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">Choose Export Format
+      </div>
+      <div class="modal-body">
+        <button class="report-option" data-type = "single"> 
+          Download selected assets (Single PDF)
+        </button>
+        <button class="report-option" data-type="multiple"> 
+          Download selected assets separately (Multiple PDFs)
+        </button>
+      </div>
+      <button id="closeModal" class="btn-cancel">Cancel</button>
+    </div>
+  `;
+  modalDiv.style.display = 'block';
+  document.body.appendChild(modalDiv);
 }
