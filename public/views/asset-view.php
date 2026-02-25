@@ -1,5 +1,5 @@
 <?php 
-  $REQUIRED_ROLES = ["Faculty", "Admin", "SuperAdmin"];
+  $REQUIRED_ROLES = ["Faculty", "Admin", "SuperAdmin", "Staff"];
   if (!defined('BASE_URL')) {
     require_once __DIR__ . '/../../config/config.php';
   }
