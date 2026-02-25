@@ -160,6 +160,70 @@ final class ExportHandler
 
     public function exportMultipleFiles(string $usersParam): void
     {
-        
+        $userRepo = new UserRepo($this->pdo);
+        $assignRepo = new AssignmentRepo($this->pdo);
+        $usersID = array_filter(explode(",", $usersParam));
+        $tempDir = __DIR__ . "/../../storage/exports/";
+
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir, 0777, true);
+        }
+
+        $pdfFiles = [];
+        foreach ($usersID as $id) {
+            $user = $userRepo->identify($id);
+            if (!$user) continue;
+            $assets = $assignRepo->getAssignedAssets($user);
+            $data = [];
+            foreach ($assets as $asset) {
+                $data[] = [
+                    'asset' => [
+                        $asset,
+                        explode(' ', $assignRepo->getAssignmentDate($asset))[0]
+                    ]
+                ];
+            }
+
+            $filename = $tempDir . $user->name->last. "_assigned_assets.pdf";
+            $this->generatePdf(
+                "assigned-assets",
+                [
+                    "data" => $data,
+                    "assets" => $assets
+                ],
+                $filename,
+                false,
+                $filename
+            );
+            $pdfFiles[] = $filename;
+        }
+
+        $zipFile = $tempDir . "assignments.zip";
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            throw new Exception("Cannot create zip file");
+        }
+
+        foreach ($pdfFiles as $filePath) {
+            $zip->addFile($filePath, basename($filePath));
+        }
+
+        $zip->close();
+
+        if (ob_get_length()) ob_end_clean();
+
+        header("Content-Type: application/zip");
+        header("Content-Disposition: attachment; filename=Faculty_assignments.zip");
+        header("Content-Length: " . filesize($zipFile));
+
+        readfile($zipFile);
+
+        foreach (glob($tempDir . "*") as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+        exit;
     }
 }
