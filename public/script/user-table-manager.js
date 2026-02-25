@@ -53,15 +53,16 @@ document.addEventListener("click", (e) => {
   const menuBtn = e.target.closest(".menu-item[data-action]");
   if (menuBtn) {
     const tr = menuBtn.closest("tr");
-    const empid = tr.dataset.empid;
-
+    let empid = tr.dataset.empid;
+    
     switch (menuBtn.dataset.action) {
       case "modify":
         editUser(empid);
         break;
       case "get-report":
-        let user = [tableData[empid]];
-        generateReport(user);
+        let user = [Number(empid)];
+        const url = `${window.location.origin}/src/handlers/export-asset.php?user=` + encodeURIComponent(user);
+        window.location.href = url;
         break;
       // case "deactivate": 
       //   if (confirm(`Deactivate user ${empid}?`)) deactivateUser(empid);
@@ -82,6 +83,8 @@ document.addEventListener("click", (e) => {
       return;
     }
     let users = [...tableData.keys()];
+    const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
+    window.location.href = url;
     generateReport(users);
   }
 });
@@ -128,14 +131,14 @@ tableContainer.addEventListener("click", (e) => {
   }
 });
 
-// userTableBody.addEventListener("usersLoaded", () => {
-//   addActionsButton();
+userTableBody.addEventListener("usersLoaded", () => {
+  addActionsButton();
 
-//   if (inMultiSelect) {
-//     updateSelectedRows();
-//     addCheckboxes();
-//   } 
-// });
+  if (inMultiSelect) {
+    updateSelectedRows();
+    addCheckboxes();
+  } 
+});
 
 // ----- FUNCTION DEFINITIONS -----
 function selectRow(tr) {
@@ -215,11 +218,6 @@ function addCheckboxes() {
   }
 }
 
-function generateReport(users) {
-  const url = `${window.location.origin}/src/handlers/export-faculty-asset.php?users=` + encodeURIComponent(users);
-  window.location.href = url;
-}
-
 function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
@@ -235,10 +233,7 @@ function addActionsButton() {
       
       <div class="action-menu">
         <a class="menu-item" data-action="modify">Modify</a>
-      </div>
-
-      <div class="action-menu">
-        <a class="menu-item" data-action="get-report">Get Assets</a>
+        <a class="menu-item" data-action="get-report">Get assets</a>
       </div>
     `;
     tr.appendChild(actionElem);

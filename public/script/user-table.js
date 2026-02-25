@@ -111,6 +111,7 @@ async function fetchUsers() {
     const data = await resp.json();
     tableData = new Map(data.map(user => [user.EmpID, user]));
     
+    
     if (fetchID !== latest) return;
     showUsers();
   } catch (err) {
