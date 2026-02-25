@@ -8,13 +8,13 @@
     <table class="asset-table">
       <thead>
         <tr>
-          <th> Procurement Number </th>
-          <th> Property Number </th>
-          <th> Purchase Date </th>
-          <th> Detailed Specification </th>
-          <th> Price (₱) </th>
-          <th> Status  </th>
-          <th> Assigned to </th>
+          <th><span>Procurement Number</span> </th>
+          <th><span>Property Number</span> </th>
+          <th><span>Purchase Date</span> </th>
+          <th><span>Detailed Specification</span> </th>
+          <th><span>Price (₱)</span> </th>
+          <th><span>Status </span> </th>
+          <th><span>Assigned to</span> </th>
         </tr>
       </thead>
       <tbody></tbody>

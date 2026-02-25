@@ -61,21 +61,12 @@ form {
 
 .selectable-row {
     all: unset;
-    border: 0;
-    padding: 0.4rem 0.6rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: none;
     background: inherit;
-    border-radius: 999999pt;
-}
-
-.selectable-row:hover {
-    background: var(--border-color);
-    outline: none;
-    box-shadow: none;
 }
 
 #select-all {
