@@ -71,6 +71,14 @@
   display: none;
 }
 
+.filter-box .badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
 @media (max-width: 1100px) {
   #filter-box-inline {
     width: 80%;
