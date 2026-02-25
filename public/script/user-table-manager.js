@@ -348,7 +348,7 @@ function addReportModal() {
   modalDiv.className = "modal";
   modalDiv.innerHTML = `
     <div class="modal-content">
-      <div class="modal-header">Choose Export Format
+      <div class="modal-header">Choose Export Type
       </div>
       <div class="modal-body">
         <button class="report-option" data-type = "single"> 
