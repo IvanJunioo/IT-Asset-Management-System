@@ -12,7 +12,7 @@ final class ExportHandler
         private readonly PDO $pdo
     ) {}
 
-    private function generatePdf(string $template, array $data, string $filename): void
+    private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
     {
         $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
         $css = file_get_contents($cssPath);
@@ -29,13 +29,19 @@ final class ExportHandler
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        while (ob_get_level()) ob_end_clean();
+        if ($forDownload) {
+            if (ob_get_length()) ob_end_clean();
+    
+            $dompdf->stream($filename, [
+                "Attachment" => true
+            ]);
+    
+            exit;
+        }
 
-        $dompdf->stream($filename, [
-            "Attachment" => true
-        ]);
-
-        exit;
+        if ($filepath) {
+            file_put_contents($filepath, $dompdf->output());
+        }
     }
 
     public function exportAssetsByStatus(?string $statusName): void
@@ -63,7 +69,8 @@ final class ExportHandler
             "condemn-unassigned-assets",
             ["assets" => $assets,
             "statusName" => $statusName],
-            $statusName . "_assets.pdf"
+            $statusName . "_assets.pdf",
+            true
         );
     }
 
@@ -97,7 +104,8 @@ final class ExportHandler
             "assigned-assets",
             ["data" => $data,
             "assets" => $assets],
-            $user->name->last . "_assigned_assets.pdf"
+            $user->name->last . "_assigned_assets.pdf",
+            true
         );
     }
 
@@ -145,7 +153,13 @@ final class ExportHandler
         $this->generatePdf(
             "faculty-assigned-assets",
             ["data" => $data],
-            "Faculty_assigned_assets.pdf"
+            "Faculty_assigned_assets.pdf",
+            true
         );
+    }
+
+    public function exportMultipleFiles(string $usersParam): void
+    {
+        
     }
 }

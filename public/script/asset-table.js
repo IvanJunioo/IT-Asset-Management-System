@@ -5,7 +5,7 @@ const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 const searchInput = document.getElementById("search-input");
-const filterBox = document.getElementsByClassName("filter-box");
+// const filterBox = document.getElementsByClassName("filter-box");
 const exportButton = document.getElementById("export");
 
 export let tableData = new Map();
@@ -94,7 +94,10 @@ document.querySelectorAll(".apply-filter").forEach(btn => {
 });
 
 exportButton.addEventListener("click", () => {
-  window.open(`${window.location.origin}/src/handlers/export-asset.php`, "_blank");
+  window.open(
+    `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
+    "_blank"
+  );
 })
 
 assetTableBody.addEventListener("click", (e) => {
