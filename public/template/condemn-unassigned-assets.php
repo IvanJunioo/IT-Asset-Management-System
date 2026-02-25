@@ -6,6 +6,7 @@
   <body>
     <h1>All <?= htmlspecialchars($statusName) ?> Assets</h1>
     <div class="asset-container">
+      <?php if (!empty($assets)): ?>
       <table>
         <thead>
           <tr>
@@ -28,6 +29,9 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+      <?php else: ?>
+        <span class="empty"> No <?= htmlspecialchars(strtolower($statusName)) ?> assets</span>
+      <?php endif; ?>
     </div>
   </body>
 </html>

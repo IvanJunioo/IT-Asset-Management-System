@@ -152,3 +152,9 @@
     Submit
   </button>  
 </form>
+
+<script>
+  const date = new Date();
+  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+  document.getElementById('adate').setAttribute('max', today);
+</script>

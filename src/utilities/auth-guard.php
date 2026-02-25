@@ -10,14 +10,19 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 $privilege = $_SESSION['privilege'] ?? '';
 $privilege = $privilege == "SuperAdmin" ? "Super Admin" : $privilege;
+$name = $_SESSION['user_fname'];
+if (str_contains($name, " ")) {
+    $fsName = explode(" ", $name);
+    $name = $fsName[0];
+}
 $navItems = [
     'Dashboard' => [
         'url' => BASE_URL . 'public/views/dashboard.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff'],
     ],
     'Assets' => [
         'url' => BASE_URL . 'public/views/assets.php',
-        'roles' => ['Faculty']
+        'roles' => ['Faculty', 'Staff']
     ],
     'Manage Assets' => [
         'url' => BASE_URL . 'public/views/asset-manager.php',
@@ -33,14 +38,14 @@ $navItems = [
     ],
     'System Activities' => [
         'url' => BASE_URL . 'public/views/activity-log.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty']
+        'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff']
     ]
 ];
 
 $dashboardIslands = [
     'View Assets' => [
         'url' => BASE_URL . 'public/views/assets.php',
-        'roles' => ['Faculty'],
+        'roles' => ['Faculty', 'Staff'],
         'body' => "Preview all the system assets."
     ],
     'Manage Assets' => [
@@ -60,7 +65,7 @@ $dashboardIslands = [
     ],
     'System Activities' => [
         'url' => BASE_URL . 'public/views/activity-log.php',
-        'roles' => ['Super Admin', 'Admin', 'Faculty'],
+        'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff'],
         'body' => "Track all system actions and events."
     ]
 ];

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
   </head>
 <body>
-    <h1>Currently Assigned Assets</h1>
+    <h1>Assets Currently Assigned</h1>
     <div class="asset-container">
         <table>
           <thead>
