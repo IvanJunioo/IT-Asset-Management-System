@@ -10,9 +10,13 @@ use Dompdf\Dompdf;
 
 try {
     session_start();
+    $userParam = $_GET['user'] ?? null;
     $userRepo = new UserRepo($pdo);
     $user = $userRepo->identify($_SESSION['user_id']);
-
+    if ($userParam){
+        $user = $userRepo->identify($userParam);
+    }
+    
     $assignRepo = new AssignmentRepo($pdo);
 
     $data = [];
