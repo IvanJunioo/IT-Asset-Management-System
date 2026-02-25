@@ -9,9 +9,9 @@ use Dompdf\Dompdf;
 final class ExportHandler
 {
     public function __construct(
-        private readonly UserRepo $userRepo,
-        private readonly AssetRepo $assetRepo,
-        private readonly AssignmentRepo $assignRepo
+        private readonly UserRepoInterface $userRepo,
+        private readonly AssetRepoInterface $assetRepo,
+        private readonly AssignmentRepoInterface $assignRepo,
     ) {}
 
     private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
@@ -48,7 +48,6 @@ final class ExportHandler
 
     public function exportAssetsByStatus(?string $statusName): void
     {
-        $repo = $this->assetRepo;
         $status = null;
 
         if (!empty($statusName)) {
@@ -58,7 +57,7 @@ final class ExportHandler
             );
         }
 
-        $assets = $repo->search(
+        $assets = $this->assetRepo->search(
             new AssetSearchCriteria(status: $status)
         );
 
@@ -79,25 +78,21 @@ final class ExportHandler
     public function exportUserAssignedAssets(?string $userParam): void
     {
         session_start();
-
-        $userRepo = $this->userRepo;
-        $assignRepo = $this->assignRepo;
-
-        $user = $userRepo->identify($_SESSION['user_id']);
+        $user = $this->userRepo->identify($_SESSION['user_id']);
 
         if ($userParam) {
-            $user = $userRepo->identify($userParam);
+            $user = $this->userRepo->identify($userParam);
         }
 
         $data = [];
 
-        $assets = $assignRepo->getAssignedAssets($user);
+        $assets = $this->assignRepo->getAssignedAssets($user);
 
         foreach ($assets as $asset) {
             $data[] = [
                 'asset' => [
                     $asset,
-                    explode(' ', $assignRepo->getAssignmentDate($asset))[0]
+                    explode(' ', $this->assignRepo->getAssignmentDate($asset))[0]
                 ]
             ];
         }
@@ -113,9 +108,6 @@ final class ExportHandler
 
     public function exportFacultyAssignedAssets(?string $usersParam): void
     {
-        $userRepo = $this->userRepo;
-        $assignRepo = $this->assignRepo;
-
         $usersID = [];
 
         if (!empty($usersParam)) {
@@ -126,14 +118,14 @@ final class ExportHandler
 
         foreach ($usersID as $id) {
 
-            $user = $userRepo->identify($id);
+            $user = $this->userRepo->identify($id);
             if (!$user) continue;
 
-            $assets = $assignRepo->getAssignedAssets($user);
+            $assets = $this->assignRepo->getAssignedAssets($user);
 
-            usort($assets, function ($a, $b) use ($assignRepo) {
-                $dateA = strtotime($assignRepo->getAssignmentDate($a));
-                $dateB = strtotime($assignRepo->getAssignmentDate($b));
+            usort($assets, function ($a, $b) {
+                $dateA = strtotime($this->assignRepo->getAssignmentDate($a));
+                $dateB = strtotime($this->assignRepo->getAssignmentDate($b));
 
                 return $dateB <=> $dateA;
             });
@@ -142,7 +134,7 @@ final class ExportHandler
 
             foreach ($assets as $asset) {
                 $assetDates[$asset->propNum] =
-                    explode(' ', $assignRepo->getAssignmentDate($asset))[0];
+                    explode(' ', $this->assignRepo->getAssignmentDate($asset))[0];
             }
 
             $data[] = [
