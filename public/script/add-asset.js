@@ -43,23 +43,37 @@ document.addEventListener("DOMContentLoaded", () => {
   form.querySelector("input#img_url").name = "img-url[]";
   
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const pnums = Array.from(document.querySelectorAll("input#pnum"));
   const snums = Array.from(document.querySelectorAll("input#snum"));
+  let valid = true;
 
+  let dataPnum = await checkIfExists(pnums);
+  let dataSnum = await checkIfExists(snums);
   let dupPnum = checkDuplicate(pnums);
   let dupSnum = checkDuplicate(snums);
 
-  if (dupPnum) {
-    e.preventDefault();
+
+  if (dataPnum) {
+    valid = false;
+    alert(`The property number ${dataPnum.PropNum} already exists`);
+  }
+  else if (dataSnum) {
+    valid = false;
+    alert(`The property number ${dataSnum.SerialNum} already exists`);
+  }
+  else if (dupPnum) {
+    valid = false;
     alert(`Please fix the duplicate Property Number: ${dupPnum}`);
-    return;
+  }
+  else if (dupSnum) {
+    valid = false;
+    alert(`Please fix the duplicate Serial Number: ${dupSnum}`);
   }
 
-  if (dupSnum) {
-    e.preventDefault();
-    alert(`Please fix the duplicate Serial Number: ${dupSnum}`);
-    return;
+  if (valid){
+    form.submit();
   }
 });
 
@@ -98,4 +112,27 @@ function checkDuplicate(inputs) {
     set.add(inp.value);
   }
   return "";
+}
+
+async function checkIfExists(inputs) {
+  console.log(inputs);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  for (const inp of inputs){
+    url.search = new URLSearchParams({
+      resource: "assets",
+      action: "search",
+      search: inp.value,
+    });
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+      const data = await resp.json();
+      console.log(data);
+      if (data && data.length > 0) return data[0];
+    } catch (err) {
+      console.error("Error fetching users: ", err);
+    }
+  }
+  return null;
 }

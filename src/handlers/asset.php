@@ -59,11 +59,6 @@ final class AssetHandler {
       exit;
     }
 
-    if (array_any($assets, fn($asset) => !empty($this->assetRepo->search(new AssetSearchCriteria(propNum: $asset->propNum))))) {
-      header('Location: ../../public/views/add-asset-form.php?pNumError=exists');
-      exit;
-    }
-
     foreach ($assets as $asset) {
       $this->assetRepo->add($asset);
       
