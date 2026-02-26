@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userForm = document.querySelector(".user-form"); 
   const form = userForm.querySelector("form");
 
-  form.action = `${window.location.origin}/public/api/index.php?resource=users&action=edit`;
+  form.action = `${window.location.origin}/api/index.php?resource=users&action=edit`;
   form.method = "post";
     
   if (!userData) return;
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function getAssignments(employee) {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: "search",

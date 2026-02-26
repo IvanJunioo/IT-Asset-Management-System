@@ -6,7 +6,7 @@ getDBstats();
 getSessionUser();
 
 async function getDBstats() {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "stats",
@@ -64,7 +64,7 @@ function linkStat(privilege, entityClass) {
 }
 
 async function getSessionUser() {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: "session",

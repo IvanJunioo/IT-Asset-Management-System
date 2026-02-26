@@ -55,7 +55,7 @@ final class AssetHandler {
     $today = date("Y-m-d");
 
     if (array_any($assets, fn($asset) => $today < $asset->purchaseDate)) {
-      header('Location: ../../public/views/add-asset-form.php');
+      header('Location: ../../views/add-asset-form.php');
       exit;
     }
 

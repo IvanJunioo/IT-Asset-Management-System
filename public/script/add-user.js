@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
-  form.action = `${window.location.origin}/public/api/index.php?resource=users&action=add`;
+  form.action = `${window.location.origin}/api/index.php?resource=users&action=add`;
   form.method = "post";   
 
   const resetBtn = document.getElementById("reset-button");
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (dataEmail) {
       valid = false;
-      alert(`A user with this credentials already exists`);
+      alert(`The email address you entered is already in use. Please try another one.`);
     }
 
     if (valid) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function checkIfExists(input) {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: "search",

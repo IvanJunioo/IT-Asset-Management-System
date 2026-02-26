@@ -53,7 +53,7 @@ switch ($_GET["resource"]) {
           privilege: UserPrivilege::from($input['privilege']),
           isActive: $input["active-status"] === "Active",
         ));
-        header('Location: ../../public/views/user-manager.php');
+        header('Location: ../../views/user-manager.php');
         exit;
       
       case "edit":
@@ -67,7 +67,7 @@ switch ($_GET["resource"]) {
           privilege: UserPrivilege::from($input['privilege']),
           isActive: $input['active-status'] === 'Active',
         ));
-        header('Location: ../../public/views/user-manager.php');
+        header('Location: ../../views/user-manager.php');
         exit;
 
       case "activate":
@@ -130,7 +130,7 @@ switch ($_GET["resource"]) {
           $input["serial-num"],
           $input["img-url"],
         ));
-        header('Location: ../../public/views/asset-manager.php'); 
+        header('Location: ../../views/asset-manager.php'); 
         exit;
       
       case "edit":
@@ -147,7 +147,7 @@ switch ($_GET["resource"]) {
           status:       AssetStatus::from($input["asset-status"] ?? ""),
         ));
         
-        header('Location: ../../public/views/asset-manager.php');
+        header('Location: ../../views/asset-manager.php');
         exit;
       
       case "condemn":
@@ -175,7 +175,7 @@ switch ($_GET["resource"]) {
           assigneeID: $input["user"],
           remarks:    $input["remarks"],
         );
-        header('Location: ../../public/views/asset-manager.php');
+        header('Location: ../../views/asset-manager.php');
         exit;      
       
       case "return":
@@ -184,7 +184,7 @@ switch ($_GET["resource"]) {
           date:     new DateTimeImmutable($input['return-date']),
           remarks:  $input['remarks'],
         );
-        header('Location: ../../public/views/asset-manager.php');
+        header('Location: ../../views/asset-manager.php');
         exit;
 
       default:
@@ -214,17 +214,17 @@ switch ($_GET["resource"]) {
       
       case "login":
         if (!isset($_GET['code'])) {
-          header("Location: ../../public/views/login.php?error=login_failed");
+          header("Location: ../../views/login.php?error=login_failed");
           exit('Login failed');
         }
 
         $handler->login($_GET["code"]);
-        header("Location: ../../public/views/dashboard.php");
+        header("Location: ../../views/dashboard.php");
         exit;
 
       case "logout":
         $handler->logout();
-        header("Location: ../../public/views/login.php");
+        header("Location: ../../views/login.php");
         exit;
       
       default:

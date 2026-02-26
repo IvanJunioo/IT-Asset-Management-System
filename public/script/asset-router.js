@@ -1,5 +1,5 @@
 async function fetchAsset(propNum) {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "fetch",
@@ -21,17 +21,17 @@ async function fetchAsset(propNum) {
 export async function viewAsset(propNum) {
   const data = await fetchAsset(propNum);
   sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/public/views/asset-view.php`;
+  window.location.href = `${window.location.origin}/views/asset-view.php`;
 }
 
 export async function editAsset(propNum) {
   const data = await fetchAsset(propNum);
   sessionStorage.setItem("assetData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/public/views/edit-asset-form.php`;
+  window.location.href = `${window.location.origin}/views/edit-asset-form.php`;
 }
 
 export async function condemnAsset(propNum) {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "condemn",
@@ -45,7 +45,7 @@ export async function condemnAsset(propNum) {
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
-    window.location.href = `${window.location.origin}/public/views/asset-manager.php`;
+    window.location.href = `${window.location.origin}/views/asset-manager.php`;
   } catch (err) {
     console.error("Error condemning asset: ", err);    
   }
@@ -53,10 +53,10 @@ export async function condemnAsset(propNum) {
 
 export function assignAssets(propNums) {
   sessionStorage.setItem("assetsToAssign", JSON.stringify(propNums));
-  window.location.href = `${window.location.origin}/public/views/assign-user.php`;
+  window.location.href = `${window.location.origin}/views/assign-user.php`;
 }
 
 export function returnAsset(propNums) {
   sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
-  window.location.href = `${window.location.origin}/public/views/return-form.php`;
+  window.location.href = `${window.location.origin}/views/return-form.php`;
 }
