@@ -65,31 +65,30 @@ final class UserHandler {
 
   public function editUser(User $user): void {
     $old = $this->userRepo->identify($user->empID);
-
     $diff = array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize());
     if (empty($diff)) return;
 
+    $logMessage = "modified user $user->empID";
+    $logData = [
+      "action" => "modify",
+      "object" => "user",
+      "empID" => $user->empID,
+    ];
+
     if ($user->isActive !== $old->isActive) {
-      $action = $user->isActive? "activate" : "deactivate";
-      systemLog(
-        "modified user $user->empID",
-        [
-          "action" => $action,
-          "object" => "user",
-          "empID" => $user->empID,
-        ]
-      );  
+      $action = $user->isActive ? "activate" : "deactivate";
+      $logData["action"] = $action;
+
+      if (!$user->isActive) {
+        $assets = $this->assignRepo->getAssignedAssets($user);
+        if (!empty($assets)) {
+          $logData["hasAssets"] = true;
+        }
+      }
     } else {
-      systemLog(
-        "modified user $user->empID",
-        [
-          "action" => "modify",
-          "object" => "user",
-          "empID" => $user->empID,
-          "diff" => $diff,
-        ]
-      );
+      $logData["diff"] = $diff;
     }
+    systemLog($logMessage, $logData);
 
     $this->userRepo->update($user);
   }
@@ -102,13 +101,22 @@ final class UserHandler {
 
     $this->userRepo->update($user);
 
+    $logData = [
+      "action" => $action,
+      "object" => "user",
+      "empID" => $empID,
+    ];
+
+    if (!$user->isActive) {
+      $assets = $this->assignRepo->getAssignedAssets($user);
+      if (!empty($assets)) {
+        $logData["hasAssets"] = true;
+      }
+    }
+
     systemLog(
       "modified user $empID",
-      [
-        "action" => $action,
-        "object" => "user",
-        "empID" => $empID,
-      ]
+      $logData
     );  
   }
 }
