@@ -11,6 +11,10 @@ function addActionsButton() {
     hr.appendChild(actionsth);
   }
 
+  userTable.querySelectorAll(".actions").forEach((elem) => {
+    elem.remove();
+  })
+
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";    
