@@ -149,6 +149,10 @@ form {
 #select-all .material-icons {
   font-size: 1em;
 }
+
+.action-btn .material-icons {
+  font-size: clamp(15px, 1.5vw, 24px);
+}
 /* animation */
 
 @keyframes slideUp {
