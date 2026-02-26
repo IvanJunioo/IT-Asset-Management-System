@@ -325,7 +325,7 @@ function addSelectAll() {
   `;
 }
 
-function addCheckboxes() {
+export function addCheckboxes() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
     tr.lastElementChild.innerHTML = `

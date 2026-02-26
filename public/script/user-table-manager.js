@@ -1,4 +1,4 @@
-import { tableData, selectedRows, inMultiSelect, setInMulSel } from "./user-table.js";
+import { tableData, selectedRows, inMultiSelect, setInMulSel, addCheckboxes } from "./user-table.js";
 import { editUser, modifyUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
@@ -69,6 +69,13 @@ tableFuncs.addEventListener("click", (e) => {
   }
 });
 
+tableFuncs.addEventListener("click", (e) => {
+  if (e.target.closest("#multi-select")) {
+    const val = !inMultiSelect;
+    if (!inMultiSelect && val) addActionsButton();
+  }
+});
+
 // Listen to selection changes from user-table to update activate/deactivate buttons
 userTableBody.addEventListener("selectionChanged", () => {
   updateTableFuncs();
@@ -76,6 +83,7 @@ userTableBody.addEventListener("selectionChanged", () => {
 
 userTableBody.addEventListener("usersLoaded", () => {
   addActionsButton();
+  if (inMultiSelect) addCheckboxes();
 });
 
 // ----- FUNCTION DEFINITIONS -----
