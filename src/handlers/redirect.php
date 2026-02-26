@@ -1,5 +1,4 @@
 <?php
-// require_once '../utilities/request-guard.php';
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../model/user.php';
 require_once __DIR__ . '/../repos/user.php';

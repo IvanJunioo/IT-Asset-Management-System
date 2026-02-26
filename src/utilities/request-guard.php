@@ -12,6 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
   }
   echo "You should not be here.";
 
-  header("Location: ../../index.php");
+  header("Location: ../../public/index.php");
   exit;
 }
