@@ -16,17 +16,20 @@ table {
 }
 
 td {
-  justify-content: space-between;
-  align-items: center;
-  vertical-align: center;
   line-height: 1.4;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 5px;
   font-size: clamp(7pt, 1.5vw, 11pt);
+}
+
+th {
+  padding: 5px;
+  text-align: center;
+  font-weight: 600;
+  z-index: 2;
 }
 
 th span {
@@ -75,6 +78,12 @@ td:nth-child(4), th:nth-child(4) {
 td:last-child,
 th:last-child {
   width: 5%;
+}
+
+td:last-child button,
+th:last-child button{
+  display: block;
+  margin: 0 auto;
 }
 
 #search-box {
