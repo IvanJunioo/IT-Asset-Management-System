@@ -151,7 +151,7 @@ form {
 }
 
 .action-btn .material-icons {
-  font-size: clamp(15px, 1.5vw, 24px);
+  font-size: clamp(4em, 1.5vw, 6em);
 }
 /* animation */
 
