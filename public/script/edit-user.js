@@ -45,5 +45,44 @@ document.addEventListener("DOMContentLoaded", () => {
   resetBtn?.addEventListener("click", (_) => {
     fillForm(user);
   })
+
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const assignments = await getAssignments(user["EmpMail"]);
+
+    const oldStatus = user['ActiveStatus'];
+    const newStatus = document.querySelector('input[name="active-status"]:checked').value;
+    
+    if (oldStatus === "Active" && oldStatus!==newStatus){ 
+      if (assignments>0) {
+        confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
+      }
+    }
+
+    form.submit();
+  })
 });
-		
+
+
+async function getAssignments(employee) {
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "users",
+    action: "search",
+    search: employee,
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    const data = await resp.json();
+    const assignments = data[0]['assignments'];
+    return assignments.length;
+  } catch (err) {
+    console.error("Error fetching users: ", err);
+  }
+  
+  return 0;
+}
