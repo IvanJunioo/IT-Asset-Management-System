@@ -110,7 +110,7 @@
   transform: scale(0.96);
 }
 
-@media (max-width: 1100px) {
+@media only screen and (max-width: 1100px) {
   .user-page {
     display: flex;
     flex-direction: column;

@@ -219,6 +219,7 @@ switch ($_GET["resource"]) {
         }
 
         $handler->login($_GET["code"]);
+        header("Location: ../../public/views/dashboard.php");
         exit;
 
       case "logout":

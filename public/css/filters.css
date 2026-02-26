@@ -79,7 +79,7 @@
   border-radius: 999px;
 }
 
-@media (max-width: 1100px) {
+@media only screen and (max-width: 1100px) {
   #filter-box-inline {
     width: 80%;
     max-width: 320px;
