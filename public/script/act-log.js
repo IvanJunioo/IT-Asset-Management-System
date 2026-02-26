@@ -61,13 +61,16 @@ function showLogs() {
 
     const action = {
       "modify": "modified",
-      "deactivate": "deactivated"
-    }[metadata["action"]] || `${metadata["action"]}d`;
+      "deactivate": "deactivated",
+      "activate" : "activated"
+    }[metadata["action"]] || `${metadata["action"]}ed`;
+
+    const extra = metadata.hasAssets? " (has assigned assets)" : "";
     
     for (const col of [
       log.Timestamp,
       `<a data-type="actor">${log.FName} ${log.LName}</a>`,
-      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objName}</a>`,
+      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objName}</a>${extra}`,
     ]) {
       const td = document.createElement("td");
       td.innerHTML = col;
