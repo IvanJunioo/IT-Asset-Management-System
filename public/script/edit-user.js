@@ -57,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (oldStatus === "Active" && oldStatus!==newStatus){ 
       if (assignments>0) {
-        confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
+        const sub = confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
+
+        if (!sub) return;
       }
     }
 
