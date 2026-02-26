@@ -28,12 +28,3 @@
   z-index: 99999;
   
 }
-
-.asset-table th {
-  padding: 5px;
-  text-align: center;
-  font-weight: 600;
-  border-bottom-style: solid;
-  border-color: var(--darker-primary);
-  z-index: 2;
-}
