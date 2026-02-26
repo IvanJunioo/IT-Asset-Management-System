@@ -46,11 +46,11 @@
     <table class="user-table">
       <thead>
         <tr>
-          <th> Email </th> 
-          <th> First Name </th>
-          <th> Last Name </th>
-          <th> Privilege </th>
-          <th> Status  </th>
+          <th> <span>Email</span> </th> 
+          <th> <span>First Name</span> </th>
+          <th> <span>Last Name</span> </th>
+          <th> <span>Privilege</span> </th>
+          <th> <span>Status </span> </th>
         </tr>
       </thead>
       <tbody></tbody>
