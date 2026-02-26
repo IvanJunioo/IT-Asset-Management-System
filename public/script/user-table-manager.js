@@ -29,8 +29,22 @@ document.addEventListener("click", (e) => {
     if (!isVisible) {
       const boundingRect = actionBtn.getBoundingClientRect();
       const gap = 8;
+
+      menu.style.visibility = "hidden";
+      menu.style.display = "flex";
+      const menuWidth = menu.offsetWidth;
+      menu.style.visibility = "";
+
+      const overflowsRight = boundingRect.right + gap + menuWidth > window.innerWidth;
+
       menu.style.top = `${boundingRect.top - gap}px`;
-      menu.style.left = `${boundingRect.right + gap}px`;
+
+      if (overflowsRight) {
+        menu.style.left = `${boundingRect.left - gap - menuWidth}px`;
+      } else {
+        menu.style.left = `${boundingRect.right + gap}px`;
+      }
+
       menu.style.display = "flex";
     }
     return;
