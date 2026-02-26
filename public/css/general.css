@@ -1,95 +1,89 @@
 :root {
-    --primary-color: #550101;
-    --darker-primary: #3d0505;
-    --primary-green: #2a7548;
-    --darker-green: #1d3f2b;
-    --bg-light: #f8f5f2;
-    --text-dark: #222222;
-    --border-color: #cccccc;
-    --beige: #f7e9d8;
+  --primary-color: #550101;
+  --darker-primary: #3d0505;
+  --primary-green: #2a7548;
+  --darker-green: #1d3f2b;
+  --bg-light: #f8f5f2;
+  --text-dark: #222222;
+  --border-color: #cccccc;
+  --beige: #f7e9d8;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    min-height: 100vh;
-    margin: 0;
-    background-color: var(--bg-light);
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-light);
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height:100vh;
-    background-color: var(--bg-light);
+  display: flex;
+  flex-direction: column;
+  min-height:100vh;
+  background-color: var(--bg-light);
 }
 
 main {
-    flex: 1;
-    /* animation: slideUp;
-    animation-duration: 0.5s; */
+  flex: 1;
+  /* animation: slideUp;
+  animation-duration: 0.5s; */
 }
 
 a {
-    all:unset;
-    cursor: pointer;
+  all:unset;
+  cursor: pointer;
 }
 
 hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .table-func {
-    display: flex;
-    width: 100%;
-    align-items: flex-end;
-    justify-content: right;
-    gap: 2pt;
-    margin-bottom: -1.5rem;
-    margin-right: 6pt;
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: right;
+  gap: 2pt;
+  margin-bottom: -1.5rem;
+  margin-right: 6pt;
 }
 
 .selectable-row {
-    all: unset;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: none;
-    background: inherit;
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: none;
+  background: inherit;
 }
 
 #select-all {
-    background-color: var(--primary-color);
-    border: 0px;
-    color: white;
-    transition: background-color 0.1s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999999pt;
-}
-
-#select-all:hover {
-    background-color: var(--darker-primary)
+  background-color: var(--primary-color);
+  border: 0px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #select-all .material-icons {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #select-all .material-icons:active {
-    background-color:#380707
+  background-color:#380707
 }
 
 .input-label {
@@ -143,6 +137,18 @@ form {
   color: #9a3412;
 }
 
+.material-icons {
+  font-size: 1.2em;
+  line-height: 1;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#select-all .material-icons {
+  font-size: 1em;
+}
 /* animation */
 
 @keyframes slideUp {
