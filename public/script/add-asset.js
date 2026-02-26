@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } 
 
   const form = document.querySelector("form");
-  form.action = `${window.location.origin}/public/api/index.php?resource=assets&action=add`;
+  form.action = `${window.location.origin}/api/index.php?resource=assets&action=add`;
   form.method = "post";
 
   // Hide toCondemn radio button
@@ -128,7 +128,7 @@ function checkDuplicate(inputs) {
 }
 
 async function checkIfExists(inputs) {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   for (const inp of inputs){
     url.search = new URLSearchParams({
       resource: "assets",

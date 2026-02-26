@@ -1,6 +1,6 @@
 <head>
-    <link rel="stylesheet" href="/../../public/css/table-view.css">
-    <link rel="stylesheet" href="/../../public/css/asset-table.css">
-    <link rel="stylesheet" href="/../../public/css/filters.css">
-    <link rel="stylesheet" href="/../../public/css/asset.css">
+    <link rel="stylesheet" href="/../../css/table-view.css">
+    <link rel="stylesheet" href="/../../css/asset-table.css">
+    <link rel="stylesheet" href="/../../css/filters.css">
+    <link rel="stylesheet" href="/../../css/asset.css">
 </head>

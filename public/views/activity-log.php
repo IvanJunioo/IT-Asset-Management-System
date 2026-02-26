@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="/../../public/css/act-log.css">
+  <link rel="stylesheet" href="/../../css/act-log.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
   

@@ -13,8 +13,8 @@
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
   <?php include __DIR__ . '/../partials/asset-styles.php'?>
-  <link rel="stylesheet" href="/../../public/css/table.css">
-  <link rel="stylesheet" href="/../../public/css/asset.css">
+  <link rel="stylesheet" href="/../../css/table.css">
+  <link rel="stylesheet" href="/../../css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 

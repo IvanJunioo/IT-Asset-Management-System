@@ -16,12 +16,12 @@ final class ExportHandler
 
     private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
     {
-        $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
+        $cssPath = __DIR__ . '/../../css/asset-pdf.css';
         $css = file_get_contents($cssPath);
 
         ob_start();
         extract($data);
-        include "../../public/template/{$template}.php";
+        include "../../template/{$template}.php";
         $html = ob_get_clean();
 
         $html = "<style>{$css}</style>" . $html;

@@ -98,4 +98,4 @@
   <button id = "report" class="generate"> Get Assigned Assets </button>
 </div>
 
-<script src="/../../public/script/user-table.js" type="module" defer></script>
+<script src="/../../script/user-table.js" type="module" defer></script>

@@ -12,13 +12,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="/../../public/css/forms.css">
-  <link rel="stylesheet" href="/../../public/css/asset.css">
+  <link rel="stylesheet" href="/../../css/forms.css">
+  <link rel="stylesheet" href="/../../css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "/../../public/api/index.php?resource=assignment&action=return" method="post">
+    <form action = "/../../api/index.php?resource=assignment&action=return" method="post">
       <h2>Return Asset(s)</h2>
       <hr>
       <div class="input-label"> 
@@ -65,7 +65,7 @@
     document.getElementById("adate").value = now.toISOString().slice(0, 16);
     document.getElementById('adate').setAttribute('max', today);
   </script>
-  <script src="/../../public/script/edit-assignment.js" type="module" defer> </script>
+  <script src="/../../script/edit-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
