@@ -5,7 +5,6 @@
   border-radius: 1rem;
   background-color: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
 }
 
 .user-table {
@@ -26,5 +25,13 @@
   position: sticky;
   top: 0;
   z-index: 99999;
-  
+}
+
+td, th {
+  width: 19%;
+}
+
+td:last-child,
+th:last-child {
+  width: 5%;
 }
