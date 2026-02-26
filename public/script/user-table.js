@@ -286,7 +286,12 @@ function sortUsers() {
 }
 
 export function setInMulSel(val) {
-  if (inMultiSelect && !val) {
+  if (inMultiSelect === val) return;
+
+  if (val) {
+    addSelectAll();
+    addCheckboxes();
+  } else {
     document.querySelectorAll("#select-all").forEach(btn => btn.remove());
     
     // Reset tracking
@@ -295,11 +300,6 @@ export function setInMulSel(val) {
     userTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
     addActionsButton();
   }
-
-  if (!inMultiSelect && val) {
-    addSelectAll();
-    addCheckboxes();
-  }   
 
   inMultiSelect = val;
 
@@ -310,7 +310,7 @@ export function setInMulSel(val) {
   const reportBtn = tableFuncs.querySelector("#report");
   if (reportBtn) reportBtn.style.display = val ? "flex" : "none";
 
-  dispatchSelectionChanged();
+  tableFuncs.dispatchEvent(new CustomEvent("MultiSelectionChanged"));
 }
 
 function selectRow(tr) {

@@ -133,14 +133,6 @@ document.addEventListener("click", (e) => {
 });
 
 tableFuncs.addEventListener("click", async (e) => {
-  if (e.target.closest("#multi-select")) {
-    const multiSelectBtn = e.target.closest("#multi-select");
-    
-    multiSelectBtn.classList.toggle('active');
-    
-    setInMulSel(!inMultiSelect);
-  }
-
   if (e.target.closest(".table-fn")) {
     const btn = e.target.closest(".table-fn");
 
@@ -158,16 +150,13 @@ tableFuncs.addEventListener("click", async (e) => {
   }
 });
 
-tableFuncs.addEventListener("click", (e) => {
-  if (e.target.closest("#multi-select")) {
-    const val = !inMultiSelect;
-    if (!inMultiSelect && val) addActionsButton();
-  }
-});
-
 // Listen to selection changes from user-table to update activate/deactivate buttons
 userTableBody.addEventListener("selectionChanged", () => {
   updateTableFuncs();
+});
+
+tableFuncs.addEventListener("MultiSelectionChanged", () => {
+  if (!inMultiSelect) addActionsButton();
 });
 
 userTableBody.addEventListener("usersLoaded", () => {
