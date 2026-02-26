@@ -13,6 +13,7 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   width: 100%;
+  z-index: 99999;
 }
 
 td {
@@ -145,18 +146,27 @@ tr:hover .action-btn {
 
 /* Table function buttons */
 .select-btn {
-  border: none;
-  background-color: relative;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  color: var(--primary-color);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  background-color: var(--bg-light);
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
-  font-family: "Source Sans Pro", sans-serif;
-  border: black solid 1pt;
+  font-size: clamp(0.25rem, 1.5vw, 0.75rem);
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  border: 1pt solid var(--darker-primary);
+  box-sizing: unset;
 }
 
 .select-btn:hover {
-  background-color: var(--border-color);
+  border: 1pt solid var(--primary-green);
+  background-color: var(--primary-color);
+  color: var(--beige);
 }
 
 .sort-menu {

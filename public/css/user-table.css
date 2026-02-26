@@ -28,10 +28,27 @@
 }
 
 td, th {
-  width: 19%;
+  width: 18%;
 }
 
 td:last-child,
 th:last-child {
-  width: 5%;
+  width: 10%;
+}
+
+.get-assignment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  color: var(--beige);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  font-size: clamp(0.25rem, 1.5vw, 0.75rem);
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  padding: 1px;
 }
