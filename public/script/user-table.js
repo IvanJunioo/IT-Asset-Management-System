@@ -154,6 +154,16 @@ tableContainer.addEventListener("click", (e) => {
     return;
   }
 
+  if (e.target.closest(".get-assignment")) {
+    const tr = e.target.closest("tr");
+    let empid = tr.dataset.empid;
+    window.open(
+      `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
+      "_blank"
+    );
+    return;
+  }
+
   if (e.target.closest("tr") && inMultiSelect) {
     const tr = e.target.closest("tr");
     if (!tr.closest("tbody")) return;
@@ -164,6 +174,7 @@ tableContainer.addEventListener("click", (e) => {
     }
     return;
   }
+
 });
 
 searchInput.addEventListener("input", () => {
@@ -389,8 +400,8 @@ function addActionsButton() {
     const actionElem = document.createElement("td");
     actionElem.className = "actions";
     actionElem.innerHTML = `
-      <button class="action-btn">
-        <a class="menu-item" data-action="get-report">Get assignments</a>
+      <button class="get-assignment">
+        Assignment(s)
       </button>
     `;
     tr.appendChild(actionElem);
