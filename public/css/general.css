@@ -19,6 +19,13 @@ html {
   min-height: 100vh;
   margin: 0;
   background-color: var(--bg-light);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
