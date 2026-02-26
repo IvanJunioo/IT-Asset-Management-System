@@ -62,7 +62,7 @@ function showLogs() {
     const action = {
       "modify": "modified",
       "deactivate": "deactivated"
-    }[metadata["action"]] || `${metadata["action"]}ed`;
+    }[metadata["action"]] || `${metadata["action"]}d`;
     
     for (const col of [
       log.Timestamp,

@@ -69,17 +69,29 @@ final class UserHandler {
     $diff = array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize());
     if (empty($diff)) return;
 
-    $this->userRepo->update($user);
+    if ($user->isActive !== $old->isActive) {
+      $action = $user->isActive? "activate" : "deactivate";
+      systemLog(
+        "modified user $user->empID",
+        [
+          "action" => $action,
+          "object" => "user",
+          "empID" => $user->empID,
+        ]
+      );  
+    } else {
+      systemLog(
+        "modified user $user->empID",
+        [
+          "action" => "modify",
+          "object" => "user",
+          "empID" => $user->empID,
+          "diff" => $diff,
+        ]
+      );
+    }
 
-    systemLog(
-      "modified user $user->empID",
-      [
-        "action" => "modify",
-        "object" => "user",
-        "empID" => $user->empID,
-        "diff" => $diff,
-      ]
-    );
+    $this->userRepo->update($user);
   }
 
   public function changeStatus(string $empID, bool $isActive): void {
