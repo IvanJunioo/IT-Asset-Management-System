@@ -6,8 +6,7 @@ require_once __DIR__ . '/../repos/assignment.php';
 
 use Dompdf\Dompdf;
 
-final class ExportHandler
-{
+final class ExportHandler {
     public function __construct(
         private readonly UserRepoInterface $userRepo,
         private readonly AssetRepoInterface $assetRepo,
@@ -16,12 +15,12 @@ final class ExportHandler
 
     private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
     {
-        $cssPath = __DIR__ . '/../../css/asset-pdf.css';
+        $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
         $css = file_get_contents($cssPath);
 
         ob_start();
         extract($data);
-        include "../../template/{$template}.php";
+        include_once __DIR__ . "/../../public/template/{$template}.php";
         $html = ob_get_clean();
 
         $html = "<style>{$css}</style>" . $html;
