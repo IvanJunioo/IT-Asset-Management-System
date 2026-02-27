@@ -52,13 +52,6 @@ final class AssetHandler {
   }
 
   public function addAsset(array $assets): void {
-    $today = date("Y-m-d");
-
-    if (array_any($assets, fn($asset) => $today < $asset->purchaseDate)) {
-      header('Location: ../../views/add-asset-form.php');
-      exit;
-    }
-
     foreach ($assets as $asset) {
       $this->assetRepo->add($asset);
       
