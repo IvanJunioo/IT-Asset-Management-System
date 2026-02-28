@@ -156,7 +156,10 @@ userTableBody.addEventListener("selectionChanged", () => {
 });
 
 tableFuncs.addEventListener("MultiSelectionChanged", () => {
-  if (!inMultiSelect) addActionsButton();
+  if (!inMultiSelect) {
+    addActionsButton();
+    updateTableFuncs();
+  }
 });
 
 userTableBody.addEventListener("usersLoaded", () => {
@@ -214,7 +217,10 @@ function updateTableFuncs() {
 
   const deactBtn = tableFuncs.querySelector('button[name="deactivate"]');
 
-  deactBtn.style.display = [...selectedRows].every(tr => tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" && tableData.get(Number(tr.dataset.empid)).EmpID !== JSON.parse(sessionStorage.getItem("user-info")).EmpID)? "flex" : "none";
+  deactBtn.style.display = selectedRows.size > 0 && [...selectedRows].every(tr =>
+    tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" &&
+    tableData.get(Number(tr.dataset.empid)).EmpID !== JSON.parse(sessionStorage.getItem("user-info")).EmpID
+) ? "flex" : "none";
 }
 
 function addReportModal() {
