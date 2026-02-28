@@ -58,22 +58,8 @@ document.addEventListener("click", (e) => {
     if (!isVisible) {
       const boundingRect = sortBtn.getBoundingClientRect();
       const gap = 8;
-
-      menu.style.visibility = "hidden";
-      menu.style.display = "flex";
-      const menuWidth = menu.offsetWidth;
-      menu.style.visibility = "";
-
-      const overflowsRight = boundingRect.right + gap + menuWidth > window.innerWidth;
-
       menu.style.top = `${boundingRect.top - gap}px`;
-
-      if (overflowsRight) {
-        menu.style.left = `${boundingRect.left - gap - menuWidth}px`;
-      } else {
-        menu.style.left = `${boundingRect.right + gap}px`;
-      }
-
+      menu.style.left = `${boundingRect.right + gap}px`;
       menu.style.display = "flex";
     }
     return;
@@ -325,7 +311,12 @@ function highlightSearch() {
 }
 
 export function setInMulSel(val) {
-  if (inMultiSelect && !val) {
+  if (inMultiSelect === val) return;
+
+  if (val) {
+    addSelectAll();
+    addCheckboxes();
+  } else {
     document.querySelectorAll("#select-all").forEach(btn => btn.remove());
     
     // Reset tracking
@@ -334,11 +325,6 @@ export function setInMulSel(val) {
     userTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
     addActionsButton();
   }
-
-  if (!inMultiSelect && val) {
-    addSelectAll();
-    addCheckboxes();
-  }   
 
   inMultiSelect = val;
 
@@ -349,7 +335,7 @@ export function setInMulSel(val) {
   const reportBtn = tableFuncs.querySelector("#report");
   if (reportBtn) reportBtn.style.display = val ? "flex" : "none";
 
-  dispatchSelectionChanged();
+  tableFuncs.dispatchEvent(new CustomEvent("MultiSelectionChanged"));
 }
 
 function selectRow(tr) {
