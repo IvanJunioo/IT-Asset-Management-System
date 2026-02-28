@@ -108,7 +108,7 @@ document.querySelectorAll(".apply-filter").forEach(btn => {
 
 exportButton.addEventListener("click", () => {
   window.open(
-    `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
+    `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
     "_blank"
   );
 })
@@ -131,7 +131,7 @@ async function fetchAssets() {
   [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
 )];
   
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "search",
