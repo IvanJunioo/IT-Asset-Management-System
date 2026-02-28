@@ -13,7 +13,7 @@ form {
 
 label {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
   color: #333;
 }
 
@@ -21,7 +21,7 @@ input, textarea {
   padding: 0.5rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -36,7 +36,7 @@ button {
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);;
   transition: background-color 0.2s ease;
 }
 
@@ -66,7 +66,7 @@ textarea {
   width: 100%;
   table-layout: fixed;
   overflow: auto;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);;
 }
 
 #unique-asset-attr tr {
@@ -112,4 +112,12 @@ textarea {
 #unique-asset-attr .last-child {
   width: 50px; 
   text-align: center;
+}
+
+b, p {
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
+}
+
+h2 {
+  font-size: clamp(1em, 3vw, 1.5em)
 }
