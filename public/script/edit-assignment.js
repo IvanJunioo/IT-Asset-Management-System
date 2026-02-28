@@ -8,7 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fillForm(assets) {
     const p_asset = assetForm.querySelector('#asset-list');
-		p_asset.textContent = `${assets}`;
+    const formattedAssets = assets.join(", ").slice(0, -2);
+
+		p_asset.textContent = `${formattedAssets}`;
 
     // add extra data with form submission by appending hidden input fields
     const form = assetForm.querySelector("form");

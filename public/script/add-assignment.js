@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   fillForm(assetsToAssign, userAssigned);
 
   function fillForm(assets, user) {
-    document.getElementById('asset-list').textContent = `Property No's: ${assets}`;
+    const formattedAssets = assets.join(", ").slice(0, -2);
+    document.getElementById('asset-list').textContent = `Property No's: ${formattedAssets}`;
 		document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
 
     const now = new Date();
