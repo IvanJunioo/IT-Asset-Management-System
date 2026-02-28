@@ -103,7 +103,7 @@ document.addEventListener("click", (e) => {
     if (selectedRows.size == 1) {
       const [tr] = selectedRows;
       window.open(
-        `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
+        `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
         "_blank"
       );
       return;
@@ -128,13 +128,13 @@ document.addEventListener("click", (e) => {
     switch (target.dataset.type) {
       case "single":
         window.open(
-          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
           "_blank"
         );
         break;
       case "multiple":
         window.open(
-          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
+          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
           "_blank"
         );
         break;
@@ -172,7 +172,7 @@ tableContainer.addEventListener("click", (e) => {
     const tr = e.target.closest("tr");
     let empid = tr.dataset.empid;
     window.open(
-      `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
+      `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
       "_blank"
     );
     return;
@@ -223,7 +223,7 @@ async function fetchUsers() {
     [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
   )];
 
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: "search",
