@@ -217,32 +217,6 @@ function updateTableFuncs() {
   deactBtn.style.display = [...selectedRows].every(tr => tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" && tableData.get(Number(tr.dataset.empid)).EmpID !== JSON.parse(sessionStorage.getItem("user-info")).EmpID)? "flex" : "none";
 }
 
-function updateSelectedRows() {
-  var toAdd = new Set();
-  var toDel = new Set();
-
-  for (const tr1 of userTableBody.querySelectorAll("tr")) {
-    if (tr1.dataset.activeStatus === "Inactive" ||
-      session.user_id === tr1.dataset.empID
-    ) {continue;}
-
-    for (const tr2 of selectedRows) {
-      if (tr2.dataset.empID === tr1.dataset.empID) {
-        toDel.add(tr2);
-        toAdd.add(tr1);
-      }
-    }
-  }
-
-  for (const tr of toDel) {
-    selectedRows.delete(tr)
-  }
-
-  for (const tr of toAdd) {
-    selectedRows.add(tr)
-  }
-}
-
 function addReportModal() {
   const modalDiv = document.createElement("div");
   modalDiv.id = "reportModal";
