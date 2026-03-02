@@ -66,11 +66,15 @@ function showLogs() {
     }[metadata["action"]] || `${metadata["action"]}ed`;
 
     const extra = metadata.hasAssets? " (has assigned assets)" : "";
+
+    const priv = JSON.parse(sessionStorage.getItem("user-info")).Privilege;
+    const actorHTML = text => ["SuperAdmin"].includes(priv)? `<a data-type="actor">${text}</a>`: text;
+    const objHTML = text => metadata["object"] === "user" && !["SuperAdmin"].includes(priv)? text : `<a data-type="${metadata["object"]}">${text}</a>`;
     
     for (const col of [
       log.Timestamp,
-      `<a data-type="actor">${log.FName} ${log.LName}</a>`,
-      `<a data-type="actor">${log.FName[0].toUpperCase()}. ${log.LName}</a> ${action} ${metadata["object"]} <a data-type="${metadata["object"]}">${objName}</a>${extra}`,
+      actorHTML(`${log.FName} ${log.LName}`),
+      `${actorHTML(`${log.FName[0].toUpperCase()}. ${log.LName}`)} ${action} ${metadata["object"]} ${objHTML(objName)} ${extra}`,
     ]) {
       const td = document.createElement("td");
       td.innerHTML = col;
