@@ -38,7 +38,7 @@ final class AssetHandler {
     foreach (array_values(array_map("unserialize", array_unique(array_map("serialize", [
       ...$this->assetRepo->search(new AssetSearchCriteria(propNum: $search, status: $status)),
       ...$this->assetRepo->search(new AssetSearchCriteria(procNum: $search, status: $status)),
-      ...$this->assetRepo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
+      // ...$this->assetRepo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
       ...$this->assetRepo->search(new AssetSearchCriteria(specs: $search, status: $status)),
     ])))) as $asset) {
       $user = $this->assignRepo->getCurrAssignedUser($asset);
