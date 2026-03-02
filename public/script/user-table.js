@@ -266,6 +266,7 @@ function showUsers() {
     userTableBody.appendChild(tr);
   }
 
+  highlightSearch();
   sortUsers();
   userTableBody.dispatchEvent(new CustomEvent("usersLoaded"));
 }
@@ -283,6 +284,30 @@ function sortUsers() {
     return 0;
   });
   for (const tr of rows) userTableBody.appendChild(tr);
+}
+
+function highlightSearch() {
+  const search = searchInput.value.trim();
+  if (!search) return;
+  const regex = new RegExp(`(${search})`, "gi");
+  const headerIDs = [...userTable.querySelectorAll("thead th")].map((th) => th.id);
+
+  const dfs = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const span = document.createElement("span");
+      span.innerHTML = node.nodeValue.replace(regex, "<mark>$1</mark>");
+      node.replaceWith(...span.childNodes);
+      return;
+    }
+    for (const child of node.childNodes) dfs(child); 
+  };
+
+  for (const tr of userTableBody.querySelectorAll("tr")) {
+    for (const td of tr.querySelectorAll("td")) {
+      if (!["email","fname","lname"].includes(headerIDs[td.cellIndex])) continue;
+      dfs(td);
+    }
+  }
 }
 
 export function setInMulSel(val) {

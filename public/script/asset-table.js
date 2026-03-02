@@ -194,6 +194,7 @@ function showAssets() {
     assetTableBody.appendChild(tr);
   }
 
+  highlightSearch();
   sortAssets();
   assetTableBody.dispatchEvent(new CustomEvent("assetsLoaded"));
 }
@@ -225,4 +226,28 @@ function sortAssets() {
     return 0;
   });
   for (const tr of rows) assetTableBody.appendChild(tr);
+}
+
+function highlightSearch() {
+  const search = searchInput.value.trim();
+  if (!search) return;
+  const regex = new RegExp(`(${search})`, "gi");
+  const headerIDs = [...assetTable.querySelectorAll("thead th")].map((th) => th.id);
+
+  const dfs = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const span = document.createElement("span");
+      span.innerHTML = node.nodeValue.replace(regex, "<mark>$1</mark>");
+      node.replaceWith(...span.childNodes);
+      return;
+    }
+    for (const child of node.childNodes) dfs(child); 
+  };
+
+  for (const tr of assetTableBody.querySelectorAll("tr")) {
+    for (const td of tr.querySelectorAll("td")) {
+      if (!["pnum","prnum","specs"].includes(headerIDs[td.cellIndex])) continue;
+      dfs(td);
+    }
+  }
 }
