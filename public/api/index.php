@@ -162,6 +162,10 @@ match ($res) {
       echo json_encode($handler->searchAssets(
         search: $_GET["search"] ?? "",
         status: $_GET["status"] ?? "",
+        price_min: (float) $_GET["price_min"],
+        price_max: (float) $_GET["price_max"],
+        base_date: new DateTimeImmutable($_GET["base_date"]),
+        end_date: new DateTimeImmutable($_GET['end_date'])
       ));
     })($assetHand),
 
