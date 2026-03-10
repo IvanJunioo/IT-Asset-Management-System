@@ -13,7 +13,7 @@ const rowsPerPage = 10;
 export async function fetchLogs(search = "") {
   const fetchID = ++latest;
 
-  const url = new URL(`${window.location.origin}/api/index.php`)
+  const url = new URL(`${window.location.origin}/public/api/index.php`)
   url.search = new URLSearchParams({
     resource: "logs",
     action: "search",

@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php';?>
-  <link rel="stylesheet" href="/../../css/dashboard.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/dashboard.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
     
@@ -72,6 +72,6 @@
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 
-  <script src="/../../script/dashboard.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>script/dashboard.js" type="module" defer></script>
 </body>
 </html>

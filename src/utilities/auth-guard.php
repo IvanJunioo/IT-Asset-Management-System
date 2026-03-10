@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: ' . BASE_URL . '/login.php');
+    header('Location: ' . BASE_URL . 'views/login.php');
     exit;
 }
 
@@ -17,54 +17,54 @@ if (str_contains($name, " ")) {
 }
 $navItems = [
     'Dashboard' => [
-        'url' => BASE_URL . '/dashboard.php',
+        'url' => BASE_URL . 'views/dashboard.php',
         'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff'],
     ],
     'Assets' => [
-        'url' => BASE_URL . '/assets.php',
+        'url' => BASE_URL . 'views/assets.php',
         'roles' => ['Faculty', 'Staff']
     ],
     'Manage Assets' => [
-        'url' => BASE_URL . '/asset-manager.php',
+        'url' => BASE_URL . 'views/asset-manager.php',
         'roles' => ['Super Admin', 'Admin']
     ],
     'Users' => [
-        'url' => BASE_URL . '/users.php',
+        'url' => BASE_URL . 'views/users.php',
         'roles' => ['Admin']
     ],
     'Manage Users' => [
-        'url' => BASE_URL . '/user-manager.php',
+        'url' => BASE_URL . 'views/user-manager.php',
         'roles' => ['Super Admin']
     ],
     'System Activities' => [
-        'url' => BASE_URL . '/activity-log.php',
+        'url' => BASE_URL . 'views/activity-log.php',
         'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff']
     ]
 ];
 
 $dashboardIslands = [
     'View Assets' => [
-        'url' => BASE_URL . '/assets.php',
+        'url' => BASE_URL . 'views/assets.php',
         'roles' => ['Faculty', 'Staff'],
         'body' => "Preview all the system assets."
     ],
     'Manage Assets' => [
-        'url' => BASE_URL . '/asset-manager.php',
+        'url' => BASE_URL . 'views/asset-manager.php',
         'roles' => ['Super Admin', 'Admin'],
         'body' => "Add, edit, assign, or condemn assets in the department's inventory."
     ],
     'View Users' => [
-        'url' => BASE_URL . '/users.php',
+        'url' => BASE_URL . 'views/users.php',
         'roles' => ['Admin'],
         'body' => "Preview all the system users."
     ],
     'Manage Users' => [
-        'url' => BASE_URL . '/user-manager.php',
+        'url' => BASE_URL . 'views/user-manager.php',
         'roles' => ['Super Admin'],
         'body' => "Add users or update their roles, permissions, other details."
     ],
     'System Activities' => [
-        'url' => BASE_URL . '/activity-log.php',
+        'url' => BASE_URL . 'views/activity-log.php',
         'roles' => ['Super Admin', 'Admin', 'Faculty', 'Staff'],
         'body' => "Track all system actions and events."
     ]

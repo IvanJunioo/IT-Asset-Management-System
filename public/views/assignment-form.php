@@ -12,13 +12,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="/../../css/forms.css">
-  <link rel="stylesheet" href="/../../css/asset.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="assign-asset-form">
-    <form action = "/../../api/index.php?resource=assignment&action=assign" method="post">
+    <form action = "<?= BASE_URL ?>api/index.php?resource=assignment&action=assign" method="post">
       <h2>Assign Asset(s)</h2>
       <hr>
       <div class="input-label"> 
@@ -68,7 +68,7 @@
     const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
     document.getElementById('adate').setAttribute('max', today);
   </script>
-  <script src="/../../script/add-assignment.js" type="module" defer> </script>
+  <script src="<?= BASE_URL ?>script/add-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 </body>

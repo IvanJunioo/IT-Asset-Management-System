@@ -19,4 +19,4 @@
   <button id="next" disabled>Next</button>
 </div>
 
-<script src="../script/act-log.js" type="module" defer></script>
+<script src="<?= BASE_URL ?>script/act-log.js" type="module" defer></script>

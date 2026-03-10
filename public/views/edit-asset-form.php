@@ -12,8 +12,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="/../../css/forms.css">
-  <link rel="stylesheet" href="/../../css/asset.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
     
@@ -23,6 +23,6 @@
   
   <?php include __DIR__ . '/../partials/footer.php'?>
   
-  <script src="/../../script/edit-asset.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>script/edit-asset.js" type="module" defer></script>
 </body>
 </html>
