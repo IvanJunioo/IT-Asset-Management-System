@@ -53,8 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let dupPnum = checkDuplicate(pnums);
     let dupSnum = checkDuplicate(snums);
 
-    console.log(dataSnum);
-
     if (dataPnum) {
       valid = false;
       alert(`The property number ${dataPnum.PropNum} already exists`);
@@ -134,7 +132,6 @@ async function checkIfExists(inputs) {
   const url = new URL(`${window.location.origin}/public/api/index.php`);
   for (const inp of inputs){
     if (inp.value === '') continue
-    console.log(inp.value);
     url.search = new URLSearchParams({
       resource: "assets",
       action: "search",
@@ -145,7 +142,6 @@ async function checkIfExists(inputs) {
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
       const data = await resp.json();
-      console.log(data);
       if (data && data.length > 0) return data[0];
     } catch (err) {
       console.error("Error fetching users: ", err);

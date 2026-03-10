@@ -144,8 +144,6 @@ async function fetchAssets() {
     end_date: dateTo.value === "" ? today : dateTo.value
   });
 
-  console.log(url.search);
-
   try {
     const resp = await fetch(url);
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
