@@ -40,7 +40,7 @@
   document.getElementById("username").textContent = `${userInfo.LName}, ${userInfo.FName}`;
   document.getElementById("user-role").textContent = userInfo.Privilege;
 
-  const url = new URL(`${window.location.origin}public/api/index.php`);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
     resource: "logs",
     action: "logout",
