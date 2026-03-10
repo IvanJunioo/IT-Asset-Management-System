@@ -13,7 +13,6 @@
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
   <?php include __DIR__ . '/../partials/asset-styles.php'?>
-  <link rel="stylesheet" href="/../../css/asset.css">
 	<link rel="stylesheet" href="/../../css/asset-view.css">
 <body>
   <!-- menu -->
