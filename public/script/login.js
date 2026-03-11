@@ -1,7 +1,7 @@
 getUrl();
 
 async function getUrl() {
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "logs",
     action: "logurl",

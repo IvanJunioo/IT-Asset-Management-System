@@ -114,7 +114,7 @@ document.querySelectorAll(".apply-filter").forEach(btn => {
 
 exportButton.addEventListener("click", () => {
   window.open(
-    `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
+    `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
     "_blank"
   );
 })
@@ -145,7 +145,7 @@ async function fetchAssets() {
   const date = new Date();
   const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
 
-  const url = new URL(`${window.location.origin}/public/api/index.php`);
+  const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "search",

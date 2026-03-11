@@ -1,3 +1,3 @@
 <?php
-header("Location: " . BASE_URL . "views/login.php");
+header("Location: " . "views/login.php");
 exit;
