@@ -30,5 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetchLogs(data["pnum"]);
   }
+  document.querySelector("#actlog-table").className = "asset-view-table";
 });
 		

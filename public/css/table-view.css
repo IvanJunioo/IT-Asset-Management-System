@@ -13,7 +13,7 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   width: 100%;
-  z-index: 99999;
+  z-index: 3;
 }
 
 td {
@@ -30,7 +30,7 @@ th {
   padding: 5px;
   text-align: center;
   font-weight: 600;
-  z-index: 2;
+  z-index: 4;
 }
 
 th span {
@@ -128,7 +128,7 @@ tr:hover .action-btn {
   display: none;
   flex-direction: column;
   min-width: 100px;
-  z-index: 99999;
+  z-index: 10;
 }
 
 .menu-item {
@@ -178,7 +178,7 @@ tr:hover .action-btn {
   display: none;
   flex-direction: column;
   min-width: 100px;
-  z-index: 99999;
+  z-index: 10;
 }
 
 .sort-menu a {
@@ -193,7 +193,7 @@ background: #f2f2f2;
 .modal {
   display: none; 
   position: fixed;
-  z-index: 100000;
+  z-index: 100;
   left: 0; 
   top: 0;
   width: 100%; 
