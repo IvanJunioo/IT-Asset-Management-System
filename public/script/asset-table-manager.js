@@ -12,15 +12,6 @@ let selectedRows = new Set();
 let inMultiSelect = false;
 
 addTableFuncs();
-
-// Immediately add header for actions
-const hr = assetTable.querySelector("thead tr");
-if (!hr.querySelector("#actionsth")) {
-  const actionsth = document.createElement("th");
-  actionsth.id = "actionsth";
-  hr.appendChild(actionsth);
-}
-
 addAssetAdd();
 
 // Replace Reports Button
