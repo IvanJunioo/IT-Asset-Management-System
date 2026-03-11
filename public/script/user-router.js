@@ -1,5 +1,5 @@
 async function fetchUser(empid) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: "fetch",
@@ -21,11 +21,11 @@ async function fetchUser(empid) {
 export async function editUser(empid){
   const data = await fetchUser(empid);
   sessionStorage.setItem("userData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/views/edit-user-form.php`;
+  window.location.href = `${window.location.origin}/public/views/edit-user-form.php`;
 }
 
 export async function modifyUser(empID, actionType) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
     resource: "users",
     action: actionType,
@@ -41,7 +41,7 @@ export async function modifyUser(empID, actionType) {
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
-    window.location.href = `${window.location.origin}/views/user-manager.php`;
+    window.location.href = `${window.location.origin}/publoc/views/user-manager.php`;
   } catch (err) {
     console.error("Error modifying user: ", err);
   }

@@ -73,6 +73,18 @@
         <input type="checkbox" name="status" value="Condemned">  
         <span class="badge condemned">Condemned</span>
       </label>
+
+      <div class="date-filter">
+        <label>Purchase Date:</label>
+        <input type="date" id="date-from" placeholder="From">
+        <input type="date" id="date-to" placeholder="To">
+      </div>
+
+      <div class="price-filter">
+        <label>Price (₱):</label>
+        <input type="number" id="price-min" placeholder="Min" min="0">
+        <input type="number" id="price-max" placeholder="Max" max="1000000000">
+      </div>
     </div>
       
     <button class="apply-filter"> Reset Filters </button>
@@ -80,4 +92,11 @@
   </div>
   <button id = "export" class="generate"> Export assets </button>
 </div>
-<script src="/../../script/asset-table.js" type="module" defer></script>
+<script>
+  const date = new Date();
+  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+  document.getElementById('date-from').setAttribute('max', today);
+  document.getElementById('date-to').setAttribute('max', today);
+</script>
+
+<script src="<?= BASE_URL ?>script/asset-table.js" type="module" defer></script>

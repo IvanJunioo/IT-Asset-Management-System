@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } 
 
   const form = document.querySelector("form");
-  form.action = `${window.location.origin}/api/index.php?resource=assets&action=add`;
+  form.action = `${window.location.origin}/public/api/index.php?resource=assets&action=add`;
   form.method = "post";
 
   // Hide toCondemn radio button
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let dataSnum = await checkIfExists(snums);
     let dupPnum = checkDuplicate(pnums);
     let dupSnum = checkDuplicate(snums);
-
 
     if (dataPnum) {
       valid = false;
@@ -119,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkDuplicate(inputs) {
   const set = new Set();
   for (const inp of inputs) {
+    if (inp.value === '') continue
+
     if (set.has(inp.value)){
       return inp.value;
     }
@@ -128,8 +129,9 @@ function checkDuplicate(inputs) {
 }
 
 async function checkIfExists(inputs) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   for (const inp of inputs){
+    if (inp.value === '') continue
     url.search = new URLSearchParams({
       resource: "assets",
       action: "search",

@@ -31,15 +31,47 @@ final class AssetHandler {
   public function searchAssets(
     string $search,
     string $status,
+    float $price_min,
+    float $price_max,
+    DateTimeImmutable $base_date,
+    DateTimeImmutable $end_date
   ): array {
     $status = $status !== ""? array_map("AssetStatus::from", explode(',', $status)) : null;
 
     $assets = [];
     foreach (array_values(array_map("unserialize", array_unique(array_map("serialize", [
-      ...$this->assetRepo->search(new AssetSearchCriteria(propNum: $search, status: $status)),
-      ...$this->assetRepo->search(new AssetSearchCriteria(procNum: $search, status: $status)),
-      // ...$this->assetRepo->search(new AssetSearchCriteria(serialNum: $search, status: $status)),
-      ...$this->assetRepo->search(new AssetSearchCriteria(specs: $search, status: $status)),
+      ...$this->assetRepo->search(new AssetSearchCriteria(
+        propNum: $search, 
+        status: $status, 
+        price_min: $price_min,
+        price_max: $price_max,
+        base_date: $base_date,
+        end_date: $end_date
+        )),
+      ...$this->assetRepo->search(new AssetSearchCriteria(
+        procNum: $search, 
+        status: $status,
+        price_min: $price_min,
+        price_max: $price_max,
+        base_date: $base_date,
+        end_date: $end_date
+        )),
+      ...$this->assetRepo->search(new AssetSearchCriteria(
+        serialNum: $search, 
+        status: $status,
+        price_min: $price_min,
+        price_max: $price_max,
+        base_date: $base_date,
+        end_date: $end_date
+        )),
+      ...$this->assetRepo->search(new AssetSearchCriteria(
+        specs: $search, 
+        status: $status,
+        price_min: $price_min,
+        price_max: $price_max,
+        base_date: $base_date,
+        end_date: $end_date
+        ))
     ])))) as $asset) {
       $user = $this->assignRepo->getCurrAssignedUser($asset);
       $asset->assignTo($user);

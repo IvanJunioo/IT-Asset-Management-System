@@ -42,7 +42,6 @@
             placeholder="Enter Serial Number" 
             maxlength="12" 
             minlength="12" 
-            required
           > 
         </td>
         <td>

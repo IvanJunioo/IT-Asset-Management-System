@@ -9,15 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <title>IAMS</title>
-    <link rel="stylesheet" href="/../../css/general.css">
-    <link rel="stylesheet" href="/../../css/header.css">
-    <link rel="stylesheet" href="/../../css/navigation.css">
-    <link rel="stylesheet" href="/../../css/footer.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/general.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/header.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/navigation.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/footer.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/login.css">
 </head>
-  <link rel="stylesheet" href="/../../css/login.css">
-  <link rel="stylesheet" href="/../../css/header.css">
-  <link rel="stylesheet" href="/../../css/navigation.css">
 <body>  
   <!-- header -->
   <?php include __DIR__ . '/../partials/header-login.php' ?>
@@ -47,6 +45,6 @@
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 
-  <script src="/../../script/login.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>script/login.js" type="module" defer></script>
 </body>
 </html>

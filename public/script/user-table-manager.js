@@ -62,7 +62,7 @@ document.addEventListener("click", (e) => {
         break;
       case "get-report":
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
+          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
           "_blank"
         );
         break;
@@ -86,7 +86,7 @@ document.addEventListener("click", (e) => {
     if (selectedRows.size == 1) {
       const [tr] = selectedRows;
       window.open(
-        `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
+        `${window.location.origin}/public/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
         "_blank"
       );
       return;
@@ -114,13 +114,13 @@ document.addEventListener("click", (e) => {
       case "single":
         
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
           "_blank"
         );
         break;
       case "multiple":
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
+          `${window.location.origin}/public/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
           "_blank"
         );
         break;
@@ -247,7 +247,7 @@ function addReportModal() {
 }
 
 async function checkAssignment(){
-  const url = new URL(`${window.location.origin}/api/index.php`);
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   for (const tr of selectedRows) {
     const user = tableData.get(Number(tr.dataset.empid));
 

@@ -12,7 +12,7 @@ $host = $_SERVER['HTTP_HOST'];
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
 $projectRoot = preg_replace('#/(src|public).*#', '/', $scriptDir);
 
-define('BASE_URL', $protocol . $host . $projectRoot); // "/public/"
+define('BASE_URL', $protocol . $host . $projectRoot . 'public/'); // "/public/"
 
 // Database
 $dbname = "itam"; # Change database here
@@ -31,7 +31,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost:3000/api/index.php?resource=logs&action=login");
+$client->setRedirectUri("http://localhost:3000/public/api/index.php?resource=logs&action=login");
 
 $client->addScope("email");
 $client->addScope("profile");

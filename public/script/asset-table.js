@@ -102,13 +102,19 @@ document.querySelectorAll(".filter-box .body-filter").forEach(box => {
 document.querySelectorAll(".apply-filter").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
+    document.getElementById("price-min").value = "";
+    document.getElementById("price-max").value = "";
+    document.getElementById("date-from").value = "";
+    document.getElementById("date-to").value = "";
     fetchAssets();
   });
 });
 
+
+
 exportButton.addEventListener("click", () => {
   window.open(
-    `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
+    `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
     "_blank"
   );
 })
@@ -130,13 +136,25 @@ async function fetchAssets() {
   const statusFilters = [...new Set(
   [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
 )];
-  
-  const url = new URL(`${window.location.origin}/api/index.php`);
+
+  const priceMin = document.getElementById("price-min");
+  const priceMax = document.getElementById("price-max");
+  const dateFrom = document.getElementById("date-from");
+  const dateTo = document.getElementById("date-to");
+
+  const date = new Date();
+  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+
+  const url = new URL(`${window.location.origin}/public/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
     action: "search",
     search: searchFilters,
     status: statusFilters,
+    price_min: priceMin.value === "" ? "0" : priceMin.value,
+    price_max: priceMax.value === "" ? "1000000000" : priceMax.value,
+    base_date: dateFrom.value === "" ? "0001-01-01" : dateFrom.value,
+    end_date: dateTo.value === "" ? today : dateTo.value
   });
 
   try {

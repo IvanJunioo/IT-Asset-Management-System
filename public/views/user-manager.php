@@ -23,6 +23,6 @@
   
   <?php include __DIR__ . '/../partials/footer.php'?>
   
-  <script src="/../../script/user-table-manager.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>script/user-table-manager.js" type="module" defer></script>
 </body>
 </html>

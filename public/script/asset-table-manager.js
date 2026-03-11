@@ -106,19 +106,19 @@ document.addEventListener("click", (e) => {
     switch (target.dataset.type) {
       case "assigned-p":
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
+          `${window.location.origin}/public/api/index.php?resource=export&action=user-assets`,
           "_blank"
         );
         break;
       case "unassigned":
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=status&status=Unassigned`,
+          `${window.location.origin}/public/api/index.php?resource=export&action=status&status=Unassigned`,
           "_blank"
         );
         break;
       case "tocondemn":
         window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=status&status=ToCondemn`,
+          `${window.location.origin}/public/api/index.php?resource=export&action=status&status=ToCondemn`,
           "_blank"
         );
         break;
