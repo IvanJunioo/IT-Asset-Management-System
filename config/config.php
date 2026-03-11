@@ -19,7 +19,7 @@ $dbname = "itam"; # Change database here
 // $dbsource = "mysql:host=db;dbname=$dbname;charset=utf8mb4"; 
 // $dbusername = "user";      // match docker-compose.yml
 // $dbpassword = "userpassword";
-$dbsource = "mysql:host=localhost;dbname=$dbname;charset=utf8mb4"; 
+$dbsource = "mysql:host=127.0.0.1;dbname=$dbname;charset=utf8mb4";  // localhost
 $dbusername = "root";      // match docker-compose.yml
 $dbpassword = "";
 

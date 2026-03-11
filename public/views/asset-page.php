@@ -4,46 +4,6 @@
     <span class="material-icons search-icon">search</span>
   </div>
 
-  <div class="filter-box" id="filter-box-inline">
-    <div class="head-filter">
-      FILTERS
-    </div>
-
-    <div class="body-filter">
-      <label>
-        <input type="checkbox" name="status" value="Unassigned"> 
-        <span class="badge unassigned">Unassigned</span>
-      </label>
-      <label>
-        <input type="checkbox" name="status" value="Assigned"> 
-        <span class="badge assigned">Assigned</span>
-      </label>
-      <label>
-        <input type="checkbox" name="status" value="ToCondemn"> 
-        <span class="badge tocondemn">ToCondemn</span>
-      </label>
-      <label>
-        <input type="checkbox" name="status" value="Condemned">  
-        <span class="badge condemned">Condemned</span>
-      </label>
-
-      <div class="date-filter">
-        <label>Purchase Date:</label>
-        <input type="date" id="date-from" placeholder="From">
-        <input type="date" id="date-to" placeholder="To">
-      </div>
-
-      <div class="price-filter">
-        <label>Price (₱):</label>
-        <input type="number" id="price-min" placeholder="Min" min="0">
-        <input type="number" id="price-max" placeholder="Max" max="1000000000">
-      </div>
-    </div>
-      
-    <button class="apply-filter"> Reset Filters </button>
-
-  </div>
-
   <div class="table-container">
     <table class="asset-table">
       <thead>
