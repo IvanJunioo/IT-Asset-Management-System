@@ -96,7 +96,8 @@
 .date-filter input[type="date"],
 .price-filter input[type="number"] {
   width: 100%;
-  padding: 5px 8px;
+  height: 2rem;
+  padding: 0 8px;
   border: 1.5px solid #c8b8a2;
   border-radius: 8px;
   background-color: #fff;
