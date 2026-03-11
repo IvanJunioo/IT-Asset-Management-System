@@ -13,6 +13,14 @@ let latest = 0; // latest fetch id to avoid race conditions
 let currentSortKey = "PropNum"; // track which column is sorted
 let sortOrder = "asc"; 
 
+// Immediately add header for actions
+const hr = assetTable.querySelector("thead tr");
+if (!hr.querySelector("#actionsth")) {
+  const actionsth = document.createElement("th");
+  actionsth.id = "actionsth";
+  hr.appendChild(actionsth);
+}
+
 fetchAssets();
 
 const tableFuncs = document.createElement("div");
