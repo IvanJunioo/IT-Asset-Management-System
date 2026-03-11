@@ -20,7 +20,7 @@ final class ExportHandler {
 
         ob_start();
         extract($data);
-        include_once __DIR__ . "/../../public/template/{$template}.php";
+        include __DIR__ . "/../../public/template/{$template}.php";
         $html = ob_get_clean();
 
         $html = "<style>{$css}</style>" . $html;
