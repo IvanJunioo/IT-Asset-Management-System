@@ -142,13 +142,13 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `actlog`
 --
 ALTER TABLE `actlog`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `EmpID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `EmpID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

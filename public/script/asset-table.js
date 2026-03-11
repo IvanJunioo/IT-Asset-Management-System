@@ -118,8 +118,6 @@ document.querySelectorAll(".apply-filter").forEach(btn => {
   });
 });
 
-
-
 exportButton.addEventListener("click", () => {
   window.open(
     `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
@@ -142,9 +140,8 @@ async function fetchAssets() {
   const fetchID = ++latest;
   const searchFilters = searchInput.value;
   const statusFilters = [...new Set(
-  [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
-)];
-
+    [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
+  )];
   const priceMin = document.getElementById("price-min");
   const priceMax = document.getElementById("price-max");
   const dateFrom = document.getElementById("date-from");
@@ -164,6 +161,9 @@ async function fetchAssets() {
     base_date: dateFrom.value === "" ? "0001-01-01" : dateFrom.value,
     end_date: dateTo.value === "" ? today : dateTo.value
   });
+
+  console.log(priceMax);
+  console.log(url.search);
 
   try {
     const resp = await fetch(url);
