@@ -44,6 +44,10 @@ main {
 a {
   all:unset;
   cursor: pointer;
+}
+
+a[data-type="asset"]:hover,
+a[data-type="actor"]:hover {
   text-decoration: underline;
 }
 
