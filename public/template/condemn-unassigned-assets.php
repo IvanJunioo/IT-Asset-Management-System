@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <h1>All <?= htmlspecialchars($statusName) ?> Assets</h1>
+    <h1>All Assets to be Condemned</h1>
     <div class="asset-container">
       <?php if (!empty($assets)): ?>
       <table>

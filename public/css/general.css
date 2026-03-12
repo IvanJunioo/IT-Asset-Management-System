@@ -44,6 +44,7 @@ main {
 a {
   all:unset;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 hr {
@@ -161,7 +162,6 @@ form {
   font-size: clamp(4em, 1.5vw, 6em);
 }
 /* animation */
-
 @keyframes slideUp {
     from{
         transform: translateY(100%);
