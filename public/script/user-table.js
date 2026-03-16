@@ -1,3 +1,5 @@
+import { profileUser } from "./user-router.js";
+
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
@@ -154,16 +156,6 @@ tableContainer.addEventListener("click", (e) => {
     return;
   }
 
-  if (e.target.closest(".get-assignment")) {
-    const tr = e.target.closest("tr");
-    let empid = tr.dataset.empid;
-    window.open(
-      `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
-      "_blank"
-    );
-    return;
-  }
-
   if (e.target.closest("tr") && inMultiSelect) {
     const tr = e.target.closest("tr");
     if (!tr.closest("tbody")) return;
@@ -191,12 +183,23 @@ document.querySelector(".apply-filter").addEventListener("click", () => {
 });
 
 userTableBody.addEventListener("usersLoaded", () => {
-  addActionsButton();
+  addProfileButton();
   if (inMultiSelect) {
     updateSelectedRows();
     addCheckboxes();
   }
 });
+
+userTableBody.addEventListener("click", (e) => {
+  const tr = e.target.closest("tr");
+  if (!tr) return;
+
+  if (e.target.closest(".select-btn")) {
+    profileUser(tr.dataset.empid);
+    return;
+  }
+});
+
 
 // ----- FUNCTION DEFINITIONS -----
 async function fetchUsers() {
@@ -323,7 +326,7 @@ export function setInMulSel(val) {
     selectedRows.clear();
 
     userTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
-    addActionsButton();
+    addProfileButton();
   }
 
   inMultiSelect = val;
@@ -430,5 +433,15 @@ function addActionsButton() {
       </button>
     `;
     tr.appendChild(actionElem);
+  }
+}
+
+function addProfileButton() {
+  for (const tr of userTableBody.querySelectorAll("tr")) {
+    const td = document.createElement("td");
+    td.innerHTML = `
+      <button class="select-btn">Profile</button>
+    `;
+    tr.appendChild(td);
   }
 }

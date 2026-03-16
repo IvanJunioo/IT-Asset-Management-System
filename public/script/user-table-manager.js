@@ -10,7 +10,6 @@ const userTableBody = userTable.querySelector("tbody");
 const session = JSON.parse(document.body.dataset.session);
 
 addTableFuncs();
-addActionsButton();
 addUserAdd();
 
 // ----- EVENT LISTENERS -----
@@ -157,13 +156,11 @@ userTableBody.addEventListener("selectionChanged", () => {
 
 tableFuncs.addEventListener("MultiSelectionChanged", () => {
   if (!inMultiSelect) {
-    addActionsButton();
     updateTableFuncs();
   }
 });
 
 userTableBody.addEventListener("usersLoaded", () => {
-  addActionsButton();
   if (inMultiSelect) addCheckboxes();
 });
 
@@ -177,25 +174,6 @@ function addTableFuncs() {
       <span class="material-icons"> block </span> Deactivate
     </button>
   `);
-}
-
-function addActionsButton() {
-  for (const tr of userTableBody.querySelectorAll("tr")) {
-    tr.querySelector("td.actions")?.remove();
-
-    const actionElem = document.createElement("td");
-    actionElem.className = "actions";
-    actionElem.innerHTML = `
-      <button class="action-btn">
-        <span class="material-icons">more_horiz</span>
-      </button>
-      <div class="action-menu">
-        <a class="menu-item" data-action="modify">Modify</a>
-        <a class="menu-item" data-action="get-report">Get assignments</a>
-      </div>
-    `;
-    tr.appendChild(actionElem);
-  }
 }
 
 function addUserAdd() {
@@ -246,7 +224,7 @@ function addReportModal() {
   document.body.appendChild(modalDiv);
 }
 
-async function checkAssignment(){
+async function checkAssignment() {
   const url = new URL(`${window.location.origin}/api/index.php`);
   for (const tr of selectedRows) {
     const user = tableData.get(Number(tr.dataset.empid));

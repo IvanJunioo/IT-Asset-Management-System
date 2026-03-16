@@ -46,3 +46,7 @@ export async function modifyUser(empID, actionType) {
     console.error("Error modifying user: ", err);
   }
 }
+
+export async function profileUser(empID) {
+  return editUser(empID); // Temporary. Will be replaced with new profile page
+}
