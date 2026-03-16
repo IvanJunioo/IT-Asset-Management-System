@@ -1,35 +1,31 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
-	const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
-  const assetForm = document.querySelector(".assign-asset-form"); 
+const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
+const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
+const assetForm = document.querySelector(".assign-asset-form"); 
 
-  if (!assetsToAssign || !userAssigned) return;
+fillForm(assetsToAssign, userAssigned);
 
-  fillForm(assetsToAssign, userAssigned);
+function fillForm(assets, user) {
+  const formattedAssets = assets.join(", ").slice(0, -2);
+  document.getElementById('asset-list').textContent = `Property No's: ${formattedAssets}`;
+  document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
 
-  function fillForm(assets, user) {
-    const formattedAssets = assets.join(", ").slice(0, -2);
-    document.getElementById('asset-list').textContent = `Property No's: ${formattedAssets}`;
-		document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  document.getElementById("adate").value = now.toISOString().slice(0, 16);
 
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    document.getElementById("adate").value = now.toISOString().slice(0, 16);
-
-    // add extra data with form submission by appending hidden input fields
-    const form = assetForm.querySelector("form");
-    for (const asset of assets) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = "assets[]";
-      input.value = asset;
-      form.appendChild(input);      
-    }
+  // add extra data with form submission by appending hidden input fields
+  const form = assetForm.querySelector("form");
+  for (const asset of assets) {
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "user";
-    input.value = user.EmpID;
+    input.name = "assets[]";
+    input.value = asset;
     form.appendChild(input);      
   }
-});
-		
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "user";
+  input.value = user.EmpID;
+  form.appendChild(input);      
+}
+  

@@ -111,26 +111,24 @@
 </form>
 
 <script type="module" defer>
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
-    form.addEventListener("click", (e) => {
-      if (e.target.closest(".add-input")) {
-        const rows = e.target.closest(".input-rows");
-        
-        const row = rows.querySelector(".input-row").cloneNode(true);
-        row.querySelector("input").value = "";
-        const btn = row.querySelector("button");
-        btn.className = "remove-input";
-        btn.querySelector("span").textContent = "remove";
+  const form = document.querySelector("form");
+  form.addEventListener("click", (e) => {
+    if (e.target.closest(".add-input")) {
+      const rows = e.target.closest(".input-rows");
+      
+      const row = rows.querySelector(".input-row").cloneNode(true);
+      row.querySelector("input").value = "";
+      const btn = row.querySelector("button");
+      btn.className = "remove-input";
+      btn.querySelector("span").textContent = "remove";
 
-        rows.appendChild(row);
-        return;
-      }
+      rows.appendChild(row);
+      return;
+    }
 
-      if (e.target.closest(".remove-input")) {
-        e.target.closest(".input-row").remove();      
-        return;
-      }
-    });
+    if (e.target.closest(".remove-input")) {
+      e.target.closest(".input-row").remove();      
+      return;
+    }
   });
 </script>
