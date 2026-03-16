@@ -1,31 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  form.action = `${window.location.origin}/api/index.php?resource=users&action=add`;
-  form.method = "post";   
+const form = document.querySelector("form");
+form.action = `${window.location.origin}/api/index.php?resource=users&action=add`;
+form.method = "post";   
 
-  const resetBtn = document.getElementById("reset-button");
-  resetBtn?.addEventListener("click", (_) => {
-    form.reset();
-  })
+const resetBtn = document.getElementById("reset-button");
+resetBtn?.addEventListener("click", (_) => {
+  form.reset();
+})
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("e");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("e");
 
-    let valid = true;
-    let dataEmail = await checkIfExists(email);
+  let valid = true;
+  let dataEmail = await checkIfExists(email);
 
-    if (dataEmail) {
-      valid = false;
-      alert(`The email address you entered is already in use. Please try another one.`);
-    }
+  if (dataEmail) {
+    valid = false;
+    alert(`The email address you entered is already in use. Please try another one.`);
+  }
 
-    if (valid) {
-      form.submit();
-    }
-  })
-});
-
+  if (valid) {
+    form.submit();
+  }
+})
 
 async function checkIfExists(input) {
   const url = new URL(`${window.location.origin}/api/index.php`);

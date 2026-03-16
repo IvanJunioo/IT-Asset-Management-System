@@ -10,6 +10,49 @@ let totalLogs = 0;
 let latest = 0; // latest fetch id to avoid race conditions
 const rowsPerPage = 10;
 
+tbody.querySelector("td").colSpan = table.querySelector("thead tr").children.length;
+
+paginationDiv.dataset.curPage = 1;
+fetchLogs();
+
+table.addEventListener("click", (e) => {
+  const tr = e.target.closest("tr");
+  if (!tr) return;
+
+  const a = e.target.closest("a");
+  if (!a) return;
+
+  switch (a.dataset.type) {
+    case "actor":
+      editUser(tableData.get(Number(tr.dataset.logid)).ActorID);
+      break;
+    case "asset":
+      viewAsset(tr.dataset.objid);
+      break;
+    case "user":
+      editUser(Number(tr.dataset.objid))
+      break;
+    default:
+      console.warn(`Unknown object type: ${a.dataset.type}`);
+  }
+});
+
+paginationDiv.addEventListener("click", (e) => {
+  if (e.target.closest("#prev")) {
+    if (1 < paginationDiv.dataset.curPage) {
+      paginationDiv.dataset.curPage--;
+      fetchLogs();
+    }
+  }
+  
+  if (e.target.closest("#next")) {
+    if (paginationDiv.dataset.curPage<paginationDiv.dataset.totalPage) {
+      paginationDiv.dataset.curPage++;
+      fetchLogs();
+    }
+  }
+});
+
 export async function fetchLogs(search = "") {
   const fetchID = ++latest;
 
@@ -91,48 +134,3 @@ function showLogs() {
   document.getElementById("next").disabled = curPage === totalPage || totalPage === 0;
   document.getElementById("page-info").textContent = `Page ${curPage} of ${totalPage}`;
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  tbody.querySelector("td").colSpan = table.querySelector("thead tr").children.length;
-
-  paginationDiv.dataset.curPage = 1;
-  fetchLogs();
-
-  table.addEventListener("click", (e) => {
-    const tr = e.target.closest("tr");
-    if (!tr) return;
-
-    const a = e.target.closest("a");
-    if (!a) return;
-
-    switch (a.dataset.type) {
-      case "actor":
-        editUser(tableData.get(Number(tr.dataset.logid)).ActorID);
-        break;
-      case "asset":
-        viewAsset(tr.dataset.objid);
-        break;
-      case "user":
-        editUser(Number(tr.dataset.objid))
-        break;
-      default:
-        console.warn(`Unknown object type: ${a.dataset.type}`);
-    }
-  });
-
-  paginationDiv.addEventListener("click", (e) => {
-    if (e.target.closest("#prev")) {
-      if (1 < paginationDiv.dataset.curPage) {
-        paginationDiv.dataset.curPage--;
-        fetchLogs();
-      }
-    }
-    
-    if (e.target.closest("#next")) {
-      if (paginationDiv.dataset.curPage<paginationDiv.dataset.totalPage) {
-        paginationDiv.dataset.curPage++;
-        fetchLogs();
-      }
-    }
-  });
-});

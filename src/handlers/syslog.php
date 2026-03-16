@@ -54,16 +54,12 @@ final class LogHandler {
 
     $email = $userinfo->email;
 
-    if (substr($email, -10) !== "@up.edu.ph") {
-      exit("Only UP Mail accounts are allowed.");
+    if (!in_array(substr($email, -10), ["@up.edu.ph", "@dcs.upd.edu.ph"])) {
+      exit("Email not allowed.");
     }
 
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
-
-    if (count($users) == 0) {
-      throw new Exception("User email $email not found in database!");
-    }
-
+    if (count($users) == 0) throw new Exception("User email $email not found in database!");
     $user = $users[0];
 
     $_SESSION['user_id'] = $user->empID;
