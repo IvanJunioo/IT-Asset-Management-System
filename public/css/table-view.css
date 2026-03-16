@@ -145,7 +145,9 @@ tr:hover .action-btn {
 }
 
 /* Table function buttons */
-.select-btn, .get-assignment {
+.select-btn,
+.mod-btn,
+.get-assignment {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +165,9 @@ tr:hover .action-btn {
   box-sizing: unset;
 }
 
-.select-btn:hover, .get-assignment:hover {
+.select-btn:hover, 
+.mod-btn:hover, 
+.get-assignment:hover {
   border: 1pt solid var(--primary-green);
   background-color: var(--primary-color);
   color: var(--beige);

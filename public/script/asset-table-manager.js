@@ -214,22 +214,33 @@ tableContainer.addEventListener("click", (e) => {
 })
 
 assetTableBody.addEventListener("assetsLoaded", () => {  
-  // Replace view buttons
   for (const tr of assetTableBody.querySelectorAll("tr")) {
-    tr.lastElementChild.remove();
-
     // Replace assignee with clickable link to user
-    tr.lastElementChild.innerHTML = `
-      <a data-type="assignee">${tr.lastElementChild.textContent.trim()}</a>
+    const assToIdx = document.getElementById("assto").cellIndex;
+    tr.cells[assToIdx].innerHTML = `
+      <a data-type="assignee">${tr.cells[assToIdx].textContent.trim()}</a>
     `;
+
+    tr.lastElementChild.remove();
   }
-  addActionsButton();
+  addModifyButton();
 
   if (inMultiSelect) {
     updateSelectedRows();
     addCheckboxes();
   } 
 });
+
+assetTableBody.addEventListener("click", (e) => {
+  const tr = e.target.closest("tr");
+  if (!tr) return;
+
+  if (e.target.closest(".mod-btn")) {
+    editAsset(tr.dataset.propNum);
+    return;
+  }
+});
+
 
 // ----- FUNCTION DEFINITIONS -----
 function selectRow(tr) {
@@ -261,7 +272,7 @@ function setInMulSel(val) {
 
     // Replace last td's
     assetTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
-    addActionsButton();
+    addModifyButton();
   }
 
   if (!inMultiSelect && val) {
@@ -366,6 +377,18 @@ function addActionsButton() {
     }
 
     tr.appendChild(actionTd)
+  }
+}
+
+function addModifyButton() {
+  for (const tr of assetTableBody.querySelectorAll("tr")) {
+    const td = document.createElement("td");    
+    if (tableData.get(tr.dataset.propNum).Status !== "Condemned") {
+      td.innerHTML = `
+        <button class="mod-btn">Modify</button>
+      `;
+    }
+    tr.appendChild(td);
   }
 }
 
