@@ -31,8 +31,6 @@ final class AssetHandler {
   public function searchAssets(
     string $search,
     string $status,
-    float $price_min,
-    float $price_max,
     DateTimeImmutable $base_date,
     DateTimeImmutable $end_date
   ): array {
@@ -43,32 +41,24 @@ final class AssetHandler {
       ...$this->assetRepo->search(new AssetSearchCriteria(
         propNum: $search, 
         status: $status, 
-        price_min: $price_min,
-        price_max: $price_max,
         base_date: $base_date,
         end_date: $end_date
         )),
       ...$this->assetRepo->search(new AssetSearchCriteria(
         procNum: $search, 
         status: $status,
-        price_min: $price_min,
-        price_max: $price_max,
         base_date: $base_date,
         end_date: $end_date
         )),
       ...$this->assetRepo->search(new AssetSearchCriteria(
         serialNum: $search, 
         status: $status,
-        price_min: $price_min,
-        price_max: $price_max,
         base_date: $base_date,
         end_date: $end_date
         )),
       ...$this->assetRepo->search(new AssetSearchCriteria(
         specs: $search, 
         status: $status,
-        price_min: $price_min,
-        price_max: $price_max,
         base_date: $base_date,
         end_date: $end_date
         ))

@@ -110,8 +110,6 @@ document.querySelectorAll(".filter-box .body-filter").forEach(box => {
 document.querySelectorAll(".apply-filter").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
-    document.getElementById("price-min").value = "";
-    document.getElementById("price-max").value = "";
     document.getElementById("date-from").value = "";
     document.getElementById("date-to").value = "";
     fetchAssets();
@@ -142,8 +140,6 @@ async function fetchAssets() {
   const statusFilters = [...new Set(
     [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
   )];
-  const priceMin = document.getElementById("price-min");
-  const priceMax = document.getElementById("price-max");
   const dateFrom = document.getElementById("date-from");
   const dateTo = document.getElementById("date-to");
 
@@ -156,14 +152,9 @@ async function fetchAssets() {
     action: "search",
     search: searchFilters,
     status: statusFilters,
-    price_min: priceMin.value === "" ? "0" : priceMin.value,
-    price_max: priceMax.value === "" ? "1000000000" : priceMax.value,
     base_date: dateFrom.value === "" ? "0001-01-01" : dateFrom.value,
     end_date: dateTo.value === "" ? today : dateTo.value
   });
-
-  console.log(priceMax);
-  console.log(url.search);
 
   try {
     const resp = await fetch(url);

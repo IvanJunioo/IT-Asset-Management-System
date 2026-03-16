@@ -47,15 +47,14 @@
       </label>
 
       <div class="date-filter">
-        <label>Purchase Date:</label>
-        <input type="date" id="date-from" placeholder="From">
-        <input type="date" id="date-to" placeholder="To">
-      </div>
-
-      <div class="price-filter">
-        <label>Price (₱):</label>
-        <input type="number" id="price-min" placeholder="Min" min="0">
-        <input type="number" id="price-max" placeholder="Max" max="1000000000">
+        <div class="date-grp">
+          <span>Start Date</span>
+          <input type="date" id="date-from" placeholder="From">
+        </div>  
+        <div class="date-grp">
+          <span>End Date</span>
+          <input type="date" id="date-to" placeholder="To">
+        </div>
       </div>
     </div>
       
