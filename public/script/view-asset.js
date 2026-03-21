@@ -26,6 +26,6 @@ function fillPage(asset) {
     div.innerHTML += v;
   }
 
-  fetchLogs(data["pnum"]);
+  fetchLogs({metadata: data["pnum"]});
 }
   

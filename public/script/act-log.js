@@ -53,14 +53,20 @@ paginationDiv.addEventListener("click", (e) => {
   }
 });
 
-export async function fetchLogs(search = "") {
+export async function fetchLogs({
+  message = "", 
+  actorID = null, 
+  metadata = "",
+} = {}) {
   const fetchID = ++latest;
 
   const url = new URL(`${window.location.origin}/api/index.php`)
   url.search = new URLSearchParams({
     resource: "logs",
     action: "search",
-    search: search,
+    actorID: actorID,
+    message: message,
+    metadata: metadata,
     page: paginationDiv.dataset.curPage,
     limit: rowsPerPage,
   });

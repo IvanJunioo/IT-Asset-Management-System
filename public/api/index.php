@@ -238,7 +238,11 @@ match ($res) {
   APIResource::Log => match ($action) {
     APIAction::Search => (function(LogHandler $handler) {
       echo json_encode($handler->getLogs(
-        search: $_GET["search"] ?? "",
+        criteria: new LogSearchCriteria(
+          empID: $_GET["actorID"]? (int)$_GET["actorID"] : null,
+          message: $_GET["message"] ?? "",
+          metadata: $_GET["metadata"] ?? "",
+        ),
         page: (int)($_GET["page"] ?? 1),
         limit: (int)($_GET["limit"] ?? 20),
       ));
