@@ -1,5 +1,5 @@
 import { viewAsset } from "./asset-router.js";
-import { editUser } from "./user-router.js";
+import { editUser, profileUser } from "./user-router.js";
 
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
@@ -24,13 +24,13 @@ table.addEventListener("click", (e) => {
 
   switch (a.dataset.type) {
     case "actor":
-      editUser(tableData.get(Number(tr.dataset.logid)).ActorID);
+      profileUser(tableData.get(Number(tr.dataset.logid)).ActorID);
       break;
     case "asset":
       viewAsset(tr.dataset.objid);
       break;
     case "user":
-      editUser(Number(tr.dataset.objid))
+      profileUser(Number(tr.dataset.objid))
       break;
     default:
       console.warn(`Unknown object type: ${a.dataset.type}`);
@@ -81,6 +81,15 @@ export async function fetchLogs(search = "") {
 }
 
 function showLogs() {
+  if (tableData.size <= 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colSpan="${table.querySelector("thead tr").children.length}"> No logs to display. </td>
+      </tr>
+    `;
+    return;
+  }
+
   tbody.innerHTML = "";
 
   for (const [_, log] of tableData) {

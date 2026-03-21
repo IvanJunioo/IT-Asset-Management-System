@@ -48,5 +48,7 @@ export async function modifyUser(empID, actionType) {
 }
 
 export async function profileUser(empID) {
-  return editUser(empID); // Temporary. Will be replaced with new profile page
+  const data = await fetchUser(empID);
+  sessionStorage.setItem("userData", JSON.stringify(data));
+  window.location.href = `${window.location.origin}/views/user-view.php`;
 }
