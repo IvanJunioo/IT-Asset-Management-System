@@ -46,7 +46,7 @@
       <div class="dashboard-bottom">
         <div class="recent-activity">
           <h2>Recent Activity</h2>
-          <?php include '../views/act-log.php'?>
+          <?php include __DIR__ . '/act-log.php'?>
         </div>
 
         <section id="asset-distribution">
