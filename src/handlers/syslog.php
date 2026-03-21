@@ -10,12 +10,12 @@ final class LogHandler {
   ) {}
 
   public function getLogs(
-    string $search,
+    LogSearchCriteria $criteria,
     int $page,
     int $limit,
   ): array {
     $logs = [];
-    foreach ($this->logRepo->getLogs($search,$page,$limit) as $log) {
+    foreach ($this->logRepo->getLogs($criteria,$page,$limit) as $log) {
       $metadata = json_decode($log["Metadata"], true);
       
       switch ($metadata["object"]) {
@@ -23,7 +23,7 @@ final class LogHandler {
           break;
         case "user":
           $user = $this->userRepo->identify($metadata["empID"]);
-          $log["objName"] = $user->name->FLast();
+          $log["objName"] = $user? $user->name->FLast() : "Unknown user";
           break;
       }
       
@@ -31,7 +31,7 @@ final class LogHandler {
     }
     return [
       "logs" => $logs,
-      "count" => $this->logRepo->countLogs(search: $search),
+      "count" => $this->logRepo->countLogs(criteria: $criteria),
     ];
   }
 

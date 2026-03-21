@@ -36,12 +36,12 @@ export async function modifyUser(empID, actionType) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        empID: empID, 
+        empID: empID,
       }),
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
-    window.location.href = `${window.location.origin}/publoc/views/user-manager.php`;
+    window.location.href = `${window.location.origin}/views/user-manager.php`;
   } catch (err) {
     console.error("Error modifying user: ", err);
   }
