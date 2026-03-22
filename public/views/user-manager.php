@@ -13,8 +13,7 @@
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
   <?php include __DIR__ . '/../partials/user-styles.php'?>
-<body data-session = '<?php 
-  echo json_encode($_SESSION ?? []); ?>'>
+<body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <main class="user-page">

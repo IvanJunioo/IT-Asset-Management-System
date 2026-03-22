@@ -7,8 +7,6 @@ const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
-const session = JSON.parse(document.body.dataset.session);
-
 addTableFuncs();
 addUserAdd();
 
