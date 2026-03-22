@@ -183,7 +183,7 @@ document.querySelector(".apply-filter").addEventListener("click", () => {
 });
 
 userTableBody.addEventListener("usersLoaded", () => {
-  addProfileButton();
+  addActionsButton();
   if (inMultiSelect) {
     updateSelectedRows();
     addCheckboxes();
@@ -194,7 +194,7 @@ userTableBody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr");
   if (!tr) return;
 
-  if (e.target.closest(".select-btn")) {
+  if (e.target.closest(".profile-btn")) {
     profileUser(tr.dataset.empid);
     return;
   }
@@ -243,7 +243,7 @@ function showUsers() {
   if (tableData.size <= 0) {
     userTableBody.innerHTML = `
       <tr>
-        <td colSpan="${userTable.querySelector("thead tr").children.length}"> No users to display. </td>
+        <td colSpan="${userTable.querySelector("thead tr").children.length}" style="text-align: center;"> No users to display. </td>
       </tr>
     `;
     return;
@@ -326,7 +326,7 @@ export function setInMulSel(val) {
     selectedRows.clear();
 
     userTableBody.querySelectorAll("tr").forEach(tr => tr.lastElementChild.remove());
-    addProfileButton();
+    addActionsButton();
   }
 
   inMultiSelect = val;
@@ -425,22 +425,12 @@ function addActionsButton() {
   for (const tr of userTableBody.querySelectorAll("tr")) {
     if (tr.querySelector("td.actions")) continue;
 
-    const actionElem = document.createElement("td");
-    actionElem.className = "actions";
-    actionElem.innerHTML = `
-      <button class="get-assignment">
-        Assignment(s)
-      </button>
-    `;
-    tr.appendChild(actionElem);
-  }
-}
-
-function addProfileButton() {
-  for (const tr of userTableBody.querySelectorAll("tr")) {
     const td = document.createElement("td");
+    td.className = "actions";
     td.innerHTML = `
-      <button class="select-btn">Profile</button>
+      <button class="profile-btn">
+        Profile
+      </button>
     `;
     tr.appendChild(td);
   }

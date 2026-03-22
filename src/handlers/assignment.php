@@ -8,6 +8,10 @@ final class AssignmentHandler {
     private readonly AssignmentManagerInterface $manager,
   ) {}
 
+  public function getAssignments(string $assigneeID): array {
+    return $this->manager->getAssignments((int)$assigneeID);
+  }
+
   public function assign(
     array $propNums,
     DateTimeImmutable $date,

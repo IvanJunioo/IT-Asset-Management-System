@@ -3,6 +3,20 @@ import { tableData } from "./user-table.js";
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
+userTableBody.addEventListener("usersLoaded", () => {
+  addActionsButton();
+
+  // Handles all table clicks dynamically
+  userTable.addEventListener("click", (e) => {
+    if (e.target.closest(".select-btn")) {
+      const tr = e.target.closest("tr");      
+      sessionStorage.setItem("assignToUser", JSON.stringify(tableData.get(Number(tr.dataset.empid))));
+      window.location.href = `${window.location.origin}/views/assignment-form.php`;
+      return;
+    }
+  });
+});
+
 function addActionsButton() {
   const hr = userTable.querySelector("thead tr");
   if (!hr.querySelector("#actionsth")) {
@@ -30,17 +44,3 @@ function addActionsButton() {
     tr.appendChild(actionElem);
   }
 }
-
-userTableBody.addEventListener("usersLoaded", () => {
-  addActionsButton();
-
-  // Handles all table clicks dynamically
-  userTable.addEventListener("click", (e) => {
-    if (e.target.closest(".select-btn")) {
-      const tr = e.target.closest("tr");      
-      sessionStorage.setItem("assignToUser", JSON.stringify(tableData.get(Number(tr.dataset.empid))));
-      window.location.href = `${window.location.origin}/views/assignment-form.php`;
-      return;
-    }
-  });
-});

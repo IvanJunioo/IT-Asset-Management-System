@@ -7,6 +7,7 @@ require_once __DIR__ . '/../repos/assignment.php';
 require_once __DIR__ . '/../repos/user.php';
 
 interface AssignmentManagerInterface {
+  public function getAssignments(int $assigneeID): array;
   public function assignAsset(
     string $propNum, 
     int $assignerID,
@@ -28,6 +29,11 @@ final class AssignmentManager implements AssignmentManagerInterface {
     private readonly UserRepoInterface $userRepo,
   ) {}
 
+  public function getAssignments(int $assigneeID): array {
+    $assignee = $this->userRepo->identify($assigneeID);
+    return $this->assignRepo->getAssignedAssets($assignee);
+  }
+
   public function assignAsset(
     string $propNum, 
     int $assignerID,
@@ -39,8 +45,8 @@ final class AssignmentManager implements AssignmentManagerInterface {
     if ($asset->status !== AssetStatus::Unassigned) return;
     $asset->status = AssetStatus::Assigned;
 
-    $assigner = $this->userRepo->identify((int)$assignerID);
-    $assignee = $this->userRepo->identify((int)$assigneeID);
+    $assigner = $this->userRepo->identify($assignerID);
+    $assignee = $this->userRepo->identify($assigneeID);
 
     $asset->assignTo($assignee);
 

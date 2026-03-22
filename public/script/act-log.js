@@ -90,7 +90,7 @@ function showLogs() {
   if (tableData.size <= 0) {
     tbody.innerHTML = `
       <tr>
-        <td colSpan="${table.querySelector("thead tr").children.length}"> No logs to display. </td>
+        <td colSpan="${table.querySelector("thead tr").children.length}" style="text-align: center;"> No logs to display. </td>
       </tr>
     `;
     return;
