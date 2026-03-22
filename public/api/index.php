@@ -213,6 +213,10 @@ match ($res) {
   },
     
   APIResource::Assignment => match ($action) {
+    APIAction::Fetch => (function(AssignmentHandler $handler) {
+      echo json_encode($handler->getAssignments($_GET["user"]));
+    })($assignHand),
+
     APIAction::AssignAsset => (function(AssignmentHandler $handler) use ($input) {
       $handler->assign(
         propNums:   $input["assets"],

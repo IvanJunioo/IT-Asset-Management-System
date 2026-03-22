@@ -5,7 +5,7 @@ const assetForm = document.querySelector(".assign-asset-form");
 fillForm(assetsToAssign, userAssigned);
 
 function fillForm(assets, user) {
-  const formattedAssets = assets.join(", ").slice(0, -2);
+  const formattedAssets = assets.join(", ");
   document.getElementById('asset-list').textContent = `Property No's: ${formattedAssets}`;
   document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
 

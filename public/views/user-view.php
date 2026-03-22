@@ -12,8 +12,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/act-log.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>css/user-view.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
   
@@ -25,14 +25,30 @@
           <div class="user-info">
             <h2 class="user-name"></h2>
           </div>
-        </div>
-        
-        <div class="log-actions">
-          <p class="log-count">Recent Activity</p>
-        </div>
+        </div>        
       </header>
 
-      <div class="activity-log">
+      <div class="table-container">
+        <h3>Assets Assigned</h3>
+        <table class="asset-table">
+          <thead>
+            <tr>
+              <th id="pnum"><span>Procurement Number</span></th>
+              <th id="prnum"><span>Property Number</span></th>
+              <th id="pdate"><span>Purchase Date</span></th>
+              <th id="specs"><span>Detailed Specification</span></th>
+              <th id="price"><span>Price (₱)</span></th>
+              <th id="stat"><span>Status </span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <button class="function">Assign New Asset(s)</button>
+      </div>
+
+      <div class="table-container">
+        <h3>Recent Activity</h3>
         <?php include __DIR__ . '/act-log.php'?>
       </div>    
     </div>

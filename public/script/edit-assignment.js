@@ -5,7 +5,7 @@ fillForm(assetsToReturn);
 
 function fillForm(assets) {
   const p_asset = assetForm.querySelector('#asset-list');
-  const formattedAssets = assets.join(", ").slice(0, -2);
+  const formattedAssets = assets.join(", ");
 
   p_asset.textContent = `${formattedAssets}`;
 
