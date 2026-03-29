@@ -39,7 +39,10 @@
       </label>
     </div>
       
-    <button class="apply-filter"> Reset Filters </button>
+    <button class="reset-filter"> 
+      <span class="material-icons">refresh</span>
+      Reset Filters 
+    </button>
   </div>
 
   <div class="table-container">
@@ -93,9 +96,15 @@
       </label>
     </div>
       
-    <button class="apply-filter"> Reset Filters </button>
+    <button class="reset-filter"> 
+      <span class="material-icons">refresh</span>
+      Reset Filters 
+    </button>
   </div>
-  <button id = "report" class="generate"> Get Assigned Assets </button>
+  <button id="report" class="generate"> 
+    <span class="material-icons">ios_share</span>
+    Get Assigned Assets 
+  </button>
 </div>
 
 <script src="<?= BASE_URL ?>script/user-table.js" type="module" defer></script>

@@ -80,7 +80,3 @@ th:nth-child(1), th:nth-child(2) {
 td:nth-child(3), th:nth-child(3) {
   width: 50%
 }
-
-table {
-  table-layout: unset;
-}

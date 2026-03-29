@@ -107,7 +107,7 @@ document.querySelectorAll(".filter-box .body-filter").forEach(box => {
   box.addEventListener("change", fetchAssets);
 });
 
-document.querySelectorAll(".apply-filter").forEach(btn => {
+document.querySelectorAll(".reset-filter").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
     document.getElementById("date-from").value = "";

@@ -30,6 +30,10 @@
       box-sizing: border-box;
     }
 
+    .assignment-table {
+      margin-bottom: 1rem;
+    }
+
     /* Column Width Adjustments */
     #prnum { width: 40%; }
     #assDate { width: 30%; }
@@ -45,16 +49,6 @@
         width: 100%;
       }
     }
-
-    .function {
-      margin: 2rem auto 0;
-      padding: 1rem;
-      border-radius: 12px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      background-color: var(--primary-color);
-    }    
   </style>
 <body>
     <?php include __DIR__ . '/../partials/header.php'?>
