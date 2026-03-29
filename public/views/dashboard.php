@@ -35,7 +35,7 @@
       <section class="dashboard-cards">
         <?php foreach ($dashboardIslands as $label => $data): ?>
           <?php if (in_array($privilege, $data['roles'])): ?>
-            <a href="<?=htmlspecialchars($data['url'])?>" class="card">
+            <a href="<?=htmlspecialchars($data['url'])?>" class="dashboard-card">
               <h2><?=htmlspecialchars($label)?></h2>
               <p><?=htmlspecialchars($data['body'])?></p>
             </a>

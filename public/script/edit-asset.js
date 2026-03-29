@@ -1,15 +1,14 @@
 const assetData = JSON.parse(sessionStorage.getItem("assetData"));
-const assetForm = document.querySelector(".asset-form"); 
-const form = assetForm.querySelector("form");
+const assetForm = document.querySelector("#asset-form"); 
 
-form.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
-form.method = "post";
+assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
+assetForm.method = "post";
 
 fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
 
-form.querySelector("input#pnum").readOnly = true;
-form.querySelector("input#prnum").readOnly = true;
-const snum = form.querySelector("input#snum"); 
+assetForm.querySelector("input#pnum").readOnly = true;
+assetForm.querySelector("input#prnum").readOnly = true;
+const snum = assetForm.querySelector("input#snum"); 
 if (snum.value.trim() !== "") snum.readOnly = true;
 
 function fillForm(asset) {

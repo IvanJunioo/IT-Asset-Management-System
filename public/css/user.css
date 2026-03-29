@@ -45,12 +45,6 @@
   background-color: var(--border-color);
 }
 
-.user-form {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
 /* format when assigning user */
 .assign-user {
   display: flex;

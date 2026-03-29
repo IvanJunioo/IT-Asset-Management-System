@@ -1,6 +1,6 @@
 const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
 const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
-const assetForm = document.querySelector(".assign-asset-form"); 
+const form = document.getElementById("assign-asset-form"); 
 
 fillForm(assetsToAssign, userAssigned);
 
@@ -14,7 +14,6 @@ function fillForm(assets, user) {
   document.getElementById("adate").value = now.toISOString().slice(0, 16);
 
   // add extra data with form submission by appending hidden input fields
-  const form = assetForm.querySelector("form");
   for (const asset of assets) {
     const input = document.createElement("input");
     input.type = "hidden";

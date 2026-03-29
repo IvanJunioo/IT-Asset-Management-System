@@ -56,9 +56,31 @@ hr {
   margin-bottom: 1rem;
 }
 
-form {
+main {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 0.3pt solid var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
 }
 
 .table-func {

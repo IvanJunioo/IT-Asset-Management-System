@@ -10,10 +10,11 @@
 }
 
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  align-items: stretch;
+  font-family: sans-serif;
 }
 
 .dashboard-title {
@@ -27,32 +28,32 @@
 }
 
 .dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 2fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 2fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    border: 1px solid var(--primary-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.dashboard-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card:hover {
+.dashboard-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-.card h2 {
+.dashboard-card h2 {
     margin: 0 0 0.5rem;
     font-size: 1.2rem;
 }
 
-.card p {
+.dashboard-card p {
     color: #555;
     font-size: 0.95rem;
 }

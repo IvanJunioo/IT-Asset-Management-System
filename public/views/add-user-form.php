@@ -17,8 +17,10 @@
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
-  <main class="user-form">
-    <?php include __DIR__ . '/user-form.php'?>
+  <main>
+    <div class="card">
+      <?php include __DIR__ . '/user-form.php'?>
+    </div>
   </main>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

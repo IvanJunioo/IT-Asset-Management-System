@@ -17,50 +17,52 @@
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
-  <main class="assign-asset-form">
-    <form action = "<?= BASE_URL ?>api/index.php?resource=assignment&action=assign" method="post">
-      <h2>Assign Asset(s)</h2>
-      <hr>
-      <div class="input-label"> 
-        <b>Selected Asset(s):</b>
-        <p id="asset-list"></p>
-      </div>
-      
-      <div class="input-label"> 
-        <b>Selected User:</b>
-        <p id="chosen-user" name = 'user'></p>
-      </div>
-
-      <label class="input-label"> 
-        Datetime: 
-        <input 
-          type="datetime-local" 
-          id="adate" 
-          name="assign-date" 
-          placeholder="Enter Assign Date"
-          required
-        >
-      </label>
-
-			<label class="input-label"> 
-        Remarks: 
-        <textarea 
-          id="remarks" 
-          name="remarks" 
-          placeholder="Enter Remarks" 
-          rows="4" 
-          cols="25"
-        ></textarea>
-      </label>
-
-      <button id="reset-button" type="reset">
-        Reset
-      </button>
-
-      <button id="submit-button" type="submit" name="action" value="submit">
-        Submit
-      </button>  
-    </form>
+  <main>
+    <div class="card">
+      <form id="assign-asset-form" action = "<?= BASE_URL ?>api/index.php?resource=assignment&action=assign" method="post">
+        <h2>Assign Asset(s)</h2>
+        <hr>
+        <div class="input-label"> 
+          <b>Selected Asset(s):</b>
+          <p id="asset-list"></p>
+        </div>
+        
+        <div class="input-label"> 
+          <b>Selected User:</b>
+          <p id="chosen-user" name = 'user'></p>
+        </div>
+  
+        <label class="input-label"> 
+          Datetime: 
+          <input 
+            type="datetime-local" 
+            id="adate" 
+            name="assign-date" 
+            placeholder="Enter Assign Date"
+            required
+          >
+        </label>
+  
+        <label class="input-label"> 
+          Remarks: 
+          <textarea 
+            id="remarks" 
+            name="remarks" 
+            placeholder="Enter Remarks" 
+            rows="4" 
+            cols="25"
+          ></textarea>
+        </label>
+  
+        <button id="reset-button" type="reset">
+          Reset
+        </button>
+  
+        <button id="submit-button" type="submit" name="action" value="submit">
+          Submit
+        </button>  
+      </form>
+    </div>
   </main>
 
   <script>
