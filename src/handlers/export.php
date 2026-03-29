@@ -13,8 +13,7 @@ final class ExportHandler {
         private readonly AssignmentRepoInterface $assignRepo,
     ) {}
 
-    private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void
-    {
+    private function generatePdf(string $template, array $data, string $filename, bool $forDownload, ?string $filepath = null): void {
         $cssPath = __DIR__ . '/../../public/css/asset-pdf.css';
         $css = file_get_contents($cssPath);
 
@@ -45,8 +44,7 @@ final class ExportHandler {
         }
     }
 
-    public function exportAssetsByStatus(?string $statusName): void
-    {
+    public function exportAssetsByStatus(?string $statusName): void {
         $status = null;
 
         if (!empty($statusName)) {
@@ -74,35 +72,29 @@ final class ExportHandler {
         );
     }
 
-    public function exportUserAssignedAssets(?string $userParam): void
-    {
-        session_start();
-        $user = $this->userRepo->identify($_SESSION['user_id']);
+    public function exportUserAssignedAssets(?string $userParam): void {
+      $user = $this->userRepo->identify($userParam ? (int)$userParam : $_SESSION['user_id']);
 
-        if ($userParam) {
-            $user = $this->userRepo->identify($userParam);
-        }
+      $data = [];
 
-        $data = [];
+      $assets = $this->assignRepo->getAssignedAssets($user);
 
-        $assets = $this->assignRepo->getAssignedAssets($user);
+      foreach ($assets as $asset) {
+        $data[] = [
+          'asset' => [
+            $asset,
+            explode(' ', $this->assignRepo->getAssignmentDate($asset))[0]
+          ]
+        ];
+      }
 
-        foreach ($assets as $asset) {
-            $data[] = [
-                'asset' => [
-                    $asset,
-                    explode(' ', $this->assignRepo->getAssignmentDate($asset))[0]
-                ]
-            ];
-        }
-
-        $this->generatePdf(
-            "assigned-assets",
-            ["data" => $data,
-            "assets" => $assets],
-            $user->name->last . "_assigned_assets.pdf",
-            true
-        );
+      $this->generatePdf(
+        "assigned-assets",
+        ["data" => $data,
+        "assets" => $assets],
+        $user->name->last . "_assigned_assets.pdf",
+        true
+      );
     }
 
     public function exportFacultyAssignedAssets(?string $usersParam): void

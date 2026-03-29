@@ -8,7 +8,7 @@ require_once __DIR__ . '/../model/asset.php';
 interface AssignmentRepoInterface {
   public function getAssignedAssets(User $user): array;
   public function getCurrAssignedUser(Asset $asset): ?User; 
-  public function getAssignmentDate(Asset $asset): ?string; 
+  public function getAssignmentDate(Asset $asset): string; 
   public function assign(
     Asset $asset, 
     User $assigner,
@@ -57,7 +57,7 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     );
 	}
 
-  public function getAssignmentDate(Asset $asset): ?string{
+  public function getAssignmentDate(Asset $asset): string {
     $query = "SELECT * FROM 
       assignment WHERE PropNum = :pnum AND ReturnDateTime is NULL";
     

@@ -31,7 +31,15 @@ final class AssignmentManager implements AssignmentManagerInterface {
 
   public function getAssignments(int $assigneeID): array {
     $assignee = $this->userRepo->identify($assigneeID);
-    return $this->assignRepo->getAssignedAssets($assignee);
+
+    $assets = [];
+    foreach ($this->assignRepo->getAssignedAssets($assignee) as $asset) {
+      $assets[] = [
+        ...$asset->jsonSerialize(),
+        "AssignedOn" => $this->assignRepo->getAssignmentDate($asset),
+      ];
+    }
+    return $assets;
   }
 
   public function assignAsset(
