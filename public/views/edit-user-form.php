@@ -55,6 +55,7 @@
 
     <main>
       <div class="card">
+        <h3>Edit User Details</h3>
         <?php include __DIR__ . '/user-form.php'?>
       </div>
     

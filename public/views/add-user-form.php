@@ -19,6 +19,7 @@
 
   <main>
     <div class="card">
+      <h3>Add New User</h3>
       <?php include __DIR__ . '/user-form.php'?>
     </div>
   </main>

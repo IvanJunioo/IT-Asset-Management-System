@@ -1,4 +1,4 @@
-import {assignAssets, returnAssets} from "./asset-router.js";
+import {assignAssets, returnAssets, condemnAsset} from "./asset-router.js";
 
 const main = document.querySelector("main");
 const assetData = JSON.parse(sessionStorage.getItem("assetData"));
@@ -9,7 +9,6 @@ assetForm.method = "post";
 
 const asset = Array.isArray(assetData) ? assetData[0] : assetData;
 
-console.log(asset);
 fillForm(asset);
 addAssignmentButtons();
 
@@ -33,6 +32,9 @@ main.addEventListener("click", (e) => {
         break;
       case "return":
         returnAssets([asset.PropNum]);
+        break;
+      case "condemn":
+        if (confirm("Condemn asset?")) condemnAsset(asset.PropNum);
         break;
     }
   }
@@ -106,6 +108,16 @@ function addAssignmentButtons() {
     btn.innerHTML = `
       <span class="material-icons">assignment_return</span>
       Return    
+    `;
+    main.appendChild(btn);
+  }
+  if (asset.Status === "ToCondemn") {
+    const btn = document.createElement("button");
+    btn.className = "assign-btn";
+    btn.value = "condemn";
+    btn.innerHTML = `
+      <span class="material-icons">block</span>
+      Condemn    
     `;
     main.appendChild(btn);
   }
