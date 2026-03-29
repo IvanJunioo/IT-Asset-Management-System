@@ -11,11 +11,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <?php include __DIR__ . '/../partials/head.php'?>
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/table-view.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/user-table.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/filters.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/user.css">
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/user-styles.php'?>
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
