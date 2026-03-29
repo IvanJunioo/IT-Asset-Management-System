@@ -1,23 +1,67 @@
-const userData = JSON.parse(sessionStorage.getItem("userData"));
-const userForm = document.querySelector(".user-form"); 
-const form = userForm.querySelector("form");
+import { fetchLogs } from "./act-log.js";
+import { returnAsset } from "./asset-router.js";
 
-form.action = `${window.location.origin}/api/index.php?resource=users&action=edit`;
-form.method = "post";
+const userData = JSON.parse(sessionStorage.getItem("userData"));
+const userForm = document.querySelector("form"); 
+
+const assignmentTable = document.querySelector(".assignment-table");
+const assignmentTableBody = assignmentTable.querySelector("tbody");
+
+let assignmentData = new Map();
+let latest = 0; // latest fetch id to avoid race conditions
+
+userForm.action = `${window.location.origin}/api/index.php?resource=users&action=edit`;
+userForm.method = "post";
   
 const user = Array.isArray(userData) ? userData[0] : userData;
 
 fillForm(user);
+fetchAssignments()
+fetchLogs({actorID: user.EmpID});
 
 if (user['EmpID'] === JSON.parse(sessionStorage.getItem("user-info")).empID) {
-  form.querySelector("input#inact").disabled = true;
+  userForm.querySelector("input#inact").disabled = true;
 }
 
 const input = document.createElement("input");
 input.type = "hidden";
 input.name = "employee-id";
 input.value = user["EmpID"];
-form.appendChild(input);
+userForm.appendChild(input);
+
+const resetBtn = document.getElementById("reset-button");
+resetBtn?.addEventListener("click", (_) => {
+  fillForm(user);
+})
+
+userForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const assignments = await getAssignments(user["EmpMail"]);
+
+  const oldStatus = user['ActiveStatus'];
+  const newStatus = document.querySelector('input[name="active-status"]:checked').value;
+  
+  if (oldStatus === "Active" && oldStatus!==newStatus){ 
+    if (assignments>0) {
+      const sub = confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
+
+      if (!sub) return;
+    }
+  }
+
+  userForm.submit();
+})
+
+assignmentTableBody.addEventListener("click", (e) => {
+  const tr = e.target.closest("tr");
+  if (!tr) return;
+
+  if (e.target.closest(".select-btn")) {
+    returnAsset([tr.dataset.propNum]);
+    return;
+  }
+});
 
 function fillForm(user) {
   const data = {
@@ -38,31 +82,6 @@ function fillForm(user) {
   }
 }
 
-const resetBtn = document.getElementById("reset-button");
-resetBtn?.addEventListener("click", (_) => {
-  fillForm(user);
-})
-
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  
-  const assignments = await getAssignments(user["EmpMail"]);
-
-  const oldStatus = user['ActiveStatus'];
-  const newStatus = document.querySelector('input[name="active-status"]:checked').value;
-  
-  if (oldStatus === "Active" && oldStatus!==newStatus){ 
-    if (assignments>0) {
-      const sub = confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
-
-      if (!sub) return;
-    }
-  }
-
-  form.submit();
-})
-
 async function getAssignments(employee) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
@@ -82,4 +101,79 @@ async function getAssignments(employee) {
   }
   
   return 0;
+}
+
+async function fetchAssignments() {    
+  const fetchID = ++latest;
+
+  const url = new URL(`${window.location.origin}/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assignment",
+    action: "fetch",
+    user: user.EmpID,
+  });
+
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+    
+    const data = await resp.json();
+    assignmentData = new Map(data.map(asset => [asset.PropNum, asset]));
+    
+    if (fetchID !== latest) return;
+    showAssets();
+  } catch (err) {
+    console.error("Error fetching assets: ", err);
+  }
+}
+
+function showAssets() {
+  if (assignmentData.size <= 0) {
+    assignmentTableBody.innerHTML = `
+      <tr>
+        <td colSpan="${assignmentTable.querySelector("thead tr").children.length}" style="text-align: center;"> No assets to display. </td>
+      </tr>
+    `;
+    return;
+  }
+
+  // Add another header
+  const hr = assignmentTable.querySelector("thead tr");
+  if (!hr.querySelector("#actionsth")) {
+    const actionsth = document.createElement("th");
+    actionsth.id = "actionsth";
+    hr.appendChild(actionsth);
+  }
+
+  assignmentTableBody.innerHTML = "";
+
+  console.log(assignmentData);
+  
+  for (const [_, asset] of assignmentData) {
+    const tr = document.createElement('tr');
+
+    // Store id
+    tr.dataset.propNum = asset.PropNum;
+
+    for (const col of [
+      asset.PropNum,
+      asset.PurchaseDate, // Temporary 
+      `<span class="badge ${asset.Status.toLowerCase()}">${asset.Status}</span>`,
+    ]) {
+      const td = document.createElement("td");
+      td.innerHTML = col;
+      tr.appendChild(td);
+    }
+
+    // Action button
+    const actBtn = document.createElement("button");
+    actBtn.className = "select-btn";
+    actBtn.textContent = "Return";
+    const td = document.createElement("td");
+    td.append(actBtn);
+    tr.append(td);
+
+    assignmentTableBody.appendChild(tr);
+  }
 }

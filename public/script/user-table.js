@@ -1,4 +1,4 @@
-import { profileUser } from "./user-router.js";
+import { editUser } from "./user-router.js";
 
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
@@ -195,7 +195,7 @@ userTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".profile-btn")) {
-    profileUser(tr.dataset.empid);
+    editUser(tr.dataset.empid);
     return;
   }
 });

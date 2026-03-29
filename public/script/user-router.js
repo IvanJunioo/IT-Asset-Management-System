@@ -46,9 +46,3 @@ export async function modifyUser(empID, actionType) {
     console.error("Error modifying user: ", err);
   }
 }
-
-export async function profileUser(empID) {
-  const data = await fetchUser(empID);
-  sessionStorage.setItem("userData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/views/user-view.php`;
-}

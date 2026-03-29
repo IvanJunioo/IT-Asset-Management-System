@@ -11,15 +11,80 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <?php include __DIR__ . '/../partials/head.php'?>
+  <?php include __DIR__ . '/../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/user.css">
-    
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
+  <style>
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 2rem;
+      align-items: start;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    main > div:first-child form {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Column Width Adjustments */
+    #prnum { width: 40%; }
+    #assDate { width: 30%; }
+    #stat { width: 20%; }
+
+    /* Responsive: Stack columns on smaller screens */
+    @media (max-width: 1024px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      
+      main > div:first-child form {
+        width: 100%;
+      }
+    }
+
+    .function {
+      margin: 2rem auto 0;
+      padding: 1rem;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: var(--primary-color);
+    }    
+  </style>
 <body>
     <?php include __DIR__ . '/../partials/header.php'?>
 
-    <main class="user-form">
-      <?php include __DIR__ . '/user-form.php'?>
+    <main>
+      <div class="card">
+        <?php include __DIR__ . '/user-form.php'?>
+      </div>
+    
+      <div class="card">
+        <h3>Assets Assigned</h3>
+        <table class="assignment-table">
+          <thead>
+            <tr>
+              <th id="prnum"><span>Property Number</span></th>
+              <th id="assDate"><span>Assigned On</span></th>
+              <th id="stat"><span>Status</span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <button class="function">Assign New Asset(s)</button>
+        <button class="function">Get Assigned Asset(s)</button>
+      </div>
+
+      <div class="card">
+        <h3>Recent Activity</h3>
+        <?php include __DIR__ . '/act-log.php'?>
+      </div>    
     </main>
     
     <?php include __DIR__ . '/../partials/footer.php'?>

@@ -18,7 +18,7 @@
   <?php include __DIR__ . '/../partials/header.php'?>
   
   <main>
-    <div class="activity-log">
+    <div id="activity-log">
       <?php include __DIR__ . '/act-log.php'?>
     </div>
   </main>

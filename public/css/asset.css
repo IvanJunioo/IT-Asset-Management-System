@@ -44,12 +44,6 @@
   background-color: var(--border-color);
 }
 
-.asset-form, .assign-asset-form {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
 @media only screen and (max-width: 1100px) {
   .asset-page {
     display: flex;
