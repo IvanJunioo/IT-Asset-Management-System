@@ -6,6 +6,7 @@ const userForm = document.querySelector("form");
 
 const assignmentTable = document.querySelector(".assignment-table");
 const assignmentTableBody = assignmentTable.querySelector("tbody");
+const exportButton = document.getElementById("export-assignment");
 
 let assignmentData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
@@ -62,6 +63,13 @@ assignmentTableBody.addEventListener("click", (e) => {
     return;
   }
 });
+
+exportButton.addEventListener("click", () => {
+  window.open(
+    `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=${user.EmpID}`,
+    "_blank"
+  );
+})
 
 function fillForm(user) {
   const data = {
@@ -122,13 +130,13 @@ async function fetchAssignments() {
     assignmentData = new Map(data.map(asset => [asset.PropNum, asset]));
     
     if (fetchID !== latest) return;
-    showAssets();
+    showAssignments();
   } catch (err) {
     console.error("Error fetching assets: ", err);
   }
 }
 
-function showAssets() {
+function showAssignments() {
   if (assignmentData.size <= 0) {
     assignmentTableBody.innerHTML = `
       <tr>
@@ -147,8 +155,6 @@ function showAssets() {
   }
 
   assignmentTableBody.innerHTML = "";
-
-  console.log(assignmentData);
   
   for (const [_, asset] of assignmentData) {
     const tr = document.createElement('tr');
@@ -158,7 +164,7 @@ function showAssets() {
 
     for (const col of [
       asset.PropNum,
-      asset.PurchaseDate, // Temporary 
+      asset.AssignedOn, 
       `<span class="badge ${asset.Status.toLowerCase()}">${asset.Status}</span>`,
     ]) {
       const td = document.createElement("td");

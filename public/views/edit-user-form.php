@@ -77,8 +77,14 @@
           <tbody></tbody>
         </table>
 
-        <button class="function">Assign New Asset(s)</button>
-        <button class="function">Get Assigned Asset(s)</button>
+        <button id="add-assignment-button">
+          <i class="material-icons">add</i>
+          Assign
+        </button>
+        <button id="export-assignment">
+          <i class="material-icons">ios_share</i>
+          Export
+        </button>
       </div>
 
       <div class="card">
