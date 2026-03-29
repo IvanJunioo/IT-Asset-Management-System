@@ -24,6 +24,12 @@ export async function editUser(empid){
   window.location.href = `${window.location.origin}/views/edit-user-form.php`;
 }
 
+export async function assignUser(empid){
+  const data = await fetchUser(empid);
+  sessionStorage.setItem("assignToUser", JSON.stringify(data));
+  window.location.href = `${window.location.origin}/views/assign-asset.php`;
+}
+
 export async function modifyUser(empID, actionType) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({

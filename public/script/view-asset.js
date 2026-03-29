@@ -1,7 +1,7 @@
 import { fetchLogs } from "./act-log.js";
 
 const assetData = JSON.parse(sessionStorage.getItem("viewAssetData"));
-const assetView = document.querySelector(".asset-info"); 
+const assetView = document.querySelector("#asset-info"); 
 
 fillPage(Array.isArray(assetData) ? assetData[0] : assetData);
 

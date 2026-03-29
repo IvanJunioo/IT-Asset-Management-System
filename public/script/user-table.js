@@ -174,7 +174,6 @@ userTableBody.addEventListener("click", (e) => {
   }
 });
 
-
 // ----- FUNCTION DEFINITIONS -----
 async function fetchUsers() {
   const fetchID = ++latest;
