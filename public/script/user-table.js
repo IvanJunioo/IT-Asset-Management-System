@@ -95,40 +95,14 @@ document.addEventListener("click", (e) => {
         "_blank"
       );
       return;
-    }
+    } 
 
-    addReportModal();
-    return;
-  }
+    let users = Array.from(selectedRows, (tr) => tr.dataset.empid);
 
-  if (e.target.closest("#closeModal")) {
-    e.target.closest("#reportModal").remove();
-    return;
-  }
-
-  if (e.target.closest("#reportModal")) {
-    const target = e.target.closest(".report-option");
-    if (!target) return;
-
-    let users = [];
-    for (const tr of selectedRows) users.push(tr.dataset.empid);
-
-    switch (target.dataset.type) {
-      case "single":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
-          "_blank"
-        );
-        break;
-      case "multiple":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=faculty-assets-multiple&users=` + encodeURIComponent(users),
-          "_blank"
-        );
-        break;
-    }
-
-    e.target.closest("#reportModal").remove();
+    window.open(
+      `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+      "_blank"
+    );
     return;
   }
 
@@ -397,28 +371,6 @@ function dispatchSelectionChanged() {
     bubbles: true,
     detail: { selectedRows, inMultiSelect }
   }));
-}
-
-function addReportModal() {
-  const modalDiv = document.createElement("div");
-  modalDiv.id = "reportModal";
-  modalDiv.className = "modal";
-  modalDiv.innerHTML = `
-    <div class="modal-content">
-      <div class="modal-header">Choose Export Type</div>
-      <div class="modal-body">
-        <button class="report-option" data-type="single"> 
-          Download selected assets (Single PDF)
-        </button>
-        <button class="report-option" data-type="multiple"> 
-          Download selected assets separately (Multiple PDFs)
-        </button>
-      </div>
-      <button id="closeModal" class="btn-cancel">Cancel</button>
-    </div>
-  `;
-  modalDiv.style.display = 'block';
-  document.body.appendChild(modalDiv);
 }
 
 function addActionsButton() {
