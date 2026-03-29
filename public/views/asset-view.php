@@ -26,52 +26,46 @@
     }    
   </style>
 <body>
-  <!-- menu -->
   <?php include __DIR__ . '/../partials/header.php'?>
 
-  <!-- asset-page -->
   <main>
-		<div class="card">
+		<div id="asset-info" class="card">
 			<h3>Asset Details</h3>
-			<div class="asset-info">
-				<div id='pnum'>
-					<b>Property Number:</b>
-				</div>
-				<div id='prnum'>
-					<b>Procurement Number:</b>
-				</div>
-				<div id='snum'>
-					<b>Serial Number:</b>
-				</div>
-				<div id='pdate'>
-					<b>Purchase Date:</b>
-				</div>
-				<div id='specs'>
-					<b>Specs:</b>
-				</div>
-				<div id='remarks'>
-					<b>Remarks:</b>
-				</div>
-				<div id='desc'>
-					<b>Description:</b>
-				</div>
-				<div id='stats'>
-					<b>Status:</b> 
-				</div>
-				<div id='price'>
-					<b>Price (₱):</b> 
-				</div>
-				<div id='sd_url'>
-					<b>Support Docs URL:</b> 
-				</div>
-			</div>
+      <div id='pnum'>
+        <b>Property Number:</b>
+      </div>
+      <div id='prnum'>
+        <b>Procurement Number:</b>
+      </div>
+      <div id='snum'>
+        <b>Serial Number:</b>
+      </div>
+      <div id='pdate'>
+        <b>Purchase Date:</b>
+      </div>
+      <div id='specs'>
+        <b>Specs:</b>
+      </div>
+      <div id='remarks'>
+        <b>Remarks:</b>
+      </div>
+      <div id='desc'>
+        <b>Description:</b>
+      </div>
+      <div id='stats'>
+        <b>Status:</b> 
+      </div>
+      <div id='price'>
+        <b>Price (₱):</b> 
+      </div>
+      <div id='sd_url'>
+        <b>Support Docs URL:</b> 
+      </div>
 		</div>
 
-    <div class="card">
-      <div id='alog'>
-        <h3>Asset Log:</h3> 
-        <?php include __DIR__ . '/act-log.php'?>
-      </div>
+    <div id="alog" class="card">
+      <h3>Asset Log:</h3> 
+      <?php include __DIR__ . '/act-log.php'?>
     </div>
 
 		<script src="<?= BASE_URL ?>script/view-asset.js" type="module" defer></script>

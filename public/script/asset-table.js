@@ -11,7 +11,8 @@ const exportButton = document.getElementById("export");
 export let tableData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
 let currentSortKey = "PropNum"; // track which column is sorted
-let sortOrder = "asc"; 
+let sortOrder = "asc";
+let assetSelectFunc = viewAsset;
 
 // Immediately add header for actions
 const hr = assetTable.querySelector("thead tr");
@@ -128,7 +129,7 @@ assetTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".select-btn")) {
-    viewAsset(tr.dataset.propNum);
+    assetSelectFunc(tr.dataset.propNum);
     return;
   }
 });
@@ -281,3 +282,5 @@ function highlightSearch() {
     }
   }
 }
+
+export function setAssetSelectFunc(fn) {assetSelectFunc = fn;}

@@ -1,11 +1,13 @@
 import { fetchLogs } from "./act-log.js";
 import { returnAssets } from "./asset-router.js";
+import { assignUser } from "./user-router.js";
 
 const userData = JSON.parse(sessionStorage.getItem("userData"));
 const userForm = document.querySelector("form"); 
 
 const assignmentTable = document.querySelector(".assignment-table");
 const assignmentTableBody = assignmentTable.querySelector("tbody");
+const addAssignBtn = document.getElementById("add-assignment-button");
 const exportButton = document.getElementById("export-assignment");
 
 let assignmentData = new Map();
@@ -62,6 +64,10 @@ assignmentTableBody.addEventListener("click", (e) => {
     returnAssets([tr.dataset.propNum]);
     return;
   }
+});
+
+addAssignBtn.addEventListener("click", () => {
+  assignUser(user.EmpID);
 });
 
 exportButton.addEventListener("click", () => {
