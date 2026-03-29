@@ -33,6 +33,7 @@
     
   <main>
     <div class="card">
+      <h3>Edit Asset Details</h3>
       <?php include __DIR__ . '/asset-form.php'?>
     </div>
   </main>
