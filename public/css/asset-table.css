@@ -1,7 +1,6 @@
 .table-container {
   width: 100%;
   max-height: calc(100vh - 300px);
-  border-radius: 1rem;
   background-color: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   overflow: auto;
@@ -20,7 +19,7 @@
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   font-family: "Source Sans Pro", sans-serif;
   font-size: 0.95rem;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .asset-table thead {

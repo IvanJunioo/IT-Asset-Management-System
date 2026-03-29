@@ -32,7 +32,7 @@
   flex-direction: column;
 }
 
-.apply-filter, .generate {
+.reset-filter, .generate {
   width: 50%;
   max-width: 300px;
   height: 3rem;
@@ -46,10 +46,20 @@
 }
 
 .generate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 8px;
   background-color: var(--primary-color);
 }
 
-.apply-filter {
+.reset-filter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 8px;
   background-color: var(--primary-green);
 }
 
@@ -57,11 +67,11 @@
   background-color: rgb(69, 0, 0);
 }
 
-.apply-filter:hover {
+.reset-filter:hover {
   background-color: #24643f;
 }
 
-.apply-filter {
+.reset-filter {
   height: 3rem;
   padding: 0 1.5rem;
   border-radius: 1rem;

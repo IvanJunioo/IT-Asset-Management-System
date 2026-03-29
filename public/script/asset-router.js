@@ -57,7 +57,7 @@ export function assignAssets(propNums) {
   window.location.href = `${window.location.origin}/views/assign-user.php`;
 }
 
-export function returnAsset(propNums) {
+export function returnAssets(propNums) {
   sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
   window.location.href = `${window.location.origin}/views/return-form.php`;
 }

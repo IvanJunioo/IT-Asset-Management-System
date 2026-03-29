@@ -1,15 +1,42 @@
+import {assignAssets, returnAssets} from "./asset-router.js";
+
+const main = document.querySelector("main");
 const assetData = JSON.parse(sessionStorage.getItem("assetData"));
-const assetForm = document.querySelector("#asset-form"); 
+const assetForm = main.querySelector("#asset-form"); 
 
 assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
 assetForm.method = "post";
 
-fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
+const asset = Array.isArray(assetData) ? assetData[0] : assetData;
+
+console.log(asset);
+fillForm(asset);
+addAssignmentButtons();
 
 assetForm.querySelector("input#pnum").readOnly = true;
 assetForm.querySelector("input#prnum").readOnly = true;
 const snum = assetForm.querySelector("input#snum"); 
 if (snum.value.trim() !== "") snum.readOnly = true;
+
+const resetBtn = document.getElementById("reset-button");
+resetBtn?.addEventListener("click", (_) => {
+  fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
+});
+
+main.addEventListener("click", (e) => {
+  if (e.target.closest(".assign-btn")) {
+    const btn = e.target.closest(".assign-btn");
+    
+    switch (btn.value) {
+      case "assign":
+        assignAssets([asset.PropNum]);
+        break;
+      case "return":
+        returnAssets([asset.PropNum]);
+        break;
+    }
+  }
+});
 
 function fillForm(asset) {
   const data = {
@@ -61,7 +88,25 @@ function fillForm(asset) {
   }
 }
 
-const resetBtn = document.getElementById("reset-button");
-resetBtn?.addEventListener("click", (_) => {
-  fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
-})
+function addAssignmentButtons() {
+  if (asset.Status === "Unassigned") {
+    const btn = document.createElement("button");
+    btn.className = "assign-btn";
+    btn.value = "assign";
+    btn.innerHTML = `
+      <span class="material-icons">assignment_ind</span>
+      Assign
+    `;
+    main.appendChild(btn);
+  }
+  if (asset.Status === "Assigned") {
+    const btn = document.createElement("button");
+    btn.className = "assign-btn";
+    btn.value = "return";
+    btn.innerHTML = `
+      <span class="material-icons">assignment_return</span>
+      Return    
+    `;
+    main.appendChild(btn);
+  }
+}

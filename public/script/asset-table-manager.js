@@ -1,5 +1,5 @@
 import { tableData } from "./asset-table.js";
-import { editAsset, returnAsset, condemnAsset, assignAssets} from "./asset-router.js";
+import { editAsset, returnAssets, condemnAsset, assignAssets} from "./asset-router.js";
 import {editUser} from './user-router.js';
 
 const leftAsset = document.querySelector(".left-asset");
@@ -18,7 +18,10 @@ addAssetAdd();
 const reportBtn = document.createElement("button");
 reportBtn.id = "report";
 reportBtn.className = "generate";
-reportBtn.textContent = "Generate Report";
+reportBtn.innerHTML = `
+  <span class="material-icons">ios_share</span>
+  Generate Report
+`;
 document.getElementById("export").replaceWith(reportBtn);
 
 // ----- EVENT LISTENERS (KEEP MINIMAL) -----
@@ -75,7 +78,7 @@ document.addEventListener("click", (e) => {
         assignAssets([propNum]);
         break;
       case "return":
-        returnAsset([propNum]);
+        returnAssets([propNum]);
     }
     return;
   }
@@ -148,7 +151,7 @@ tableFuncs.addEventListener("click", (e) => {
 
   if (e.target.closest("#return")) {
     if (selectedRows.size === 0) return;
-    returnAsset([...selectedRows].map(tr => tr.dataset.propNum));
+    returnAssets([...selectedRows].map(tr => tr.dataset.propNum));
   }
 
   if (e.target.closest("#multi-select")) {
@@ -235,7 +238,7 @@ assetTableBody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr");
   if (!tr) return;
 
-  if (e.target.closest(".mod-btn")) {
+  if (e.target.closest(".action-btn")) {
     editAsset(tr.dataset.propNum);
     return;
   }
@@ -385,7 +388,10 @@ function addModifyButton() {
     const td = document.createElement("td");    
     if (tableData.get(tr.dataset.propNum).Status !== "Condemned") {
       td.innerHTML = `
-        <button class="mod-btn">Modify</button>
+        <button class="action-btn">
+          <span class="material-icons">edit</span>
+          Modify
+        </button>
       `;
     }
     tr.appendChild(td);

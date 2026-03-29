@@ -14,11 +14,27 @@
   <?php include __DIR__ . '/../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
+
+  <style>
+    main {
+      gap: 1rem;
+    }
+
+    .assign-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      border-width: 1px;
+      border-style: solid;
+    }
+  </style>
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
     
-  <main class="asset-form">
-    <?php include __DIR__ . '/asset-form.php'?>
+  <main>
+    <div class="card">
+      <?php include __DIR__ . '/asset-form.php'?>
+    </div>
   </main>
   
   <?php include __DIR__ . '/../partials/footer.php'?>

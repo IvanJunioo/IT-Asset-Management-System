@@ -99,80 +99,6 @@ th:last-child button{
   background-color: whitesmoke;
 }
 
-.action-btn  {
-  background: none;
-  border: none;
-  font-size: 0.2rem;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease, background-color 0.3s ease;
-  border-radius: 20%;
-  display: flex;
-  align-items: center;
-}
-
-tr:hover .action-btn {
-  opacity: 1;
-}
-
-.action-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.action-menu {
-  position: fixed;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  display: none;
-  flex-direction: column;
-  min-width: 100px;
-  z-index: 10;
-}
-
-.menu-item {
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.menu-item:hover {
-  background-color: #f3f3f3;
-}
-
-/* Table function buttons */
-.select-btn,
-.mod-btn,
-.get-assignment {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: sans-serif;
-  color: var(--primary-color);
-  border-radius: 3px;
-  transition: background-color 0.3s ease;
-  background-color: var(--bg-light);
-  cursor: pointer;
-  font-size: clamp(0.25rem, 1.5vw, 0.75rem);
-  overflow: hidden;
-  white-space: nowrap;
-  width: 100%;
-  border: 1pt solid var(--darker-primary);
-  box-sizing: unset;
-}
-
-.select-btn:hover, 
-.mod-btn:hover, 
-.get-assignment:hover {
-  border: 1pt solid var(--primary-green);
-  background-color: var(--primary-color);
-  color: var(--beige);
-}
-
 .sort-menu {
   position: fixed;
   background: white;
@@ -186,12 +112,12 @@ tr:hover .action-btn {
 }
 
 .sort-menu a {
-padding: 8px 12px;
-cursor: pointer;
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
 .sort-menu a:hover {
-background: #f2f2f2;
+  background: #f2f2f2;
 }
 
 .modal {

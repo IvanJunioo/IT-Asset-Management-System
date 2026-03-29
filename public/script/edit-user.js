@@ -1,5 +1,5 @@
 import { fetchLogs } from "./act-log.js";
-import { returnAsset } from "./asset-router.js";
+import { returnAssets } from "./asset-router.js";
 
 const userData = JSON.parse(sessionStorage.getItem("userData"));
 const userForm = document.querySelector("form"); 
@@ -59,7 +59,7 @@ assignmentTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".select-btn")) {
-    returnAsset([tr.dataset.propNum]);
+    returnAssets([tr.dataset.propNum]);
     return;
   }
 });
@@ -173,11 +173,13 @@ function showAssignments() {
     }
 
     // Action button
-    const actBtn = document.createElement("button");
-    actBtn.className = "select-btn";
-    actBtn.textContent = "Return";
     const td = document.createElement("td");
-    td.append(actBtn);
+    td.innerHTML = `
+      <button class="select-btn">
+        <span class="material-icons">assignment_return</span>
+        Return
+      </button>
+    `;
     tr.append(td);
 
     assignmentTableBody.appendChild(tr);

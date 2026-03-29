@@ -172,7 +172,9 @@ main {
 }
 
 .material-icons {
-  font-size: 1.2em;
+  font-size: 1.25em;
+  height: 1em;
+  width: 1em;
   line-height: 1;
   flex-shrink: 0;
   display: inline-flex;
@@ -184,9 +186,40 @@ main {
   font-size: clamp(0.9em, 1.5vw, 1em);
 }
 
-.action-btn .material-icons {
-  font-size: clamp(4em, 1.5vw, 6em);
+button .material-icons {
+  font-size: 1.1em;
 }
+
+.select-btn,
+.action-btn,
+.get-assignment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  gap: 4px;
+  font-family: sans-serif;
+  color: var(--primary-color);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  background-color: var(--bg-light);
+  cursor: pointer;
+  font-size: clamp(0.25rem, 1.5vw, 0.75rem);
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1pt solid var(--darker-primary);
+  box-sizing: unset;
+}
+
+.select-btn:hover, 
+.action-btn:hover, 
+.get-assignment:hover {
+  border: 1pt solid var(--primary-green);
+  background-color: var(--primary-color);
+  color: var(--beige);
+}
+
+
 /* animation */
 @keyframes slideUp {
     from{

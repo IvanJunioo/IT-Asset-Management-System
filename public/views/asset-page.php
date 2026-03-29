@@ -58,10 +58,16 @@
       </div>
     </div>
       
-    <button class="apply-filter"> Reset Filters </button>
+    <button class="reset-filter"> 
+      <span class="material-icons">refresh</span>
+      Reset Filters 
+    </button>
 
   </div>
-  <button id = "export" class="generate"> Export assets </button>
+  <button id="export" class="generate"> 
+    <span class="material-icons">ios_share</span>    
+    Export assets 
+  </button>
 </div>
 <script>
   const date = new Date();

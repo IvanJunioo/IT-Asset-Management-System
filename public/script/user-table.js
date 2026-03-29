@@ -151,7 +151,7 @@ document.querySelectorAll(".filter-box .body-filter").forEach(box => {
   box.addEventListener("change", fetchUsers);
 });
 
-document.querySelector(".apply-filter").addEventListener("click", () => {
+document.querySelector(".reset-filter").addEventListener("click", () => {
   document.querySelectorAll(".filter-box input[name='status']").forEach(cb => cb.checked = false);
   fetchUsers();
 });
@@ -168,7 +168,7 @@ userTableBody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr");
   if (!tr) return;
 
-  if (e.target.closest(".profile-btn")) {
+  if (e.target.closest(".action-btn")) {
     editUser(tr.dataset.empid);
     return;
   }
@@ -380,7 +380,8 @@ function addActionsButton() {
     const td = document.createElement("td");
     td.className = "actions";
     td.innerHTML = `
-      <button class="profile-btn">
+      <button class="action-btn">
+        <span class="material-icons">person</span>
         Profile
       </button>
     `;
