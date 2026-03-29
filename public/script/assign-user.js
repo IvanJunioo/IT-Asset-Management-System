@@ -3,6 +3,8 @@ import { tableData } from "./user-table.js";
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
 
+document.getElementById("multi-select").remove();
+
 userTableBody.addEventListener("usersLoaded", () => {
   addActionsButton();
 

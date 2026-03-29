@@ -15,14 +15,24 @@
   <?php include __DIR__ . '/../partials/asset-styles.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>css/asset-view.css">
+	<link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
+
+  <style>
+    main {
+      display: grid;
+      place-items: center;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }    
+  </style>
 <body>
   <!-- menu -->
   <?php include __DIR__ . '/../partials/header.php'?>
 
   <!-- asset-page -->
-  <main class="asset-page">
-		<div class="asset-card">
-			<h2>Asset Details</h2>
+  <main>
+		<div class="card">
+			<h3>Asset Details</h3>
 			<div class="asset-info">
 				<div id='pnum'>
 					<b>Property Number:</b>
@@ -54,12 +64,15 @@
 				<div id='sd_url'>
 					<b>Support Docs URL:</b> 
 				</div>
-				<div id='alog'>
-					<b>Asset Log:</b> 
-          <?php include __DIR__ . '/act-log.php'?>
-				</div>
 			</div>
 		</div>
+
+    <div class="card">
+      <div id='alog'>
+        <h3>Asset Log:</h3> 
+        <?php include __DIR__ . '/act-log.php'?>
+      </div>
+    </div>
 
 		<script src="<?= BASE_URL ?>script/view-asset.js" type="module" defer></script>
   </main>
