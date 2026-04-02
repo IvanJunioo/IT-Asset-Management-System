@@ -3,7 +3,12 @@ const sect = document.getElementById("asset-distribution");
 document.getElementById("actlog-table").className = "recent-system-logs";
 
 getDBstats();
-getSessionUser();
+
+const priv = JSON.parse(sessionStorage.getItem("user-info")).Privilege;
+sect.querySelector("#total-assets").href = linkStat(priv, "asset");
+sect.querySelector("#avail-assets").href = linkStat(priv, "asset");
+sect.querySelector("#total-users").href = linkStat(priv, "user");
+sect.querySelector("#active-users").href = linkStat(priv, "user");
 
 async function getDBstats() {
   const url = new URL(`${window.location.origin}/api/index.php`);
@@ -61,27 +66,4 @@ function linkStat(privilege, entityClass) {
   };
 
   return routes[entityClass] || "";
-}
-
-async function getSessionUser() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "session",
-  }); 
-
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
-
-    const data = await resp.json();
-
-    sessionStorage.setItem("user-info", JSON.stringify(data));
-    sect.querySelector("#total-assets").href = linkStat(data["Privilege"], "asset");
-    sect.querySelector("#avail-assets").href = linkStat(data["Privilege"], "asset");
-    sect.querySelector("#total-users").href = linkStat(data["Privilege"], "user");
-    sect.querySelector("#active-users").href = linkStat(data["Privilege"], "user");
-  } catch (err) {
-    console.error("Error fetching: ", err);
-  }
 }
