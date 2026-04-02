@@ -262,8 +262,14 @@ match ($res) {
         exit('Login failed');
       }
 
-      $handler->login($_GET["code"]);
-      header("Location: " . BASE_URL . "views/dashboard.php");
+      try {
+        $handler->login($_GET["code"]);
+      } catch (Exception $e) {
+        header("Location: " . BASE_URL . "views/login.php?error=". $e->getMessage());
+        exit($e->getMessage());
+      }
+
+      header("Location: " . BASE_URL . "auth-callback.php");
     })($logHand),
 
     APIAction::Logout => (function(LogHandler $handler) {
