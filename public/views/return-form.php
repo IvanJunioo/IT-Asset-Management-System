@@ -61,9 +61,12 @@
 
   <script>
     const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    const today = `${now.getFullYear().toString()}-${(now.getMonth() + 1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')}`;
-    document.getElementById("adate").value = now.toISOString().slice(0, 16);
+    const today = now.getFullYear() + '-' +
+    (now.getMonth() + 1 < 10 ? '0' : '') + (now.getMonth() + 1) + '-' +
+    (now.getDate() < 10 ? '0' : '') + now.getDate() + 'T' +
+    (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' +
+    (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+    document.getElementById('adate').value = today;
     document.getElementById('adate').setAttribute('max', today);
   </script>
   <script src="<?= BASE_URL ?>script/edit-assignment.js" type="module" defer> </script>
