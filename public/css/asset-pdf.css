@@ -87,3 +87,27 @@ tr:nth-child(even) {
   color: #2d3436;
   font-size: 1rem;
 }
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box; 
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+}
+
+footer .page {
+  margin: 0 auto; 
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+footer .page::after {
+  content: counter(page, decimal);
+}
+@page { margin: 20px 30px 40px 50px; }

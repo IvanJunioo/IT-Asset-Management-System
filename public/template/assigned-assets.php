@@ -52,4 +52,7 @@
       <?php endif; ?>
     </div>
   </body>
+  <footer>
+    <p class="page">Page </p>
+  </footer>
 </html>
