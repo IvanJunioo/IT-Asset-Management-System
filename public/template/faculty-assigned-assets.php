@@ -52,5 +52,8 @@
       </div>
     <?php endforeach; ?>
   </body>
+  <footer>
+    <p class="page">Page </p>
+  </footer>
 </html>
 
