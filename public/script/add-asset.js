@@ -58,7 +58,7 @@ form.addEventListener("submit", async (e) => {
   }
   else if (dataSnum) {
     valid = false;
-    alert(`The property number ${dataSnum.SerialNum} already exists`);
+    alert(`The serial number ${dataSnum.SerialNum} already exists`);
   }
   else if (dupPnum) {
     valid = false;
