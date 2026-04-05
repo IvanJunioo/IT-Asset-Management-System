@@ -162,8 +162,12 @@ match ($res) {
       echo json_encode($handler->searchAssets(
         search: $_GET["search"] ?? "",
         status: $_GET["status"] ?? "",
-        base_date: new DateTimeImmutable($_GET["base_date"]),
-        end_date: new DateTimeImmutable($_GET['end_date'])
+        base_date: !empty($_GET['base_date'])
+            ? new DateTimeImmutable($_GET['base_date'])
+            : new DateTimeImmutable('0001-01-01'),
+        end_date: !empty($_GET['end_date'])
+            ? new DateTimeImmutable($_GET['end_date'])
+            : new DateTimeImmutable('9999-12-31'),
       ));
     })($assetHand),
 
