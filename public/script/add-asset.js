@@ -134,6 +134,7 @@ async function checkIfExists(inputs) {
       resource: "assets",
       action: "search",
       search: inp.value,
+      check_snum: true
     });
 
     try {
