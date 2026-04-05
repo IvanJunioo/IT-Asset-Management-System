@@ -32,7 +32,8 @@ final class AssetHandler {
     string $search,
     string $status,
     DateTimeImmutable $base_date,
-    DateTimeImmutable $end_date
+    DateTimeImmutable $end_date,
+    bool $check_snum
   ): array {
     $status = $status !== ""? array_map("AssetStatus::from", explode(',', $status)) : null;
 
@@ -50,12 +51,12 @@ final class AssetHandler {
         base_date: $base_date,
         end_date: $end_date
         )),
-      ...$this->assetRepo->search(new AssetSearchCriteria(
+      ...($check_snum ? $this->assetRepo->search(new AssetSearchCriteria(
         serialNum: $search, 
         status: $status,
         base_date: $base_date,
         end_date: $end_date
-        )),
+        )) : []),
       ...$this->assetRepo->search(new AssetSearchCriteria(
         specs: $search, 
         status: $status,
