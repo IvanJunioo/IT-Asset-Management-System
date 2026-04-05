@@ -26,7 +26,9 @@
               <th>Serial No.</th>
               <th>Assignment Date</th>
               <th>Description</th>
-              <th>Remarks</th>
+              <?php if ($add_remarks): ?>
+                <th>Remarks</th>
+              <?php endif ?>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +39,9 @@
                   <td><?= htmlspecialchars($asset->serialNum) ?></td>
                   <td><?= htmlspecialchars($dates[$asset->propNum]) ?></td>
                   <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
-                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+                  <?php if ($add_remarks): ?>
+                    <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+                  <?php endif ?>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>

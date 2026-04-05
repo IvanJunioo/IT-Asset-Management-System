@@ -88,19 +88,26 @@ document.addEventListener("click", (e) => {
       return;
     }
 
+    const addRemarks = confirm(`Include remarks in the report?`);
+
     if (selectedRows.size == 1) {
       const [tr] = selectedRows;
+      let url = `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid);
+      if (addRemarks) url+= "&add_remarks=true";
+
       window.open(
-        `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(tr.dataset.empid),
+        url,
         "_blank"
       );
       return;
     } 
 
     let users = Array.from(selectedRows, (tr) => tr.dataset.empid);
+    let url = `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users);
 
+    if (addRemarks) url+= "&add_remarks=true";
     window.open(
-      `${window.location.origin}/api/index.php?resource=export&action=faculty-assets&users=` + encodeURIComponent(users),
+      url,
       "_blank"
     );
     return;

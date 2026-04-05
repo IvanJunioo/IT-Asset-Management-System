@@ -80,6 +80,8 @@
           <i class="material-icons">ios_share</i>
           Export
         </button>
+        <input type="checkbox" id="inc-remarks">
+        <label for="inc-remarks">Include Remarks</label>
       </div>
 
       <div class="card">
