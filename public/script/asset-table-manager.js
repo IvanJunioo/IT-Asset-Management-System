@@ -95,28 +95,25 @@ document.addEventListener("click", (e) => {
 
   if (e.target.closest("#reportModal")) {
     const target = e.target.closest(".report-option");
+    const addRemarks = document.getElementById("inc-remarks").checked;
     if (!target) return;
 
-    switch (target.dataset.type) {
-      case "assigned-p":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=user-assets`,
-          "_blank"
-        );
-        break;
-      case "unassigned":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=status&status=Unassigned`,
-          "_blank"
-        );
-        break;
-      case "tocondemn":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=status&status=ToCondemn`,
-          "_blank"
-        );
-        break;
+    let url = "";
+    let type = target.dataset.type;
+
+    if (type === "assigned-p") {
+      url = `${window.location.origin}/api/index.php?resource=export&action=user-assets`;
+    } else if (type === "unassigned") {
+      url = `${window.location.origin}/api/index.php?resource=export&action=status&status=Unassigned`;
+    } else {
+      url = `${window.location.origin}/api/index.php?resource=export&action=status&status=ToCondemn`;
     }
+
+    if (addRemarks) {
+      url += "&add_remarks=true"
+    }
+
+    window.open(url, "_blank");
 
     e.target.closest("#reportModal").remove();
     return;
@@ -430,6 +427,11 @@ function addReportModal() {
         <button class="report-option" data-type="unassigned">
           All Unassigned Assets
         </button>
+
+        <div class="modal-input">
+          <input type="checkbox" id="inc-remarks">
+          <label for="inc-remarks">Include Remarks</label>
+        </div>
       </div>
       <button id="closeModal" class="btn-cancel">Cancel</button>
     </div>

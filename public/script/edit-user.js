@@ -71,8 +71,14 @@ addAssignBtn.addEventListener("click", () => {
 });
 
 exportButton.addEventListener("click", () => {
+  let url = `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=${user.EmpID}`;
+
+  if ( document.getElementById("inc-remarks").checked) {
+    url += "&add_remarks=true"
+  }
+
   window.open(
-    `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=${user.EmpID}`,
+    url,
     "_blank"
   );
 })

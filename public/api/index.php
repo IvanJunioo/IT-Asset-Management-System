@@ -287,20 +287,21 @@ match ($res) {
 
   APIResource::Exportable => match ($action) {
     APIAction::ExportByStatus => (function(ExportHandler $handler) {
-      $handler->exportAssetsByStatus($_GET["status"] ?? null);
+      $handler->exportAssetsByStatus($_GET["status"] ?? null, isset($_GET["add_remarks"])
+      );
     })($expHand),
 
     APIAction::ExportByUser => (function(ExportHandler $handler) {
-      $handler->exportUserAssignedAssets($_GET["user"] ?? null);
+      $handler->exportUserAssignedAssets($_GET["user"] ?? null, isset($_GET["add_remarks"]) );
     })($expHand),
 
     APIAction::ExportByFaculty => (function(ExportHandler $handler) {
-      $handler->exportFacultyAssignedAssets($_GET["users"] ?? null);
+      $handler->exportFacultyAssignedAssets($_GET["users"] ?? null, isset($_GET["add_remarks"]));
     })($expHand),
 
-    APIAction::ExportByFacultyMulti => (function(ExportHandler $handler) {
-      $handler->exportMultipleFiles($_GET["users"] ?? null);
-    })($expHand),
+    // APIAction::ExportByFacultyMulti => (function(ExportHandler $handler) {
+    //   $handler->exportMultipleFiles($_GET["users"] ?? null);
+    // })($expHand),
 
     default => throw new Exception("Invalid $res->value action"),
   },

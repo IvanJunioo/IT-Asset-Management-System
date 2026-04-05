@@ -22,7 +22,9 @@
               <th>Assignment Date</th>
               <th>Specifications </th>
               <th>Description</th>
-              <th>Remarks</th>
+              <?php if ($add_remarks): ?>
+                <th>Remarks</th>
+              <?php endif ?>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +40,9 @@
                 <td><?= htmlspecialchars($assDate) ?></td>
                 <td><?= htmlspecialchars($asset->specs !== ''? $asset->specs: 'None') ?></td>
                 <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
-                <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+                <?php if ($add_remarks): ?>
+                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+                <?php endif ?>
               </tr>
             <?php endforeach; ?>
           </tbody>

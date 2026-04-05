@@ -44,7 +44,7 @@ final class ExportHandler {
         }
     }
 
-    public function exportAssetsByStatus(?string $statusName): void {
+    public function exportAssetsByStatus(?string $statusName, bool $add_remarks): void {
         $status = null;
 
         if (!empty($statusName)) {
@@ -66,13 +66,14 @@ final class ExportHandler {
         $this->generatePdf(
             "condemn-unassigned-assets",
             ["assets" => $assets,
-            "statusName" => $statusName],
+            "statusName" => $statusName,
+            "add_remarks" => $add_remarks],
             $statusName . "_assets.pdf",
             true
         );
     }
 
-    public function exportUserAssignedAssets(?string $userParam): void {
+    public function exportUserAssignedAssets(?string $userParam, bool $add_remarks): void {
       $user = $this->userRepo->identify($userParam ? (int)$userParam : $_SESSION['user_id']);
 
       $data = [];
@@ -92,13 +93,14 @@ final class ExportHandler {
         "assigned-assets",
         ["user" => $user,
         "data" => $data,
-        "assets" => $assets],
+        "assets" => $assets,
+        "add_remarks" => $add_remarks],
         $user->name->last . "_assigned_assets.pdf",
         true
       );
     }
 
-    public function exportFacultyAssignedAssets(?string $usersParam): void
+    public function exportFacultyAssignedAssets(?string $usersParam, bool $add_remarks): void
     {
         $usersID = [];
 
@@ -138,78 +140,79 @@ final class ExportHandler {
 
         $this->generatePdf(
             "faculty-assigned-assets",
-            ["data" => $data],
+            ["data" => $data,
+            "add_remarks" => $add_remarks],
             "Faculty_assigned_assets.pdf",
             true
         );
     }
 
-    public function exportMultipleFiles(string $usersParam): void
-    {
-        $userRepo = $this->userRepo;
-        $assignRepo = $this->assignRepo;
-        $usersID = array_filter(explode(",", $usersParam));
-        $tempDir = __DIR__ . "/../../storage/exports/";
+    // public function exportMultipleFiles(string $usersParam): void
+    // {
+    //     $userRepo = $this->userRepo;
+    //     $assignRepo = $this->assignRepo;
+    //     $usersID = array_filter(explode(",", $usersParam));
+    //     $tempDir = __DIR__ . "/../../storage/exports/";
 
-        if (!is_dir($tempDir)) {
-            mkdir($tempDir, 0777, true);
-        }
+    //     if (!is_dir($tempDir)) {
+    //         mkdir($tempDir, 0777, true);
+    //     }
 
-        $pdfFiles = [];
-        foreach ($usersID as $id) {
-            $user = $userRepo->identify($id);
-            if (!$user) continue;
-            $assets = $assignRepo->getAssignedAssets($user);
-            $data = [];
-            foreach ($assets as $asset) {
-                $data[] = [
-                    'asset' => [
-                        $asset,
-                        explode(' ', $assignRepo->getAssignmentDate($asset))[0]
-                    ]
-                ];
-            }
+    //     $pdfFiles = [];
+    //     foreach ($usersID as $id) {
+    //         $user = $userRepo->identify($id);
+    //         if (!$user) continue;
+    //         $assets = $assignRepo->getAssignedAssets($user);
+    //         $data = [];
+    //         foreach ($assets as $asset) {
+    //             $data[] = [
+    //                 'asset' => [
+    //                     $asset,
+    //                     explode(' ', $assignRepo->getAssignmentDate($asset))[0]
+    //                 ]
+    //             ];
+    //         }
 
-            $filename = $tempDir . $user->name->last. "_assigned_assets.pdf";
-            $this->generatePdf(
-                "assigned-assets",
-                [
-                    "data" => $data,
-                    "assets" => $assets
-                ],
-                $filename,
-                false,
-                $filename
-            );
-            $pdfFiles[] = $filename;
-        }
+    //         $filename = $tempDir . $user->name->last. "_assigned_assets.pdf";
+    //         $this->generatePdf(
+    //             "assigned-assets",
+    //             [
+    //                 "data" => $data,
+    //                 "assets" => $assets
+    //             ],
+    //             $filename,
+    //             false,
+    //             $filename
+    //         );
+    //         $pdfFiles[] = $filename;
+    //     }
 
-        $zipFile = $tempDir . "assignments.zip";
-        $zip = new ZipArchive();
+    //     $zipFile = $tempDir . "assignments.zip";
+    //     $zip = new ZipArchive();
 
-        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            throw new Exception("Cannot create zip file");
-        }
+    //     if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+    //         throw new Exception("Cannot create zip file");
+    //     }
 
-        foreach ($pdfFiles as $filePath) {
-            $zip->addFile($filePath, basename($filePath));
-        }
+    //     foreach ($pdfFiles as $filePath) {
+    //         $zip->addFile($filePath, basename($filePath));
+    //     }
 
-        $zip->close();
+    //     $zip->close();
 
-        if (ob_get_length()) ob_end_clean();
+    //     if (ob_get_length()) ob_end_clean();
 
-        header("Content-Type: application/zip");
-        header("Content-Disposition: attachment; filename=Faculty_assignments.zip");
-        header("Content-Length: " . filesize($zipFile));
+    //     header("Content-Type: application/zip");
+    //     header("Content-Disposition: attachment; filename=Faculty_assignments.zip");
+    //     header("Content-Length: " . filesize($zipFile));
 
-        readfile($zipFile);
+    //     readfile($zipFile);
 
-        foreach (glob($tempDir . "*") as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
-        exit;
-    }
+    //     foreach (glob($tempDir . "*") as $file) {
+    //         if (is_file($file)) {
+    //             unlink($file);
+    //         }
+    //     }
+    //     exit;
+    // }
 }

@@ -160,6 +160,7 @@ th:last-child button{
   padding: 1.5rem 2rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.85rem;
   background-color: var(--bg-light);
 }
@@ -182,6 +183,23 @@ th:last-child button{
   border-color: var(--primary-green);
   color: var(--darker-green);
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.modal-input {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  gap: 0.5rem;              
+  margin-top: 1rem;         
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+#inc-remarks {
+  accent-color: var(--primary-green);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
 .btn-cancel {
