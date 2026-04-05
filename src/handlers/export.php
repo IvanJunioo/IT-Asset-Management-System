@@ -90,7 +90,8 @@ final class ExportHandler {
 
       $this->generatePdf(
         "assigned-assets",
-        ["data" => $data,
+        ["user" => $user,
+        "data" => $data,
         "assets" => $assets],
         $user->name->last . "_assigned_assets.pdf",
         true

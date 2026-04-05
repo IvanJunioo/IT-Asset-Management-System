@@ -7,6 +7,13 @@
     <h1>Assets Currently Assigned</h1>
     <div class="asset-container">
       <?php if (!empty($assets)): ?>
+        <?php 
+        $priv = $user->privilege->value;
+        $fullName = trim("{$user->name->first} {$user->name->last}");
+        ?>
+        <div class="asset-header">
+          <?= htmlspecialchars($priv) ?>: <?= htmlspecialchars("{$fullName}") ?>
+        </div>
         <table>
           <thead>
             <tr>
