@@ -274,7 +274,7 @@ match ($res) {
         exit($e->getMessage());
       }
 
-      header("Location: " . BASE_URL . "auth-callback.php");
+      header("Location: " . BASE_URL . "index.php?page=dashboard");
     })($logHand),
 
     APIAction::Logout => (function(LogHandler $handler) {

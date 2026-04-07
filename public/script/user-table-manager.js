@@ -139,7 +139,7 @@ function updateTableFuncs() {
 
   deactBtn.style.display = selectedRows.size > 0 && [...selectedRows].every(tr =>
     tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" &&
-    tableData.get(Number(tr.dataset.empid)).EmpID !== JSON.parse(sessionStorage.getItem("user-info")).EmpID
+    !tableData.get(Number(tr.dataset.empid)).isCurrentUser
 ) ? "flex" : "none";
 }
 

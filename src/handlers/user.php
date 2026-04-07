@@ -41,6 +41,7 @@ final class UserHandler {
     ])))) as $user) {
       $users[] = [
         ...$user->jsonSerialize(),
+        "isCurrentUser" => $_SESSION['user_id'] == $user->empID,
         "assignments" => array_map(fn($asset) => $asset->propNum, $this->assignRepo->getAssignedAssets($user)),
       ];
     }

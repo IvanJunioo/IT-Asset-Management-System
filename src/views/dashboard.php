@@ -34,19 +34,35 @@
         </div>
 
         <section id="asset-distribution">
-          <a class="distr-card" id="total-assets">
+          <a 
+            class = "distr-card" 
+            id    = "total-assets" 
+            href  = "index.php?page=<?=in_array($_SESSION['privilege'],["Admin", "SuperAdmin"])? "asset-manager" : "assets"?>"
+          >
             <p>Assets</p>
           </a>
 
-          <a class="distr-card" id="total-users">
+          <a 
+            class = "distr-card" 
+            id    = "total-users" 
+            href  = "index.php?page=<?=in_array($_SESSION['privilege'],["SuperAdmin"])? "user-manager" : "users"?>"
+          >
             <p>Users</p>
           </a>
 
-          <a class="distr-card" id="avail-assets">
+          <a 
+            class = "distr-card" 
+            id    = "avail-assets" 
+            href  = "index.php?page=<?=in_array($_SESSION['privilege'],["Admin", "SuperAdmin"])? "asset-manager" : "assets"?>"
+          >
             <p>Available Assets</p>
           </a>
 
-          <a class="distr-card" id="active-users">
+          <a 
+            class = "distr-card" 
+            id    = "active-users" 
+            href  = "index.php?page=<?=in_array($_SESSION['privilege'],["SuperAdmin"])? "user-manager" : "users"?>"
+          >
             <p>Active Users</p>
           </a>
 

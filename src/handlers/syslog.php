@@ -27,7 +27,11 @@ final class LogHandler {
           break;
       }
       
-      $logs[] = $log;
+      $logs[] = [
+        ...$log,
+        "linkActor" => $_SESSION['privilege'] == "SuperAdmin",
+        "linkObject" => $metadata["object"] == "asset" || $_SESSION['privilege'] == "SuperAdmin",
+      ];
     }
     return [
       "logs" => $logs,

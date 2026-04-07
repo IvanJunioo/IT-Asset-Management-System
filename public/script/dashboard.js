@@ -4,12 +4,6 @@ document.getElementById("actlog-table").className = "recent-system-logs";
 
 getDBstats();
 
-const priv = JSON.parse(sessionStorage.getItem("user-info")).Privilege;
-sect.querySelector("#total-assets").href = linkStat(priv, "asset");
-sect.querySelector("#avail-assets").href = linkStat(priv, "asset");
-sect.querySelector("#total-users").href = linkStat(priv, "user");
-sect.querySelector("#active-users").href = linkStat(priv, "user");
-
 async function getDBstats() {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
@@ -55,15 +49,4 @@ async function getDBstats() {
   } catch (err) {
     console.error("Error fetching: ", err);
   }
-}
-
-function linkStat(privilege, entityClass) {
-  const isAdmin = privilege === "SuperAdmin" || privilege === "Admin";
-  
-  const routes = {
-    asset: isAdmin ? "asset-manager.php" : "assets.php",
-    user: isAdmin ? "user-manager.php" : "users.php"
-  };
-
-  return routes[entityClass] || "";
 }
