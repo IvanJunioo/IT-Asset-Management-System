@@ -1,3 +1,14 @@
+:root {
+  --primary-color: #550101;
+  --darker-primary: var(--primary-color);
+  --primary-green: #2a7548;
+  --darker-green: #1d3f2b;
+  --bg-light: #f8f5f2;
+  --text-dark: #222222;
+  --border-color: #cccccc;
+  --beige: #f7e9d8;
+}
+
 body {
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -12,7 +23,7 @@ h1 {
   color: #2d3436;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-bottom: 2px solid #3d0505;
+  border-bottom: 2px solid var(--primary-color);
   padding-bottom: 10px;
   margin-bottom: 30px;
 }
@@ -36,6 +47,7 @@ table {
   margin-top: 0;
   border: 1px solid #dfe6e9;
   page-break-inside: auto;
+  table-layout: fixed;
 }
 
 tr {
@@ -55,14 +67,14 @@ td {
 th {
   padding: 12px 15px;
   background-color: #f8f9fa;
-  color: #3d0505;
+  color: var(--primary-color);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 11px;
 }
 
 thead th {
-  background-color: #3d0505 !important; 
+  background-color: var(--primary-color) !important; 
   color: #ffffff !important;
   border-bottom: none;
   width: auto; 
