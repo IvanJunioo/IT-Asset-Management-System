@@ -28,18 +28,14 @@
         </div>
 
         <div id="user-panel">
-            <span id="username"></span>
-            <span id="user-role"></span>
+            <span><?= htmlspecialchars($_SESSION['user_lname']) . ", " .  htmlspecialchars($_SESSION['user_fname']) ?></span>
+            <span><?=htmlspecialchars($_SESSION['privilege'])?></span>
             <a id="logout"> Sign Out </a>
         </div>
     </section>
 </div>
 
 <script type="module" defer>
-  const userInfo = JSON.parse(sessionStorage.getItem("user-info"));
-  document.getElementById("username").textContent = `${userInfo.LName}, ${userInfo.FName}`;
-  document.getElementById("user-role").textContent = userInfo.Privilege;
-
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "logs",

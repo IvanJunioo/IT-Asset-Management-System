@@ -15,16 +15,12 @@ let latest = 0; // latest fetch id to avoid race conditions
 
 userForm.action = `${window.location.origin}/api/index.php?resource=users&action=edit`;
 userForm.method = "post";
-  
+
 const user = Array.isArray(userData) ? userData[0] : userData;
 
 fillForm(user);
 fetchAssignments()
 fetchLogs({actorID: user.EmpID});
-
-if (user['EmpID'] === JSON.parse(sessionStorage.getItem("user-info")).empID) {
-  userForm.querySelector("input#inact").disabled = true;
-}
 
 const input = document.createElement("input");
 input.type = "hidden";

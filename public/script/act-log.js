@@ -123,12 +123,11 @@ function showLogs() {
       "activate" : "activated"
     }[metadata["action"]] || `${metadata["action"]}ed`;
 
+    const actorHTML = text => log.linkActor? `<a data-type="actor">${text}</a>`: text;
+    const objHTML = text => log.linkObject? `<a data-type="${metadata["object"]}">${text}</a>` : text;
+    
     const extra = metadata.hasAssets? " (has assigned assets)" : "";
 
-    const priv = JSON.parse(sessionStorage.getItem("user-info")).Privilege;
-    const actorHTML = text => ["SuperAdmin"].includes(priv)? `<a data-type="actor">${text}</a>`: text;
-    const objHTML = text => metadata["object"] === "user" && !["SuperAdmin"].includes(priv)? text : `<a data-type="${metadata["object"]}">${text}</a>`;
-    
     for (const col of [
       log.Timestamp,
       actorHTML(`${log.FName} ${log.LName}`),
