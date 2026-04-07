@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 session_start();
 
 if (!isset($_GET['code'])) {
-  header("Location: ../../views/login.php?error=login_failed");
+  header("Location: index.php?page=login&error=login_failed");
   exit('Login failed');
 }
 
@@ -41,6 +41,6 @@ $_SESSION['user_lname'] = $user->name->last;
 $_SESSION['privilege'] = $user->privilege->value;
 $_SESSION['logged_in'] = true;
 
-header("Location: ../../views/dashboard.php");
+header("Location: index.php?page=dashboard");
 
 exit;

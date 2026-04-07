@@ -6,7 +6,7 @@ const assetTableBody = assetTable.querySelector("tbody");
 // Override Select Button behavior
 setAssetSelectFunc((propNum) => {
   sessionStorage.setItem("assetsToAssign", JSON.stringify([propNum]));
-  window.location.href = `${window.location.origin}/views/assignment-form.php`;
+  window.location.href = `${window.location.origin}/index.php?page=assignment-form`;
 });
 
 document.getElementById("export")?.remove();

@@ -115,7 +115,7 @@ match ($res) {
         privilege: UserPrivilege::from($input['privilege']),
         isActive: $input["active-status"] === "Active",
       ));
-      header('Location: ' . BASE_URL . 'views/user-manager.php');
+      header('Location: ' . BASE_URL . 'index.php?page=user-manager');
     })($userHand),
 
     APIAction::Edit => (function(UserHandler $handler) use ($input) {
@@ -129,7 +129,7 @@ match ($res) {
         privilege: UserPrivilege::from($input['privilege']),
         isActive: $input['active-status'] === 'Active',
       ));
-      header('Location: ' . BASE_URL . 'views/user-manager.php');
+      header('Location: ' . BASE_URL . 'index.php?page=user-manager');
     })($userHand),
 
     APIAction::ActivateUser => (function(UserHandler $handler) use ($input) {
@@ -190,7 +190,7 @@ match ($res) {
         $input["serial-num"],
         $input["img-url"],
       ));
-      header('Location: ' . BASE_URL . 'views/asset-manager.php'); 
+      header('Location: ' . BASE_URL . 'index.php?page=asset-manager'); 
     })($assetHand),
 
     APIAction::Edit => (function(AssetHandler $handler) use ($input) {
@@ -207,7 +207,7 @@ match ($res) {
         status:       AssetStatus::from($input["asset-status"] ?? ""),
       ));
       
-      header('Location: ' . BASE_URL . 'views/asset-manager.php');
+      header('Location: ' . BASE_URL . 'index.php?page=asset-manager');
     })($assetHand),
 
     APIAction::CondemnAsset => (function(AssetHandler $handler) use ($input) {
@@ -229,7 +229,7 @@ match ($res) {
         assigneeID: $input["user"],
         remarks:    $input["remarks"],
       );
-      header('Location: ' . BASE_URL . 'views/asset-manager.php');
+      header('Location: ' . BASE_URL . 'index.php?page=asset-manager');
     })($assignHand),
     
     APIAction::ReturnAsset => (function(AssignmentHandler $handler) use ($input) {
@@ -238,7 +238,7 @@ match ($res) {
         date:     new DateTimeImmutable($input['return-date']),
         remarks:  $input['remarks'],
       );
-      header('Location: ' . BASE_URL . 'views/asset-manager.php');
+      header('Location: ' . BASE_URL . 'index.php?page=asset-manager');
     })($assignHand),
 
     default => throw new Exception("Invalid $res->value action"),
@@ -263,14 +263,14 @@ match ($res) {
 
     APIAction::Login => (function(LogHandler $handler) {
       if (!isset($_GET['code'])) {
-        header("Location: " . BASE_URL . "views/login.php?error=login_failed");
+        header("Location: " . BASE_URL . "index.php?page=login&error=login_failed");
         exit('Login failed');
       }
 
       try {
         $handler->login($_GET["code"]);
       } catch (Exception $e) {
-        header("Location: " . BASE_URL . "views/login.php?error=". $e->getMessage());
+        header("Location: " . BASE_URL . "index.php?page=login&error=". $e->getMessage());
         exit($e->getMessage());
       }
 
@@ -279,7 +279,7 @@ match ($res) {
 
     APIAction::Logout => (function(LogHandler $handler) {
       $handler->logout();
-      header("Location: " . BASE_URL . "views/login.php");
+      header("Location: " . BASE_URL . "index.php?page=login");
     })($logHand),
 
     default => throw new Exception("Invalid $res->value action"),

@@ -1,19 +1,3 @@
-<?php
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-
-  $REQUIRED_ROLES = ["Faculty", "Staff", "Admin", "SuperAdmin"];
-  if (!defined('BASE_URL')) {
-    require_once __DIR__ . '/../../config/config.php';
-  }
-  require_once '../../src/utilities/auth-guard.php';
-  require_once '../../src/utilities/role-guard.php';
-
-  requireRole(allowedRoles: $REQUIRED_ROLES ?? []);
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php';?>

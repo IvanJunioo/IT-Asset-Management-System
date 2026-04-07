@@ -13,7 +13,7 @@ userTableBody.addEventListener("usersLoaded", () => {
     if (e.target.closest(".select-btn")) {
       const tr = e.target.closest("tr");      
       sessionStorage.setItem("assignToUser", JSON.stringify(tableData.get(Number(tr.dataset.empid))));
-      window.location.href = `${window.location.origin}/views/assignment-form.php`;
+      window.location.href = `${window.location.origin}/index.php?page=assignment-form`;
       return;
     }
   });
