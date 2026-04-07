@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../src/utilities/role-guard.php';
 require_once __DIR__ . '/../../src/handlers/syslog.php';
 require_once __DIR__ . '/../../src/handlers/asset.php';
 require_once __DIR__ . '/../../src/handlers/assignment.php';
@@ -82,6 +83,9 @@ $userHand = new UserHandler($userRepo, $assignRepo);
 $assignHand = new AssignmentHandler(new AssignmentManager($assetRepo, $assignRepo, $userRepo));
 $logHand = new LogHandler($logRepo, $userRepo);
 $expHand = new ExportHandler($userRepo, $assetRepo, $assignRepo);
+
+// Affirm user is still active
+verifyStatus($userRepo);
 
 match ($res) {
   APIResource::User => match ($action) {
