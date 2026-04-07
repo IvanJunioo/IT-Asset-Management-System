@@ -1,4 +1,5 @@
 import { tableData } from "./user-table.js";
+import { assignUser } from "./user-router.js";
 
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
@@ -12,8 +13,7 @@ userTableBody.addEventListener("usersLoaded", () => {
   userTable.addEventListener("click", (e) => {
     if (e.target.closest(".select-btn")) {
       const tr = e.target.closest("tr");      
-      sessionStorage.setItem("assignToUser", JSON.stringify(tableData.get(Number(tr.dataset.empid))));
-      window.location.href = `${window.location.origin}/index.php?page=assignment-form`;
+      assignUser(Number(tr.dataset.empid), "assignment-form");
       return;
     }
   });

@@ -1,12 +1,12 @@
 import { tableData, setAssetSelectFunc } from "./asset-table.js";
+import { assignAssets } from "./asset-router.js";
 
 const assetTable = document.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");
 
 // Override Select Button behavior
 setAssetSelectFunc((propNum) => {
-  sessionStorage.setItem("assetsToAssign", JSON.stringify([propNum]));
-  window.location.href = `${window.location.origin}/index.php?page=assignment-form`;
+  assignAssets([propNum], "assignment-form");
 });
 
 document.getElementById("export")?.remove();

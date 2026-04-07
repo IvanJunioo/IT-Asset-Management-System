@@ -1,13 +1,13 @@
-const assetsToReturn = JSON.parse(sessionStorage.getItem("assetsToReturn"));
+const urlParams = new URLSearchParams(window.location.search);
+const assets = urlParams.getAll("propNums[]");
 const form = document.getElementById("return-asset-form"); 
 
-fillForm(assetsToReturn);
+fillForm();
 
-function fillForm(assets) {
+function fillForm() {
   const p_asset = form.querySelector('#asset-list');
-  const formattedAssets = assets.join(", ");
 
-  p_asset.textContent = `${formattedAssets}`;
+  p_asset.textContent = `${assets.join(", ")}`;
 
   // add extra data with form submission by appending hidden input fields
   for (const asset of assets) {

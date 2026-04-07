@@ -1,6 +1,8 @@
 import { fetchLogs } from "./act-log.js";
+import { fetchAsset } from "./asset-router.js";
 
-const assetData = JSON.parse(sessionStorage.getItem("viewAssetData"));
+const urlParams = new URLSearchParams(window.location.search);
+const assetData = await fetchAsset(urlParams.get("propNum"));
 const assetView = document.querySelector("#asset-info"); 
 
 fillPage(Array.isArray(assetData) ? assetData[0] : assetData);

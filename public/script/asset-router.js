@@ -1,5 +1,4 @@
-async function fetchAsset(propNum) {
-  
+export async function fetchAsset(propNum) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
     resource: "assets",
@@ -20,15 +19,19 @@ async function fetchAsset(propNum) {
 }
 
 export async function viewAsset(propNum) {
-  const data = await fetchAsset(propNum);
-  sessionStorage.setItem("viewAssetData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/index.php?page=asset-view`;
+  const params = new URLSearchParams({
+    page: "asset-view",
+    propNum: propNum,
+  });
+  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
 }
 
 export async function editAsset(propNum) {
-  const data = await fetchAsset(propNum);
-  sessionStorage.setItem("assetData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/index.php?page=edit-asset-form`;
+  const params = new URLSearchParams({
+    page: "edit-asset-form",
+    propNum: propNum,
+  });
+  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
 }
 
 export async function condemnAsset(propNum) {
@@ -48,16 +51,20 @@ export async function condemnAsset(propNum) {
 
     window.location.href = `${window.location.origin}/index.php?page=asset-manager`;
   } catch (err) {
-    console.error("Error condemning asset: ", err);    
+    console.error("Error condemning asset: ", err);
   }
 }
 
-export function assignAssets(propNums) {
-  sessionStorage.setItem("assetsToAssign", JSON.stringify(propNums));
-  window.location.href = `${window.location.origin}/index.php?page=assign-user`;
+export function assignAssets(propNums, nextPage) {  // Allows either asset or user selection first. Resets propNums[]
+  const params = new URLSearchParams(window.location.search);
+  params.set("page", nextPage);
+  params.delete("propNums[]");
+  propNums.forEach(propNum => params.append("propNums[]", propNum));
+  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
 }
 
 export function returnAssets(propNums) {
-  sessionStorage.setItem("assetsToReturn", JSON.stringify(propNums));
-  window.location.href = `${window.location.origin}/index.php?page=return-form`;
+  const params = new URLSearchParams({page: "return-form"});
+  propNums.forEach(propNum => params.append("propNums[]", propNum));
+  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
 }
