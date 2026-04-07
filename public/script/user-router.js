@@ -21,13 +21,13 @@ async function fetchUser(empid) {
 export async function editUser(empid){
   const data = await fetchUser(empid);
   sessionStorage.setItem("userData", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/views/edit-user-form.php`;
+  window.location.href = `${window.location.origin}/index.php?page=edit-user-form`;
 }
 
 export async function assignUser(empid){
   const data = await fetchUser(empid);
   sessionStorage.setItem("assignToUser", JSON.stringify(data));
-  window.location.href = `${window.location.origin}/views/assign-asset.php`;
+  window.location.href = `${window.location.origin}/index.php?page=assign-asset`;
 }
 
 export async function modifyUser(empID, actionType) {
@@ -47,7 +47,7 @@ export async function modifyUser(empID, actionType) {
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
-    window.location.href = `${window.location.origin}/views/user-manager.php`;
+    window.location.href = `${window.location.origin}/index.php?page=user-manager`;
   } catch (err) {
     console.error("Error modifying user: ", err);
   }

@@ -1,6 +1,6 @@
 <script type="module">
   sessionStorage.setItem("user-info", JSON.stringify(await getSessionUser()));
-  window.location.href = `${window.location.origin}/views/dashboard.php`;
+  window.location.href = `${window.location.origin}/index.php?page=dashboard`;
 
   async function getSessionUser() {
     const url = new URL(`${window.location.origin}/api/index.php`);
