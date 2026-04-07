@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-  if (!defined('BASE_URL')) {
-    require_once __DIR__ . '/../../config/config.php';
-  }
-?>
-<!-- head.php -->
-<head>
-    <meta charset="UTF-8">
-    <title>IAMS</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/general.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/header.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/navigation.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/footer.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/login.css">
-</head>
+  <?php include __DIR__ . '/../partials/head.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/login.css">
 <body>  
-  <!-- header -->
   <?php include __DIR__ . '/../partials/header-login.php' ?>
 
-  <!-- main -->
   <main class="login-page">
     <div class="top-login">
       <a href="https://dcs.upd.edu.ph/" target="_blank">
