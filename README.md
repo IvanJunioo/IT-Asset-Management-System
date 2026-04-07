@@ -7,12 +7,8 @@
 - public 
   frontend. accessible via browser.
   - css
-  - partials
-    modular php includes
   - script
     javascripts for dynamic html
-  - views
-    html/php
   - api
     connects to src handlers
 - src
@@ -23,9 +19,15 @@
     manages repos
   - model
     pure data objects or entities. independent.
+  - partials
+    modular php includes    
   - repos
     low-level repositories for database query interfacing and access. depends on model.
+  - templates
+    reporting formats
   - utilities
+  - views
+    html/php
 - test 
 
 For login

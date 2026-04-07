@@ -1,12 +1,16 @@
-const assetsToAssign = JSON.parse(sessionStorage.getItem("assetsToAssign"));
-const userAssigned = JSON.parse(sessionStorage.getItem("assignToUser"));
+import { fetchUser } from "./user-router.js";
+
+const urlParams = new URLSearchParams(window.location.search);
+const assets = urlParams.getAll("propNums[]");
+const empID = urlParams.get("empID");
+const user = await fetchUser(empID);
+
 const form = document.getElementById("assign-asset-form"); 
 
-fillForm(assetsToAssign, userAssigned);
+fillForm();
 
-function fillForm(assets, user) {
-  const formattedAssets = assets.join(", ");
-  document.getElementById('asset-list').textContent = `Property No's: ${formattedAssets}`;
+function fillForm() {
+  document.getElementById('asset-list').textContent = `Property No's: ${assets.join(", ")}`;
   document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;
 
   const now = new Date();
@@ -30,7 +34,7 @@ function fillForm(assets, user) {
   const input = document.createElement("input");
   input.type = "hidden";
   input.name = "user";
-  input.value = user.EmpID;
+  input.value = empID;
   form.appendChild(input);      
 }
   

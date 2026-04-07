@@ -75,7 +75,7 @@ document.addEventListener("click", (e) => {
         if (confirm(`Condemn item ${propNum}?`)) condemnAsset(propNum);
         break;
       case "assign":
-        assignAssets([propNum]);
+        assignAssets([propNum], "assign-user");
         break;
       case "return":
         returnAssets([propNum]);
@@ -129,7 +129,7 @@ tableFuncs.addEventListener("click", (e) => {
   if (e.target.closest("#assign")) {
     if (selectedRows.size === 0) return;
 
-    assignAssets([...selectedRows].map(tr => tr.dataset.propNum));
+    assignAssets([...selectedRows].map(tr => tr.dataset.propNum), "assign-user");
     return;
   }
 
@@ -399,7 +399,7 @@ function addAssetAdd() {
   const leftAsset = document.querySelector(".left-asset");
 
   const assetAdd = document.createElement("a");
-  assetAdd.href = "add-asset-form.php";
+  assetAdd.href = "?page=add-asset-form";
   assetAdd.id = "addAsset";
   assetAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>

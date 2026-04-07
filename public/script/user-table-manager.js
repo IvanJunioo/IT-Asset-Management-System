@@ -120,7 +120,7 @@ function addTableFuncs() {
 
 function addUserAdd() {
   const userAdd = document.createElement("a");
-  userAdd.href = "add-user-form.php";
+  userAdd.href = "?page=add-user-form";
   userAdd.id = "addUser";
   userAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>

@@ -1,7 +1,8 @@
-import {assignAssets, returnAssets, condemnAsset} from "./asset-router.js";
+import {fetchAsset, assignAssets, returnAssets, condemnAsset} from "./asset-router.js";
 
 const main = document.querySelector("main");
-const assetData = JSON.parse(sessionStorage.getItem("assetData"));
+const urlParams = new URLSearchParams(window.location.search);
+const assetData = await fetchAsset(urlParams.get("propNum"));
 const assetForm = main.querySelector("#asset-form"); 
 
 assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
@@ -28,7 +29,7 @@ main.addEventListener("click", (e) => {
     
     switch (btn.value) {
       case "assign":
-        assignAssets([asset.PropNum]);
+        assignAssets([asset.PropNum], "assign-user");
         break;
       case "return":
         returnAssets([asset.PropNum]);

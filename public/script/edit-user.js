@@ -1,8 +1,9 @@
 import { fetchLogs } from "./act-log.js";
 import { returnAssets } from "./asset-router.js";
-import { assignUser } from "./user-router.js";
+import { fetchUser, assignUser } from "./user-router.js";
 
-const userData = JSON.parse(sessionStorage.getItem("userData"));
+const urlParams = new URLSearchParams(window.location.search);
+const userData = await fetchUser(urlParams.get("empID"));
 const userForm = document.querySelector("form"); 
 
 const assignmentTable = document.querySelector(".assignment-table");
@@ -19,7 +20,7 @@ userForm.method = "post";
 const user = Array.isArray(userData) ? userData[0] : userData;
 
 fillForm(user);
-fetchAssignments()
+fetchAssignments();
 fetchLogs({actorID: user.EmpID});
 
 const input = document.createElement("input");
@@ -63,7 +64,7 @@ assignmentTableBody.addEventListener("click", (e) => {
 });
 
 addAssignBtn.addEventListener("click", () => {
-  assignUser(user.EmpID);
+  assignUser(user.EmpID, "assign-asset");
 });
 
 exportButton.addEventListener("click", () => {
