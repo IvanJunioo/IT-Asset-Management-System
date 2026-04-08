@@ -37,3 +37,22 @@ $client->addScope("email");
 $client->addScope("profile");
 
 $url = $client->createAuthUrl();
+
+$pages = [
+  "activity-log"    => ["roles" => ["Faculty", "Staff", "Admin", "SuperAdmin"]],
+  "add-asset-form"  => ["roles" => ["Admin", "SuperAdmin"]],
+  "add-user-form"   => ["roles" => ["SuperAdmin"]],
+  "asset-manager"   => ["roles" => ["Admin", "SuperAdmin"]],
+  "asset-view"      => ["roles" => ["Faculty", "Staff", "Admin", "SuperAdmin"]],
+  "assets"          => ["roles" => ["Faculty", "Staff"]],
+  "assign-asset"    => ["roles" => ["Admin", "SuperAdmin"]],
+  "assign-user"     => ["roles" => ["Admin", "SuperAdmin"]],
+  "assignment-form" => ["roles" => ["Admin", "SuperAdmin"]],
+  "dashboard"       => ["roles" => ["Faculty", "Staff", "Admin", "SuperAdmin"]],
+  "edit-asset-form" => ["roles" => ["Admin", "SuperAdmin"]],
+  "edit-user-form"  => ["roles" => ["SuperAdmin"]],
+  "login"           => ["roles" => []], // Allows everyone
+  "return-form"     => ["roles" => ["Admin", "SuperAdmin"]],
+  "user-manager"    => ["roles" => ["SuperAdmin"]],
+  "users"           => ["roles" => ["Admin"]],
+];
