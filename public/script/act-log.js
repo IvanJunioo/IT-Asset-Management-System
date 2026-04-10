@@ -1,5 +1,4 @@
-import { viewAsset } from "./asset-router.js";
-import { editUser } from "./user-router.js";
+import { relayPage } from "./asset-router.js";
 
 const table = document.getElementById("actlog-table");
 const tbody = table.querySelector("tbody");
@@ -24,13 +23,13 @@ table.addEventListener("click", (e) => {
 
   switch (a.dataset.type) {
     case "actor":
-      editUser(tableData.get(Number(tr.dataset.logid)).ActorID);
+      relayPage("edit-user-form", {"empID": tableData.get(Number(tr.dataset.logid)).ActorID});
       break;
     case "asset":
-      viewAsset(tr.dataset.objid);
+      relayPage("asset-view", {"propNum": tr.dataset.objid});
       break;
     case "user":
-      editUser(Number(tr.dataset.objid))
+      relayPage("edit-user-form", {"empID": Number(tr.dataset.objid)});
       break;
     default:
       console.warn(`Unknown object type: ${a.dataset.type}`);

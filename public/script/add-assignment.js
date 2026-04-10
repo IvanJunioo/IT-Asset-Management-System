@@ -9,6 +9,21 @@ const form = document.getElementById("assign-asset-form");
 
 fillForm();
 
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    await fetch(e.target.action, {
+      method: "POST",
+      body: new FormData(e.target),
+    });
+
+    window.location.href = urlParams.get("retPage") ?? "index.php?page=dashboard";
+  } catch (err) {
+    console.error("Error submitting form: ", err);
+  }
+});
+
 function fillForm() {
   document.getElementById('asset-list').textContent = `Property No's: ${assets.join(", ")}`;
   document.getElementById("chosen-user").textContent = `${user.FName} ${user.LName}`;

@@ -1,6 +1,5 @@
 import { tableData } from "./asset-table.js";
-import { editAsset, returnAssets, condemnAsset, assignAssets} from "./asset-router.js";
-import {editUser} from './user-router.js';
+import { condemnAsset, relayPage} from "./asset-router.js";
 
 const leftAsset = document.querySelector(".left-asset");
 const tableFuncs = leftAsset.querySelector(".table-func");
@@ -69,16 +68,23 @@ document.addEventListener("click", (e) => {
 
     switch (menuBtn.dataset.action) {
       case "modify":
-        editAsset(propNum);
+        relayPage("edit-asset-form", {"propNum": propNum});
         break;
       case "condemn": 
         if (confirm(`Condemn item ${propNum}?`)) condemnAsset(propNum);
         break;
       case "assign":
-        assignAssets([propNum], "assign-user");
+        relayPage("assign-user", {
+          "retPage": window.location.href,
+          "propNums[]": propNum,
+        });
         break;
       case "return":
-        returnAssets([propNum]);
+        relayPage("return-form", {
+          "retPage": window.location.href,
+          "propNums[]": propNum,
+        });
+        break;
     }
     return;
   }
@@ -127,9 +133,11 @@ document.addEventListener("click", (e) => {
 
 tableFuncs.addEventListener("click", (e) => {
   if (e.target.closest("#assign")) {
-    if (selectedRows.size === 0) return;
-
-    assignAssets([...selectedRows].map(tr => tr.dataset.propNum), "assign-user");
+    if (selectedRows.size === 0) return;    
+    relayPage("assign-user", {
+      "retPage": window.location.href,
+      "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
+    })
     return;
   }
 
@@ -148,7 +156,10 @@ tableFuncs.addEventListener("click", (e) => {
 
   if (e.target.closest("#return")) {
     if (selectedRows.size === 0) return;
-    returnAssets([...selectedRows].map(tr => tr.dataset.propNum));
+    relayPage("return-form", {
+      "retPage": window.location.href,
+      "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
+    });
   }
 
   if (e.target.closest("#multi-select")) {
@@ -195,7 +206,7 @@ tableContainer.addEventListener("click", (e) => {
     if (!tr) return;
 
     if (a.dataset.type === "assignee") {
-      editUser(tableData.get(tr.dataset.propNum).AssignedTo);
+      relayPage("edit-user-form", {"empID": tableData.get(tr.dataset.propNum).AssignedTo});
     }
     return;
   }
@@ -236,7 +247,7 @@ assetTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".action-btn")) {
-    editAsset(tr.dataset.propNum);
+    relayPage("edit-asset-form", {"propNum": tr.dataset.propNum});
     return;
   }
 });

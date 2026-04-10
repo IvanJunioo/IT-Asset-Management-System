@@ -4,6 +4,21 @@ const form = document.getElementById("return-asset-form");
 
 fillForm();
 
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    await fetch(e.target.action, {
+      method: "POST",
+      body: new FormData(e.target),
+    });
+
+    window.location.href = urlParams.get("retPage") ?? "index.php?page=dashboard";
+  } catch (err) {
+    console.error("Error submitting form: ", err);
+  }
+});
+
 function fillForm() {
   const p_asset = form.querySelector('#asset-list');
 

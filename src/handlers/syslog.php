@@ -47,8 +47,6 @@ final class LogHandler {
   public function login(string $code): void {
     global $client;
 
-    session_start();
-
     $token = $client->fetchAccessTokenWithAuthCode($code);
     $client->setAccessToken($token['access_token']);
 
@@ -75,8 +73,6 @@ final class LogHandler {
   }
 
   public function logout(): void {
-    session_start();
-
     $_SESSION = []; // unset all session variables
 
     if (ini_get("session.use_cookies")) {

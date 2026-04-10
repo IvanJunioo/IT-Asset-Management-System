@@ -1,4 +1,4 @@
-import { editUser } from "./user-router.js";
+import { relayPage } from "./asset-router.js";
 
 const leftUser = document.querySelector(".left-user");
 const tableContainer = leftUser.querySelector(".table-container");
@@ -176,7 +176,7 @@ userTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".action-btn")) {
-    editUser(tr.dataset.empid);
+    relayPage("edit-user-form", {"empID": tr.dataset.empid});
     return;
   }
 });

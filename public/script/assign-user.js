@@ -1,5 +1,5 @@
 import { tableData } from "./user-table.js";
-import { assignUser } from "./user-router.js";
+import { relayPage } from "./asset-router.js";
 
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");
@@ -12,8 +12,8 @@ userTableBody.addEventListener("usersLoaded", () => {
   // Handles all table clicks dynamically
   userTable.addEventListener("click", (e) => {
     if (e.target.closest(".select-btn")) {
-      const tr = e.target.closest("tr");      
-      assignUser(Number(tr.dataset.empid), "assignment-form");
+      const tr = e.target.closest("tr");
+      relayPage("assignment-form", {"empID": Number(tr.dataset.empid)});
       return;
     }
   });

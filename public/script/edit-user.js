@@ -1,11 +1,11 @@
 import { fetchLogs } from "./act-log.js";
-import { returnAssets } from "./asset-router.js";
-import { fetchUser, assignUser } from "./user-router.js";
+import { relayPage } from "./asset-router.js";
+import { fetchUser } from "./user-router.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const userData = await fetchUser(urlParams.get("empID"));
-const userForm = document.querySelector("form"); 
 
+const userForm = document.querySelector("form"); 
 const assignmentTable = document.querySelector(".assignment-table");
 const assignmentTableBody = assignmentTable.querySelector("tbody");
 const addAssignBtn = document.getElementById("add-assignment-button");
@@ -58,13 +58,23 @@ assignmentTableBody.addEventListener("click", (e) => {
   if (!tr) return;
 
   if (e.target.closest(".select-btn")) {
-    returnAssets([tr.dataset.propNum]);
+    relayPage("return-form", {
+      "retPage": window.location.href,
+      "propNums[]": tr.dataset.propNum,
+    });
     return;
   }
 });
 
 addAssignBtn.addEventListener("click", () => {
-  assignUser(user.EmpID, "assign-asset");
+  relayPage("assign-asset", {
+    "retPage": window.location.href,
+    "empID": user.EmpID,
+  });
+});
+
+userForm.addEventListener("submit", async (_) => {
+  window.location.href = "index.php?page=user-manager";
 });
 
 exportButton.addEventListener("click", () => {
