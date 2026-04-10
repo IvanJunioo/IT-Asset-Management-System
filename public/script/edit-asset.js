@@ -1,8 +1,9 @@
-import {fetchAsset, assignAssets, returnAssets, condemnAsset} from "./asset-router.js";
+import {fetchAsset, condemnAsset, relayPage} from "./asset-router.js";
 
-const main = document.querySelector("main");
 const urlParams = new URLSearchParams(window.location.search);
 const assetData = await fetchAsset(urlParams.get("propNum"));
+
+const main = document.querySelector("main");
 const assetForm = main.querySelector("#asset-form"); 
 
 assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
@@ -29,16 +30,26 @@ main.addEventListener("click", (e) => {
     
     switch (btn.value) {
       case "assign":
-        assignAssets([asset.PropNum], "assign-user");
+        relayPage("assign-user", {
+          "retPage": window.location.href,
+          "propNums[]": asset.PropNum,
+        });
         break;
       case "return":
-        returnAssets([asset.PropNum]);
+        relayPage("return-form", {
+          "retPage": window.location.href,
+          "propNums[]": asset.PropNum,
+        });
         break;
       case "condemn":
         if (confirm("Condemn asset?")) condemnAsset(asset.PropNum);
         break;
     }
   }
+});
+
+assetForm.addEventListener("submit", async (_) => {
+  window.location.href = "index.php?page=asset-manager";
 });
 
 function fillForm(asset) {

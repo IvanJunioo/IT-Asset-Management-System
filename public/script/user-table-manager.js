@@ -1,5 +1,6 @@
 import { tableData, selectedRows, inMultiSelect, addCheckboxes } from "./user-table.js";
-import { editUser, modifyUser } from "./user-router.js";
+import { modifyUser } from "./user-router.js";
+import { relayPage } from "./asset-router.js";
 
 const leftUser = document.querySelector(".left-user");
 const tableFuncs = leftUser.querySelector(".table-func");
@@ -55,7 +56,7 @@ document.addEventListener("click", (e) => {
 
     switch (menuBtn.dataset.action) {
       case "modify":
-        editUser(empid);
+        relayPage("edit-user-form", {"empID": empid});
         break;
       case "get-report":
         window.open(

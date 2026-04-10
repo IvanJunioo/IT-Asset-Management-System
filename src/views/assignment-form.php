@@ -46,7 +46,7 @@
           Reset
         </button>
   
-        <button id="submit-button" type="submit" name="action" value="submit">
+        <button id="submit-button" type="submit" value="submit">
           Submit
         </button>  
       </form>

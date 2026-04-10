@@ -18,21 +18,6 @@ export async function fetchUser(empID) {
   }
 }
 
-export async function editUser(empID) {
-  const params = new URLSearchParams({
-    page: "edit-user-form",
-    empID: empID,
-  });
-  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
-}
-
-export async function assignUser(empID, nextPage) { // Allows either asset or user selection first. Resets empID.
-  const params = new URLSearchParams(window.location.search);
-  params.set("page", nextPage);
-  params.set("empID", empID);
-  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
-}
-
 export async function modifyUser(empID, actionType) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({

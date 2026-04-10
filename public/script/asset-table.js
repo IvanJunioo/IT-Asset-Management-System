@@ -1,4 +1,4 @@
-import { viewAsset } from "./asset-router.js";
+import { relayPage } from "./asset-router.js";
 
 const leftAsset = document.querySelector(".left-asset");
 const tableContainer = leftAsset.querySelector(".table-container");
@@ -12,7 +12,7 @@ export let tableData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
 let currentSortKey = "PropNum"; // track which column is sorted
 let sortOrder = "asc";
-let assetSelectFunc = viewAsset;
+let assetSelectFunc = (propNum) => relayPage("asset-view", {"propNum": propNum});
 
 // Immediately add header for actions
 const hr = assetTable.querySelector("thead tr");

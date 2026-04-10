@@ -18,22 +18,6 @@ export async function fetchAsset(propNum) {
   }
 }
 
-export async function viewAsset(propNum) {
-  const params = new URLSearchParams({
-    page: "asset-view",
-    propNum: propNum,
-  });
-  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
-}
-
-export async function editAsset(propNum) {
-  const params = new URLSearchParams({
-    page: "edit-asset-form",
-    propNum: propNum,
-  });
-  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
-}
-
 export async function condemnAsset(propNum) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
@@ -55,16 +39,20 @@ export async function condemnAsset(propNum) {
   }
 }
 
-export function assignAssets(propNums, nextPage) {  // Allows either asset or user selection first. Resets propNums[]
-  const params = new URLSearchParams(window.location.search);
-  params.set("page", nextPage);
-  params.delete("propNums[]");
-  propNums.forEach(propNum => params.append("propNums[]", propNum));
-  window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
-}
-
-export function returnAssets(propNums) {
-  const params = new URLSearchParams({page: "return-form"});
-  propNums.forEach(propNum => params.append("propNums[]", propNum));
+export function relayPage(pageName, data = {}) {  // Appends data in URL search parameters before going to next page 
+  const params = new URLSearchParams(window.location.search); // Preserves old data
+  
+  params.set("page", pageName); // Rewrites page value
+  
+  for (const [key, val] of Object.entries(data)) {
+    if (Array.isArray(val)) {
+      params.delete(key);
+      val.forEach(elem => params.append(key, elem));
+    }
+    else {
+      params.set(key, val);
+    }
+  }
+  
   window.location.href = `${window.location.origin}/index.php?${params.toString()}`;
 }

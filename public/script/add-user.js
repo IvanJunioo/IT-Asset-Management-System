@@ -21,6 +21,7 @@ form.addEventListener("submit", async (e) => {
 
   if (valid) {
     form.submit();
+    window.location.href = "index.php?page=user-manager";
   }
 })
 
