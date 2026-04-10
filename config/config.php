@@ -38,6 +38,7 @@ $client->addScope("profile");
 
 $url = $client->createAuthUrl();
 
+// Set page access privileges
 $pages = [
   "activity-log"    => ["roles" => ["Faculty", "Staff", "Admin", "SuperAdmin"]],
   "add-asset-form"  => ["roles" => ["Admin", "SuperAdmin"]],
@@ -56,3 +57,5 @@ $pages = [
   "user-manager"    => ["roles" => ["SuperAdmin"]],
   "users"           => ["roles" => ["Admin"]],
 ];
+
+date_default_timezone_set('Asia/Manila'); 

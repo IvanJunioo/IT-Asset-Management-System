@@ -49,11 +49,19 @@
       <div class="date-filter">
         <div class="date-grp">
           <span>Start Date</span>
-          <input type="date" id="date-from" placeholder="From">
+          <input 
+            type="date" 
+            id="date-from" 
+            max="<?= date('Y-m-d') ?>"
+          >
         </div>  
         <div class="date-grp">
           <span>End Date</span>
-          <input type="date" id="date-to" placeholder="To">
+          <input 
+            type="date" 
+            id="date-to" 
+            max="<?= date('Y-m-d') ?>"
+          >
         </div>
       </div>
     </div>
@@ -69,11 +77,5 @@
     Export assets 
   </button>
 </div>
-<script>
-  const date = new Date();
-  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-  document.getElementById('date-from').setAttribute('max', today);
-  document.getElementById('date-to').setAttribute('max', today);
-</script>
 
 <script src="<?= BASE_URL ?>script/asset-table.js" type="module" defer></script>

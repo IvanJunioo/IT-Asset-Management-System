@@ -62,8 +62,9 @@
     <input 
       type="date" 
       id="pdate" 
-      name="purchase-date" 
-      placeholder="Enter Purchase Date" 
+      name="purchase-date"
+      value="<?= date('Y-m-d') ?>"
+      max="<?= date('Y-m-d') ?>"
       required
     >
   </label>
@@ -151,9 +152,3 @@
     Submit
   </button>  
 </form>
-
-<script>
-  const date = new Date();
-  const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-  document.getElementById('pdate').setAttribute('max', today);
-</script>
