@@ -20,7 +20,7 @@
 
   <div class="bottom-login">
       <h2 class="sign-in">Log in Via UP Mail</h2>
-      <a id="login-upmail">
+      <a id="login-upmail" href="<?=$url?>">
         <img src="https://www.google.com/favicon.ico" id="google-icon" width="32" height="32">
           Login Here
       </a>
@@ -28,7 +28,5 @@
   </main>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
-
-  <script src="<?= BASE_URL ?>script/login.js" type="module" defer></script>
 </body>
 </html>

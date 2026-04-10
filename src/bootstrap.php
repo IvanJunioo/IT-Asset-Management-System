@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 
-require_once __DIR__ . '/utilities/role-guard.php';
 require_once __DIR__ . '/router.php';
 
 // Initialize repos and router
@@ -16,7 +15,5 @@ $router = new APIRouter(
   new AssignmentHandler(new AssignmentManager($assetRepo, $assignRepo, $userRepo)),
   new LogHandler($logRepo, $userRepo),
   new ExportHandler($userRepo, $assetRepo, $assignRepo),
+  $userRepo,
 );
-
-// Affirm user is still active
-verifyStatus($userRepo);

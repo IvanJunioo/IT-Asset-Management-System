@@ -39,11 +39,6 @@ final class LogHandler {
     ];
   }
 
-  public function getLoginUrl(): string {
-    global $url;
-    return $url;
-  }
-
   public function login(string $code): void {
     global $client;
 

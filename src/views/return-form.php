@@ -32,7 +32,8 @@
             type="datetime-local" 
             id="adate" 
             name="return-date" 
-            placeholder="Enter Return Date" 
+            value="<?= date('Y-m-d\TH:i') ?>" 
+            max="<?= date('Y-m-d\TH:i') ?>"
             required
           >
         </label>
@@ -48,16 +49,6 @@
     </div>
   </main>
 
-  <script>
-    const now = new Date();
-    const today = now.getFullYear() + '-' +
-    (now.getMonth() + 1 < 10 ? '0' : '') + (now.getMonth() + 1) + '-' +
-    (now.getDate() < 10 ? '0' : '') + now.getDate() + 'T' +
-    (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' +
-    (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-    document.getElementById('adate').value = today;
-    document.getElementById('adate').setAttribute('max', today);
-  </script>
   <script src="<?= BASE_URL ?>script/edit-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

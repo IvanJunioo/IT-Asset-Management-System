@@ -26,7 +26,8 @@
             type="datetime-local" 
             id="adate" 
             name="assign-date" 
-            placeholder="Enter Assign Date"
+            value="<?= date('Y-m-d\TH:i') ?>"
+            max="<?= date('Y-m-d\TH:i') ?>"
             required
           >
         </label>
@@ -53,11 +54,6 @@
     </div>
   </main>
 
-  <script>
-    const date = new Date();
-    const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-    document.getElementById('adate').setAttribute('max', today);
-  </script>
   <script src="<?= BASE_URL ?>script/add-assignment.js" type="module" defer> </script>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

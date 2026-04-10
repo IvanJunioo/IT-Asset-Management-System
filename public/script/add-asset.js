@@ -14,12 +14,6 @@ toCondemnGrp.style.display = 'none';
 const unassignedBtn = document.getElementById('unused');
 unassignedBtn.setAttribute('checked', true);
 
-const date = new Date();
-const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-const pdate = document.getElementById('pdate');
-pdate.setAttribute('max', today);
-pdate.value = today;
-
 // Add "+" button
 const table = document.getElementById("unique-asset-attr");
 const head = table.querySelector("thead").querySelector("tr");

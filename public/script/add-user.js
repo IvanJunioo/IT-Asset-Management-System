@@ -11,15 +11,12 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = document.getElementById("e");
 
-  let valid = true;
   let dataEmail = await checkIfExists(email);
 
   if (dataEmail) {
-    valid = false;
     alert(`The email address you entered is already in use. Please try another one.`);
   }
-
-  if (valid) {
+  else {
     form.submit();
     window.location.href = "index.php?page=user-manager";
   }

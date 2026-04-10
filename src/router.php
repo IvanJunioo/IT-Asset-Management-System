@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/utilities/role-guard.php';
+
 require_once __DIR__ . '/handlers/syslog.php';
 require_once __DIR__ . '/handlers/asset.php';
 require_once __DIR__ . '/handlers/assignment.php';
@@ -29,7 +31,6 @@ enum APIAction: string {
   case DeactivateUser = "deactivate";
   case DBStats = "stats";
   case GetSessionUser = "session";
-  case FetchLoginUrl = "logurl";
   case Login = "login";
   case Logout = "logout";
   case ExportByStatus = "status";
@@ -43,7 +44,6 @@ enum APIAction: string {
       self::Search,
       self::DBStats,
       self::GetSessionUser,
-      self::FetchLoginUrl,
       self::Login,
       self::Logout,
       self::ExportByStatus,
@@ -62,6 +62,7 @@ final class APIRouter {
     private AssignmentHandler $assignHand,
     private LogHandler $logHand,
     private ExportHandler $expHand,
+    private UserRepoInterface $userRepo,
     ) {}
 
   public function handle(
@@ -70,6 +71,9 @@ final class APIRouter {
     array $params,
     array $input,
   ) {
+    // Affirm user is still active
+    verifyStatus($this->userRepo);
+
     return match ($res) {
       APIResource::User       => $this->handleUser($action, $params, $input),
       APIResource::Asset      => $this->handleAsset($action, $params, $input),
@@ -218,7 +222,6 @@ final class APIRouter {
         page: (int)($params["page"] ?? 1),
         limit: (int)($params["limit"] ?? 20),
       ),
-      APIAction::FetchLoginUrl => $this->logHand->getLoginUrl(),
       APIAction::Login => $this->logHand->login($params["code"]),
       APIAction::Logout => $this->logHand->logout(),
       default => throw new Exception("Invalid Log action"),
