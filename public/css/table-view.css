@@ -62,10 +62,12 @@ tbody tr:hover {
   transition: background-color 0.3s ease;
 }
 
-td:last-child button,
-th:last-child button{
-  display: block;
-  margin: 0 auto;
+td:last-child,
+th:last-child{
+  width: 6em;
+  min-width: 6em;
+  text-align: center;
+  vertical-align: middle;
 }
 
 #search-box {
