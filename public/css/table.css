@@ -35,7 +35,7 @@ th {
   background-color: var(--primary-color);
   color: white;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   text-transform: uppercase;
   border-bottom: 2px solid var(--darker-primary);

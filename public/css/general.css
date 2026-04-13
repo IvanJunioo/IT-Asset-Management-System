@@ -218,11 +218,3 @@ button .material-icons {
   background-color: var(--primary-color);
   color: var(--beige);
 }
-
-
-/* animation */
-@keyframes slideUp {
-    from{
-        transform: translateY(100%);
-    }
-}
