@@ -58,7 +58,7 @@ hr {
 
 main {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: flex-start;
   margin-top: 2rem;
 }
