@@ -62,6 +62,7 @@
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
+    align-items: stretch;
 }
 
 .recent-activity {
@@ -71,6 +72,8 @@
     border: 1px solid var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .recent-activity h2 {
@@ -86,6 +89,9 @@
     font-family: "Source Sans Pro", sans-serif;
     font-size: clamp(0.5rem, 1.5vw, 0.95rem);
     table-layout: fixed;
+    display: block;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .recent-system-logs thead {
@@ -94,6 +100,13 @@
     letter-spacing: 0.4px;
     position: sticky;
     border-radius: 0.75rem;
+}
+
+.recent-system-logs thead,
+.recent-system-logs tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .recent-system-logs th {
@@ -110,6 +123,7 @@
 }
 
 .distr-card {
+    min-height: 111px;
     padding: 1.5rem;
     border: 1px solid var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
