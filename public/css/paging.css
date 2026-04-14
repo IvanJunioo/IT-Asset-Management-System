@@ -5,6 +5,7 @@
   gap: 15px;
   padding: 10px;
   border-radius: 8px;
+  margin-top: auto;
 }
 
 #pagination button {
