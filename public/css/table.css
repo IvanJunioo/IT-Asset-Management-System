@@ -29,7 +29,7 @@ table {
 
 td {
   line-height: 1.4;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -39,7 +39,7 @@ td {
 
 th {
   padding: 5px;
-  text-align: center;
+  text-align: left;
   font-weight: 600;
   z-index: 4;
 }
@@ -77,6 +77,6 @@ td:last-child,
 th:last-child{
   width: 6em;
   min-width: 6em;
-  text-align: center;
+  text-align: left;
   vertical-align: middle;
 }
