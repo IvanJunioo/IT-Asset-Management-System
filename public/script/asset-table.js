@@ -20,9 +20,7 @@ if (!hr.querySelector("#actionsth")) {
   const actionsth = document.createElement("th");
   actionsth.id = "actionsth";
   hr.appendChild(actionsth);
-}
-
-fetchAssets();
+} 
 
 const tableFuncs = document.createElement("div");
 tableFuncs.className = "table-func";
@@ -47,6 +45,10 @@ tableFuncs.innerHTML = `
 leftAsset.insertBefore(tableFuncs, tableContainer);
 
 // ----- EVENT LISTENERS (KEEP MINIMAL) -----
+window.addEventListener("pageshow", (_) => {  // Triggers after window loads form state cache (i.e. after going back a window)
+  fetchAssets();
+});
+
 document.addEventListener("click", (e) => {
   const sortBtn = e.target.closest("#sort-by");
   if (sortBtn) {
