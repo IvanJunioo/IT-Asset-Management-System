@@ -15,8 +15,6 @@ let latest = 0;
 let currentSortKey = "LName";
 let sortOrder = "asc";
 
-fetchUsers();
-
 const tableFuncs = document.createElement("div");
 tableFuncs.className = "table-func";
 tableFuncs.innerHTML = `
@@ -48,6 +46,10 @@ if (!hr.querySelector("#actionsth")) {
 }
 
 // ----- EVENT LISTENERS -----
+window.addEventListener("pageshow", (_) => {  // Triggers after window loads form state cache (i.e. after going back a window)
+  fetchUsers();
+});
+
 document.addEventListener("click", (e) => {
   const sortBtn = e.target.closest("#sort-by");
   if (sortBtn) {

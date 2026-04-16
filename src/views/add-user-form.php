@@ -3,6 +3,12 @@
   <?php include __DIR__ . '/../partials/head.php'?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/user.css">
+  <style>
+    main {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 
