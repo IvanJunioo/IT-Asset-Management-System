@@ -3,18 +3,7 @@
   --darker-primary: #3e0505;
   --primary-green: #2a7548;
   --darker-green: #1d3f2b;
-  --bg-light: #f8f5f2;
-  --text-dark: #222222;
-  --border-color: #cccccc;
-  --beige: #f7e9d8;
-}
-
-:root {
-  --primary-color: #550101;
-  --darker-primary: #3e0505;
-  --primary-green: #2a7548;
-  --darker-green: #1d3f2b;
-  --bg-light: #f8f5f2;
+  --bg-light: white;
   --text-dark: #222222;
   --border-color: #cccccc;
   --beige: #f7e9d8;
@@ -22,17 +11,26 @@
 
 table {
   table-layout: fixed;
+  background-color: var(--bg-light);
+  font-family: "Source Sans Pro", sans-serif;
   border-collapse: collapse;
   width: 100%;
   z-index: 3;
 }
 
+thead {
+  background-color: var(--primary-color);
+  color: white;
+  text-transform: uppercase;
+  position: sticky;
+}
+
 td {
   line-height: 1.4;
   text-align: left;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
   padding: 5px;
   font-size: clamp(7pt, 1.5vw, 11pt);
 }
@@ -47,7 +45,6 @@ th {
 th span {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   overflow: hidden;
   font-size: clamp(8pt, 2vw, 11pt);
 }

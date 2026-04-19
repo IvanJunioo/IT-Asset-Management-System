@@ -22,6 +22,12 @@
   table-layout: auto;
 }
 
+.asset-table th,
+.asset-table td {
+  white-space: normal;
+  word-break: break-word;
+}
+
 .asset-table thead {
   background-color: var(--primary-color);
   color: white;
@@ -49,4 +55,9 @@ td:nth-child(4), th:nth-child(4) {
 td:last-child,
 th:last-child {
   width: 5%;
+}
+
+th:nth-child(6),
+td:nth-child(6) {
+  text-align: center;
 }
