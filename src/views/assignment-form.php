@@ -15,7 +15,7 @@
   <main>
     <div class="card">
       <h3>Assign Asset(s)</h3>
-      <form id="assign-asset-form" action = "<?= BASE_URL ?>api/index.php?resource=assignment&action=assign" method="post">
+      <form id="assign-asset-form" method="post">
         <div class="input-label"> 
           <b>Selected Asset(s):</b>
           <p id="asset-list"></p>

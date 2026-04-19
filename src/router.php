@@ -25,6 +25,7 @@ enum APIAction: string {
   case Add = "add";
   case Edit = "edit";
   case AssignAsset = "assign";
+  case RessignAsset = "reassign";
   case ReturnAsset = "return";
   case CondemnAsset = "condemn";
   case ActivateUser = "activate";
@@ -193,6 +194,12 @@ final class APIRouter {
     return match ($action) {
       APIAction::Fetch => $this->assignHand->getAssignments($params["user"]),
       APIAction::AssignAsset => $this->assignHand->assign(
+        propNums:   $input["assets"],
+        date:       new DateTimeImmutable($input['assign-date']),
+        assigneeID: $input["user"],
+        remarks:    $input["remarks"],
+      ),
+      APIAction::RessignAsset => $this->assignHand->reassign(
         propNums:   $input["assets"],
         date:       new DateTimeImmutable($input['assign-date']),
         assigneeID: $input["user"],
