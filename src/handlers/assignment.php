@@ -18,24 +18,51 @@ final class AssignmentHandler {
     string $assigneeID,
     string $remarks,
   ): void {
-    $empID = $_SESSION["user_id"];
-
     foreach ($propNums as $propNum) {
       $this->manager->assignAsset(
         propNum: $propNum,
-        assignerID: $empID,
-        assigneeID: $assigneeID,
+        assignerID: $_SESSION["user_id"],
+        assigneeID: (int)$assigneeID,
         assDate: $date,
         remarks: $remarks,
       );
 
       systemLog(
-        "assigned asset $propNum to user $empID",
+        "assigned asset $propNum to user $assigneeID",
         [
           "action" => "assign",
           "object" => "asset",
           "propNum" => $propNum,
-          "assigneeID" => $empID,
+          "assigneeID" => $assigneeID,
+        ]
+      );
+    }
+  }
+
+  public function reassign(
+    array $propNums,
+    DateTimeImmutable $date,
+    string $assigneeID,
+    string $remarks,
+  ): void {
+    foreach ($propNums as $propNum) {
+      $this->manager->returnAsset($propNum,$date,$remarks);
+
+      $this->manager->assignAsset(
+        propNum: $propNum,
+        assignerID: $_SESSION["user_id"],
+        assigneeID: (int)$assigneeID,
+        assDate: $date,
+        remarks: $remarks,
+      );
+
+      systemLog(
+        "reassigned asset $propNum to user $assigneeID",
+        [
+          "action" => "reassign",
+          "object" => "asset",
+          "propNum" => $propNum,
+          "assigneeID" => $assigneeID,
         ]
       );
     }

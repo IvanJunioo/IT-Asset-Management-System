@@ -35,6 +35,13 @@ main.addEventListener("click", (e) => {
           "propNums[]": asset.PropNum,
         });
         break;
+      case "reassign":
+        relayPage("assign-user", {
+          "retPage": window.location.href,
+          "propNums[]": asset.PropNum,
+          "reassign": true,
+        });
+        break;
       case "return":
         relayPage("return-form", {
           "retPage": window.location.href,
@@ -116,12 +123,21 @@ function addAssignmentButtons() {
   if (asset.Status === "Assigned") {
     const btn = document.createElement("button");
     btn.className = "assign-btn";
-    btn.value = "return";
+    btn.value = "reassign";
     btn.innerHTML = `
+      <span class="material-icons">assignment_ind</span>
+      Reassign
+    `;
+    main.appendChild(btn);
+
+    const btn2 = document.createElement("button");
+    btn2.className = "assign-btn";
+    btn2.value = "return";
+    btn2.innerHTML = `
       <span class="material-icons">assignment_return</span>
       Return    
     `;
-    main.appendChild(btn);
+    main.appendChild(btn2);
   }
   if (asset.Status === "ToCondemn") {
     const btn = document.createElement("button");
