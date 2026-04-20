@@ -20,8 +20,8 @@ try {
   echo json_encode($router->handle(
     $res, 
     $action, 
-    $_GET, 
-    json_decode(file_get_contents("php://input"), true) ?? $_POST,
+    params: $_GET,
+    input: json_decode(file_get_contents("php://input"), true) ?? $_POST,
   ));
 
   if ($res === APIResource::Log && $action === APIAction::Login) {

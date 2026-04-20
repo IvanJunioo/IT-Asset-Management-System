@@ -246,11 +246,11 @@ final class APIRouter {
         add_remarks:  isset($params["add_remarks"]),
       ),
       APIAction::ExportByUser => $this->expHand->exportUserAssignedAssets(
-        userParam:    $params["status"] ?? null,
+        userParam:    $params["user"] ?? null,
         add_remarks:  isset($params["add_remarks"]),
       ),
       APIAction::ExportByFaculty => $this->expHand->exportFacultyAssignedAssets(
-        usersParam:   $params["status"] ?? null,
+        usersParam:   $params["users"] ?? null,
         add_remarks:  isset($params["add_remarks"]),
       ),
       default => throw new Exception("Invalid Exportable action"),

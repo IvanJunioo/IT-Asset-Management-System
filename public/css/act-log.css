@@ -30,10 +30,5 @@
 
 td:nth-child(1), td:nth-child(2),
 th:nth-child(1), th:nth-child(2) {
-  width: 30%;
-}
-
-td:last-child,
-th:last-child {
-  width: 40%;
+  width: 20%;
 }

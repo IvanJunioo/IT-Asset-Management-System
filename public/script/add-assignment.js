@@ -41,6 +41,6 @@ function fillForm() {
   input.type = "hidden";
   input.name = "user";
   input.value = empID;
-  form.appendChild(input);      
+    form.appendChild(input);      
 }
   

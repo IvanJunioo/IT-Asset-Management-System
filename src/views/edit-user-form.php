@@ -27,6 +27,9 @@
     #prnum { width: 40%; }
     #assDate { width: 30%; }
     #stat { width: 20%; }
+    #actlog-table th:last-child {
+      width: 50%;
+    }
 
     /* Responsive: Stack columns on smaller screens */
     @media (max-width: 1024px) {
