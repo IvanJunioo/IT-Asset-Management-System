@@ -65,6 +65,12 @@ final class UserHandler {
   }
 
   public function editUser(User $user): void {
+    // Only SuperAdmin can edit user details
+    if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
+      http_response_code(403);
+      throw new Exception("Access denied: Only SuperAdmin can modify user details");
+    }
+
     $old = $this->userRepo->identify($user->empID);
     $diff = array_diff_assoc($user->jsonSerialize(), $old->jsonSerialize());
     if (empty($diff)) return;
@@ -95,6 +101,12 @@ final class UserHandler {
   }
 
   public function changeStatus(string $empID, bool $isActive): void {
+    // Only SuperAdmin can change user status
+    if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
+      http_response_code(403);
+      throw new Exception("Access denied: Only SuperAdmin can modify user status");
+    }
+
     $user = $this->userRepo->identify($empID);
     $user->isActive = $isActive;
 
