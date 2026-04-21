@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $protocol = (
   !empty($_SERVER['HTTPS']) 
   && $_SERVER['HTTPS'] !== 'off'
-  || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://"
+  || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http"
 ;
 
 $host = $_SERVER['HTTP_HOST'];
@@ -12,7 +12,7 @@ $host = $_SERVER['HTTP_HOST'];
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
 // $projectRoot = preg_replace('#/(src|public|views|api).*#', '/', $scriptDir);
 
-define('BASE_URL', $protocol . $host . '/'); // "/public/"
+define('BASE_URL', "$protocol://$host/"); // "/public/"
 
 // Database
 $dbname = "itam"; # Change database here
@@ -31,9 +31,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
-$host = $_SERVER['HTTP_HOST'];
-$client->setRedirectUri("$protocol://$host/api/index.php?resource=logs&action=login");
+$client->setRedirectUri(BASE_URL . "api/index.php?resource=logs&action=login");
 
 $client->addScope("email");
 $client->addScope("profile");
