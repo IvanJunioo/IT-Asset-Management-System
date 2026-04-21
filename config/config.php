@@ -53,7 +53,7 @@ $pages = [
   "assignment-form" => ["roles" => ["Admin", "SuperAdmin"]],
   "dashboard"       => ["roles" => ["Faculty", "Staff", "Admin", "SuperAdmin"]],
   "edit-asset-form" => ["roles" => ["Admin", "SuperAdmin"]],
-  "edit-user-form"  => ["roles" => ["SuperAdmin"]],
+  "edit-user-form"  => ["roles" => ["Admin", "SuperAdmin"]],
   "login"           => ["roles" => []], // Allows everyone
   "return-form"     => ["roles" => ["Admin", "SuperAdmin"]],
   "user-manager"    => ["roles" => ["SuperAdmin"]],
