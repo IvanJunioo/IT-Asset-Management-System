@@ -6,7 +6,7 @@ const assetData = await fetchAsset(urlParams.get("propNum"));
 const main = document.querySelector("main");
 const assetForm = main.querySelector("#asset-form"); 
 
-assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit`; 
+assetForm.action = `${window.location.origin}/api/index.php?resource=assets&action=edit&redirect=${encodeURIComponent("index.php?page=asset-manager")}`; 
 assetForm.method = "post";
 
 const asset = Array.isArray(assetData) ? assetData[0] : assetData;
@@ -31,20 +31,20 @@ main.addEventListener("click", (e) => {
     switch (btn.value) {
       case "assign":
         relayPage("assign-user", {
-          "retPage": window.location.href,
+          "redirect": "index.php" + window.location.search,
           "propNums[]": asset.PropNum,
         });
         break;
       case "reassign":
         relayPage("assign-user", {
-          "retPage": window.location.href,
+          "redirect": "index.php" + window.location.search,
           "propNums[]": asset.PropNum,
           "reassign": true,
         });
         break;
       case "return":
         relayPage("return-form", {
-          "retPage": window.location.href,
+          "redirect": "index.php" + window.location.search,
           "propNums[]": asset.PropNum,
         });
         break;
@@ -53,10 +53,6 @@ main.addEventListener("click", (e) => {
         break;
     }
   }
-});
-
-assetForm.addEventListener("submit", async (_) => {
-  window.location.href = "index.php?page=asset-manager";
 });
 
 function fillForm(asset) {

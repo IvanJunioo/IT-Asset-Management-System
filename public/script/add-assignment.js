@@ -6,24 +6,9 @@ const empID = urlParams.get("empID");
 const user = await fetchUser(empID);
 
 const form = document.getElementById("assign-asset-form");
-form.action = `${window.location.origin}/api/index.php?resource=assignment&action=${urlParams.has("reassign")? "reassign" : "assign"}`;
+form.action = `${window.location.origin}/api/index.php?resource=assignment&action=${urlParams.has("reassign")? "reassign" : "assign"}&redirect=${encodeURIComponent(urlParams.get("redirect") ?? "index.php?page=dashboard")}`;
 
 fillForm();
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  try {
-    await fetch(e.target.action, {
-      method: "POST",
-      body: new FormData(e.target),
-    });
-
-    window.location.href = urlParams.get("retPage") ?? "index.php?page=dashboard";
-  } catch (err) {
-    console.error("Error submitting form: ", err);
-  }
-});
 
 function fillForm() {
   document.getElementById('asset-list').textContent = `Property No's: ${assets.join(", ")}`;

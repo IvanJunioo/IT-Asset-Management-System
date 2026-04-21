@@ -75,13 +75,13 @@ document.addEventListener("click", (e) => {
         break;
       case "assign":
         relayPage("assign-user", {
-          "retPage": window.location.href,
+          "redirect": "index.php" + window.location.search,
           "propNums[]": propNum,
         });
         break;
       case "return":
         relayPage("return-form", {
-          "retPage": window.location.href,
+          "redirect": "index.php" + window.location.search,
           "propNums[]": propNum,
         });
         break;
@@ -135,7 +135,7 @@ tableFuncs.addEventListener("click", (e) => {
   if (e.target.closest("#assign")) {
     if (selectedRows.size === 0) return;    
     relayPage("assign-user", {
-      "retPage": window.location.href,
+      "redirect": "index.php" + window.location.search,
       "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
     })
     return;
@@ -157,7 +157,7 @@ tableFuncs.addEventListener("click", (e) => {
   if (e.target.closest("#return")) {
     if (selectedRows.size === 0) return;
     relayPage("return-form", {
-      "retPage": window.location.href,
+      "redirect": "index.php" + window.location.search,
       "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
     });
   }

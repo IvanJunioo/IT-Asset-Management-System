@@ -73,9 +73,9 @@ final class APIRouter {
     array $input,
   ) {
     // Affirm user is still active
-    verifyStatus($this->userRepo);
+    // verifyStatus($this->userRepo);
 
-    return match ($res) {
+    $data = match ($res) {
       APIResource::User       => $this->handleUser($action, $params, $input),
       APIResource::Asset      => $this->handleAsset($action, $params, $input),
       APIResource::Assignment => $this->handleAssignment($action, $params, $input),
@@ -83,6 +83,13 @@ final class APIRouter {
       APIResource::Exportable => $this->handleExportable($action, $params, $input),
       default                 => throw new Exception("Resource $res->value not found."),
     };
+
+    if (isset($params["redirect"])) {
+      header("Location: " . BASE_URL . $params["redirect"]);
+      exit;
+    }
+
+    return $data;
   }
 
   private function handleUser(

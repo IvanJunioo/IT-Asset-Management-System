@@ -23,6 +23,7 @@ export async function modifyUser(empID, actionType) {
   url.search = new URLSearchParams({
     resource: "users",
     action: actionType,
+    redirect: "index.php?page=user-manager",
   });
 
   try {
@@ -35,7 +36,7 @@ export async function modifyUser(empID, actionType) {
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
     
-    window.location.href = `${window.location.origin}/index.php?page=user-manager`;
+    location.reload();
   } catch (err) {
     console.error("Error modifying user: ", err);
   }

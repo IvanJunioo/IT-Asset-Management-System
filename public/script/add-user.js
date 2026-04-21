@@ -1,5 +1,5 @@
 const form = document.querySelector("form");
-form.action = `${window.location.origin}/api/index.php?resource=users&action=add`;
+form.action = `${window.location.origin}/api/index.php?resource=users&action=add&redirect=${encodeURIComponent("index.php?page=user-manager")}`;
 form.method = "post";   
 
 const resetBtn = document.getElementById("reset-button");
@@ -18,7 +18,6 @@ form.addEventListener("submit", async (e) => {
   }
   else {
     form.submit();
-    window.location.href = "index.php?page=user-manager";
   }
 })
 

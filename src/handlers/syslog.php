@@ -65,6 +65,8 @@ final class LogHandler {
     $_SESSION['user_lname'] = $user->name->last;
     $_SESSION['privilege'] = $user->privilege->value;
     $_SESSION['logged_in'] = true;
+
+    header("Location: " . BASE_URL . "index.php?page=dashboard");
   }
 
   public function logout(): void {

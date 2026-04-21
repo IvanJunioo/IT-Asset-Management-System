@@ -23,6 +23,7 @@ export async function condemnAsset(propNum) {
   url.search = new URLSearchParams({
     resource: "assets",
     action: "condemn",
+    redirect: "index.php?page=asset-manager",
   });
 
   try {
@@ -33,7 +34,7 @@ export async function condemnAsset(propNum) {
     });
     if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
 
-    window.location.href = `${window.location.origin}/index.php?page=asset-manager`;
+    location.reload();
   } catch (err) {
     console.error("Error condemning asset: ", err);
   }

@@ -5,7 +5,7 @@ if (params.get("pNumError") === "exists") {
 } 
 
 const form = document.querySelector("form");
-form.action = `${window.location.origin}/api/index.php?resource=assets&action=add`;
+form.action = `${window.location.origin}/api/index.php?resource=assets&action=add&redirect=${encodeURIComponent("index.php?page=asset-manager")}`;
 form.method = "post";
 
 // Hide toCondemn radio button
@@ -63,9 +63,8 @@ form.addEventListener("submit", async (e) => {
     alert(`Please fix the duplicate Serial Number: ${dupSnum}`);
   }
 
-  if (valid){
+  if (valid) {
     form.submit();
-    window.location.href = "index.php?page=asset-manager";
   }
 });
 

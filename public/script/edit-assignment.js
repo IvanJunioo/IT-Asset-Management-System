@@ -1,23 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const assets = urlParams.getAll("propNums[]");
-const form = document.getElementById("return-asset-form"); 
+const form = document.getElementById("return-asset-form");
+form.action = `${window.location.origin}/api/index.php?resource=assignment&action=return&redirect=${encodeURIComponent(urlParams.get("redirect") ?? "index.php?page=dashboard")}`;
 
 fillForm();
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  try {
-    await fetch(e.target.action, {
-      method: "POST",
-      body: new FormData(e.target),
-    });
-
-    window.location.href = urlParams.get("retPage") ?? "index.php?page=dashboard";
-  } catch (err) {
-    console.error("Error submitting form: ", err);
-  }
-});
 
 function fillForm() {
   const p_asset = form.querySelector('#asset-list');

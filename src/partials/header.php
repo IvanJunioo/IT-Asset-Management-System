@@ -40,6 +40,7 @@
   url.search = new URLSearchParams({
     resource: "logs",
     action: "logout",
+    redirect: "index.php?page=login",
   });
 
   document.getElementById("logout").href = url.href;

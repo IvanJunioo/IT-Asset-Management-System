@@ -24,7 +24,9 @@ $dbusername = "root";      // match docker-compose.yml
 $dbpassword = "";
 
 
-$pdo = new PDO($dbsource, $dbusername, $dbpassword);  # PHP Data Object
+$pdo = new PDO($dbsource, $dbusername, $dbpassword, [
+  PDO::ATTR_PERSISTENT => false,
+]);  # PHP Data Object
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API

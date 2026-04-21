@@ -14,7 +14,7 @@ const exportButton = document.getElementById("export-assignment");
 let assignmentData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
 
-userForm.action = `${window.location.origin}/api/index.php?resource=users&action=edit`;
+userForm.action = `${window.location.origin}/api/index.php?resource=users&action=edit&redirect=${encodeURIComponent("index.php?page=user-manager")}`;
 userForm.method = "post";
 
 const user = Array.isArray(userData) ? userData[0] : userData;
@@ -42,8 +42,8 @@ userForm.addEventListener("submit", async (e) => {
   const oldStatus = user['ActiveStatus'];
   const newStatus = document.querySelector('input[name="active-status"]:checked').value;
   
-  if (oldStatus === "Active" && oldStatus!==newStatus){ 
-    if (assignments>0) {
+  if (oldStatus === "Active" && oldStatus !== newStatus){ 
+    if (0 < assignments) {
       const sub = confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
 
       if (!sub) return;
@@ -59,7 +59,7 @@ assignmentTableBody.addEventListener("click", (e) => {
 
   if (e.target.closest(".select-btn")) {
     relayPage("return-form", {
-      "retPage": window.location.href,
+      "redirect": "index.php" + window.location.search,
       "propNums[]": tr.dataset.propNum,
     });
     return;
@@ -68,13 +68,9 @@ assignmentTableBody.addEventListener("click", (e) => {
 
 addAssignBtn.addEventListener("click", () => {
   relayPage("assign-asset", {
-    "retPage": window.location.href,
+    "redirect": "index.php" + window.location.search,
     "empID": user.EmpID,
   });
-});
-
-userForm.addEventListener("submit", async (_) => {
-  window.location.href = "index.php?page=user-manager";
 });
 
 exportButton.addEventListener("click", () => {
