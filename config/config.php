@@ -31,7 +31,9 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost:3000/api/index.php?resource=logs&action=login");
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+$client->setRedirectUri("$protocol://$host/api/index.php?resource=logs&action=login");
 
 $client->addScope("email");
 $client->addScope("profile");
