@@ -7,6 +7,7 @@ INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
 ('iljunio@up.edu.ph', 'Ivan Ahron', 'Junio', 'SuperAdmin', 'Active'),
 ('hmdollison@up.edu.ph', 'Therd', 'Dollison', 'SuperAdmin', 'Active'),
 ('lmdianito@up.edu.ph', 'Levie', 'Dianito', 'SuperAdmin', 'Active'),
+('dcs.upd@up.edu.ph', 'DCS', 'Admin', 'SuperAdmin', 'Active'),
 ('alice@example.com', 'Alice', 'Smith', 'Admin', 'Active'),
 ('bob@example.com', 'Bob', 'Johnson', 'Faculty', 'Active'),
 ('carol@example.com', 'Carol', 'Lee', 'SuperAdmin', 'Active'),
