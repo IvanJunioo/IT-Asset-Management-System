@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php include __DIR__ . '/../partials/head.php'?>
+  <?php 
+    include __DIR__ . '/../partials/head.php';
+    $isSuperAdmin = isset($_SESSION['privilege']) && $_SESSION['privilege'] === 'SuperAdmin';
+    $headingText = $isSuperAdmin ? 'Edit User Details' : 'User Details';
+  ?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
   <style>
@@ -47,7 +51,7 @@
 
     <main>
       <div class="card">
-        <h3>Edit User Details</h3>
+        <h3><?= $headingText ?></h3>
         <?php include __DIR__ . '/user-form.php'?>
       </div>
     
