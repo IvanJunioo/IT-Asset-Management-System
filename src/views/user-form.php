@@ -1,3 +1,7 @@
+<?php
+$isSuperAdmin = isset($_SESSION['privilege']) && $_SESSION['privilege'] === 'SuperAdmin';
+?>
+
 <form>
   <label class="input-label"> 
     First Name: 
@@ -9,6 +13,7 @@
       maxlength="20" 
       size="20" 
       required
+      <?= !$isSuperAdmin ? 'disabled' : '' ?>
     >
   </label>
 
@@ -22,6 +27,7 @@
       maxlength="20" 
       size="20" 
       required
+      <?= !$isSuperAdmin ? 'disabled' : '' ?>
     >
   </label>
 
@@ -35,9 +41,11 @@
       maxlength="50" 
       size="30" 
       required
+      <?= !$isSuperAdmin ? 'disabled' : '' ?>
     > 
   </label>
 
+  <?php if ($isSuperAdmin): ?>
   <label class="input-label"> 
     Privilege: 
     <label>
@@ -100,14 +108,21 @@
       <span class="badge inactive">Inactive</span>
     </label>
   </label>
+  <?php else: ?>
+  <!-- Read-only display for Admin users -->
+  <div id="privilege-display" class="input-label"></div>
+  <div id="status-display" class="input-label"></div>
+  <?php endif; ?>
 
+  <?php if ($isSuperAdmin): ?>
   <button id="reset-button" type="button">
     Reset Changes
   </button>
 
   <button id="submit-button" type="submit" name="action" value="submit">
     Submit
-  </button>  
+  </button>
+  <?php endif; ?>
 </form>
 
 <script type="module" defer>

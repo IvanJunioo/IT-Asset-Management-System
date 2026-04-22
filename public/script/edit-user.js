@@ -20,9 +20,9 @@ userForm.method = "post";
 
 const user = Array.isArray(userData) ? userData[0] : userData;
 const sessionUser = sessionUserData;
-const isSuperAdmin = sessionUser?.Privilege === "SuperAdmin";
 
 fillForm(user);
+fillReadOnly(user);
 fetchAssignments();
 fetchLogs({actorID: user.EmpID});
 
@@ -38,11 +38,6 @@ sessionRoleInput.type = "hidden";
 sessionRoleInput.name = "session-user-role";
 sessionRoleInput.value = sessionUser?.Privilege || "";
 userForm.appendChild(sessionRoleInput);
-
-// trabsform form to read-only for non SuperAdmin users
-if (!isSuperAdmin) {
-  transformFormToReadOnly();
-}
 
 const resetBtn = document.getElementById("reset-button");
 resetBtn?.addEventListener("click", (_) => {
@@ -238,60 +233,18 @@ async function fetchSessionUser() {
   }
 }
 
-function transformFormToReadOnly() {
-  const formTitle = document.querySelectorAll(".card")[0].querySelector("h3").textContent = "User Details";
+function fillReadOnly(user) {
+  // only fill if read-only display fields exist (for Admin users)
+  const privilegeDisplay = document.getElementById("privilege-display");
+  const statusDisplay = document.getElementById("status-display");
 
-  // just disable the inputs and add a not-allowed cursor so the UI doesn't feel empty
-  const textInputs = userForm.querySelectorAll('input[type="text"], input[type="email"]');
-  for (const input of textInputs) {
-    input.disabled = true;
-    input.style.cursor = "not-allowed";
+  if (privilegeDisplay) {
+    privilegeDisplay.innerHTML = `<strong>Privilege:</strong> <span style="display: inline-block; padding: 0.5rem;">${user['Privilege']}</span>`;
   }
 
-  const radioGroups = new Map();
-  const radioInputs = userForm.querySelectorAll('input[type="radio"]');
-  for (const input of radioInputs) {
-    if (!radioGroups.has(input.name)) {
-      radioGroups.set(input.name, []);
-    }
-    radioGroups.get(input.name).push(input);
+  if (statusDisplay) {
+    const badgeClass = user['ActiveStatus'].toLowerCase();
+    statusDisplay.innerHTML = `<strong>Status:</strong> <span style="display: inline-block; padding: 0.5rem;"><span class="badge ${badgeClass}">${user['ActiveStatus']}</span></span>`;
   }
-
-  // for each radio group, display the selected value
-  for (const [groupName, inputs] of radioGroups) {
-    const checkedInput = inputs.find(input => input.checked);
-    if (checkedInput) {
-      const label = checkedInput.closest('label');
-      if (label) {
-        const displaySpan = document.createElement('span');
-        
-        if (groupName === 'active-status') {
-          const badgeSpan = document.createElement('span');
-          badgeSpan.className = `badge ${checkedInput.value.toLowerCase()}`;
-          badgeSpan.textContent = checkedInput.value;
-          displaySpan.appendChild(badgeSpan);
-          displaySpan.style.cssText = "display: inline-block; padding: 0.5rem;";
-        } else {
-          displaySpan.textContent = checkedInput.value;
-          displaySpan.style.cssText = "display: inline-block; padding: 0.5rem;";
-        }
-        
-        label.replaceWith(displaySpan);
-      }
-    }
-    
-    // remove unchecked radio inputs
-    for (const input of inputs) {
-      const label = input.closest('label');
-      if (label && !input.checked) {
-        label.remove();
-      }
-    }
-  }
-
-  // remove reset and submit button
-  const resetBtn = document.getElementById("reset-button");
-  const submitBtn = userForm.querySelector('button[type="submit"]');
-  resetBtn?.remove();
-  submitBtn?.remove();
 }
+
