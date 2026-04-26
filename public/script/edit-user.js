@@ -7,6 +7,7 @@ const userData = await fetchUser(urlParams.get("empID"));
 const sessionUserData = await fetchSessionUser();
 
 const userForm = document.querySelector("form"); 
+const tableFuncs = document.querySelector(".table-func");
 const assignmentTable = document.querySelector(".assignment-table");
 const assignmentTableBody = assignmentTable.querySelector("tbody");
 const addAssignBtn = document.getElementById("add-assignment-button");
@@ -14,6 +15,8 @@ const exportButton = document.getElementById("export-assignment");
 
 let assignmentData = new Map();
 let latest = 0; // latest fetch id to avoid race conditions
+let selectedRows = new Set();
+let inMultiSelect = false;
 
 userForm.action = `${window.location.origin}/api/index.php?resource=users&action=edit&redirect=${encodeURIComponent("index.php?page=user-manager")}`;
 userForm.method = "post";
@@ -63,9 +66,24 @@ userForm.addEventListener("submit", async (e) => {
   userForm.submit();
 })
 
-assignmentTableBody.addEventListener("click", (e) => {
+assignmentTable.addEventListener("click", (e) => {
   const tr = e.target.closest("tr");
   if (!tr) return;
+
+  if (e.target.closest("#select-all")) {
+    const rows = Array.from(assignmentTableBody.querySelectorAll("tr"))
+    .filter(tr => tr.dataset.propNum);
+
+    const allSelected = rows.every(tr => selectedRows.has(tr));
+
+    if (allSelected) {
+      rows.forEach(deselectRow);
+      selectedRows.clear();
+    } else {
+      rows.forEach(selectRow);
+    }
+    return;
+  }
 
   if (e.target.closest(".select-btn")) {
     relayPage("return-form", {
@@ -74,7 +92,34 @@ assignmentTableBody.addEventListener("click", (e) => {
     });
     return;
   }
-});
+
+  if (e.target.closest(".selectable-row")) {
+    const tr = e.target.closest("tr");
+    if (selectedRows.has(tr)) {
+      deselectRow(tr);
+    } else {
+      selectRow(tr);
+    }
+    return;
+  }
+
+  if (e.target.closest("tr") && inMultiSelect) {
+    const tr = e.target.closest("tr");
+    if (!tr.closest("tbody")) return;
+
+    if (selectedRows.has(tr)) {
+      deselectRow(tr);
+    } else {
+      selectRow(tr);
+    }
+    return;
+  }
+
+})
+
+// assignmentTableBody.addEventListener("click", (e) => {
+  
+// });
 
 addAssignBtn.addEventListener("click", () => {
   relayPage("assign-asset", {
@@ -95,6 +140,24 @@ exportButton.addEventListener("click", () => {
     "_blank"
   );
 })
+
+tableFuncs.addEventListener("click", (e) => {
+  if (e.target.closest("#return")) {
+    if (selectedRows.size === 0) return;
+    relayPage("return-form", {
+      "redirect": "index.php" + window.location.search,
+      "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
+    });
+  }
+
+  if (e.target.closest("#multi-select")) {
+    const multiSelectBtn = e.target.closest("#multi-select");
+    
+    multiSelectBtn.classList.toggle('active');
+
+    setInMulSel(!inMultiSelect);
+  }
+});
 
 function fillForm(user) {
   const data = {
@@ -171,6 +234,10 @@ function showAssignments() {
     return;
   }
 
+  if (!tableFuncs.querySelector("#multi-select")){
+    addTableFuncs();
+  }
+  
   // Add another header
   const hr = assignmentTable.querySelector("thead tr");
   if (!hr.querySelector("#actionsth")) {
@@ -241,6 +308,108 @@ function fillReadOnly(user) {
   if (statusDisplay) {
     const badgeClass = user['ActiveStatus'].toLowerCase();
     statusDisplay.innerHTML = `<strong>Status:</strong> <span style="display: inline-block; padding: 0.5rem;"><span class="badge ${badgeClass}">${user['ActiveStatus']}</span></span>`;
+  }
+}
+
+function addTableFuncs() {
+  tableFuncs.insertAdjacentHTML("afterbegin", `
+    <button id="multi-select">
+      <span class="material-icons"> check_box_outline_blank </span>
+      Select Multiple
+    </button>
+  `);
+}
+
+function setInMulSel(val) {
+  if (inMultiSelect && !val) {
+    document.querySelectorAll("#select-all").forEach(btn => btn.remove());
+    
+    document.getElementById("return")?.remove();
+  
+    selectedRows.clear();
+
+    for (const tr of assignmentTableBody.querySelectorAll("tr")) {
+      tr.lastElementChild.innerHTML = `
+        <button class="select-btn" id="select">
+          Select
+        </button>
+      `;
+    }
+  }
+
+  if (!inMultiSelect && val) {
+    addSelectAll();
+    addCheckboxes();
+    addReturnButton();
+  }
+
+  inMultiSelect = val;
+  
+  const multiSelectIcon = document.querySelector("#multi-select .material-icons");
+  if (multiSelectIcon) {
+    multiSelectIcon.textContent = val ? "check_box" : "check_box_outline_blank";
+  }
+}
+
+function addSelectAll() {
+  const hr = assignmentTable.querySelector("thead tr");
+  hr.lastElementChild.innerHTML = `
+    <button id="select-all">
+      <span class="material-icons"> select_all </span>
+    </button>
+  `;
+}
+
+function addCheckboxes() {
+  for (const tr of assignmentTableBody.querySelectorAll("tr")) {
+    const icon = selectedRows.has(tr) ? "check_box" : "check_box_outline_blank";
+    tr.lastElementChild.innerHTML = `
+      <button class="selectable-row">
+        <span class="material-icons"> ${icon} </span>
+      </button>
+    `;
+  }
+}
+
+function addReturnButton() {
+  const tableFuncs = document.querySelector(".table-func");
+
+  const returnButton = document.createElement("button");
+  returnButton.id = "return";
+  returnButton.innerHTML = `<span class="material-icons">assignment_return</span> Return`;
+  if (!tableFuncs.querySelector("#return")) tableFuncs.prepend(returnButton);
+}
+
+function selectRow(tr) {
+  selectedRows.add(tr);
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box";
+}
+
+function deselectRow(tr) {
+  selectedRows.delete(tr);
+  const icon = tr.querySelector(".material-icons");
+  if (icon) icon.textContent = "check_box_outline_blank";
+}
+
+function addActionsButton() {
+  const hr = assetTable.querySelector("thead tr");
+  if (!hr.querySelector("#actionsth")) {
+    const actionsth = document.createElement("th");
+    actionsth.id = "actionsth";
+    hr.appendChild(actionsth);
+  }
+
+  for (const tr of assetTableBody.querySelectorAll("tr")) {
+    if (tableData.get(tr.dataset.propNum).Status !== "Unassigned"){
+      continue;
+    }
+
+    tr.lastElementChild.innerHTML = `
+      <button class="select-btn" id="select">
+        Select
+      </button>
+    `;
   }
 }
 
