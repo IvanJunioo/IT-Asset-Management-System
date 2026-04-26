@@ -7,6 +7,7 @@
   ?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
+  <link rel = "stylesheet" href="<?= BASE_URL ?>css/table-view.css">
   <style>
     main {
       display: grid;
@@ -16,6 +17,12 @@
       align-items: start;
       max-width: 1400px;
       margin: 0 auto;
+    }
+
+    .table-func {
+      min-height: 20px;
+      margin: 0;
+      margin-bottom: 10px;
     }
 
     main > div:first-child form {
@@ -57,6 +64,8 @@
     
       <div class="card">
         <h3>Assets Assigned</h3>
+        <div class = "table-func">
+        </div>
         <table class="assignment-table">
           <thead>
             <tr>
