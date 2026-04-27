@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
+$dotenv->load();
+
 $protocol = (
   !empty($_SERVER['HTTPS']) 
   && $_SERVER['HTTPS'] !== 'off'
@@ -10,34 +13,29 @@ $protocol = (
 $host = $_SERVER['HTTP_HOST'];
 
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
-// $projectRoot = preg_replace('#/(src|public|views|api).*#', '/', $scriptDir);
 
-define('BASE_URL', "$protocol://$host/"); // "/public/"
+define('BASE_URL', "$protocol://$host/");
 
-// Database
-$dbname = "itam"; # Change database here
-// $dbsource = "mysql:host=db;dbname=$dbname;charset=utf8mb4"; 
-// $dbusername = "user";      // match docker-compose.yml
-// $dbpassword = "userpassword";
-$dbsource = "mysql:host=127.0.0.1;dbname=$dbname;charset=utf8mb4";  // localhost
-$dbusername = "root";      // match docker-compose.yml
-$dbpassword = "";
-
-
+// Database Credentials
+$dbname = $_ENV["DB_NAME"];
+$dbhost = $_ENV["DB_HOST"];
+$dbsource = "mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4";
+$dbusername = $_ENV["DB_USER"];
+$dbpassword = $_ENV["DB_PASS"];
 $pdo = new PDO($dbsource, $dbusername, $dbpassword, [
   PDO::ATTR_PERSISTENT => false,
+  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+  PDO::ATTR_EMULATE_PREPARES => false,
 ]);  # PHP Data Object
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Google Client API
 $client = new Google\Client;
-$client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
-$client->setClientSecret("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");
+$client->setClientId($_ENV["GOOGLE_CLIENT_ID"]);
+$client->setClientSecret($_ENV["GOOGLE_CLIENT_SECRET"]);
 $client->setRedirectUri(BASE_URL . "api/index.php?resource=logs&action=login");
-
 $client->addScope("email");
 $client->addScope("profile");
-
 $url = $client->createAuthUrl();
 
 // Set page access privileges
