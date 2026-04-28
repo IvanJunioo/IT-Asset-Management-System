@@ -59,6 +59,13 @@ final class LogHandler {
     if (count($users) == 0) throw new Exception("User email $email not found in database!");
     $user = $users[0];
 
+    if (!$user || !$user->isActive) {
+      header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
+      exit("Inactive user status");
+    }
+
+    session_start();
+
     $_SESSION['user_id'] = $user->empID;
     $_SESSION['email'] = $email;
     $_SESSION['user_fname'] = $user->name->first;
