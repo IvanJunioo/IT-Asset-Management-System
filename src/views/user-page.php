@@ -1,48 +1,7 @@
-<div class="left-user">
+<div class="left-page">
   <div id="search-box">
     <input type="search" id="search-input" placeholder="Search user">
     <span class="material-icons search-icon">search</span>
-  </div>
-
-  <div class="filter-box" id="filter-box-inline">
-    <div class="head-filter">
-      FILTERS
-    </div>
-
-    <div class="body-filter">
-      <label>
-        <input type="checkbox" name="privilege" value="Faculty"> 
-        Faculty
-      </label>
-      <label>
-        <input type="checkbox" name="privilege" value="Staff"> 
-        Staff
-      </label>
-      <label>
-        <input type="checkbox" name="privilege" value="Admin"> 
-        Admin
-      </label>
-      <label>
-        <input type="checkbox" name="privilege" value="SuperAdmin"> 
-        SuperAdmin
-      </label>
-    </div>
-
-    <div class="body-filter">
-      <label>
-        <input type="checkbox" name="status" value="Active"> 
-        <span class="badge active">Active</span>
-      </label>
-      <label>
-        <input type="checkbox" name="status" value="Inactive"> 
-        <span class="badge inactive">Inactive</span>
-      </label>
-    </div>
-      
-    <button class="reset-filter"> 
-      <span class="material-icons">refresh</span>
-      Reset Filters 
-    </button>
   </div>
 
   <div class="table-container">
@@ -60,7 +19,7 @@
     </table>
   </div>
 </div>
-<div class="right-user">
+<div class="right-page">
   <div class="filter-box" id="filter-box-reg">
     <div class="head-filter">
       FILTERS
@@ -108,3 +67,4 @@
 </div>
 
 <script src="<?= BASE_URL ?>script/user-table.js" type="module" defer></script>
+<script src="<?= BASE_URL ?>script/filter-repositioner.js" type="module" defer></script>

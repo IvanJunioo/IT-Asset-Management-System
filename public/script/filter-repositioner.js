@@ -1,7 +1,7 @@
 const BREAKPOINT = 1100;
 const filterBox = document.getElementById("filter-box-reg");
-const leftUser = document.querySelector(".left-asset");
-const rightUser = document.querySelector(".right-asset");
+const leftUser = document.querySelector(".left-page");
+const rightUser = document.querySelector(".right-page");
 const tableFunc = leftUser.querySelector(".table-func");
 const generateReportBtn = rightUser.querySelector("#report");
 
