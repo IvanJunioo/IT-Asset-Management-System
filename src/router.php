@@ -74,7 +74,7 @@ final class APIRouter {
     array $input,
   ) {
     // Affirm user is still active
-    // verifyStatus($this->userRepo);
+    verifyStatus($this->userRepo);
 
     $data = match ($res) {
       APIResource::User       => $this->handleUser($action, $params, $input),
@@ -82,7 +82,7 @@ final class APIRouter {
       APIResource::Assignment => $this->handleAssignment($action, $params, $input),
       APIResource::Log        => $this->handleLog($action, $params, $input),
       APIResource::Exportable => $this->handleExportable($action, $params, $input),
-      default                 => throw new Exception("Resource $res->value not found."),
+      default                 => throw new RuntimeException("Resource $res->value not found.", 404),
     };
 
     if (isset($params["redirect"])) {
@@ -134,7 +134,7 @@ final class APIRouter {
         empID: $input["empID"] ?? "", 
         isActive: false, 
       ),
-      default => throw new Exception("Invalid User action"),
+      default => throw new RuntimeException("Invalid User action", 400),
     };
   }
 
@@ -190,7 +190,7 @@ final class APIRouter {
         propNum:  $input["search"],
         status:   AssetStatus::Condemned,
       ),
-      default => throw new Exception("Invalid Asset action"),
+      default => throw new RuntimeException("Invalid Asset action", 400),
     };
   }
 
@@ -218,7 +218,7 @@ final class APIRouter {
         date:     new DateTimeImmutable($input['return-date']),
         remarks:  $input['remarks'],
       ),
-      default => throw new Exception("Invalid Assignment action"),
+      default => throw new RuntimeException("Invalid Assignment action", 400),
     };
   }
 
@@ -239,7 +239,7 @@ final class APIRouter {
       ),
       APIAction::Login => $this->logHand->login($params["code"]),
       APIAction::Logout => $this->logHand->logout(),
-      default => throw new Exception("Invalid Log action"),
+      default => throw new RuntimeException("Invalid Log action", 400),
     };
   }
 
@@ -261,7 +261,7 @@ final class APIRouter {
         usersParam:   $params["users"] ?? null,
         add_remarks:  isset($params["add_remarks"]),
       ),
-      default => throw new Exception("Invalid Exportable action"),
+      default => throw new RuntimeException("Invalid Exportable action", 400),
     };
   }
 
