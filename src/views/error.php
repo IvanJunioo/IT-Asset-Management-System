@@ -2,28 +2,44 @@
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php';?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
-<body>
+  <body>
   <?php include __DIR__ . '/../partials/header-login.php'?>
 
   <?php 
     $errorCode = $_GET['code'] ?? 500;
     $errorMessage = $_GET['message'] ?? "Unknown Error";
     $errorDescription = $_GET['description'] ?? "Something went wrong.";
-  
+
+    $isLoggedIn = isset($_SESSION['user-id']);
+    if ($isLoggedIn) {
+      $redirectURL = $_SERVER['HTTP_REFERER'] ??  BASE_URL . "index.php?page=dashboard";
+      $buttonText = "Go Back";
+    } 
+    else {
+      $redirectURL = BASE_URL . "index.php?page=login";
+      $buttonText = "Go to Login";
+    }
+
   ?>
     
   <main class="error-content">
      <section class="error-container">
       <h1 class="error-code">
-        <?=  $errorCode ?>
+        <?= htmlspecialchars($errorCode) ?>
       </h1>
+
       <h2 class="error-message">
-        <?=  $errorMessage ?>
+        <?= htmlspecialchars($errorMessage) ?>
       </h2>
+
       <p class="error-description">
-        <?= $errorDescription ?>
+        <?= htmlspecialchars($errorDescription) ?>
       </p>
+      <a href="<?= htmlspecialchars($redirectURL) ?>" class="error-button">
+      <?= htmlspecialchars($buttonText) ?>
+    </a>
     </section>
+    
   </main>
 
   <?php include __DIR__ . '/../partials/footer.php'?>

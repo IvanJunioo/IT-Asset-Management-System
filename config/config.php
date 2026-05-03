@@ -8,19 +8,13 @@ $protocol = (
 ;
 
 $host = $_SERVER['HTTP_HOST'];
-
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
-// $projectRoot = preg_replace('#/(src|public|views|api).*#', '/', $scriptDir);
 
-define('BASE_URL', "$protocol://$host/"); // "/public/"
-
-// Database
-$dbname = "itam"; # Change database here
-// $dbsource = "mysql:host=db;dbname=$dbname;charset=utf8mb4"; 
-// $dbusername = "user";      // match docker-compose.yml
-// $dbpassword = "userpassword";
-$dbsource = "mysql:host=127.0.0.1;dbname=$dbname;charset=utf8mb4";  // localhost
-$dbusername = "root";      // match docker-compose.yml
+define('BASE_URL', "$protocol://$host/"); 
+$dbname = "itam";
+$dbhost = "localhost";
+$dbsource = "mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4"; 
+$dbusername = "root";
 $dbpassword = "";
 
 
@@ -32,7 +26,8 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Google Client API
 $client = new Google\Client;
 $client->setClientId("220342807876-1pfho30cmrv6msmj091015q6dptf9b2j.apps.googleusercontent.com");
-$client->setClientSecret("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");
+$client->setClientSecret("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"
+);
 $client->setRedirectUri(BASE_URL . "api/index.php?resource=logs&action=login");
 
 $client->addScope("email");
@@ -58,6 +53,7 @@ $pages = [
   "return-form"     => ["roles" => ["Admin", "SuperAdmin"]],
   "user-manager"    => ["roles" => ["SuperAdmin"]],
   "users"           => ["roles" => ["Admin"]],
+  "error"      => ["roles" => []],
 ];
 
 date_default_timezone_set('Asia/Manila'); 
