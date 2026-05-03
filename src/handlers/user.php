@@ -3,6 +3,8 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/user.php';
 require_once __DIR__ . '/../repos/assignment.php';
 require_once __DIR__ . '/../manager/logger.php';
+require_once __DIR__ . '/../handlers/error.php';
+
 
 final class UserHandler {
   public function __construct(
@@ -67,7 +69,7 @@ final class UserHandler {
   public function editUser(User $user): void {
     // Only SuperAdmin can edit user details
     if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
-      throw new RuntimeException("Only SuperAdmin can modify user details.", 403);
+      ErrorHandler::handle(new RuntimeException("Only SuperAdmin can modify user details.", 403));
     }
 
     $old = $this->userRepo->identify($user->empID);
@@ -102,7 +104,7 @@ final class UserHandler {
   public function changeStatus(string $empID, bool $isActive): void {
     // Only SuperAdmin can change user status
     if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
-      throw new RuntimeException("Only SuperAdmin can modify user status.", 403);
+      ErrorHandler::handle(new RuntimeException("Only SuperAdmin can modify user status.", 403));
     }
 
     $user = $this->userRepo->identify($empID);

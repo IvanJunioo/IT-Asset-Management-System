@@ -16,6 +16,6 @@ function verifyStatus(UserRepoInterface $userRepo) {
   $user = $userRepo->identify($_SESSION['user_id']);
 
   if (!$user || !$user->isActive) {
-    throw new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403);
+    ErrorHandler::handle(new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403));
   }
 }
