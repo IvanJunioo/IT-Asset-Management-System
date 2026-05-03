@@ -79,3 +79,4 @@
 </div>
 
 <script src="<?= BASE_URL ?>script/asset-table.js" type="module" defer></script>
+<script src="<?= BASE_URL ?>script/filter-repositioner.js" type="module" defer></script>

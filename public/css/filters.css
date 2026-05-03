@@ -136,21 +136,16 @@
 
 @media only screen and (max-width: 1100px) {
   #filter-box-inline {
-    width: 80%;
-    max-width: 320px;
+    width: clamp(300px, 40%, 320px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border: 1pt solid black;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
     padding: 1rem;
     background-color: var(--beige);
     gap: 1rem;
-  }
-
-  #filter-box-reg {
-    display: none;
   }
 }
