@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . "/../repos/user.php";
-require_once __DIR__ . '/../exceptions/ErrorHandler.php';
+require_once __DIR__ . '/../handlers/error.php';
 
 function requireRole(array $allowedRoles): void {
   if (empty($allowedRoles)) return;
