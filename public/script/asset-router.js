@@ -8,7 +8,10 @@ export async function fetchAsset(propNum) {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch asset.")}`;
+      return;
+    }
 
     const data = await resp.json();
     
@@ -32,7 +35,10 @@ export async function condemnAsset(propNum) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({search: propNum}),
     });
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to condemn asset.")}`;
+      return;
+    };
 
     location.reload();
   } catch (err) {

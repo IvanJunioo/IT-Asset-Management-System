@@ -8,7 +8,10 @@ export async function fetchUser(empID) {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
+      return;
+    }
 
     const data = await resp.json();
 
@@ -34,8 +37,11 @@ export async function modifyUser(empID, actionType) {
         empID: empID,
       }),
     });
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
-    
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to modify user.")}`;
+      return;
+    }
+
     location.reload();
   } catch (err) {
     console.error("Error modifying user: ", err);

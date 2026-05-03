@@ -161,7 +161,10 @@ async function fetchAssets() {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch assets.")}`;
+      return;
+    }
 
     const data = await resp.json();
     tableData = new Map(data.map(asset => [asset.PropNum, asset]));
