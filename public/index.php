@@ -7,9 +7,10 @@ $page = $_GET["page"] ?? "login";
 // Sanitize URI
 $page = basename($page);
 $systemPages = ['login', 'error'];
+$errorHandler = new ErrorHandler();
 
 if (!isset($pages[$page])) {
-  ErrorHandler::handle(new RuntimeException("Page not found.", 404));
+  $errorHandler->handle(new RuntimeException("Page not found.", 404));
   exit;
 }
 
@@ -18,8 +19,12 @@ if (!in_array($page, $systemPages)) {
 
     require_once __DIR__ . "/../src/utilities/auth-guard.php";
     require_once __DIR__ . "/../src/utilities/role-guard.php";
-
-    requireRole($pages[$page]["roles"]);
+    try {
+      requireRole($pages[$page]["roles"]);
+    } catch (Throwable $e) {
+      $errorHandler->handle($e);
+    }
+    
   }
 }
 

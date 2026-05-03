@@ -60,7 +60,7 @@ final class LogHandler {
     $user = $users[0];
 
     if (!$user->isActive){
-      throw new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 400);
+      throw new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 403);
     }
 
     $_SESSION['user_id'] = $user->empID;
