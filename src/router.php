@@ -17,6 +17,7 @@ enum APIResource: string {
   case Assignment = "assignment";
   case Log = "logs";
   case Exportable = "export";
+  case Error = "error";
 }
 
 enum APIAction: string {
