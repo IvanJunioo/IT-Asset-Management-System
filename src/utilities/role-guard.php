@@ -17,8 +17,5 @@ function verifyStatus(UserRepoInterface $userRepo) {
 
   if (!$user || !$user->isActive) {
     throw new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403);
-    // session_destroy();
-    // header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
-    // exit("Inactive user status");
   }
 }

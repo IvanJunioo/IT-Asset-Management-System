@@ -9,9 +9,9 @@ final class ErrorHandler
     Throwable $e
   ): never {
 
-  if ($e instanceof UserInactiveException) {
-    self::redirectToLogin();
-  }
+    if ($e instanceof UserInactiveException) {
+      self::redirectToLogin();
+    }
 
     $errorCode = $e->getCode();
 

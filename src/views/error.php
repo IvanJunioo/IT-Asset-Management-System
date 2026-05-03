@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <?php require_once __DIR__ . '/../manager/logger.php'; ?>
   <?php include __DIR__ . '/../partials/head.php';?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
   <body>
@@ -10,8 +11,10 @@
     $errorMessage = $_GET['message'] ?? "Unknown Error";
     $errorDescription = $_GET['description'] ?? "Something went wrong.";
 
-    $isLoggedIn = isset($_SESSION['user-id']);
-    if ($isLoggedIn) {
+    $isLoggedIn = isset($_SESSION['user_id']);
+    $serverError = $errorCode == 500;
+
+    if ($isLoggedIn && !$serverError) {
       $redirectURL = $_SERVER['HTTP_REFERER'] ??  BASE_URL . "index.php?page=dashboard";
       $buttonText = "Go Back";
     } 
@@ -19,7 +22,6 @@
       $redirectURL = BASE_URL . "index.php?page=login";
       $buttonText = "Go to Login";
     }
-
   ?>
     
   <main class="error-content">
