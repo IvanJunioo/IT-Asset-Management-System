@@ -1,4 +1,4 @@
-<div class="left-asset">
+<div class="left-page">
   <div id="search-box">
     <input type="text" id="search-input" placeholder="Search asset">
     <span class="material-icons search-icon">search</span>
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div class="right-asset">
+<div class="right-page">
   <div class="filter-box" id="filter-box-reg">
     <div class="head-filter">
       FILTERS

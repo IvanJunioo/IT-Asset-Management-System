@@ -8,26 +8,6 @@
   flex-wrap: wrap;
 }
 
-.left-asset, .right-asset {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  gap: 2rem;
-  flex: 1 1 400px;
-  min-width: 300px;
-}
-
-.left-asset {
-  margin-left: 1rem;
-}
-
-.right-asset {
-  width: 100%;
-  max-width: 400px;
-  align-items: center;
-}
-
 #addAsset {
   display: flex;
   align-items: center;
@@ -56,7 +36,7 @@
     flex-wrap: wrap;
   }
 
-  .right-asset {
+  .right-page {
     align-items: center;
     justify-content: unset;
     flex: unset;

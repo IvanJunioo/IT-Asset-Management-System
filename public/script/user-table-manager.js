@@ -2,7 +2,7 @@ import { tableData, selectedRows, inMultiSelect, addCheckboxes } from "./user-ta
 import { modifyUser } from "./user-router.js";
 import { relayPage } from "./asset-router.js";
 
-const leftUser = document.querySelector(".left-user");
+const leftUser = document.querySelector(".left-page");
 const tableFuncs = leftUser.querySelector(".table-func");
 const tableContainer = leftUser.querySelector(".table-container");
 const userTable = tableContainer.querySelector(".user-table");

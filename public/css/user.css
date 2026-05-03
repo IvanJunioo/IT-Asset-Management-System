@@ -8,26 +8,6 @@
   flex-wrap: wrap;
 }
 
-.left-user, .right-user {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  gap: 2rem;
-  flex: 1 1 400px;
-  min-width: 300px;
-}
-
-.left-user {
-  margin-left: 1rem;
-}
-
-.right-user {
-  width: 100%;
-  max-width: 400px;
-  align-items: center;
-}
-
 /* add user form */
 #addUser {
   display: flex;
@@ -96,7 +76,7 @@ th:last-child {
     flex-wrap: wrap;
   }
 
-  .right-user {
+  .right-page {
     align-items: center;
     justify-content: unset;
     flex: unset;

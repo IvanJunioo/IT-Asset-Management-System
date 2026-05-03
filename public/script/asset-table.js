@@ -1,6 +1,6 @@
 import { relayPage } from "./asset-router.js";
 
-const leftAsset = document.querySelector(".left-asset");
+const leftAsset = document.querySelector(".left-page");
 const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");

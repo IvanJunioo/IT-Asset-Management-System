@@ -1,7 +1,7 @@
 import { tableData } from "./asset-table.js";
 import { condemnAsset, relayPage} from "./asset-router.js";
 
-const leftAsset = document.querySelector(".left-asset");
+const leftAsset = document.querySelector(".left-page");
 const tableFuncs = leftAsset.querySelector(".table-func");
 const tableContainer = leftAsset.querySelector(".table-container");
 const assetTable = tableContainer.querySelector(".asset-table");
@@ -407,7 +407,7 @@ function addModifyButton() {
 }
 
 function addAssetAdd() {
-  const leftAsset = document.querySelector(".left-asset");
+  const leftAsset = document.querySelector(".left-page");
 
   const assetAdd = document.createElement("a");
   assetAdd.href = "?page=add-asset-form";

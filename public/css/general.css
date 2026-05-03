@@ -220,3 +220,23 @@ button .material-icons {
   background-color: var(--primary-color);
   color: var(--beige);
 }
+
+.left-page, .right-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 2rem;
+  flex: 1 1 400px;
+  min-width: 300px;
+}
+
+.left-page {
+  margin-left: 1rem;
+}
+
+.right-page {
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
+}
