@@ -55,10 +55,13 @@ final class LogHandler {
       throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 400);
       // exit("Email not allowed.");
     }
-
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
     if (count($users) == 0) throw new RuntimeException("User email $email not found in database.", 404);
     $user = $users[0];
+
+    if (!$user->isActive){
+      throw new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 400);
+    }
 
     $_SESSION['user_id'] = $user->empID;
     $_SESSION['email'] = $email;

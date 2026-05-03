@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../src/bootstrap.php';
-require_once __DIR__ . '/../src/handler/ErrorHandler.php';
+require_once __DIR__ . '/../../src/handlers/error.php';
 
 header('Content-Type: application/json');
 

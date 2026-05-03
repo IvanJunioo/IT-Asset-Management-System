@@ -10,9 +10,7 @@ final class ErrorHandler
   ): never {
 
   if ($e instanceof UserInactiveException) {
-    session_destroy();
-    header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
-    exit;
+    self::redirectToLogin();
   }
 
     $errorCode = $e->getCode();
@@ -29,7 +27,16 @@ final class ErrorHandler
     http_response_code($errorCode);
     $errorDescription = $e->getMessage();
 
-    include __DIR__ . '/../views/error-page.php';
+    header("Location: " . BASE_URL . "index.php?page=error&code={$errorCode}&message={$errorMessage}&description={$errorDescription}");
+    exit;
+  }
+
+  private static function redirectToLogin(): never
+  {
+    $_SESSION = [];
+    session_destroy();
+
+    header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
     exit;
   }
 }
