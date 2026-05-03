@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2026 at 07:11 AM
+-- Generation Time: Apr 27, 2026 at 01:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,23 +63,13 @@ CREATE TABLE `asset` (
 --
 
 CREATE TABLE `assignment` (
+  `AssignID` int(11) NOT NULL,
   `PropNum` char(12) NOT NULL,
   `AssignDateTime` datetime NOT NULL,
-  `AssignerID` INT NOT NULL,
-  `AssigneeID` INT NOT NULL,
+  `AssignerID` int(11) NOT NULL,
+  `AssigneeID` int(11) NOT NULL,
   `ReturnDateTime` datetime DEFAULT NULL,
   `Remarks` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `empcontact`
---
-
-CREATE TABLE `empcontact` (
-  `EmpID` INT NOT NULL,
-  `ContactNum` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -106,7 +96,7 @@ CREATE TABLE `employee` (
 --
 ALTER TABLE `actlog`
   ADD PRIMARY KEY (`LogID`),
-  ADD KEY `ActorID` (`ActorID`);
+  ADD KEY `actlog_ibfk_1` (`ActorID`);
 
 --
 -- Indexes for table `asset`
@@ -118,15 +108,10 @@ ALTER TABLE `asset`
 -- Indexes for table `assignment`
 --
 ALTER TABLE `assignment`
-  ADD PRIMARY KEY (`PropNum`,`AssignDateTime`),
-  ADD KEY `AssigneeID` (`AssigneeID`),
-  ADD KEY `AssignerID` (`AssignerID`);
-
---
--- Indexes for table `empcontact`
---
-ALTER TABLE `empcontact`
-  ADD PRIMARY KEY (`EmpID`,`ContactNum`);
+  ADD PRIMARY KEY (`AssignID`),
+  ADD KEY `assignment_ibfk_1` (`PropNum`),
+  ADD KEY `assignment_ibfk_2` (`AssigneeID`),
+  ADD KEY `assignment_ibfk_3` (`AssignerID`);
 
 --
 -- Indexes for table `employee`
@@ -143,6 +128,12 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `actlog`
   MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `assignment`
+--
+ALTER TABLE `assignment`
+  MODIFY `AssignID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -167,13 +158,6 @@ ALTER TABLE `assignment`
   ADD CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`PropNum`) REFERENCES `asset` (`PropNum`),
   ADD CONSTRAINT `assignment_ibfk_2` FOREIGN KEY (`AssigneeID`) REFERENCES `employee` (`EmpID`),
   ADD CONSTRAINT `assignment_ibfk_3` FOREIGN KEY (`AssignerID`) REFERENCES `employee` (`EmpID`);
-
---
--- Constraints for table `empcontact`
---
-ALTER TABLE `empcontact`
-  ADD CONSTRAINT `empcontact_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`);
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

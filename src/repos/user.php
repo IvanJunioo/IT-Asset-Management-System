@@ -9,10 +9,8 @@ interface UserRepoInterface {
   public function identify(int $empID): User;
   public function search(UserSearchCriteria $criteria): array;
   public function count(UserSearchCriteria $criteria): int;
-  public function getContacts(int $empID): array;
 
   public function add(User $user) : void;
-  public function updateContacts(User $user, array $contacts) : void;
   public function update(User $user) : void;
 }
 
@@ -116,13 +114,6 @@ final class UserRepo implements UserRepoInterface {
     return (int)$res;
   }
 
-  public function getContacts(int $empID): array {
-    $query = "SELECT ContactNum FROM empcontact WHERE EmpID = ?";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute([$empID]);
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-  }
-
   public function add(User $user): void {
     $assoc = [
       "EmpMail" => $user->email,
@@ -135,30 +126,6 @@ final class UserRepo implements UserRepoInterface {
     $query = "INSERT INTO employee (" . implode(',', array_keys($assoc)) .") VALUES (" . implode(',', array_fill(0, count($assoc), '?')) . ");"; 
     
     $this->pdo->prepare($query)->execute(array_values($assoc));        
-  }
-
-  public function updateContacts(User $user, array $contacts) : void {
-    $this->pdo->beginTransaction();
-    try {
-      $stmt = $this->pdo->prepare("DELETE FROM empcontact WHERE EmpID = ?");
-      $stmt->execute([$user->empID]);
-
-      $placeholders = implode(',', array_fill(0, count($contacts), "(?, ?)"));
-      $query = "INSERT INTO empcontact (EmpID, ContactNum) VALUES $placeholders";
-
-      $vals = [];
-      foreach ($contacts as $num) {
-        $vals[] = $user->empID;
-        $vals[] = $num;
-      }
-
-      $this->pdo->prepare($query)->execute($vals);
-
-      $this->pdo->commit();
-    } catch (Exception $e) {
-      $this->pdo->rollBack();
-      throw $e;
-    }
   }
   
   public function update(User $user): void {

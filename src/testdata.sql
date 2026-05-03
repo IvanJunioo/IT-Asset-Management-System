@@ -21,21 +21,6 @@ INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES
 ('testing-long-email-address-for-qa+purpose@ex.com', 'EDGEEDGEEDGEEDGEEDGE', 'CASECASECASECASECASE', 'SuperAdmin', 'Inactive');
 
 -- --------------------------------------------------------
--- Employee contacts
--- --------------------------------------------------------
-INSERT INTO empcontact (EmpID, ContactNum) VALUES
-(1,'09170000001'),
-(2,'09170000002'),
-(3,'09170000003'),
-(4,'09170000004'),
-(5,'09170000005'),
-(6,'09170000006'),
-(7,'09170000007'),
-(8,'09170000008'),
-(9,'09170000009'),
-(10,'09170000010');
-
--- --------------------------------------------------------
 -- Assets
 -- --------------------------------------------------------
 INSERT INTO asset (PropNum, SerialNum, ProcNum, PurchaseDate, Specs, Remarks, Status, ShortDesc, Price, URL) VALUES

@@ -74,7 +74,9 @@ final class APIRouter {
     array $input,
   ) {
     // Affirm user is still active
-    verifyStatus($this->userRepo);
+    if (session_status() !== PHP_SESSION_NONE) {
+      verifyStatus($this->userRepo);
+    }
 
     $data = match ($res) {
       APIResource::User       => $this->handleUser($action, $params, $input),

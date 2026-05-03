@@ -61,9 +61,11 @@ final class LogHandler {
     if (count($users) == 0) ErrorHandler::handle(new RuntimeException("User email $email not found in database.", 404));
     $user = $users[0];
 
-    if (!$user->isActive){
+    if (!$user || !$user->isActive) {
       ErrorHandler::handle(new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 403));
     }
+
+    session_start();
 
     $_SESSION['user_id'] = $user->empID;
     $_SESSION['email'] = $email;
