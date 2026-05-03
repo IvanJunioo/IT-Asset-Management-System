@@ -231,12 +231,20 @@ button .material-icons {
   min-width: 300px;
 }
 
-.left-page {
-  margin-left: 1rem;
-}
-
 .right-page {
   width: 100%;
   max-width: 400px;
   align-items: center;
+}
+
+@media only screen and (max-width: 1100px) {
+  .right-page {
+    align-items: center;
+    justify-content: unset;
+    flex: unset;
+    margin-left: 1rem;
+  }
+  .left-page {
+    width: 94%;
+  }
 }

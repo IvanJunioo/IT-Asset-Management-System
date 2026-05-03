@@ -2,9 +2,9 @@
   display: flex;
   align-items: flex-start;
   /* justify-content: center; */
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   gap: 3rem;
-  padding: 1rem;
+  padding: 1.5rem;
   flex-wrap: wrap;
 }
 
@@ -34,12 +34,5 @@
     gap: 3rem;
     padding: 1rem;
     flex-wrap: wrap;
-  }
-
-  .right-page {
-    align-items: center;
-    justify-content: unset;
-    flex: unset;
-    margin-left: 1rem;
   }
 }

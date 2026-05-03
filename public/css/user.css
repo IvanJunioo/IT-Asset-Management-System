@@ -69,17 +69,9 @@ th:last-child {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin-top: 2rem;
     gap: 3rem;
     padding: 1rem;
     flex-wrap: wrap;
-  }
-
-  .right-page {
-    align-items: center;
-    justify-content: unset;
-    flex: unset;
-    margin-left: 1rem;
   }
 }

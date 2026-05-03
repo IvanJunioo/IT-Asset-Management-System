@@ -26,6 +26,7 @@
 .user-table td {
   white-space: normal;
   word-break: break-word;
+  width: 18%;
 }
 
 .user-table thead {
@@ -36,10 +37,6 @@
   position: sticky;
   top: 0;
   z-index: 5;
-}
-
-td, th {
-  width: 18%;
 }
 
 th:nth-child(5),
