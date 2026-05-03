@@ -11,7 +11,6 @@ $protocol = (
 ;
 
 $host = $_SERVER['HTTP_HOST'];
-
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
 
 define('BASE_URL', "$protocol://$host/");
@@ -56,6 +55,7 @@ $pages = [
   "return-form"     => ["roles" => ["Admin", "SuperAdmin"]],
   "user-manager"    => ["roles" => ["SuperAdmin"]],
   "users"           => ["roles" => ["Admin"]],
+  "error"      => ["roles" => []],
 ];
 
 date_default_timezone_set('Asia/Manila'); 
