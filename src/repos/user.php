@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 require_once __DIR__ . '/../model/user.php';
 
+
 interface UserRepoInterface {
   public function identify(int $empID): User;
   public function search(UserSearchCriteria $criteria): array;

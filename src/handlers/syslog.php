@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/actlog.php';
 require_once __DIR__ . '/../repos/user.php';
+require_once __DIR__ . '/../handlers/error.php';
+
 
 final class LogHandler {
   public function __construct(
@@ -52,15 +54,15 @@ final class LogHandler {
     $email = $userinfo->email;
 
     if (!in_array(substr($email, -10), ["@up.edu.ph", "@dcs.upd.edu.ph"])) {
-      throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 400);
+      ErrorHandler::handle(new RuntimeException("Email is not allowed. Please use your UP mail to login.", 400));
       // exit("Email not allowed.");
     }
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
-    if (count($users) == 0) throw new RuntimeException("User email $email not found in database.", 404);
+    if (count($users) == 0) ErrorHandler::handle(new RuntimeException("User email $email not found in database.", 404));
     $user = $users[0];
 
     if (!$user->isActive){
-      throw new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 403);
+      ErrorHandler::handle(new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 403));
     }
 
     $_SESSION['user_id'] = $user->empID;
