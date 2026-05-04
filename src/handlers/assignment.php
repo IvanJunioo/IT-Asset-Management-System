@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../manager/assign.php';
-require_once __DIR__ . '/../manager/logger.php';
 
 final class AssignmentHandler {
   public function __construct(
     private readonly AssignmentManagerInterface $manager,
+    private readonly LogHandler $logHand,
   ) {}
 
   public function getAssignments(string $assigneeID): array {
@@ -27,7 +27,7 @@ final class AssignmentHandler {
         remarks: $remarks,
       );
 
-      systemLog(
+      $this->logHand->systemLog(
         "assigned asset $propNum to user $assigneeID",
         [
           "action" => "assign",
@@ -56,7 +56,7 @@ final class AssignmentHandler {
         remarks: $remarks,
       );
 
-      systemLog(
+      $this->logHand->systemLog(
         "reassigned asset $propNum to user $assigneeID",
         [
           "action" => "reassign",
@@ -76,7 +76,7 @@ final class AssignmentHandler {
     foreach ($propNums as $propNum) {
       $this->manager->returnAsset($propNum,$date,$remarks);
 
-      systemLog(
+      $this->logHand->systemLog(
         "returned asset $propNum",
         [
           "action" => "return",

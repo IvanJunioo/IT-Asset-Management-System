@@ -4,7 +4,6 @@ require_once __DIR__ . '/../repos/actlog.php';
 require_once __DIR__ . '/../repos/user.php';
 
 
-
 final class LogHandler {
   public function __construct(
     private readonly ActLogRepoInterface $logRepo,
@@ -39,6 +38,23 @@ final class LogHandler {
       "logs" => $logs,
       "count" => $this->logRepo->countLogs(criteria: $criteria),
     ];
+  }
+
+  public function systemLog(
+    string $log,
+    array $metadata,
+  ): void {
+    $empID = $_SESSION["user_id"];
+    $this->logRepo->add(
+      new User(
+        empID: $empID, 
+        name: new Fullname(), 
+        email: "", 
+        privilege: UserPrivilege::Staff
+      ), // temporary User data object
+      "User $empID $log", 
+      $metadata,
+    );
   }
 
   public function login(string $code): void {

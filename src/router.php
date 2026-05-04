@@ -55,6 +55,13 @@ enum APIAction: string {
       default => false,
     };
   }
+
+  public function requiresAuth(): bool {
+    return match ($this) {
+      self::Login, self::Logout => false,
+      default => true,
+    };
+  }
 }
 
 final class APIRouter {
@@ -64,7 +71,6 @@ final class APIRouter {
     private AssignmentHandler $assignHand,
     private LogHandler $logHand,
     private ExportHandler $expHand,
-    private UserRepoInterface $userRepo,
     ) {}
 
   public function handle(
@@ -73,9 +79,17 @@ final class APIRouter {
     array $params,
     array $input,
   ) {
-    // Affirm user is still active
-    if (session_status() !== PHP_SESSION_NONE) {
-      verifyStatus($this->userRepo);
+    if ($action->requiresAuth()) {
+      if (!isset($_SESSION['user_id'])) {
+        throw new RuntimeException("Authentication required. Please log in", 401);
+      }
+      
+      $user = $this->userHand->getUser($_SESSION['user_id']);
+      
+      // Affirm user is still active
+      if (!$user || !$user->isActive) {
+        throw new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403);
+      }
     }
 
     $data = match ($res) {

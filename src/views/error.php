@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php require_once __DIR__ . '/../manager/logger.php'; ?>
   <?php include __DIR__ . '/../partials/head.php';?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
   <body>

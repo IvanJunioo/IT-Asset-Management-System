@@ -5,12 +5,12 @@ class UserInactiveException extends RuntimeException {}
 
 final class ErrorHandler
 {
-  public static function handle(
+  public function handle(
     Throwable $e
   ): never {
 
     if ($e instanceof UserInactiveException) {
-      self::redirectToLogin();
+      $this->redirectToLogin();
     }
 
     $errorCode = $e->getCode();
@@ -31,12 +31,12 @@ final class ErrorHandler
     exit;
   }
 
-  private static function redirectToLogin(): never
+  private function redirectToLogin(): never
   {
     $_SESSION = [];
     session_destroy();
 
-    header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
+    header("Location: " . BASE_URL . "index.php?page=login");
     exit;
   }
 }

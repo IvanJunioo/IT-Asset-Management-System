@@ -21,12 +21,6 @@ $dbhost = $_ENV["DB_HOST"];
 $dbsource = "mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4";
 $dbusername = $_ENV["DB_USER"];
 $dbpassword = $_ENV["DB_PASS"];
-$pdo = new PDO($dbsource, $dbusername, $dbpassword, [
-  PDO::ATTR_PERSISTENT => false,
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  PDO::ATTR_EMULATE_PREPARES => false,
-]);  # PHP Data Object
 
 // Google Client API
 $client = new Google\Client;

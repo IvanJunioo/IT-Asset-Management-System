@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/asset.php';
 require_once __DIR__ . '/../repos/assignment.php';
-require_once __DIR__ . '/../manager/logger.php';
 
 function array_any(array $array, callable $callback): bool {
   foreach ($array as $x) {
@@ -15,6 +14,7 @@ final class AssetHandler {
   public function __construct(
     private readonly AssetRepoInterface $assetRepo,
     private readonly AssignmentRepo $assignRepo,
+    private readonly LogHandler $logHand,
   ) {}
 
   public function getAsset(string $propNum): Asset {
@@ -78,7 +78,7 @@ final class AssetHandler {
     foreach ($assets as $asset) {
       $this->assetRepo->add($asset);
       
-      systemLog(
+      $this->logHand->systemLog(
         "added new asset $asset->propNum",
         [
           "action" => "add",
@@ -97,7 +97,7 @@ final class AssetHandler {
 
     $this->assetRepo->update($asset);
   
-    systemLog(
+    $this->logHand->systemLog(
       "modified asset $asset->propNum",
       [ 
         "action" => "modify",
@@ -120,7 +120,7 @@ final class AssetHandler {
       AssetStatus::ToCondemn => "report",
     };
 
-    systemLog(
+    $this->logHand->systemLog(
       "{$action}ed asset $propNum",
       [
         "action" => $action,

@@ -8,12 +8,9 @@ const generateReportBtn = rightUser.querySelector("#report");
 let currentPosition = "right"; // Default position on page load
 
 function repositionFilter() {
-  console.log("Repositioning filter box...");
   const shouldBeOnLeft = window.innerWidth <= BREAKPOINT;
   const targetPosition = shouldBeOnLeft ? "left" : "right";
 
-  console.log(`Current position: ${currentPosition}, Target position: ${targetPosition}`);
-  console.log(`Window width: ${window.innerWidth}px, should be on: ${targetPosition}`);
   // Only move if position actually changed
   if (currentPosition === targetPosition) return;
 

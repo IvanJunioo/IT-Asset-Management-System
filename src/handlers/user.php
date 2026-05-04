@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/user.php';
 require_once __DIR__ . '/../repos/assignment.php';
-require_once __DIR__ . '/../manager/logger.php';
 require_once __DIR__ . '/../handlers/error.php';
 
 
@@ -10,6 +9,7 @@ final class UserHandler {
   public function __construct(
     private readonly UserRepoInterface $userRepo,
     private readonly AssignmentRepo $assignRepo,
+    private readonly LogHandler $logHand,
   ) {}
 
   public function getUser(int $empID): User {
@@ -56,7 +56,7 @@ final class UserHandler {
     // Sets user empID (assuming unique email)
     $user = $this->userRepo->search(new UserSearchCriteria(email: $user->email))[0];
 
-    systemLog(
+    $this->logHand->systemLog(
       "added new user " . $user->name->last,
       [
         "action" => "add",
@@ -96,7 +96,7 @@ final class UserHandler {
     } else {
       $logData["diff"] = $diff;
     }
-    systemLog($logMessage, $logData);
+    $this->logHand->systemLog($logMessage, $logData);
 
     $this->userRepo->update($user);
   }
@@ -127,7 +127,7 @@ final class UserHandler {
       }
     }
 
-    systemLog(
+    $this->logHand->systemLog(
       "modified user $empID",
       $logData
     );  
