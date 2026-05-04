@@ -242,9 +242,9 @@ button .material-icons {
     align-items: center;
     justify-content: unset;
     flex: unset;
-    margin-left: 1rem;
   }
   .left-page {
     width: 94%;
+    flex: unset;
   }
 }
