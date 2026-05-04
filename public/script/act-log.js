@@ -83,7 +83,8 @@ export async function fetchLogs({
     if (fetchID !== latest) return;
     showLogs();
   } catch (err) {
-    console.error("Error fetching system logs: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch system logs.")}`;
+    return;
   }
 }
 

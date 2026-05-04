@@ -17,7 +17,8 @@ export async function fetchAsset(propNum) {
     
     return data;
   } catch (err) {
-    console.error("Error fetching asset: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch asset.")}`;
+    return;
   }
 }
 
@@ -42,7 +43,8 @@ export async function condemnAsset(propNum) {
 
     location.reload();
   } catch (err) {
-    console.error("Error condemning asset: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to condemn asset.")}`;
+    return;
   }
 }
 

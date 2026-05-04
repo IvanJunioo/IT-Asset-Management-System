@@ -216,7 +216,8 @@ async function fetchUsers() {
     if (fetchID !== latest) return;
     showUsers();
   } catch (err) {
-    console.error("Error fetching users: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users")}`;
+    return;
   }
 }
 

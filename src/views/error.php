@@ -4,7 +4,8 @@
   <?php include __DIR__ . '/../partials/head.php';?>
   <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
   <body>
-  <?php include __DIR__ . '/../partials/header-login.php'?>
+
+  
 
   <?php 
     $errorCode = $_GET['code'] ?? 500;
@@ -14,6 +15,7 @@
     $isLoggedIn = isset($_SESSION['user_id']);
     $serverError = $errorCode == 500;
 
+    
     if ($isLoggedIn && !$serverError) {
       $redirectURL = $_SERVER['HTTP_REFERER'] ??  BASE_URL . "index.php?page=dashboard";
       $buttonText = "Go Back";
@@ -23,6 +25,15 @@
       $buttonText = "Go to Login";
     }
   ?>
+
+  <?php if ($isLoggedIn && !$serverError): ?>
+    <?php
+      require_once __DIR__ . "/../utilities/auth-guard.php"; 
+      include __DIR__ . '/../partials/header.php'
+      ?>
+  <?php else : ?>
+    <?php include __DIR__ . '/../partials/header-login.php'?>
+  <?php endif ?>
     
   <main class="error-content">
      <section class="error-container">

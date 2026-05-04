@@ -20,7 +20,7 @@ final class AssetRepo implements AssetRepoInterface {
 
   public function identify(string $propNum): Asset {
     $assets = $this->search(new AssetSearchCriteria(propNum: $propNum));
-    if (count($assets) == 0) throw new RuntimeException("Asset not found in the database.", 404);
+    if (count($assets) == 0) throw new RuntimeException("Internal Server Error", 500);
     return $assets[0];
   }
   

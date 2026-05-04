@@ -172,7 +172,8 @@ async function fetchAssets() {
     if (fetchID !== latest) return;
     showAssets();
   } catch (err) {
-    console.error("Error fetching assets: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch assets.")}`;
+    return;
   }
 }
 
