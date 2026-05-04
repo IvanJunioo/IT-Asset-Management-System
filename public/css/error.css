@@ -1,0 +1,139 @@
+:root {
+  --primary-color: #550101;
+  --darker-primary: #3e0505;
+  --primary-green: #2a7548;
+  --darker-green: #1d3f2b;
+  --bg-light: #f8f5f2;
+  --text-dark: #222222;
+  --border-color: #cccccc;
+  --beige: #f7e9d8;
+}
+
+.error-content {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
+  background: #f6f8fb;
+  text-align: center;
+  margin: 0;
+}
+
+.error-container {
+  max-width: 700px;
+  width: 100%;
+}
+
+.error-code {
+  font-size: 110px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--primary-color);
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.error-code::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--darker-primary);
+  margin: 20px auto 0;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+.error-message {
+  font-size: 28px;
+  margin: 20px 0 10px;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.error-description {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.7;
+  margin-top: 10px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-button {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  font-weight: 600;
+  color: var(--primary-color);
+  background-color: var(--bg-light);
+  border: 1px solid var(--darker-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.error-button:hover {
+  background-color: var(--primary-color);
+  color: var(--beige);
+  border-color: var(--primary-green);
+}
+
+.error-button:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-container {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@media (max-width: 600px) {
+  .error-code {
+    font-size: 80px;
+  }
+
+  .error-message {
+    font-size: 22px;
+  }
+
+  .error-description {
+    font-size: 14px;
+  }
+}
+
+/* @media (max-width: 400px) {
+  .error-content {
+    min-height: auto;
+    height: auto;
+    padding: 40px 15px;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+} */

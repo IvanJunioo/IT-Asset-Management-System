@@ -188,12 +188,16 @@ async function getAssignments(employee) {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
+      return;
+    }
     const data = await resp.json();
     const assignments = data[0]['assignments'];
     return assignments.length;
   } catch (err) {
-    console.error("Error fetching users: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
+    return;
   }
   
   return 0;
@@ -211,7 +215,10 @@ async function fetchAssignments() {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch assets.")}`;
+      return;
+    }
 
     
     const data = await resp.json();
@@ -220,7 +227,8 @@ async function fetchAssignments() {
     if (fetchID !== latest) return;
     showAssignments();
   } catch (err) {
-    console.error("Error fetching assets: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch assets.")}`;
+    return;
   }
 }
 
@@ -287,12 +295,16 @@ async function fetchSessionUser() {
 
   try {
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+    if (!resp.ok) {
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch session user.")}`;
+      return;
+    }
+
     const data = await resp.json();
     return data;
   } catch (err) {
-    console.error("Error fetching session user: ", err);
-    return null;
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch session user.")}`;
+    return;
   }
 }
 

@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 require_once __DIR__ . '/../model/user.php';
 
+
 interface UserRepoInterface {
   public function identify(int $empID): User;
   public function search(UserSearchCriteria $criteria): array;
@@ -20,7 +21,7 @@ final class UserRepo implements UserRepoInterface {
 
   public function identify(int $empID): User {
     $users = $this->search(new UserSearchCriteria(empID: $empID));
-    if (count($users) == 0) throw new Exception("User not found!");
+    if (count($users) == 0) throw new RuntimeException("Internal Server Error", 500);
     return $users[0];
   }
 

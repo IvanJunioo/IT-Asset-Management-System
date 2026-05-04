@@ -1,21 +1,32 @@
 <?php
 require_once __DIR__ . "/../config/config.php";
+require_once __DIR__ . '/../src/handlers/error.php';
 
 $page = $_GET["page"] ?? "login";
 
 // Sanitize URI
 $page = basename($page);
+$systemPages = ['login', 'error'];
+$errorHandler = new ErrorHandler();
 
-if (isset($pages[$page])) {  
+if (!isset($pages[$page])) {
+  $errorHandler->handle(new RuntimeException("Page not found.", 404));
+  exit;
+}
+
+if (!in_array($page, $systemPages)) {
   if (!empty($pages[$page]["roles"])) {
+
     require_once __DIR__ . "/../src/utilities/auth-guard.php";
     require_once __DIR__ . "/../src/utilities/role-guard.php";
-    requireRole($pages[$page]["roles"]);
+    try {
+      requireRole($pages[$page]["roles"]);
+    } catch (Throwable $e) {
+      $errorHandler->handle($e);
+    }
+    
   }
+}
 
-  require_once __DIR__ . "/../src/views/{$page}.php";
-}
-else {
-  http_response_code(404);
-  echo "Page not found";
-}
+require_once __DIR__ . "/../src/views/{$page}.php";
+exit;

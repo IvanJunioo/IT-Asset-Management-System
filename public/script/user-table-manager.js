@@ -157,12 +157,16 @@ async function checkAssignment() {
 
     try {
       const resp = await fetch(url);
-      if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+      if (!resp.ok) {
+        window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users")}`;
+        return;
+      }
       const data = await resp.json();
       const assignments = data[0]['assignments'];
       if (assignments.length>0) return `${user.FName[0]}. ${user.LName}`;
     } catch (err) {
-      console.error("Error fetching users: ", err);
+      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users")}`;
+      return;
     }
   }
   return null;

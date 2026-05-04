@@ -3,6 +3,8 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/actlog.php';
 require_once __DIR__ . '/../repos/user.php';
 
+
+
 final class LogHandler {
   public function __construct(
     private readonly ActLogRepoInterface $logRepo,
@@ -52,19 +54,15 @@ final class LogHandler {
     $email = $userinfo->email;
 
     if (!in_array(substr($email, -10), ["@up.edu.ph", "@dcs.upd.edu.ph"])) {
-      exit("Email not allowed.");
+      throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 400);
     }
-
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
-    if (count($users) == 0) throw new Exception("User email $email not found in database!");
+    if (count($users) == 0) throw new RuntimeException("User email $email not found in database.", 404);
     $user = $users[0];
 
     if (!$user || !$user->isActive) {
-      header("Location: " . BASE_URL . "index.php?page=login&error=user_deactivated");
-      exit("Inactive user status");
+      throw new RuntimeException("Your account is deactivated. Please contact the admin to reactivate your account.", 403);
     }
-
-    session_start();
 
     $_SESSION['user_id'] = $user->empID;
     $_SESSION['email'] = $email;
