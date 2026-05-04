@@ -17,7 +17,8 @@ export async function fetchUser(empID) {
 
     return data;
   } catch (err) {
-    console.error("Error fetching user: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
+    return;
   }
 }
 
@@ -44,6 +45,7 @@ export async function modifyUser(empID, actionType) {
 
     location.reload();
   } catch (err) {
-    console.error("Error modifying user: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to modify user.")}`;
+    return;
   }
 }

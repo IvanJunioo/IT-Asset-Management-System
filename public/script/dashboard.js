@@ -28,7 +28,8 @@ async function getDBstats() {
     availAssetCnt.textContent = data.assetsAvail;
     sect.querySelector("#avail-assets").prepend(availAssetCnt);
   } catch (err) {
-    console.error("Error fetching: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
+    return;
   }
 
   url.search = new URLSearchParams({
@@ -53,6 +54,7 @@ async function getDBstats() {
     activeUserCnt.textContent = data.usersActive;
     sect.querySelector("#active-users").prepend(activeUserCnt);
   } catch (err) {
-    console.error("Error fetching: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
+    return;
   }
 }

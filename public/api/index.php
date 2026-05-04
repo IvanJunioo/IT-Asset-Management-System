@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../src/bootstrap.php';
+require_once __DIR__ . '/../../src/handlers/error.php';
 
 header('Content-Type: application/json');
 
@@ -26,9 +27,10 @@ try {
 
   echo json_encode($output);
   exit;
-} catch (Exception $e) {
-  http_response_code(500);
-  echo json_encode(["error" => $e->getMessage()]);
+} catch (Throwable $e) {
+  ErrorHandler::handle($e);
+  // http_response_code(500);
+  // echo json_encode(["error" => $e->getMessage()]);
 }
 
 exit;

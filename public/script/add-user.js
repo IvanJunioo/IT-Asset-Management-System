@@ -38,7 +38,8 @@ async function checkIfExists(input) {
     const data = await resp.json();
     if (data && data.length > 0) return data[0];
   } catch (err) {
-    console.error("Error fetching users: ", err);
+    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
+    return;
   }
   
   return null;

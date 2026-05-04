@@ -69,7 +69,7 @@ final class UserHandler {
   public function editUser(User $user): void {
     // Only SuperAdmin can edit user details
     if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
-      ErrorHandler::handle(new RuntimeException("Only SuperAdmin can modify user details.", 403));
+      throw new RuntimeException("Only SuperAdmin can modify user details.", 403);
     }
 
     $old = $this->userRepo->identify($user->empID);
@@ -104,7 +104,7 @@ final class UserHandler {
   public function changeStatus(string $empID, bool $isActive): void {
     // Only SuperAdmin can change user status
     if (isset($_SESSION['privilege']) && $_SESSION['privilege'] !== 'SuperAdmin') {
-      ErrorHandler::handle(new RuntimeException("Only SuperAdmin can modify user status.", 403));
+      throw new RuntimeException("Only SuperAdmin can modify user status.", 403);
     }
 
     $user = $this->userRepo->identify($empID);
