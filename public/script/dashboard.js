@@ -14,7 +14,6 @@ async function getDBstats() {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
       return;
     }
 
@@ -28,7 +27,6 @@ async function getDBstats() {
     availAssetCnt.textContent = data.assetsAvail;
     sect.querySelector("#avail-assets").prepend(availAssetCnt);
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
     return;
   }
 
@@ -40,7 +38,6 @@ async function getDBstats() {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
       return;
     }
 
@@ -54,7 +51,6 @@ async function getDBstats() {
     activeUserCnt.textContent = data.usersActive;
     sect.querySelector("#active-users").prepend(activeUserCnt);
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch database stats.")}`;
     return;
   }
 }

@@ -9,7 +9,6 @@ export async function fetchUser(empID) {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
       return;
     }
 
@@ -17,7 +16,6 @@ export async function fetchUser(empID) {
 
     return data;
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
     return;
   }
 }
@@ -39,13 +37,11 @@ export async function modifyUser(empID, actionType) {
       }),
     });
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to modify user.")}`;
       return;
     }
 
     location.reload();
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to modify user.")}`;
     return;
   }
 }

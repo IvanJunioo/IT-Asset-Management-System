@@ -9,7 +9,6 @@ export async function fetchAsset(propNum) {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch asset.")}`;
       return;
     }
 
@@ -17,7 +16,6 @@ export async function fetchAsset(propNum) {
     
     return data;
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch asset.")}`;
     return;
   }
 }
@@ -37,13 +35,11 @@ export async function condemnAsset(propNum) {
       body: JSON.stringify({search: propNum}),
     });
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to condemn asset.")}`;
       return;
     };
 
     location.reload();
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to condemn asset.")}`;
     return;
   }
 }

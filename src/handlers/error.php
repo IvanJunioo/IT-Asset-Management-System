@@ -8,9 +8,14 @@ final class ErrorHandler
   public function handle(
     Throwable $e
   ): never {
+    if ($e instanceof PDOException) {
+      require_once __DIR__ . '/../views/error.php';
+      exit;
+    }
 
     if ($e instanceof UserInactiveException) {
-      $this->redirectToLogin();
+      $_SESSION = [];
+      session_destroy();
     }
 
     $errorCode = $e->getCode();
@@ -24,19 +29,16 @@ final class ErrorHandler
       default => "Internal Server Error",
     };
 
+    $errorDescription = match ($errorCode) {
+      400 => "Request is invalid",
+      403 => "Unauthorized access",
+      404 => "Resource does not exist",
+      default => "An error has occured in the server",
+    };
+
     http_response_code($errorCode);
-    $errorDescription = $e->getMessage();
 
     header("Location: " . BASE_URL . "index.php?page=error&code={$errorCode}&message={$errorMessage}&description={$errorDescription}");
-    exit;
-  }
-
-  private function redirectToLogin(): never
-  {
-    $_SESSION = [];
-    session_destroy();
-
-    header("Location: " . BASE_URL . "index.php?page=login");
     exit;
   }
 }

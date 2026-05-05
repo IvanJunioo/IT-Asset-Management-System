@@ -21,7 +21,7 @@ final class UserRepo implements UserRepoInterface {
 
   public function identify(int $empID): User {
     $users = $this->search(new UserSearchCriteria(empID: $empID));
-    if (count($users) == 0) throw new RuntimeException("Internal Server Error", 500);
+    if (count($users) <= 0) throw new RuntimeException("User $empID does not exist", 500);
     return $users[0];
   }
 

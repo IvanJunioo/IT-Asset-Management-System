@@ -73,6 +73,19 @@ final class APIRouter {
     private ExportHandler $expHand,
     ) {}
 
+  private function verifyStatus() {
+    if (!isset($_SESSION['user_id'])) {
+      throw new RuntimeException("Authentication required. Please log in", 401);
+    }
+    
+    $user = $this->userHand->getUser($_SESSION['user_id']);
+    
+    // Affirm user is still active
+    if (!$user || !$user->isActive) {
+      throw new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403);
+    }
+  }
+
   public function handle(
     APIResource $res,
     APIAction $action,
@@ -80,16 +93,7 @@ final class APIRouter {
     array $input,
   ) {
     if ($action->requiresAuth()) {
-      if (!isset($_SESSION['user_id'])) {
-        throw new RuntimeException("Authentication required. Please log in", 401);
-      }
-      
-      $user = $this->userHand->getUser($_SESSION['user_id']);
-      
-      // Affirm user is still active
-      if (!$user || !$user->isActive) {
-        throw new UserInactiveException("User account is deactivated. Please contact the admin to reactivate your account.", 403);
-      }
+      $this->verifyStatus();
     }
 
     $data = match ($res) {
@@ -100,6 +104,8 @@ final class APIRouter {
       APIResource::Exportable => $this->handleExportable($action, $params, $input),
       default                 => throw new RuntimeException("Resource $res->value not found.", 404),
     };
+
+    $this->verifyStatus();  // Check user active status again
 
     if (isset($params["redirect"])) {
       header("Location: " . BASE_URL . $params["redirect"]);

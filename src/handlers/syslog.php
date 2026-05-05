@@ -28,10 +28,12 @@ final class LogHandler {
           break;
       }
       
+      $priv = UserPrivilege::from($_SESSION['privilege']);
+
       $logs[] = [
         ...$log,
-        "linkActor" => $_SESSION['privilege'] == "SuperAdmin",
-        "linkObject" => $metadata["object"] == "asset" || $_SESSION['privilege'] == "SuperAdmin",
+        "linkActor" => in_array($priv, [UserPrivilege::SuperAdmin, UserPrivilege::Admin]),
+        "linkObject" => $metadata["object"] == "asset" || in_array($priv, [UserPrivilege::SuperAdmin, UserPrivilege::Admin]),
       ];
     }
     return [

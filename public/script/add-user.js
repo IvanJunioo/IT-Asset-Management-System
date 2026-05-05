@@ -32,13 +32,11 @@ async function checkIfExists(input) {
   try {
     const resp = await fetch(url);
     if (!resp.ok)  {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
       return;
     }
     const data = await resp.json();
     if (data && data.length > 0) return data[0];
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users.")}`;
     return;
   }
   

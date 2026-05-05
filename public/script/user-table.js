@@ -206,7 +206,6 @@ async function fetchUsers() {
   try {
     const resp = await fetch(url);
     if (!resp.ok) {
-      window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users")}`;
       return;
     } 
 
@@ -216,7 +215,6 @@ async function fetchUsers() {
     if (fetchID !== latest) return;
     showUsers();
   } catch (err) {
-    window.location.href = `${window.location.origin}/index.php?page=error&code=500&message=${encodeURIComponent("Internal Server Error")}&description=${encodeURIComponent("Failed to fetch users")}`;
     return;
   }
 }

@@ -47,8 +47,10 @@
       <p class="error-description">
         <?= htmlspecialchars($errorDescription) ?>
       </p>
-      <a href="<?= htmlspecialchars($redirectURL) ?>" class="error-button">
-      <?= htmlspecialchars($buttonText) ?>
+      <?php if (isset($_GET["message"])): ?>
+        <a href="<?= htmlspecialchars($redirectURL) ?>" class="error-button">
+        <?= htmlspecialchars($buttonText) ?>
+      <?php endif ?>
     </a>
     </section>
     
