@@ -3,11 +3,13 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../repos/asset.php';
 require_once __DIR__ . '/../repos/assignment.php';
 
-function array_any(array $array, callable $callback): bool {
-  foreach ($array as $x) {
-    if ($callback($x)) return true;
+if (!function_exists('array_any')) {
+  function array_any(array $array, callable $callback): bool {
+    foreach ($array as $x) {
+      if ($callback($x)) return true;
+    }
+    return false;
   }
-  return false;
 }
 
 final class AssetHandler {
