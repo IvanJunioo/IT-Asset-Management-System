@@ -105,7 +105,10 @@ final class APIRouter {
       default                 => throw new RuntimeException("Resource $res->value not found.", 404),
     };
 
-    $this->verifyStatus();  // Check user active status again
+    if ($action->requiresAuth()) {
+      // Check user active status again
+      $this->verifyStatus();
+    }
 
     if (isset($params["redirect"])) {
       header("Location: " . BASE_URL . $params["redirect"]);

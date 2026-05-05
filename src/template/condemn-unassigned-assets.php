@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <h1>All Assets to be Condemned</h1>
+    <?php 
+      $title = ($statusName == "ToCondemn") ? "TO BE CONDEMNED" : "THAT ARE UNASSIGNED";
+    ?>
+    <h1>All Assets <?= htmlspecialchars($title) ?></h1>
     <div class="asset-container">
       <?php if (!empty($assets)): ?>
       <table>
