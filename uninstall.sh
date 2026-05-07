@@ -3,7 +3,7 @@ DIR_NAME="itassets"   # must be the same as in install.sh
 
 export $(grep -v '^#' .env | xargs)
 
-read -p "Are you sure you want to uninstall $DIR_NAME and DELETE all files? (y/n): " confirm
+read -p "Are you sure you want to uninstall $DIR_NAME and DELETE all system files? (y/n): " confirm
 if [ "$confirm" != "y" ]; then
     echo "Uninstallation cancelled."
     exit 1
