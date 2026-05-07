@@ -16,7 +16,7 @@ sudo mysql -e "DROP USER IF EXISTS '$DB_USER'@'$DB_HOST';"
 # Delete the config files
 sudo rm /etc/nginx/sites-enabled/$DIR_NAME
 sudo rm /etc/nginx/sites-available/$DIR_NAME
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/   # Re-enable default nginx site
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default   # Re-enable default nginx site
 sudo service nginx restart
 
 # Delete Git repo files (including this script)

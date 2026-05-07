@@ -75,7 +75,7 @@ server {
 EOF"                          
 
 # Enable site and cleanup
-sudo ln -sf /etc/nginx/sites-available/$DIR_NAME /etc/nginx/sites-enabled/$DIR_NAME # link and enable the new site
+sudo ln -sf /etc/nginx/sites-available/$DIR_NAME /etc/nginx/sites-enabled/$DIR_NAME       # link and enable the new site
 sudo rm -f /etc/nginx/sites-enabled/default					                                      # remove default active site
 sudo nginx -t									                                                            # test config
 sudo service nginx restart							                                                  # restart nginx
