@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Define local system variables
+DIR_NAME="itassets"
 GITHUB_REPO="https://github.com/IvanJunioo/IT-Asset-Management-System.git"
+REQUIRED_VARS=("DB_NAME" "DB_USER" "DB_PASS" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT")
 
 # Install software dependencies
 sudo apt update
@@ -15,12 +17,12 @@ sudo apt install mysql-server -y    # Database
 sudo apt install git -y             # Version control
 
 # Set up Linux directory and load Github repo
-sudo mkdir -p /var/www/$APP_DOMAIN						      # Make new directory
-sudo chown -R $USER:$USER /var/www/$APP_DOMAIN     # Own the directory
-if [ -z "$(ls -A /var/www/$APP_DOMAIN)" ]; then    # Clone the project repo if empty
-  git clone $GITHUB_REPO /var/www/$APP_DOMAIN
+sudo mkdir -p /var/www/$DIR_NAME						      # Make new directory
+sudo chown -R $USER:$USER /var/www/$DIR_NAME     # Own the directory
+if [ -z "$(ls -A /var/www/$DIR_NAME)" ]; then    # Clone the project repo if empty
+  git clone $GITHUB_REPO /var/www/$DIR_NAME
 fi
-cd /var/www/$APP_DOMAIN                            # Switch to project directory
+cd /var/www/$DIR_NAME                            # Switch to project directory
 
 # Set up the environment file if nonexistent
 if [ ! -f .env ]; then
@@ -38,12 +40,20 @@ fi
 # Load variables from .env file
 export $(grep -v '^#' .env | xargs)
 
+for var in "${REQUIRED_VARS[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "ERROR: The variable '$var' is empty in your .env file."
+    echo "Please run the script again and fill in all values."
+    exit 1
+  fi
+done
+
 # Configure NGINX 
-sudo bash -c "cat <<EOF > /etc/nginx/sites-available/$APP_DOMAIN
+sudo bash -c "cat <<EOF > /etc/nginx/sites-available/$DIR_NAME
 server {
     listen $APP_PORT;
-    server_name $APP_DOMAIN;
-    root /var/www/$APP_DOMAIN/public;
+    server_name localhost;
+    root /var/www/$DIR_NAME/public;
     index index.php index.html;
 
     location / {
@@ -58,7 +68,7 @@ server {
 EOF"                          
 
 # Enable site and cleanup
-sudo ln -sf /etc/nginx/sites-available/$APP_DOMAIN /etc/nginx/sites-enabled/$APP_DOMAIN # link and enable the new site
+sudo ln -sf /etc/nginx/sites-available/$DIR_NAME /etc/nginx/sites-enabled/$DIR_NAME # link and enable the new site
 sudo rm -f /etc/nginx/sites-enabled/default					                                      # remove default active site
 sudo nginx -t									                                                            # test config
 sudo service nginx restart							                                                  # restart nginx
@@ -84,4 +94,4 @@ fi
 # Install project external dependencies
 composer install --no-dev --optimize-autoloader
 
-echo "Installation Complete for $APP_DOMAIN!"
+echo "Installation Complete for $DIR_NAME!"

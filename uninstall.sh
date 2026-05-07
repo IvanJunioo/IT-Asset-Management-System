@@ -1,7 +1,9 @@
 #!/bin/bash
+DIR_NAME="itassets"   # must be the same as in install.sh
+
 export $(grep -v '^#' .env | xargs)
 
-read -p "Are you sure you want to uninstall $APP_DOMAIN and DELETE all files? (y/n): " confirm
+read -p "Are you sure you want to uninstall $DIR_NAME and DELETE all files? (y/n): " confirm
 if [ "$confirm" != "y" ]; then
     echo "Uninstallation cancelled."
     exit 1
@@ -12,8 +14,8 @@ sudo mysql -e "DROP DATABASE IF EXISTS $DB_NAME;"
 sudo mysql -e "DROP USER IF EXISTS '$DB_USER'@'$DB_HOST';"
 
 # Delete the config files
-sudo rm /etc/nginx/sites-enabled/$APP_DOMAIN
-sudo rm /etc/nginx/sites-available/$APP_DOMAIN
+sudo rm /etc/nginx/sites-enabled/$DIR_NAME
+sudo rm /etc/nginx/sites-available/$DIR_NAME
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/   # Re-enable default nginx site
 sudo service nginx restart
 
@@ -22,6 +24,6 @@ sudo service nginx restart
 # sudo apt autoremove -y
 
 # Delete Git repo files (including this script)
-sudo rm -rf /var/www/$APP_DOMAIN
+sudo rm -rf /var/www/$DIR_NAME
 
-echo "Uninstallation complete for $APP_DOMAIN."
+echo "Uninstallation complete for $DIR_NAME."
