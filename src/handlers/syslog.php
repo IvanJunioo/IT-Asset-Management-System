@@ -59,6 +59,13 @@ final class LogHandler {
     );
   }
 
+  private function isValidEmail(string $email): bool {
+    foreach (["@up.edu.ph", "@dcs.upd.edu.ph"] as $emailSuffix) {
+      if (str_ends_with($email, $emailSuffix)) return true;
+    }
+    return false;
+  }
+
   public function login(string $code): void {
     global $client;
 
@@ -71,9 +78,10 @@ final class LogHandler {
 
     $email = $userinfo->email;
 
-    if (!in_array(substr($email, -10), ["@up.edu.ph", "@dcs.upd.edu.ph"])) {
-      throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 401);
+    if (!$this->isValidEmail($email)) {
+      throw new RuntimeException("Email is not allowed. Please use your UP or DCS mail to login.", 401);
     }
+
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
     if (count($users) == 0) throw new RuntimeException("User email $email not found in database.", 404);
     $user = $users[0];
