@@ -3,7 +3,7 @@
 # Define local system variables
 DIR_NAME="itassets"
 GITHUB_REPO="https://github.com/IvanJunioo/IT-Asset-Management-System.git"
-REQUIRED_VARS=("DB_NAME" "DB_USER" "DB_PASS" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT")
+REQUIRED_VARS=("DB_NAME" "DB_USER" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT" "APP_DOMAIN")
 
 # Install software dependencies
 sudo apt update
@@ -28,6 +28,13 @@ cd /var/www/$DIR_NAME                            # Switch to project directory
 if [ ! -f .env ]; then
   echo "Creating .env from template..."
   cp .env.example .env
+  EDIT_ENV="y"
+else
+  echo ".env file already exists."
+  read -p "Do you want to edit your existing configuration? (y/n): " EDIT_ENV
+fi
+
+if [ "$EDIT_ENV" = "y" ]; then
   echo "--------------------------------------------------------"
   echo "ACTION REQUIRED: Opening .env for configuration."
   echo "Please set your DB_USER, DB_PASS, and DB_NAME."
@@ -52,7 +59,7 @@ done
 sudo bash -c "cat <<EOF > /etc/nginx/sites-available/$DIR_NAME
 server {
     listen $APP_PORT;
-    server_name localhost;
+    server_name $APP_DOMAIN;
     root /var/www/$DIR_NAME/public;
     index index.php index.html;
 

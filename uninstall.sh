@@ -19,10 +19,6 @@ sudo rm /etc/nginx/sites-available/$DIR_NAME
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/   # Re-enable default nginx site
 sudo service nginx restart
 
-# Uninstall software dependencies (optional)
-# sudo apt purge nginx mysql-server php-fpm -y
-# sudo apt autoremove -y
-
 # Delete Git repo files (including this script)
 sudo rm -rf /var/www/$DIR_NAME
 
