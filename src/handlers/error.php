@@ -24,6 +24,7 @@ final class ErrorHandler
 
     $errorMessage = match ($errorCode) {
       400 => "Bad Request",
+      401 => "Unauthorized",
       403 => "Forbidden",
       404 => "Not Found",
       default => "Internal Server Error",
@@ -31,7 +32,8 @@ final class ErrorHandler
 
     $errorDescription = match ($errorCode) {
       400 => "Request is invalid",
-      403 => "Unauthorized access",
+      401 => "Invalid credentials",
+      403 => "Access denied",
       404 => "Resource does not exist",
       default => "An error has occured in the server",
     };

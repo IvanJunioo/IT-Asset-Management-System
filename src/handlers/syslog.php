@@ -72,7 +72,7 @@ final class LogHandler {
     $email = $userinfo->email;
 
     if (!in_array(substr($email, -10), ["@up.edu.ph", "@dcs.upd.edu.ph"])) {
-      throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 400);
+      throw new RuntimeException("Email is not allowed. Please use your UP mail to login.", 401);
     }
     $users = $this->userRepo->search(new UserSearchCriteria(email: $email));
     if (count($users) == 0) throw new RuntimeException("User email $email not found in database.", 404);
