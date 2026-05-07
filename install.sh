@@ -75,7 +75,7 @@ BACKUP_DIR="/var/www/$DIR_NAME/backups/full"
 sudo mkdir -p "$BACKUP_DIR"
 sudo chown -R $USER:$USER "$BACKUP_DIR"
 echo "Creating initial full backup..."
-sudo mysqldump -u "$DB_USER" -p"$DB_PASS" --flush-logs --single-transaction --databases "$DB_NAME" > "$BACKUP_DIR/full_base.sql"
+sudo mysqldump -u "$DB_USER" -p"$DB_PASS" --flush-logs --single-transaction --databases "$DB_NAME" > "$BACKUP_DIR/full_weekly.sql"
 
 # Setup automated backups
 BACKUP_RUNNER="/usr/local/bin/mysql_backup.sh"
@@ -122,4 +122,4 @@ fi
 # Install project external dependencies
 composer install --no-dev --optimize-autoloader
 
-echo "Installation Complete for $DIR_NAME!"
+echo "Installation complete for $DIR_NAME!"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Load Environment Variables
+# Load environment variables
 PROJECT_DIR="/var/www/itassets"
 if [ -f "$PROJECT_DIR/.env" ]; then
   source "$PROJECT_DIR/.env"
@@ -9,30 +9,29 @@ else
   exit 1
 fi
 
-# Define Backup Paths
+# Define backup paths
 FULL_BACKUP="$PROJECT_DIR/backups/full/full_weekly.sql"
 INC_DIR="$PROJECT_DIR/backups/incremental"
 
-# Confirmation Prompt
+# Confirmation prompt
 echo "WARNING: This will overwrite the current '$DB_NAME' database."
 read -p "Are you sure you want to proceed? (y/n): " confirm
 if [[ $confirm != [yY] ]]; then
-  echo "Restore cancelled."
+  echo "Database restoration cancelled."
   exit 1
 fi
 
-# Restore Full Backup (The Foundation)
+# Restore full backup
 if [ -f "$FULL_BACKUP" ]; then
-  echo "Restoring Full Backup: $FULL_BACKUP..."
+  echo "Restoring full backup: $FULL_BACKUP..."
   mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$FULL_BACKUP"
 else
-  echo "Error: Full backup file not found!"
+  echo "Error: Full backup file was not found!"
   exit 1
 fi
 
-# Restore Incremental Logs (The Bricks)
-# We check if there are any files matching the pattern
-if ls "$INC_DIR"/mysql-bin.[0-9]* 1> /dev/null 2>&1; then
+# Restore incremental logs
+if ls "$INC_DIR"/mysql-bin.[0-9]* 1> /dev/null 2>&1; then # Check if there are any files matching the bin logs pattern
   echo "Replaying incremental logs from $INC_DIR..."
   # Replay all logs in chronological order
   mysqlbinlog "$INC_DIR"/mysql-bin.[0-9]* | mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME"
@@ -41,4 +40,4 @@ else
   echo "No incremental logs found to apply."
 fi
 
-echo "Restore Complete!"
+echo "Database restoration completed!"
