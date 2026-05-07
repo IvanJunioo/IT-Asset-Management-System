@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Define local system variables
-DOMAIN_NAME="itam.upcsweb"
 GITHUB_REPO="https://github.com/IvanJunioo/IT-Asset-Management-System.git"
 
 # Install software dependencies
@@ -16,12 +15,12 @@ sudo apt install mysql-server -y    # Database
 sudo apt install git -y             # Version control
 
 # Set up Linux directory and load Github repo
-sudo mkdir -p /var/www/$DOMAIN_NAME						      # Make new directory
-sudo chown -R $USER:$USER /var/www/$DOMAIN_NAME     # Own the directory
-if [ -z "$(ls -A /var/www/$DOMAIN_NAME)" ]; then    # Clone the project repo if empty
-  git clone $GITHUB_REPO /var/www/$DOMAIN_NAME
+sudo mkdir -p /var/www/$APP_DOMAIN						      # Make new directory
+sudo chown -R $USER:$USER /var/www/$APP_DOMAIN     # Own the directory
+if [ -z "$(ls -A /var/www/$APP_DOMAIN)" ]; then    # Clone the project repo if empty
+  git clone $GITHUB_REPO /var/www/$APP_DOMAIN
 fi
-cd /var/www/$DOMAIN_NAME                            # Switch to project directory
+cd /var/www/$APP_DOMAIN                            # Switch to project directory
 
 # Set up the environment file if nonexistent
 if [ ! -f .env ]; then
@@ -40,11 +39,11 @@ fi
 export $(grep -v '^#' .env | xargs)
 
 # Configure NGINX 
-sudo bash -c "cat <<EOF > /etc/nginx/sites-available/$DOMAIN_NAME
+sudo bash -c "cat <<EOF > /etc/nginx/sites-available/$APP_DOMAIN
 server {
     listen $APP_PORT;
-    server_name $DOMAIN_NAME;
-    root /var/www/$DOMAIN_NAME/public;
+    server_name $APP_DOMAIN;
+    root /var/www/$APP_DOMAIN/public;
     index index.php index.html;
 
     location / {
@@ -59,7 +58,7 @@ server {
 EOF"                          
 
 # Enable site and cleanup
-sudo ln -sf /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/$DOMAIN_NAME # link and enable the new site
+sudo ln -sf /etc/nginx/sites-available/$APP_DOMAIN /etc/nginx/sites-enabled/$APP_DOMAIN # link and enable the new site
 sudo rm -f /etc/nginx/sites-enabled/default					                                      # remove default active site
 sudo nginx -t									                                                            # test config
 sudo service nginx restart							                                                  # restart nginx
@@ -85,4 +84,4 @@ fi
 # Install project external dependencies
 composer install --no-dev --optimize-autoloader
 
-echo "Installation Complete for $DOMAIN_NAME!"
+echo "Installation Complete for $APP_DOMAIN!"
