@@ -8,10 +8,10 @@ final class ErrorHandler
   public function handle(
     Throwable $e
   ): never {
-    // if ($e instanceof PDOException) {
-    //   require_once __DIR__ . '/../views/error.php';
-    //   exit;
-    // }
+    if ($e instanceof PDOException) {
+      require_once __DIR__ . '/../views/error.php';
+      exit;
+    }
 
     if ($e instanceof UserInactiveException) {
       $_SESSION = [];
@@ -19,7 +19,6 @@ final class ErrorHandler
     }
 
     $errorCode = $e->getCode();
-
     if ($errorCode < 100 || $errorCode >=600) $errorCode = 500;
 
     $errorMessage = match ($errorCode) {

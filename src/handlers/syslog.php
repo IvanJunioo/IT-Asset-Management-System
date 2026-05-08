@@ -60,7 +60,10 @@ final class LogHandler {
   }
 
   private function isValidEmail(string $email): bool {
-    foreach (["@up.edu.ph", "@dcs.upd.edu.ph"] as $emailSuffix) {
+    foreach ([
+      "@up.edu.ph", 
+      "@dcs.upd.edu.ph",
+    ] as $emailSuffix) {
       if (str_ends_with($email, $emailSuffix)) return true;
     }
     return false;

@@ -7,19 +7,16 @@ try {
   
   // Sanitize URI
   $page = basename($page);
-  $systemPages = ['login', 'error'];
   
   if (!isset($pages[$page])) {
     throw new RuntimeException("Page not found.", 404);  
   }
   
-  if (!in_array($page, $systemPages)) {
-    if (!empty($pages[$page]["roles"])) {
-      require_once __DIR__ . "/../src/utilities/auth-guard.php";
-      require_once __DIR__ . "/../src/utilities/role-guard.php";
-      
-      requireRole($pages[$page]["roles"]);
-    }
+  if (!empty($pages[$page]["roles"])) {
+    require_once __DIR__ . "/../src/utilities/auth-guard.php";
+    require_once __DIR__ . "/../src/utilities/role-guard.php";
+    
+    requireRole($pages[$page]["roles"]);
   }
   
   require_once __DIR__ . "/../src/views/{$page}.php";

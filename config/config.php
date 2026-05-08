@@ -49,7 +49,7 @@ $pages = [
   "return-form"     => ["roles" => ["Admin", "SuperAdmin"]],
   "user-manager"    => ["roles" => ["SuperAdmin"]],
   "users"           => ["roles" => ["Admin"]],
-  "error"      => ["roles" => []],
+  "error"           => ["roles" => []],
 ];
 
 date_default_timezone_set('Asia/Manila'); 

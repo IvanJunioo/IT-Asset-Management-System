@@ -16,7 +16,7 @@ source "$LOCAL_DIR/.env"
 set +a
 
 # Check all required env vars 
-REQUIRED_VARS=("DIR_NAME" "DB_NAME" "DB_USER" "DB_HOST" "ADMIN_EMAIL" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT" "APP_DOMAIN")
+REQUIRED_VARS=("DIR_NAME" "DB_NAME" "DB_USER" "DB_PASS" "DB_HOST" "ADMIN_EMAIL" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT" "APP_DOMAIN")
 for var in "${REQUIRED_VARS[@]}"; do
   if [ -z "${!var}" ]; then
     echo "ERROR: The variable '$var' is empty in your .env file."
@@ -64,7 +64,7 @@ sudo systemctl restart mysql
 # Setup database and superadmin user
 sudo service mysql start
 sudo mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
-sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASS';"
+sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'$DB_HOST' IDENTIFIED WITH mysql_native_password BY '$DB_PASS';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'$DB_HOST';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
