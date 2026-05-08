@@ -49,18 +49,6 @@ cd $GLOBAL_DIR                            # Switch to project directory
 cp "$LOCAL_DIR/.env" .env                        # Copy .env file to server
 sed -i 's/\r$//' .env                            # Clean copied .env file line endings
 
-# Configure MySQL
-CONF_FILE="/etc/mysql/mysql.conf.d/mysqld.cnf"
-sudo sed -i "s/^log_bin/#log_bin/" $CONF_FILE     # Avoid clashing logs by commenting old ones
-sudo bash -c "cat <<'EOF' >> $CONF_FILE
-# Incremental Backup Config
-server-id        = 1
-log_bin          = /var/log/mysql/mysql-bin.log
-expire_logs_days = 7
-max_binlog_size  = 100M
-EOF"
-sudo systemctl restart mysql
-
 # Setup database and superadmin user
 sudo service mysql start
 sudo mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
