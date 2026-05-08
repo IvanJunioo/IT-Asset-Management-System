@@ -16,12 +16,12 @@ fi
 
 # If today is Sunday, run a Full Backup to reset the chain
 if [ "$(date +%u)" -eq 7 ]; then
-  mysqldump -u "$DB_USER" -p"$DB_PASS" --flush-logs --delete-master-logs --single-transaction "$DB_NAME" > "$FULL_DIR/full_weekly.sql"
+  mysqldump -u "$DB_USER" --password="$DB_PASS" --flush-logs --delete-master-logs --single-transaction "$DB_NAME" > "$FULL_DIR/full_weekly.sql"
   # Clear out old incrementals since they are now included in the full dump
   rm -f "$INC_DIR"/*
 else
   # Just an incremental backup: Flush logs and copy new ones
-  mysqladmin -u "$DB_USER" -p"$DB_PASS" flush-logs
+  mysqladmin -u "$DB_USER" --password="$DB_PASS" flush-logs
 
   # Copy all binary logs except the last one (which is the active one)
   LOGS=$(ls /var/log/mysql/mysql-bin.[0-9]* | head -n -1)

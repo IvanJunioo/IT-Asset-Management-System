@@ -24,7 +24,7 @@ fi
 # Restore full backup
 if [ -f "$FULL_BACKUP" ]; then
   echo "Restoring full backup: $FULL_BACKUP..."
-  mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$FULL_BACKUP"
+  mysql -u "$DB_USER" --password="$DB_PASS" "$DB_NAME" < "$FULL_BACKUP"
 else
   echo "Error: Full backup file was not found!"
   exit 1
@@ -34,7 +34,7 @@ fi
 if ls "$INC_DIR"/mysql-bin.[0-9]* 1> /dev/null 2>&1; then # Check if there are any files matching the bin logs pattern
   echo "Replaying incremental logs from $INC_DIR..."
   # Replay all logs in chronological order
-  mysqlbinlog "$INC_DIR"/mysql-bin.[0-9]* | mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME"
+  mysqlbinlog "$INC_DIR"/mysql-bin.[0-9]* | mysql -u "$DB_USER" --password="$DB_PASS" "$DB_NAME"
   echo "Incremental logs applied successfully."
 else
   echo "No incremental logs found to apply."

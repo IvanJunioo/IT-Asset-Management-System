@@ -2,9 +2,28 @@
 
 # Define local system variables
 LOCAL_DIR=$(pwd)
-DIR_NAME="itassets"
 GITHUB_REPO="https://github.com/IvanJunioo/IT-Asset-Management-System.git"
-REQUIRED_VARS=("DB_NAME" "DB_USER" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT" "APP_DOMAIN")
+
+# Set up the environment variables
+if [ ! -f "$LOCAL_DIR/.env" ]; then
+  echo "ERROR: .env file does not exist."
+  exit 1
+fi
+
+# Export environment variables
+set -a
+source "$LOCAL_DIR/.env"
+set +a
+
+# Check all required env vars 
+REQUIRED_VARS=("DIR_NAME" "DB_NAME" "DB_USER" "DB_HOST" "ADMIN_EMAIL" "GOOGLE_CLIENT_ID" "GOOGLE_CLIENT_SECRET" "APP_PORT" "APP_DOMAIN")
+for var in "${REQUIRED_VARS[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "ERROR: The variable '$var' is empty in your .env file."
+    echo "Please fill in all values and run the script again."
+    exit 1
+  fi
+done
 
 # Install software dependencies
 sudo apt update
@@ -19,34 +38,16 @@ sudo apt install git -y             # Version control
 sudo apt install cron -y            # Task scheduler
 
 # Set up Linux directory and load Github repo
-sudo mkdir -p /var/www/$DIR_NAME						     # Make new directory
-sudo chown -R $USER:$USER /var/www/$DIR_NAME     # Own the directory
-if [ -z "$(ls -A /var/www/$DIR_NAME)" ]; then    # Clone the project repo if empty
+GLOBAL_DIR="/var/www/$DIR_NAME"
+sudo mkdir -p $GLOBAL_DIR						     # Make new directory
+sudo chown -R $USER:$USER $GLOBAL_DIR     # Own the directory
+if [ -z "$(ls -A $GLOBAL_DIR)" ]; then    # Clone the project repo if empty
   echo "Cloning Git repo $GITHUB_REPO into $DIR_NAME"
-  git clone $GITHUB_REPO /var/www/$DIR_NAME
+  git clone $GITHUB_REPO $GLOBAL_DIR
 fi
-cd /var/www/$DIR_NAME                            # Switch to project directory
-
-# Set up the environment variables
-if [ ! -f "$LOCAL_DIR/.env" ]; then
-  echo "ERROR: .env file does not exist."
-  exit 1
-fi
-cp "$LOCAL_DIR/.env" .env   # Copy .env file to server
-sed -i 's/\r$//' .env       # Clean copied .env file line endings
-
-set -a
-source .env
-set +a
-
-# Check all required env vars 
-for var in "${REQUIRED_VARS[@]}"; do
-  if [ -z "${!var}" ]; then
-    echo "ERROR: The variable '$var' is empty in your .env file."
-    echo "Please fill in all values and run the script again."
-    exit 1
-  fi
-done
+cd $GLOBAL_DIR                            # Switch to project directory
+cp "$LOCAL_DIR/.env" .env                        # Copy .env file to server
+sed -i 's/\r$//' .env                            # Clean copied .env file line endings
 
 # Configure MySQL
 CONF_FILE="/etc/mysql/mysql.conf.d/mysqld.cnf"
@@ -60,31 +61,84 @@ max_binlog_size  = 100M
 EOF"
 sudo systemctl restart mysql
 
-# Setup database and admin user
+# Setup database and superadmin user
 sudo service mysql start
 sudo mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASS';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'$DB_HOST';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-# Import schema
+# Import schema and add superadmin account
 sudo mysql $DB_NAME < db/schema.sql
-
-# Create initial Full Backup and directory
-BACKUP_DIR="/var/www/$DIR_NAME/backups/full"
-sudo mkdir -p "$BACKUP_DIR"
-sudo chown -R $USER:$USER "$BACKUP_DIR"
-echo "Creating initial full backup..."
-sudo mysqldump -u "$DB_USER" -p"$DB_PASS" --flush-logs --single-transaction --databases "$DB_NAME" > "$BACKUP_DIR/full_weekly.sql"
+sudo mysql $DB_NAME -e "INSERT INTO employee (EmpMail, FName, LName, Privilege, ActiveStatus) VALUES ('$ADMIN_EMAIL', 'Super', 'Admin', 'SuperAdmin', 'Active');"
 
 # Setup automated backups
-BACKUP_RUNNER="/usr/local/bin/mysql_backup.sh"
+BACKUP_DIR="$GLOBAL_DIR/backups/db"
+BACKUP_SCRIPT="$GLOBAL_DIR/db_backup.sh"
+RESTORE_SCRIPT="$GLOBAL_DIR/db_restore.sh"
+LOG_FILE="$BACKUP_DIR/db_backup.log"
 BACKUP_SCHEDULE="0 3 * * *"                 # 3:00 AM daily increments
-sudo cp db/mysql_backup.sh $BACKUP_RUNNER   # Copy the script to a system binary folder for easier execution
-sudo chmod +x $BACKUP_RUNNER                # Make the script executable
-sudo systemctl enable cron
-sudo systemctl start cron
-(sudo crontab -l 2>/dev/null | grep -v "mysql_backup.sh"; echo "${BACKUP_SCHEDULE} ${BACKUP_RUNNER}") | sudo crontab -
+
+sudo mkdir -p "$BACKUP_DIR"
+sudo chown -R $USER:$USER "$BACKUP_DIR"
+
+# Create backup script
+cat > "$BACKUP_SCRIPT" << EOF
+#!/bin/bash
+
+BASE_DIR="$GLOBAL_DIR"
+set -a
+source "\$BASE_DIR/.env"
+set +a
+
+BACKUP_DIR="\$BASE_DIR/backups/db"
+DATE=\$(date +"%Y-%m-%d_(%I-%M_%p)")
+
+mkdir -p "\$BACKUP_DIR"
+
+mysqldump \
+  -h "\$DB_HOST" \
+  -u "\$DB_USER" \
+  --password="\$DB_PASS" \
+  --no-tablespaces \
+  "\$DB_NAME" \
+| gzip > "\$BACKUP_DIR/\${DB_NAME}_\${DATE}.sql.gz"
+
+# Store only 7 days of backups
+find "\$BACKUP_DIR" -type f -mtime +7 -delete
+EOF
+
+# create restore script
+cat > "$RESTORE_SCRIPT" << EOF
+#!/bin/bash
+
+BASE_DIR="$GLOBAL_DIR"
+set -a
+source "\$BASE_DIR/.env"
+set +a
+
+BACKUP_DIR="\$BASE_DIR/backups/db"
+
+echo "Available backups:"
+select FILE in "\$BACKUP_DIR"/*.sql.gz; do
+    if [[ -n "\$FILE" ]]; then
+        echo "Restoring from: \$FILE"
+        gunzip < "\$FILE" | mysql -u "\$DB_USER" --password="\$DB_PASS" "\$DB_NAME"
+        echo "Restore complete."
+        break
+    fi
+done
+EOF
+
+# make executable
+chmod +x "$BACKUP_SCRIPT"
+chmod +x "$RESTORE_SCRIPT"
+
+# make the script run every 24 hours
+(crontab -l 2>/dev/null | grep -v "$BACKUP_SCRIPT"; echo "$BACKUP_SCHEDULE $BACKUP_SCRIPT >> $LOG_FILE 2>&1") | crontab -
+
+# Create an initial backup
+bash "$BACKUP_SCRIPT"
 
 echo "Database $DB_NAME has been set up successfully for user: $DB_USER. Incremental backups scheduled with: $BACKUP_SCHEDULE"
 
@@ -121,5 +175,9 @@ fi
 
 # Install project external dependencies
 composer install --no-dev --optimize-autoloader
+
+# Serve files
+sudo chown -R www-data:www-data $GLOBAL_DIR
+sudo chmod -R 755 $GLOBAL_DIR
 
 echo "Installation complete for $DIR_NAME!"
