@@ -4,8 +4,6 @@
   <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
   <body>
 
-  
-
   <?php 
     $errorCode = $_GET['code'] ?? 500;
     $errorMessage = $_GET['message'] ?? "Unknown Error";

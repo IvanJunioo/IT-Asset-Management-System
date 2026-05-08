@@ -9,7 +9,7 @@ final class ErrorHandler
     Throwable $e
   ): never {
     if ($e instanceof PDOException) {
-      require_once __DIR__ . '/../views/error.php';
+      // require_once __DIR__ . '/../views/error.php';
       exit;
     }
 
