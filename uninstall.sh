@@ -21,7 +21,7 @@ fi
 
 # Drop database tables and admin user
 sudo mysql -e "DROP DATABASE IF EXISTS $DB_NAME;"
-# sudo mysql -e "DROP USER IF EXISTS '$DB_USER'@'$DB_HOST';"
+sudo mysql -e "DROP USER IF EXISTS '$DB_USER'@'$DB_HOST';"
 
 # Clean up NGINX config
 sudo rm /etc/nginx/sites-enabled/$DIR_NAME

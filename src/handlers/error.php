@@ -28,7 +28,6 @@ final class ErrorHandler
       404 => "Not Found",
       default => "Internal Server Error",
     };
-    $errorMessage = $e->getMessage();
 
     $errorDescription = match ($errorCode) {
       400 => "Request is invalid",
