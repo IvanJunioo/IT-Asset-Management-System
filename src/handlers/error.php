@@ -8,10 +8,10 @@ final class ErrorHandler
   public function handle(
     Throwable $e
   ): never {
-    if ($e instanceof PDOException) {
-      require_once __DIR__ . '/../views/error.php';
-      exit;
-    }
+    // if ($e instanceof PDOException) {
+    //   require_once __DIR__ . '/../views/error.php';
+    //   exit;
+    // }
 
     if ($e instanceof UserInactiveException) {
       $_SESSION = [];
@@ -29,6 +29,7 @@ final class ErrorHandler
       404 => "Not Found",
       default => "Internal Server Error",
     };
+    $errorMessage = $e->getMessage();
 
     $errorDescription = match ($errorCode) {
       400 => "Request is invalid",
