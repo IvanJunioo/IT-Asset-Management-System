@@ -64,7 +64,7 @@ chmod +x "$RESTORE_SCRIPT"
 
 # make the script run every 12 hours
 (crontab -l 2>/dev/null | grep -v "$BACKUP_SCRIPT"; \
-echo "0 0,12 * * * cd $BASE_DIR && $BACKUP_SCRIPT >> $LOG_FILE 2>&1") | crontab -
+echo "0 3 * * * cd $BASE_DIR && $BACKUP_SCRIPT >> $LOG_FILE 2>&1") | crontab -
 
 echo "Setup complete!"
 crontab -l
