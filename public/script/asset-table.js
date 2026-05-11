@@ -166,9 +166,9 @@ async function fetchAssets() {
     }
 
     const data = await resp.json();
-    tableData = new Map(data.map(asset => [asset.PropNum, asset]));
     
     if (fetchID !== latest) return;
+    tableData = new Map(data.map(asset => [asset.PropNum, asset]));
     showAssets();
   } catch (err) {
     return;

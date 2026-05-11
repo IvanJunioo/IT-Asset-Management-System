@@ -49,7 +49,7 @@ final class AssignmentManager implements AssignmentManagerInterface {
     string $remarks = "",
   ): void {
     $asset = $this->assetRepo->identify($propNum);
-    if ($asset->status !== AssetStatus::Unassigned) return;
+    if ($asset->status !== AssetStatus::Unassigned) throw new RuntimeException("Asset is currently not assignable.");
     $asset->status = AssetStatus::Assigned;
 
     $assigner = $this->userRepo->identify($assignerID);
@@ -67,7 +67,7 @@ final class AssignmentManager implements AssignmentManagerInterface {
     string $remarks = "",  
   ): void {
     $asset = $this->assetRepo->identify($propNum);
-    if ($asset->status !== AssetStatus::Assigned) return;
+    if ($asset->status !== AssetStatus::Assigned) throw new RuntimeException("Asset is currently not returnable.");
     $asset->status = AssetStatus::Unassigned;
     
     $asset->assignTo(null);

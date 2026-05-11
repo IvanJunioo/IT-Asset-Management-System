@@ -219,9 +219,9 @@ async function fetchAssignments() {
 
     
     const data = await resp.json();
-    assignmentData = new Map(data.map(asset => [asset.PropNum, asset]));
     
     if (fetchID !== latest) return;
+    assignmentData = new Map(data.map(asset => [asset.PropNum, asset]));
     showAssignments();
   } catch (err) {
     return;

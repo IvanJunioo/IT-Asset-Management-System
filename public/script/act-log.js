@@ -76,10 +76,10 @@ export async function fetchLogs({
       return;
     }
     const data = await resp.json();
-    tableData = new Map(data["logs"].map(log => [log.LogID, log]));
-    totalLogs = Number(data["count"]);
     
     if (fetchID !== latest) return;
+    tableData = new Map(data["logs"].map(log => [log.LogID, log]));
+    totalLogs = Number(data["count"]);
     showLogs();
   } catch (err) {
     return;
@@ -87,6 +87,7 @@ export async function fetchLogs({
 }
 
 function showLogs() {
+  console.log(tableData);
   if (tableData.size <= 0) {
     tbody.innerHTML = `
       <tr>
