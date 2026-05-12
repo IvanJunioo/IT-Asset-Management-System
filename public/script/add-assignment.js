@@ -1,4 +1,4 @@
-import { fetchUser } from "./user-router.js";
+import { fetchUser } from "./api.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const assets = urlParams.getAll("propNums[]");

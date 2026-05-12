@@ -121,16 +121,8 @@ function checkDuplicate(inputs) {
 }
 
 async function checkIfExists(inputs) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
   for (const inp of inputs){
     if (inp.value === '') continue
-    url.search = new URLSearchParams({
-      resource: "assets",
-      action: "search",
-      search: inp.value,
-      check_snum: true
-    });
-
     try {
       const resp = await fetch(url);
       if (!resp.ok) {

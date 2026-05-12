@@ -1,4 +1,4 @@
-import { fetchAsset } from "./asset-router.js";
+import { fetchAsset } from "./api.js";
 import { LogTable } from "./components.js";
 
 const urlParams = new URLSearchParams(window.location.search);

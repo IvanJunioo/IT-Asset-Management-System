@@ -1,10 +1,10 @@
 import { relayPage } from "./asset-router.js";
-import { fetchUser } from "./user-router.js";
 import { LogTable } from "./components.js";
+import { fetchUser, fetchSessionUser, countAssignments } from "./api.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const userData = await fetchUser(urlParams.get("empID"));
-const sessionUserData = await fetchSessionUser();
+const sessionUser = await fetchSessionUser();
 
 const userForm = document.querySelector("form"); 
 const tableFuncs = document.querySelector(".table-func");
@@ -22,7 +22,6 @@ userForm.action = `${window.location.origin}/api/index.php?resource=users&action
 userForm.method = "post";
 
 const user = Array.isArray(userData) ? userData[0] : userData;
-const sessionUser = sessionUserData;
 
 fillForm(user);
 fillReadOnly(user);
@@ -54,13 +53,13 @@ resetBtn?.addEventListener("click", (_) => {
 userForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
-  const assignments = await getAssignments(user["EmpMail"]);
+  const assignmentCount = await countAssignments(user["EmpMail"]);
 
   const oldStatus = user['ActiveStatus'];
   const newStatus = document.querySelector('input[name="active-status"]:checked').value;
   
   if (oldStatus === "Active" && oldStatus !== newStatus){ 
-    if (0 < assignments) {
+    if (0 < assignmentCount) {
       const sub = confirm("This user has assigned assets. Are you sure you want to deactivate this user?");
 
       if (!sub) return;
@@ -182,29 +181,6 @@ function fillForm(user) {
   }
 }
 
-async function getAssignments(employee) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "search",
-    search: employee,
-  });
-
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
-    const data = await resp.json();
-    const assignments = data[0]['assignments'];
-    return assignments.length;
-  } catch (err) {
-    return;
-  }
-  
-  return 0;
-}
-
 async function fetchAssignments() {    
   const fetchID = ++latest;
 
@@ -283,26 +259,6 @@ function showAssignments() {
     tr.append(td);
 
     assignmentTableBody.appendChild(tr);
-  }
-}
-
-async function fetchSessionUser() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "session",
-  });
-
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
-
-    const data = await resp.json();
-    return data;
-  } catch (err) {
-    return;
   }
 }
 

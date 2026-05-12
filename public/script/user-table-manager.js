@@ -1,5 +1,5 @@
 import { tableData, selectedRows, inMultiSelect, addCheckboxes } from "./user-table.js";
-import { modifyUser } from "./user-router.js";
+import { fetchUser, modifyUser } from "./api.js";
 import { relayPage } from "./asset-router.js";
 
 const leftUser = document.querySelector(".left-page");
@@ -78,17 +78,26 @@ tableFuncs.addEventListener("click", async (e) => {
   if (e.target.closest(".table-fn")) {
     const btn = e.target.closest(".table-fn");
 
-    if (btn.value === "deactivate") {
-      const hasAssignments = await checkAssignment();
-      
-      if (hasAssignments) {
-        const proceed = confirm(`User ${hasAssignments} currently have assets assigned to them. Do you wish to proceed?`);
-
-        if (!proceed) return;
-      }
+    if (btn.value === "deactivate") {      
+      for (const tr of selectedRows) {
+        const user = tableData.get(Number(tr.dataset.empid));
+        if (0 < user.assignments.length) {
+          const proceed = confirm(`User ${user.FName[0]}. ${user.LName} currently have assets assigned to them. Do you wish to proceed?`);
+          if (!proceed) return;
+        }
+      }      
     }
 
-    for (const tr of selectedRows) modifyUser(tr.dataset.empid, btn.value);
+    try {
+      await Promise.all([...selectedRows].map(tr => modifyUser(tr.dataset.empid, btn.value)));
+    }
+    catch (err) {
+      console.error("Error modifying users:", err);
+      alert("Error: Some users could not be modified");
+    }
+    finally {
+      location.reload();
+    }
   }
 });
 
@@ -142,30 +151,4 @@ function updateTableFuncs() {
     tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" &&
     !tableData.get(Number(tr.dataset.empid)).isCurrentUser
 ) ? "flex" : "none";
-}
-
-async function checkAssignment() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  for (const tr of selectedRows) {
-    const user = tableData.get(Number(tr.dataset.empid));
-
-    url.search = new URLSearchParams({
-      resource: "users",
-      action: "search",
-      search: user.EmpMail,
-    });
-
-    try {
-      const resp = await fetch(url);
-      if (!resp.ok) {
-        return;
-      }
-      const data = await resp.json();
-      const assignments = data[0]['assignments'];
-      if (assignments.length>0) return `${user.FName[0]}. ${user.LName}`;
-    } catch (err) {
-      return;
-    }
-  }
-  return null;
 }

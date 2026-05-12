@@ -1,59 +1,30 @@
 import { LogTable } from "./components.js";
+import { getAssetStats, getUserStats } from "./api.js";
 
 const sect = document.getElementById("asset-distribution");
 
 const logTable = new LogTable({container: document.getElementById("activity-log")});
 logTable.table.className = "recent-system-logs";
 
-getDBstats();
+try {
+  const [assetStats, userStats] = await Promise.all([getAssetStats(), getUserStats()]);
 
-async function getDBstats() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "assets",
-    action: "stats",
-  });
+  const totalAssetCnt = document.createElement("h2");
+  totalAssetCnt.textContent = assetStats.assetsTotal;
+  sect.querySelector("#total-assets").prepend(totalAssetCnt);
 
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
+  const availAssetCnt = document.createElement("h2");
+  availAssetCnt.textContent = assetStats.assetsAvail;
+  sect.querySelector("#avail-assets").prepend(availAssetCnt);
 
-    const data = await resp.json();
+  const totalUserCnt = document.createElement("h2");
+  totalUserCnt.textContent = userStats.usersTotal;
+  sect.querySelector("#total-users").prepend(totalUserCnt);
 
-    const totalAssetCnt = document.createElement("h2");
-    totalAssetCnt.textContent = data.assetsTotal;
-    sect.querySelector("#total-assets").prepend(totalAssetCnt);
-
-    const availAssetCnt = document.createElement("h2");
-    availAssetCnt.textContent = data.assetsAvail;
-    sect.querySelector("#avail-assets").prepend(availAssetCnt);
-  } catch (err) {
-    return;
-  }
-
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "stats",
-  });
-
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
-
-    const data = await resp.json();
-
-    const totalUserCnt = document.createElement("h2");
-    totalUserCnt.textContent = data.usersTotal;
-    sect.querySelector("#total-users").prepend(totalUserCnt);
-
-    const activeUserCnt = document.createElement("h2");
-    activeUserCnt.textContent = data.usersActive;
-    sect.querySelector("#active-users").prepend(activeUserCnt);
-  } catch (err) {
-    return;
-  }
+  const activeUserCnt = document.createElement("h2");
+  activeUserCnt.textContent = userStats.usersActive;
+  sect.querySelector("#active-users").prepend(activeUserCnt);
+}
+catch (err) {
+  console.error("Error fetching Database statistics:", err);
 }

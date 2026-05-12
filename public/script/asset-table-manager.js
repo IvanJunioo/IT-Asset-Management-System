@@ -1,5 +1,6 @@
 import { tableData } from "./asset-table.js";
-import { condemnAsset, relayPage} from "./asset-router.js";
+import {relayPage} from "./asset-router.js";
+import { condemnAsset } from "./api.js";
 
 const leftAsset = document.querySelector(".left-page");
 const tableFuncs = leftAsset.querySelector(".table-func");
@@ -24,7 +25,7 @@ reportBtn.innerHTML = `
 document.getElementById("export").replaceWith(reportBtn);
 
 // ----- EVENT LISTENERS (KEEP MINIMAL) -----
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
   // Actions dropdown toggle
   const actionBtn = e.target.closest(".action-btn");
   if (actionBtn) {
@@ -60,7 +61,7 @@ document.addEventListener("click", (e) => {
     return;
   }
   
-  // Actions menu
+  // Actions menu (DEPRECATED)
   const menuBtn = e.target.closest(".menu-item[data-action]");
   if (menuBtn) {
     const tr = menuBtn.closest("tr");
@@ -71,7 +72,10 @@ document.addEventListener("click", (e) => {
         relayPage("edit-asset-form", {"propNum": propNum});
         break;
       case "condemn": 
-        if (confirm(`Condemn item ${propNum}?`)) condemnAsset(propNum);
+        if (confirm(`Condemn item ${propNum}?`)) {
+          await condemnAsset(propNum);
+          location.reload();
+        }
         break;
       case "assign":
         relayPage("assign-user", {
@@ -131,7 +135,7 @@ document.addEventListener("click", (e) => {
   });
 });
 
-tableFuncs.addEventListener("click", (e) => {
+tableFuncs.addEventListener("click", async (e) => {
   if (e.target.closest("#assign")) {
     if (selectedRows.size === 0) return;    
     relayPage("assign-user", {
@@ -145,11 +149,23 @@ tableFuncs.addEventListener("click", (e) => {
     if (selectedRows.size === 0) return;
     if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
     
+    const toCondemnPropNums = [];
     for (const tr of selectedRows) {
-      if (tableData.get(tr.dataset.propNum).Status !== "ToCondemn"){
-        continue;
+      if (tableData.get(tr.dataset.propNum).Status === "ToCondemn"){
+        toCondemnPropNums.push(tr.dataset.propNum);
       }
-      condemnAsset(tr.dataset.propNum);
+    }
+    if (toCondemnPropNums.length === 0) return;
+
+    try {
+      await Promise.all(toCondemnPropNums.map(propNum => condemnAsset(propNum)));
+    }
+    catch (err) {
+      console.error("Error condemning assets:", err);
+      alert("Error: Some assets could not be condemned");
+    }
+    finally {
+      location.reload();
     }
     return;
   }
