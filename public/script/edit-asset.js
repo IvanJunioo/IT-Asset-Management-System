@@ -1,4 +1,5 @@
-import {fetchAsset, condemnAsset, relayPage} from "./asset-router.js";
+import {relayPage} from "./asset-router.js";
+import { fetchAsset, condemnAsset} from "./api.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const assetData = await fetchAsset(urlParams.get("propNum"));
@@ -24,7 +25,7 @@ resetBtn?.addEventListener("click", (_) => {
   fillForm(Array.isArray(assetData) ? assetData[0] : assetData);
 });
 
-main.addEventListener("click", (e) => {
+main.addEventListener("click", async (e) => {
   if (e.target.closest(".assign-btn")) {
     const btn = e.target.closest(".assign-btn");
     
@@ -49,7 +50,10 @@ main.addEventListener("click", (e) => {
         });
         break;
       case "condemn":
-        if (confirm("Condemn asset?")) condemnAsset(asset.PropNum);
+        if (confirm("Condemn asset?")) {
+          await condemnAsset(asset.PropNum);
+          location.reload();
+        }
         break;
     }
   }
