@@ -1,6 +1,9 @@
+import { LogTable } from "./components.js";
+
 const sect = document.getElementById("asset-distribution");
 
-document.getElementById("actlog-table").className = "recent-system-logs";
+const logTable = new LogTable({container: document.getElementById("activity-log")});
+logTable.table.className = "recent-system-logs";
 
 getDBstats();
 

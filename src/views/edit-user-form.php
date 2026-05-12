@@ -91,7 +91,7 @@
 
       <div class="card">
         <h3>Recent Activity</h3>
-        <?php include __DIR__ . '/act-log.php'?>
+        <div id="activity-log"></div>
       </div>    
     </main>
     

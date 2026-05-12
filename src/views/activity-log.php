@@ -7,11 +7,13 @@
   <?php include __DIR__ . '/../partials/header.php'?>
   
   <main>
-    <div id="activity-log">
-      <?php include __DIR__ . '/act-log.php'?>
-    </div>
+    <div id="activity-log"></div>
   </main>
 
   <?php include __DIR__ . '/../partials/footer.php'?>
 </body>
+<script type="module" defer>
+  import { LogTable } from "<?= BASE_URL ?>script/components.js";
+  new LogTable({container: document.getElementById("activity-log")});
+</script>
 </html>

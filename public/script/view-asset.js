@@ -1,15 +1,20 @@
-import { fetchLogs } from "./act-log.js";
 import { fetchAsset } from "./asset-router.js";
+import { LogTable } from "./components.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const assetData = await fetchAsset(urlParams.get("propNum"));
 const assetView = document.querySelector("#asset-info"); 
 
-fillPage(Array.isArray(assetData) ? assetData[0] : assetData);
+const asset = Array.isArray(assetData) ? assetData[0] : assetData;
+fillPage();
 
-document.querySelector("#actlog-table").className = "asset-view-table";
+const logTable = new LogTable({
+  container: document.getElementById("activity-log"),
+  metadata: asset["PropNum"],
+});
+logTable.table.className = "asset-view-table";
 
-function fillPage(asset) {
+function fillPage() {
   const data = {
     'pnum': asset['PropNum'],
     'prnum': asset['ProcNum'],
@@ -27,7 +32,5 @@ function fillPage(asset) {
     const div = assetView.querySelector(`#${k}`);
     div.innerHTML += v;
   }
-
-  fetchLogs({metadata: data["pnum"]});
 }
   
