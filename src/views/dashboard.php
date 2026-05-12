@@ -30,7 +30,7 @@
       <div class="dashboard-bottom">
         <div class="recent-activity">
           <h2>Recent Activity</h2>
-          <?php include __DIR__ . '/act-log.php'?>
+          <div id="activity-log"></div>
         </div>
 
         <section id="asset-distribution">

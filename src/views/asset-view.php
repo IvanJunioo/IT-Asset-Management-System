@@ -54,7 +54,7 @@
 
     <div id="alog" class="card">
       <h3>Asset Log:</h3> 
-      <?php include __DIR__ . '/act-log.php'?>
+      <div id="activity-log"></div>
     </div>
 
 		<script src="<?= BASE_URL ?>script/view-asset.js" type="module" defer></script>

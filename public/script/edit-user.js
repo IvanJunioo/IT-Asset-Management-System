@@ -1,6 +1,6 @@
-import { fetchLogs } from "./act-log.js";
 import { relayPage } from "./asset-router.js";
 import { fetchUser } from "./user-router.js";
+import { LogTable } from "./components.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const userData = await fetchUser(urlParams.get("empID"));
@@ -27,7 +27,11 @@ const sessionUser = sessionUserData;
 fillForm(user);
 fillReadOnly(user);
 fetchAssignments();
-fetchLogs({actorID: user.EmpID});
+
+const logTable = new LogTable({
+  container: document.getElementById("activity-log"),
+  actorID: user.EmpID,
+});
 
 const input = document.createElement("input");
 input.type = "hidden";
