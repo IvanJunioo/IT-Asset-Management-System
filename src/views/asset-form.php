@@ -26,7 +26,7 @@
         <td>
           <input 
             type="text" 
-            id="pnum" 
+            class="pnum" 
             name="property-num" 
             placeholder="Enter Property Number" 
             maxlength="12" 
@@ -37,7 +37,7 @@
         <td>
           <input 
             type="text" 
-            id="snum" 
+            class="snum" 
             name="serial-num" 
             placeholder="Enter Serial Number" 
             maxlength="12" 
@@ -47,7 +47,7 @@
         <td>
           <input 
             type="url" 
-            id="img_url" 
+            class="img_url" 
             name="img-url" 
             placeholder="https://example.com" 
             required

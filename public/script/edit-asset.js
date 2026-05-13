@@ -1,4 +1,4 @@
-import {relayPage} from "./asset-router.js";
+import {relayPage} from "./nav.js";
 import { fetchAsset, condemnAsset} from "./api.js";
 
 const urlParams = new URLSearchParams(window.location.search);

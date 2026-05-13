@@ -1,3 +1,5 @@
+import { searchUsers } from "./api.js";
+
 const form = document.querySelector("form");
 form.action = `${window.location.origin}/api/index.php?resource=users&action=add&redirect=${encodeURIComponent("index.php?page=user-manager")}`;
 form.method = "post";   
@@ -9,36 +11,14 @@ resetBtn?.addEventListener("click", (_) => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const email = document.getElementById("e");
+  const email = document.getElementById("e").value;
 
-  let dataEmail = await checkIfExists(email);
+  let dataEmail = await searchUsers({search: email});
 
-  if (dataEmail) {
+  if (dataEmail[0]) {
     alert(`The email address you entered is already in use. Please try another one.`);
   }
   else {
     form.submit();
   }
 })
-
-async function checkIfExists(input) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "search",
-    search: input.value,
-  });
-
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok)  {
-      return;
-    }
-    const data = await resp.json();
-    if (data && data.length > 0) return data[0];
-  } catch (err) {
-    return;
-  }
-  
-  return null;
-}

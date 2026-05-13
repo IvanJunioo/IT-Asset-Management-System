@@ -1,3 +1,5 @@
+import { searchAssets } from "./api.js";
+
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("pNumError") === "exists") {
@@ -31,40 +33,35 @@ head.appendChild(lastHead);
 body.appendChild(entry);
 
 // Make propNum, serialNum, Support Docs URL multivalued
-form.querySelector("input#pnum").name = "property-num[]";
-form.querySelector("input#snum").name = "serial-num[]";
-form.querySelector("input#img_url").name = "img-url[]";  
+form.querySelector("input.pnum").name = "property-num[]";
+form.querySelector("input.snum").name = "serial-num[]";
+form.querySelector("input.img_url").name = "img-url[]";  
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const pnums = Array.from(document.querySelectorAll("input#pnum"));
-  const snums = Array.from(document.querySelectorAll("input#snum"));
-  let valid = true;
+  const pnums = Array.from(document.querySelectorAll("input.pnum")).map(inp => inp.value);
+  const snums = Array.from(document.querySelectorAll("input.snum")).map(inp => inp.value);
 
-  let dataPnum = await checkIfExists(pnums);
-  let dataSnum = await checkIfExists(snums);
-  let dupPnum = checkDuplicate(pnums);
-  let dupSnum = checkDuplicate(snums);
+  try {
+    if (new Set(pnums).size !== pnums.length) throw new Error(`Property numbers must be unique!`);
+    if (new Set(snums).size !== snums.length) throw new Error(`Serial numbers must be unique!`);
 
-  if (dataPnum) {
-    valid = false;
-    alert(`The property number ${dataPnum.PropNum} already exists`);
-  }
-  else if (dataSnum) {
-    valid = false;
-    alert(`The serial number ${dataSnum.SerialNum} already exists`);
-  }
-  else if (dupPnum) {
-    valid = false;
-    alert(`Please fix the duplicate Property Number: ${dupPnum}`);
-  }
-  else if (dupSnum) {
-    valid = false;
-    alert(`Please fix the duplicate Serial Number: ${dupSnum}`);
-  }
+    const pnumChecks = pnums.map(async (pnum) => {
+      let data = await searchAssets({search: pnum});
+      if (data[0]) throw new Error(`Property number ${pnum} already exists!`);
+    });
 
-  if (valid) {
+    const snumChecks = snums.map(async (snum) => {
+      let data = await searchAssets({search: snum, check_snum: true});
+      if (data[0]) throw new Error(`Serial number ${snum} already exists!`);
+    });
+
+    await Promise.all([...pnumChecks, ...snumChecks]);
+    
     form.submit();
+  }
+  catch (err) {
+    alert(err.message);
   }
 });
 
@@ -106,33 +103,3 @@ resetBtn?.addEventListener("click", (_) => {
     pdate.value = today;
   }
 })
-
-function checkDuplicate(inputs) {
-  const set = new Set();
-  for (const inp of inputs) {
-    if (inp.value === '') continue
-
-    if (set.has(inp.value)){
-      return inp.value;
-    }
-    set.add(inp.value);
-  }
-  return "";
-}
-
-async function checkIfExists(inputs) {
-  for (const inp of inputs){
-    if (inp.value === '') continue
-    try {
-      const resp = await fetch(url);
-      if (!resp.ok) {
-        return;
-      }
-      const data = await resp.json();
-      if (data && data.length > 0) return data[0];
-    } catch (err) {
-      return;
-    }
-  }
-  return null;
-}

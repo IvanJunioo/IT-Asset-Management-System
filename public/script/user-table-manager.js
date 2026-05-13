@@ -1,6 +1,6 @@
 import { tableData, selectedRows, inMultiSelect, addCheckboxes } from "./user-table.js";
 import { fetchUser, modifyUser } from "./api.js";
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 
 const leftUser = document.querySelector(".left-page");
 const tableFuncs = leftUser.querySelector(".table-func");

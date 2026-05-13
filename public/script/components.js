@@ -1,4 +1,4 @@
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 import { fetchLogs } from "./api.js";
 
 export class Pagination {
