@@ -14,6 +14,24 @@ export async function fetchAsset(propNum) {
   return await apiRequest(url);
 }
 
+export async function searchAssets({
+  search = "", 
+  status = "", 
+  base_date = "", 
+  end_date = "",
+}) {
+  const url = new URL(`${window.location.origin}/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "assets",
+    action: "search",
+    search: search,
+    status: status,
+    base_date: base_date,
+    end_date: end_date,
+  });
+  return await apiRequest(url);
+}
+
 export async function condemnAsset(propNum) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
@@ -44,6 +62,22 @@ export async function fetchUser(empID) {
     resource: "users",
     action: "fetch",
     search: empID,
+  });
+  return await apiRequest(url);
+}
+
+export async function searchUsers({
+  search = "",
+  status = "",
+  priv = "",
+}) {
+  const url = new URL(`${window.location.origin}/api/index.php`);
+  url.search = new URLSearchParams({
+    resource: "users",
+    action: "search",
+    search: search,
+    status: status,
+    priv: priv,
   });
   return await apiRequest(url);
 }
@@ -83,14 +117,18 @@ export async function getUserStats() {
   return await apiRequest(url);
 }
 
-export async function countAssignments(search) {
+export async function fetchUserAssignments(empID) {
   const url = new URL(`${window.location.origin}/api/index.php`);
   url.search = new URLSearchParams({
-    resource: "users",
-    action: "search",
-    search: search,
+    resource: "assignment",
+    action: "fetch",
+    user: user.EmpID,
   });
-  const data = await apiRequest(url);
+  return await apiRequest(url);
+}
+
+export async function countAssignments(search) {
+  const data = await searchUsers({search: search});
   return data[0]["assignments"].length;
 }
 

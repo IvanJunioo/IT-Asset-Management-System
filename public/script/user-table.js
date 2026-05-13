@@ -1,4 +1,5 @@
 import { relayPage } from "./asset-router.js";
+import { searchUsers } from "./api.js";
 
 const leftUser = document.querySelector(".left-page");
 const tableContainer = leftUser.querySelector(".table-container");
@@ -186,36 +187,21 @@ userTableBody.addEventListener("click", (e) => {
 // ----- FUNCTION DEFINITIONS -----
 async function fetchUsers() {
   const fetchID = ++latest;
-  const searchFilters = searchInput.value;
-  const privFilters = [...new Set(
-    [...document.querySelectorAll(".filter-box input[name='privilege']:checked")].map(cb => cb.value)
-  )];
-  const statusFilters = [...new Set(
-    [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
-  )];
-
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "users",
-    action: "search",
-    search: searchFilters,
-    status: statusFilters,
-    priv: privFilters,
-  });
-
   try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    } 
+    const data = await searchUsers({
+      search: searchInput.value,
+      status: [...new Set([...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value))],
+      priv: [...new Set([...document.querySelectorAll(".filter-box input[name='privilege']:checked")].map(cb => cb.value))],
+    });
 
-    const data = await resp.json();
-    
     if (fetchID !== latest) return;
+
     tableData = new Map(data.map(user => [user.EmpID, user]));
+
     showUsers();
-  } catch (err) {
-    return;
+  }
+  catch (err) {
+    console.error("Error fetching users:", err);
   }
 }
 
