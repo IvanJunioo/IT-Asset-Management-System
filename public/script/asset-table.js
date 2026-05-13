@@ -1,4 +1,5 @@
 import { relayPage } from "./asset-router.js";
+import { searchAssets } from "./api.js";
 
 const leftAsset = document.querySelector(".left-page");
 const tableContainer = leftAsset.querySelector(".table-container");
@@ -138,40 +139,29 @@ assetTableBody.addEventListener("click", (e) => {
 
 // ----- FUNCTION DEFINITIONS -----
 async function fetchAssets() {    
-  const fetchID = ++latest;
-  const searchFilters = searchInput.value;
-  const statusFilters = [...new Set(
-    [...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value)
-  )];
-  const dateFrom = document.getElementById("date-from");
-  const dateTo = document.getElementById("date-to");
+  const dateFrom = document.getElementById("date-from").value;
+  const dateTo = document.getElementById("date-to").value;
 
   const date = new Date();
   const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
 
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "assets",
-    action: "search",
-    search: searchFilters,
-    status: statusFilters,
-    base_date: dateFrom.value === "" ? "0001-01-01" : dateFrom.value,
-    end_date: dateTo.value === "" ? today : dateTo.value
-  });
-
+  const fetchID = ++latest;
   try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
+    const data = await searchAssets({
+      search: searchInput.value,
+      status: [...new Set([...document.querySelectorAll(".filter-box input[name='status']:checked")].map(cb => cb.value))],
+      base_date: dateFrom || "0001-01-01",
+      end_date: dateTo || today,
+    });
 
-    const data = await resp.json();
-    
     if (fetchID !== latest) return;
+  
     tableData = new Map(data.map(asset => [asset.PropNum, asset]));
+    
     showAssets();
-  } catch (err) {
-    return;
+  }
+  catch (err) {
+    console.error("Error fetching assets:", err);
   }
 }
 

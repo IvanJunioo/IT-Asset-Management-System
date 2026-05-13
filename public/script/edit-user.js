@@ -1,6 +1,6 @@
 import { relayPage } from "./asset-router.js";
 import { LogTable } from "./components.js";
-import { fetchUser, fetchSessionUser, countAssignments } from "./api.js";
+import { fetchUser, fetchSessionUser, fetchUserAssignments, countAssignments } from "./api.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const userData = await fetchUser(urlParams.get("empID"));
@@ -183,28 +183,15 @@ function fillForm(user) {
 
 async function fetchAssignments() {    
   const fetchID = ++latest;
-
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
-    resource: "assignment",
-    action: "fetch",
-    user: user.EmpID,
-  });
-
   try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      return;
-    }
-
-    
-    const data = await resp.json();
+    const data = await fetchUserAssignments(user.EmpID);
     
     if (fetchID !== latest) return;
+    
     assignmentData = new Map(data.map(asset => [asset.PropNum, asset]));
     showAssignments();
   } catch (err) {
-    return;
+    console.error("Error fetching user assignments:", err);
   }
 }
 
