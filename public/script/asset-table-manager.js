@@ -1,5 +1,5 @@
 import { tableData } from "./asset-table.js";
-import {relayPage} from "./asset-router.js";
+import {relayPage} from "./nav.js";
 import { condemnAsset } from "./api.js";
 
 const leftAsset = document.querySelector(".left-page");

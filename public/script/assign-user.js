@@ -1,5 +1,5 @@
 import { tableData } from "./user-table.js";
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 
 const userTable = document.querySelector(".user-table");
 const userTableBody = userTable.querySelector("tbody");

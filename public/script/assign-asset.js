@@ -1,5 +1,5 @@
 import { tableData, setAssetSelectFunc } from "./asset-table.js";
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 
 const assetTable = document.querySelector(".asset-table");
 const assetTableBody = assetTable.querySelector("tbody");

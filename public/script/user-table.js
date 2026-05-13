@@ -1,4 +1,4 @@
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 import { searchUsers } from "./api.js";
 
 const leftUser = document.querySelector(".left-page");

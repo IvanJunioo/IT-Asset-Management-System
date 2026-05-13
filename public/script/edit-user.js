@@ -1,4 +1,4 @@
-import { relayPage } from "./asset-router.js";
+import { relayPage } from "./nav.js";
 import { LogTable } from "./components.js";
 import { fetchUser, fetchSessionUser, fetchUserAssignments, countAssignments } from "./api.js";
 
@@ -181,7 +181,7 @@ function fillForm(user) {
   }
 }
 
-async function fetchAssignments() {    
+async function fetchAssignments() {
   const fetchID = ++latest;
   try {
     const data = await fetchUserAssignments(user.EmpID);

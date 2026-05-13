@@ -1,17 +1,19 @@
-async function apiRequest(input, init = null) {
-  const resp = await fetch(input, init);
+async function apiRequest(params, init = null) {
+  const url = new URL(`${window.location.origin}/api/index.php`);
+  url.search = new URLSearchParams(params);
+
+  const resp = await fetch(url, init);
   if (!resp.ok) throw new Error(`HTTP Error: ${resp.status}`);
+  
   if (!init) return await resp.json();   
 } 
 
 export async function fetchAsset(propNum) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "assets",
     action: "fetch",
-    search: propNum,
+    search: propNum.trim(),
   });
-  return await apiRequest(url);
 }
 
 export async function searchAssets({
@@ -19,27 +21,26 @@ export async function searchAssets({
   status = "", 
   base_date = "", 
   end_date = "",
+  check_snum = false,
 }) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "assets",
     action: "search",
     search: search,
     status: status,
     base_date: base_date,
     end_date: end_date,
+    check_snum: check_snum,
   });
-  return await apiRequest(url);
 }
 
 export async function condemnAsset(propNum) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "assets",
     action: "condemn",
     redirect: "index.php?page=asset-manager",
-  });
-  await apiRequest(url, {
+  }, 
+  {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({search: propNum}),
@@ -47,23 +48,18 @@ export async function condemnAsset(propNum) {
 }
 
 export async function getAssetStats() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "assets",
     action: "stats",
   });
-
-  return await apiRequest(url);
 }
 
 export async function fetchUser(empID) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "users",
     action: "fetch",
-    search: empID,
+    search: empID.trim(),
   });
-  return await apiRequest(url);
 }
 
 export async function searchUsers({
@@ -71,35 +67,29 @@ export async function searchUsers({
   status = "",
   priv = "",
 }) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "users",
     action: "search",
     search: search,
     status: status,
     priv: priv,
   });
-  return await apiRequest(url);
 }
 
 export async function fetchSessionUser() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "users",
     action: "session",
   });
-  return await apiRequest(url);
 }
 
 export async function modifyUser(empID, actionType) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "users",
     action: actionType,
     redirect: "index.php?page=user-manager",
-  });
-
-  await apiRequest(url, {
+  }, 
+  {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -109,22 +99,18 @@ export async function modifyUser(empID, actionType) {
 }
 
 export async function getUserStats() {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "users",
     action: "stats",
   });
-  return await apiRequest(url);
 }
 
 export async function fetchUserAssignments(empID) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "assignment",
     action: "fetch",
-    user: user.EmpID,
+    user: empID,
   });
-  return await apiRequest(url);
 }
 
 export async function countAssignments(search) {
@@ -139,8 +125,7 @@ export async function fetchLogs({
   page = 1,
   pageSize = 10,
 } = {}) {
-  const url = new URL(`${window.location.origin}/api/index.php`);
-  url.search = new URLSearchParams({
+  return await apiRequest({
     resource: "logs",
     action: "search",
     actorID: actorID || "",
@@ -149,5 +134,4 @@ export async function fetchLogs({
     page: page,
     limit: pageSize,
   });
-  return await apiRequest(url);
 }
