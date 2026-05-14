@@ -35,7 +35,7 @@ body.appendChild(entry);
 // Make propNum, serialNum, Support Docs URL multivalued
 form.querySelector("input.pnum").name = "property-num[]";
 form.querySelector("input.snum").name = "serial-num[]";
-form.querySelector("input.img_url").name = "img-url[]";  
+form.querySelector("input.img_url").name = "img-url[]";
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
