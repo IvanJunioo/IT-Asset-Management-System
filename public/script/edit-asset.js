@@ -15,9 +15,9 @@ const asset = Array.isArray(assetData) ? assetData[0] : assetData;
 fillForm(asset);
 addAssignmentButtons();
 
-assetForm.querySelector("input#pnum").readOnly = true;
-assetForm.querySelector("input#prnum").readOnly = true;
-const snum = assetForm.querySelector("input#snum"); 
+assetForm.querySelector("input.pnum").readOnly = true;
+assetForm.querySelector("input.prnum").readOnly = true;
+const snum = assetForm.querySelector("input.snum"); 
 if (snum.value.trim() !== "") snum.readOnly = true;
 
 const resetBtn = document.getElementById("reset-button");
@@ -76,7 +76,11 @@ function fillForm(asset) {
   for (const child of childrenInput) {
     if (child.id in data) {
       child.value = data[child.id];
-    } else if (child.value === asset['Status']) {
+    }
+    else if (child.className in data) {
+      child.value = data[child.className];
+    }
+    else if (child.value === asset['Status']) {
       child.checked = true; 
     }
   }

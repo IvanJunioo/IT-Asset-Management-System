@@ -27,6 +27,10 @@ final class LogHandler {
           $log["objName"] = $user? $user->name->FLast() : "Unknown user";
           break;
       }
+
+      if (isset($metadata["assigneeID"])) {
+        $log["Assignee"] = $this->userRepo->identify($metadata["assigneeID"])->name->FLast();
+      }
       
       $priv = UserPrivilege::from($_SESSION['privilege']);
 

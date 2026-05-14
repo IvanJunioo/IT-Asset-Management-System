@@ -2,7 +2,7 @@ import { relayPage } from "./nav.js";
 import { fetchLogs } from "./api.js";
 
 export class Pagination {
-  constructor({ container, pageCount, onPageChange, curPage = 1}) {
+  constructor({ container, pageCount, onPageChange = () => {}, curPage = 1}) {
     this.container = container;
     this._curPage = curPage;
     this._pageCount = pageCount;
@@ -109,6 +109,10 @@ export class LogTable {
         case "user":
           relayPage("edit-user-form", {"empID": Number(tr.dataset.objid)});
           break;
+        case "assignee":
+          const metadata = JSON.parse(this.tableData.get(Number(tr.dataset.logid)).Metadata);
+          relayPage("edit-user-form", {"empID": metadata.assigneeID});
+          break;
         default:
           console.warn(`Unknown object type: ${a.dataset.type}`);
       }
@@ -181,7 +185,7 @@ export class LogTable {
       const actorHTML = text => log.linkActor? `<a data-type="actor">${text}</a>`: text;
       const objHTML = text => log.linkObject? `<a data-type="${metadata["object"]}">${text}</a>` : text;
       
-      const extra = metadata.hasAssets? " (has assigned assets)" : "";
+      const extra = metadata.hasAssets? " (has assigned assets)" : (log.Assignee? `to <a data-type="assignee">${log.Assignee}</a>` : "");
 
       for (const col of [
         log.Timestamp,

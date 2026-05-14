@@ -3,7 +3,7 @@
     Procurement Number: 
     <input 
       type="text" 
-      id="prnum" 
+      class="prnum" 
       name="procurement-num" 
       placeholder="Enter Procurement Number" 
       maxlength="12" 
