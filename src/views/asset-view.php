@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>css/asset-view.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
+	<link rel="stylesheet" href="<?= BASE_URL ?>css/act-log-card.css">
 
   <style>
     main {

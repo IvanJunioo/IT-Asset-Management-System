@@ -1,0 +1,35 @@
+#activity-log {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#activity-log table {
+  table-layout: auto;
+  width: max-content;
+  min-width: 100%;
+}
+
+#activity-log td {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: normal;
+  text-align: left;
+}
+
+#activity-log thead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+#activity-log th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+}

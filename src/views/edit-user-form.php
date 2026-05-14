@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
   <link rel = "stylesheet" href="<?= BASE_URL ?>css/table-view.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/act-log-card.css">
   <style>
     main {
       display: grid;
@@ -89,7 +90,7 @@
         <label for="inc-remarks">Include Remarks</label>
       </div>
 
-      <div class="card">
+      <div class="card" style="overflow: hidden;">
         <h3>Recent Activity</h3>
         <div id="activity-log"></div>
       </div>    
