@@ -1,0 +1,47 @@
+/* User Manager Page */
+.user-page {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2rem;
+  gap: 3rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+#addUser {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1pt solid var(--darker-primary);
+  padding: 0.5rem 0.6rem;
+  gap: 5pt;
+  transition: background-color 0.3s ease;
+}
+
+#addUser:hover {
+  background-color: var(--border-color);
+}
+
+/* Assign User Format */
+.assign-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--bg-light);
+  min-height: calc(100vh - 10rem);
+}
+
+@media only screen and (max-width: 1100px) {
+  .user-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 3rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+}

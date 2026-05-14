@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <?php include __DIR__ . '/../partials/user-styles.php'?>
+  <?php include __DIR__ . '/../partials/component-styles.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/user-manager.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
 

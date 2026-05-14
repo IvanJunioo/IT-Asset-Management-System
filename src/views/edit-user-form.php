@@ -2,13 +2,12 @@
 <html lang="en">
   <?php 
     include __DIR__ . '/../partials/head.php';
+    include __DIR__ . '/../partials/component-styles.php';
     $isSuperAdmin = isset($_SESSION['privilege']) && $_SESSION['privilege'] === 'SuperAdmin';
     $headingText = $isSuperAdmin ? 'Edit User Details' : 'User Details';
   ?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
-  <link rel = "stylesheet" href="<?= BASE_URL ?>css/table-view.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/act-log-card.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/user-manager.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/components/card-act-log.css">
   <style>
     main {
       display: grid;

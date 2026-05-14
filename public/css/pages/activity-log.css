@@ -1,0 +1,61 @@
+/* Activity Log Page */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+#activity-log {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  overflow-x: auto;
+  width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#activity-log::-webkit-scrollbar {
+  display: none;
+}
+
+#activity-log thead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+#activity-log th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+}
+
+#actlog-table {
+  width: 90%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#actlog-table td:nth-child(1),
+#actlog-table td:nth-child(2),
+#actlog-table th:nth-child(1),
+#actlog-table th:nth-child(2) {
+  width: 20%;
+}
+
+#activity-log table {
+  table-layout: auto;
+  width: max-content;
+  min-width: 100%;
+}
+
+#activity-log td {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: normal;
+  text-align: left;
+}

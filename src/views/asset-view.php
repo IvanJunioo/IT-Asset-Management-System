@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <?php include __DIR__ . '/../partials/asset-styles.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/asset.css">
-	<link rel="stylesheet" href="<?= BASE_URL ?>css/asset-view.css">
-	<link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
-	<link rel="stylesheet" href="<?= BASE_URL ?>css/act-log-card.css">
+  <?php include __DIR__ . '/../partials/component-styles.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/asset-manager.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/activity-log.css">
 
   <style>
     main {
