@@ -34,6 +34,11 @@
       margin-bottom: 1rem;
     }
 
+    .assignment-table th:last-child,
+    .assignment-table td:last-child {
+      text-align: center;
+    }
+
     /* Column Width Adjustments */
     #prnum { width: 40%; }
     #assDate { width: 30%; }
