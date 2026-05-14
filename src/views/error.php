@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php';?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/error.css">
+  <?php include __DIR__ . '/../partials/component-styles.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/error.css">
   <body>
 
   <?php 

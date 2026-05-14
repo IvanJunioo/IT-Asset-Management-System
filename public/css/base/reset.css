@@ -1,0 +1,130 @@
+/* Global Reset and Layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-light);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-light);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+a {
+  all: unset;
+  cursor: pointer;
+}
+
+a[data-type="asset"]:hover,
+a[data-type="actor"]:hover {
+  text-decoration: underline;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Material Icons */
+.material-icons {
+  font-size: 1.25em;
+  height: 1em;
+  width: 1em;
+  line-height: 1;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#select-all .material-icons {
+  font-size: clamp(0.9em, 1.5vw, 1em);
+  cursor: pointer;
+}
+
+button .material-icons {
+  font-size: 1.1em;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: clamp(0.25rem, 1.5vw, 0.75rem);
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.badge.active,
+.badge.unassigned {
+  background-color: #e6f7ee;
+  color: #0f7a4a;
+}
+
+.badge.inactive,
+.badge.condemned {
+  background-color: #fdecea;
+  color: #a61b1b;
+}
+
+.badge.assigned {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge.tocondemn {
+  background-color: #fff7ed;
+  color: #9a3412;
+}
+
+/* Page Layout Utilities */
+.left-page,
+.right-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  flex: 1 1 400px;
+  min-width: 300px;
+}
+
+.right-page {
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1100px) {
+  .right-page {
+    align-items: center;
+    justify-content: unset;
+    flex: unset;
+  }
+
+  .left-page {
+    width: 94%;
+    flex: unset;
+  }
+}

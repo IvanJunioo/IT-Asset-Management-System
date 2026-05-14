@@ -1,3 +1,4 @@
+/* Forms Component */
 form {
   display: flex;
   flex-direction: column;
@@ -13,7 +14,8 @@ label {
   color: #333;
 }
 
-input, textarea {
+input,
+textarea {
   padding: 0.5rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
@@ -21,7 +23,8 @@ input, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   border-color: var(--darker-green);
   box-shadow: 0 0 3px var(--primary-green);
   outline: none;
@@ -32,8 +35,12 @@ button {
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-size: clamp(0.7rem, 2vw, 0.95rem);;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
   transition: background-color 0.2s ease;
+}
+
+.selectable-row, #select-all {
+  padding: 0;
 }
 
 #submit-button {
@@ -58,11 +65,47 @@ textarea {
   resize: none;
 }
 
+/* Input Utilities */
+.input-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  font-family: sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-input:hover {
+  background-color: var(--darker-primary);
+}
+
+/* Unique Asset Attributes Table */
 #unique-asset-attr {
   width: 100%;
   table-layout: fixed;
   overflow: auto;
-  font-size: clamp(0.7rem, 2vw, 0.95rem);;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
 }
 
 #unique-asset-attr tr {
@@ -96,24 +139,16 @@ textarea {
   white-space: nowrap;
 }
 
-.add-input {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.add-input:hover {
-  background-color: var(--darker-primary);
-}
-
 #unique-asset-attr .last-child {
-  width: 50px; 
+  width: 50px;
   text-align: center;
 }
 
-b, p {
+b,
+p {
   font-size: clamp(0.7rem, 2vw, 0.95rem);
 }
 
 h2 {
-  font-size: clamp(1em, 3vw, 1.5em)
+  font-size: clamp(1em, 3vw, 1.5em);
 }

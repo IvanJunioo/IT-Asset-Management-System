@@ -1,3 +1,4 @@
+/* Separate styles for Activity logs inside cards */
 #activity-log {
   display: flex;
   flex-direction: column;

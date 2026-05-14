@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/act-log.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/table.css">
+  <?php include __DIR__ . '/../partials/component-styles.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/activity-log.css">
 <body>
   <?php include __DIR__ . '/../partials/header.php'?>
   

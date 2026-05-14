@@ -1,3 +1,4 @@
+/* Filter Component */
 .filter-box {
   width: 80%;
   display: flex;
@@ -5,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   border: 1pt solid black;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   padding: 1rem;
   background-color: var(--beige);
@@ -27,12 +28,14 @@
   width: 100%;
 }
 
-#left-filter, #right-filter {
+#left-filter,
+#right-filter {
   display: flex;
   flex-direction: column;
 }
 
-.reset-filter, .generate {
+.reset-filter,
+.generate {
   width: 50%;
   max-width: 300px;
   height: 3rem;
@@ -54,6 +57,10 @@
   background-color: var(--primary-color);
 }
 
+.generate:hover {
+  background-color: rgb(69, 0, 0);
+}
+
 .reset-filter {
   display: inline-flex;
   align-items: center;
@@ -63,24 +70,8 @@
   background-color: var(--primary-green);
 }
 
-.generate:hover {
-  background-color: rgb(69, 0, 0);
-}
-
 .reset-filter:hover {
   background-color: #24643f;
-}
-
-.reset-filter {
-  height: 3rem;
-  padding: 0 1.5rem;
-  border-radius: 1rem;
-  background-color: var(--primary-green);
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 #filter-box-inline {
@@ -95,6 +86,7 @@
   border-radius: 999px;
 }
 
+/* Date Filter */
 .date-filter {
   display: grid;
   grid-template-columns: 1fr 1fr;

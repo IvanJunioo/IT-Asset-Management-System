@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/forms.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>css/user.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/components/card.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/components/forms.css">
   <style>
     main {
       display: flex;
