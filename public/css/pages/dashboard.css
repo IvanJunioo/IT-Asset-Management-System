@@ -52,6 +52,7 @@
   flex-direction: row;
   gap: 1.5rem;
   align-items: stretch;
+  min-height: 400px;
 }
 
 .recent-activity {
@@ -141,8 +142,21 @@ th:nth-child(3) {
   width: 50%;
 }
 
+#activity-log {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 @media only screen and (max-width: 900px) {
   .dashboard-bottom {
     flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .dashboard-bottom {
+    min-height: 900px;
   }
 }
