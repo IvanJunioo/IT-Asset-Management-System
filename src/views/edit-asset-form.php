@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include __DIR__ . '/../partials/head.php'?>
-  <?php include __DIR__ . '/../partials/component-styles.php'?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/components/card.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>css/components/forms.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>css/pages/asset-manager.css">
 
   <style>
