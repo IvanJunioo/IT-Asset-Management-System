@@ -41,5 +41,5 @@ In the project's root, run the following.
     reporting formats
   - utilities
   - views
-    html/php
+    html or php
 - test 
