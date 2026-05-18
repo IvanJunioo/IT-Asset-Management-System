@@ -115,6 +115,8 @@ document.addEventListener("click", async (e) => {
       url = `${window.location.origin}/api/index.php?resource=export&action=user-assets`;
     } else if (type === "unassigned") {
       url = `${window.location.origin}/api/index.php?resource=export&action=status&status=Unassigned`;
+    } else if (type === "condemned") {
+      url = `${window.location.origin}/api/index.php?resource=export&action=status&status=Condemned`
     } else {
       url = `${window.location.origin}/api/index.php?resource=export&action=status&status=ToCondemn`;
     }
@@ -450,6 +452,9 @@ function addReportModal() {
         </button>
         <button class="report-option" data-type="tocondemn"> 
           All Assets to be Condemned
+        </button>
+        <button class="report-option" data-type="condemned">
+          All Condemned Assets
         </button>
         <button class="report-option" data-type="unassigned">
           All Unassigned Assets
