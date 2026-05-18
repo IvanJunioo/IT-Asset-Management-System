@@ -12,6 +12,7 @@
   
   <?php include __DIR__ . '/../partials/footer.php'?>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script> <!-- PapaParse for CSV parsing -->
   <script src="<?= BASE_URL ?>script/user-table-manager.js" type="module" defer></script>
 </body>
 </html>

@@ -26,85 +26,24 @@ document.getElementById("export").replaceWith(reportBtn);
 
 // ----- EVENT LISTENERS (KEEP MINIMAL) -----
 document.addEventListener("click", async (e) => {
-  // Actions dropdown toggle
-  const actionBtn = e.target.closest(".action-btn");
-  if (actionBtn) {
-    e.stopPropagation(); // prevents document from closing dropdown
-    const menu = actionBtn.parentElement.querySelector(".action-menu");
-    const isVisible = menu.style.display == "flex";
-
-    document.querySelectorAll(".action-menu").forEach(m => {
-      m.style.display = "none";
-    });
-
-    if (!isVisible) {
-      const boundingRect = actionBtn.getBoundingClientRect();
-      const gap = 8;
-
-      menu.style.visibility = "hidden";
-      menu.style.display = "flex";
-      const menuWidth = menu.offsetWidth;
-      menu.style.visibility = "";
-
-      const overflowsRight = boundingRect.right + gap + menuWidth > window.innerWidth;
-
-      menu.style.top = `${boundingRect.top - gap}px`;
-
-      if (overflowsRight) {
-        menu.style.left = `${boundingRect.left - gap - menuWidth}px`;
-      } else {
-        menu.style.left = `${boundingRect.right + gap}px`;
-      }
-
-      menu.style.display = "flex";
-    }
-    return;
-  }
-  
-  // Actions menu (DEPRECATED)
-  const menuBtn = e.target.closest(".menu-item[data-action]");
-  if (menuBtn) {
-    const tr = menuBtn.closest("tr");
-    const propNum = tr.dataset.propNum;
-
-    switch (menuBtn.dataset.action) {
-      case "modify":
-        relayPage("edit-asset-form", {"propNum": propNum});
-        break;
-      case "condemn": 
-        if (confirm(`Condemn item ${propNum}?`)) {
-          await condemnAsset(propNum);
-          location.reload();
-        }
-        break;
-      case "assign":
-        relayPage("assign-user", {
-          "redirect": "index.php" + window.location.search,
-          "propNums[]": propNum,
-        });
-        break;
-      case "return":
-        relayPage("return-form", {
-          "redirect": "index.php" + window.location.search,
-          "propNums[]": propNum,
-        });
-        break;
-    }
-    return;
-  }
-
   if (e.target.closest("#report")) {
     addReportModal();
     return;
   }
 
+  if (e.target.closest("#addAsset")) {
+    addAssetAddModal();
+    return;
+  }
+
   if (e.target.closest("#closeModal")) {
-    e.target.closest("#reportModal").remove();
+    e.target.closest("#reportModal")?.remove();
+    e.target.closest("#addAssetModal")?.remove();
     return;
   }
 
   if (e.target.closest("#reportModal")) {
-    const target = e.target.closest(".report-option");
+    const target = e.target.closest(".modal-option");
     const addRemarks = document.getElementById("inc-remarks").checked;
     if (!target) return;
 
@@ -131,10 +70,20 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
-  // Closes actions menu
-  document.querySelectorAll(".action-menu").forEach(menu => {
-    menu.style.display = "none";
-  });
+  if (e.target.closest("#addAssetModal")) {
+    const target = e.target.closest(".modal-option");
+    if (!target) return;
+
+    const type = target.dataset.type;
+
+    relayPage(type === "manual" ? "add-asset-form" : "csv-asset-form", {
+      "redirect": "index.php" + window.location.search,
+    });
+    
+    e.target.closest("#addAssetModal").remove();
+    return;
+  }
+
 });
 
 tableFuncs.addEventListener("click", async (e) => {
@@ -378,37 +327,6 @@ function addCondemnButton() {
   if (!tableFuncs.querySelector("#delete")) tableFuncs.prepend(deleteButton);
 }
 
-function addActionsButton() {  
-  for (const tr of assetTableBody.querySelectorAll("tr")) {
-    const actionBtn = document.createElement("button");
-    actionBtn.className = "action-btn";
-    actionBtn.innerHTML = `<span class="material-icons">more_horiz</span>`;
-    
-    const actionMenu = document.createElement("div");
-    actionMenu.className = "action-menu";
-    Object.entries({
-      "modify": "Modify",
-      ...(tableData.get(tr.dataset.propNum).Status === "ToCondemn" && {"condemn": "Condemn"}), // adds only if satisfied
-      ...(tableData.get(tr.dataset.propNum).Status === "Assigned" && {"return": "Return"}),
-      ...(tableData.get(tr.dataset.propNum).Status === "Unassigned" && {"assign": "Assign"}),
-    }).forEach(([action, label]) => {
-      const a = document.createElement("a");
-      a.className = "menu-item";
-      a.dataset.action = action;
-      a.textContent = label;
-      actionMenu.appendChild(a);
-    });
-    
-    const actionTd = document.createElement("td");
-    if (tableData.get(tr.dataset.propNum).Status !== "Condemned") {
-      actionTd.appendChild(actionBtn);
-      actionTd.appendChild(actionMenu);
-    }
-
-    tr.appendChild(actionTd)
-  }
-}
-
 function addModifyButton() {
   for (const tr of assetTableBody.querySelectorAll("tr")) {
     const td = document.createElement("td");    
@@ -428,7 +346,6 @@ function addAssetAdd() {
   const leftAsset = document.querySelector(".left-page");
 
   const assetAdd = document.createElement("a");
-  assetAdd.href = "?page=add-asset-form";
   assetAdd.id = "addAsset";
   assetAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>
@@ -447,16 +364,13 @@ function addReportModal() {
       <div class="modal-header">Generate Report On
       </div>
       <div class="modal-body">
-        <button class="report-option" data-type = "assigned-p"> 
+        <button class="modal-option" data-type = "assigned-p"> 
           All Personal Assigned Assets
         </button>
-        <button class="report-option" data-type="tocondemn"> 
+        <button class="modal-option" data-type="tocondemn"> 
           All Assets to be Condemned
         </button>
-        <button class="report-option" data-type="condemned">
-          All Condemned Assets
-        </button>
-        <button class="report-option" data-type="unassigned">
+        <button class="modal-option" data-type="unassigned">
           All Unassigned Assets
         </button>
 
@@ -509,4 +423,28 @@ function updateSelectedRows() {
   for (const tr of toAdd) {
     selectedRows.add(tr)
   }
+}
+
+function addAssetAddModal() {
+  const modalDiv = document.createElement("div");
+  modalDiv.id = "addAssetModal";
+  modalDiv.className = "modal";
+  modalDiv.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">Add Asset(s) By
+      </div>
+      <div class="modal-body">
+        <button class="modal-option" data-type = "manual"> 
+          Manually Input Asset Information
+        </button>
+        <button class="modal-option" data-type="csv"> 
+          Import from CSV File
+        </button>
+      </div>
+      <button id="closeModal" class="btn-cancel">Cancel</button>
+    </div>
+  `;
+  modalDiv.style.display = 'block';
+  document.body.appendChild(modalDiv);
+
 }

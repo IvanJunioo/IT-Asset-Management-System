@@ -50,6 +50,8 @@ $pages = [
   "user-manager"    => ["roles" => ["SuperAdmin"]],
   "users"           => ["roles" => ["Admin"]],
   "error"           => ["roles" => []],
+  "csv-asset-form"  => ["roles" => ["Admin", "SuperAdmin"]],
+  "csv-user-form"   => ["roles" => ["SuperAdmin"]],
 ];
 
 date_default_timezone_set('Asia/Manila'); 
