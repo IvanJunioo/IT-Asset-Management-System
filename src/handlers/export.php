@@ -68,7 +68,7 @@ final class ExportHandler {
     });
 
     $this->generatePdf(
-      template: "condemn-unassigned-assets",
+      template: "status-assets",
       data: [
         "assets"      => $assets,
         "statusName"  => $statusName,

@@ -5,9 +5,16 @@
   </head>
   <body>
     <?php 
-      $title = ($statusName == "ToCondemn") ? "TO BE CONDEMNED" : "THAT ARE UNASSIGNED";
+      $title = "";
+      if ($statusName == "Condemned") {
+        $title = "CONDEMNED";
+      } elseif ($statusName == "ToCondemn") {
+        $title = "TO-BE-CONDEMNED";
+      } else {
+        $title = "UNASSIGNED";
+      }
     ?>
-    <h1>All Assets <?= htmlspecialchars($title) ?></h1>
+    <h1> ALL <?= htmlspecialchars($title) ?> ASSETS</h1>
     <div class="asset-container">
       <?php if (!empty($assets)): ?>
       <table>
