@@ -1,13 +1,14 @@
 const FIELDS = [
-  { key: 'procurement_number', label: 'Procurement Number',     required: true  },
-  { key: 'property_number',    label: 'Property Number',        required: true  },
-  { key: 'serial_number',      label: 'Serial Number',          required: false },
+  { key: 'procurement_number', label: 'Procurement No.',        required: true  },
+  { key: 'property_number',    label: 'Property No.',           required: true  },
+  { key: 'serial_number',      label: 'Serial No.',             required: false },
   { key: 'purchase_date',      label: 'Purchase Date',          required: true  },
-  { key: 'detailed_specs',     label: 'Detailed Specifications', required: true  },
+  { key: 'detailed_specs',     label: 'Specifications',         required: true  },
   { key: 'price',              label: 'Price',                  required: true  },
   { key: 'status',             label: 'Status',                 required: true  },
   { key: 'assigned_to',        label: 'Assigned To',            required: false, note: 'required when status = Assigned' },
   { key: 'description',        label: 'Description',            required: false },
+  { key: 'url',                label: 'Support Docs',           required: true  },
 ];
 
 let mappedColumns = new Set();
@@ -98,6 +99,22 @@ importForm.addEventListener('submit', function(e) {
       alert('No valid rows to import.');
       return;
     }
+
+    const remarks = document.getElementById('remarks-field').value;
+
+    // Remap CSV keys -> what the backend Asset object expects
+    const payload = valid.map(row => ({
+      PropNum:      row.property_number,
+      ProcNum:      row.procurement_number,
+      SerialNum:    row.serial_number || null,
+      PurchaseDate: row.purchase_date,
+      Specs:        row.detailed_specs,
+      Price:        row.price,
+      Status:       row.status,
+      ShortDesc:    row.description || null,
+      Remarks:      remarks,               // batch remarks applied to all rows
+      URL:          null,                  
+    }));
 
     // TODO: parse to JSON and send to server
   });
