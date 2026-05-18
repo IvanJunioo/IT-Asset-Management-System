@@ -8,8 +8,8 @@
     <table class="asset-table">
       <thead>
         <tr>
-          <th id="pnum"><span>Procurement Number</span> </th>
-          <th id="prnum"><span>Property Number</span> </th>
+          <th id="pnum"><span>Procurement No.</span> </th>
+          <th id="prnum"><span>Property No.</span> </th>
           <th id="pdate"><span>Purchase Date</span> </th>
           <th id="specs"><span>Detailed Specification</span> </th>
           <th id="price"><span>Price (₱)</span> </th>

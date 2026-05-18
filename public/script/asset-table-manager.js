@@ -202,12 +202,15 @@ tableContainer.addEventListener("click", (e) => {
     const activeRows = [...rows].filter(
       tr => tableData.get(tr.dataset.propNum).Status !== "Condemned"
     );
+    const icon = e.target.closest("#select-all").querySelector(".material-icons");
 
-    if (selectedRows.size === activeRows.length) {
+    if (icon.textContent === "check_box") {
+      icon.textContent = "check_box_outline_blank";
       for (const tr of selectedRows) {
         deselectRow(tr);
       }
     } else {
+      icon.textContent = "check_box";
       for (const tr of activeRows) {
         selectRow(tr);
       }
@@ -338,7 +341,7 @@ function addSelectAll() {
   const hr = assetTable.querySelector("thead tr");
   hr.lastElementChild.innerHTML = `
     <button id="select-all">
-      <span class="material-icons"> select_all </span>
+      <span class="material-icons"> check_box_outline_blank </span>
     </button>
   `;
 }

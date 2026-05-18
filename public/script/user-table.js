@@ -132,9 +132,13 @@ tableFuncs.addEventListener("click", (e) => {
 tableContainer.addEventListener("click", (e) => {
   if (e.target.closest("#select-all")) {
     const rows = userTableBody.querySelectorAll("tr");
-    if (selectedRows.size === rows.length) {
+    const icon = e.target.closest("#select-all").querySelector(".material-icons");
+
+    if (icon.textContent === "check_box") {
+      icon.textContent = "check_box_outline_blank";
       for (const tr of selectedRows) deselectRow(tr);
     } else {
+      icon.textContent = "check_box";
       for (const tr of rows) selectRow(tr);
     }
     return;
@@ -329,7 +333,7 @@ function addSelectAll() {
   const hr = userTable.querySelector("thead tr");
   hr.lastElementChild.innerHTML = `
     <button id="select-all">
-      <span class="material-icons"> select_all </span>
+      <span class="material-icons"> check_box_outline_blank </span>
     </button>
   `;
 }
