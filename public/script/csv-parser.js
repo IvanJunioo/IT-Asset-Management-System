@@ -11,7 +11,6 @@ const FIELDS = [
   { key: 'url',                label: 'Support Docs',           required: true  },
 ];
 
-let mappedColumns = new Set();
 let csvHeaders = [];
 let parsedRows = [];
 
@@ -56,7 +55,6 @@ resetBtn.addEventListener('click', () => {
   csvHeaders                   = [];
   parsedRows                   = [];
   document.getElementById('remarks-field').value = '';
-  mappedColumns.clear();
   previewSection.hidden = true;
 });
 
@@ -76,7 +74,8 @@ importForm.addEventListener('submit', function(e) {
     alert(`Please map all required fields:\n• ${missingRequired.join('\n• ')}`);
     return;
   }
-
+  
+  let mappedColumns = new Set();
   for (const f of FIELDS) {
     if (mapping[f.key]) {
       if (mappedColumns.has(mapping[f.key])) {
@@ -89,7 +88,7 @@ importForm.addEventListener('submit', function(e) {
 
   const remarks = document.getElementById('remarks-field').value;
 
-  parseAssetCsv(parsedRows, mapping, function(valid, errors) {
+  parseAssetCsv(parsedRows, mapping, async function(valid, errors) {
     if (errors.length > 0) {
       // TODO: show these in the UI instead of console
       console.warn('Row errors:', errors);
@@ -107,16 +106,29 @@ importForm.addEventListener('submit', function(e) {
       PropNum:      row.property_number,
       ProcNum:      row.procurement_number,
       SerialNum:    row.serial_number || null,
-      PurchaseDate: row.purchase_date,
+      PurchaseDate: normalizeDate(row.purchase_date),
       Specs:        row.detailed_specs,
       Price:        row.price,
       Status:       row.status,
       ShortDesc:    row.description || null,
-      Remarks:      remarks,               // batch remarks applied to all rows
-      URL:          null,                  
+      Remarks:      remarks, // batch remarks applied to all rows
+      URL:          row.url,
     }));
-
-    // TODO: parse to JSON and send to server
+    console.log('Sending payload:', JSON.stringify({ assets: payload }, null, 2));
+    fetch(`${window.location.origin}/api/index.php?resource=assets&action=add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assets: payload })
+    })
+      .then(res => res.json())
+      .then(() => {
+        alert(`Successfully imported ${valid.length} asset(s).`);
+        window.location.href = `${window.location.origin}/index.php?page=asset-manager`;
+      })
+      .catch(err => {
+        console.error('Import failed:', err);
+        alert('Import failed. Please try again.');
+      });
   });
 });
 
@@ -407,4 +419,21 @@ function syncSelectOptions() {
   });
 
   validateMapping();
+}
+
+function normalizeDate(val) {
+  if (!val) return '';
+
+  const dmyMatch = val.match(/^(\d{2})[-\/](\d{2})[-\/](\d{4})$/);
+  if (dmyMatch) {
+    const [, dd, mm, yyyy] = dmyMatch;
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  const isoMatch = val.match(/^\d{4}-\d{2}-\d{2}$/);
+  if (isoMatch) return val;
+
+  const d = new Date(val);
+  if (isNaN(d.getTime())) return val;
+  return d.toISOString().split('T')[0];
 }

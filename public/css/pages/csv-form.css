@@ -323,3 +323,19 @@ main {
   font-size: 0.8rem;
   background: var(--bg-light) !important;
 }
+
+.preview-strip {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: #555;
+  background: var(--bg-light);
+  border: 1px solid #e4ddd4;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  display: none;
+}
+
+.preview-strip span {
+  font-weight: 700;
+  color: var(--primary-color);
+}

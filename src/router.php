@@ -182,22 +182,36 @@ final class APIRouter {
             : new DateTimeImmutable("9999-12-31"),
         check_snum: isset($params["check_snum"])
       ),
-      APIAction::Add => $this->assetHand->addAsset(array_map(
-        fn($propNum, $serialNum, $url) => new Asset(
-          propNum:      $propNum ?? "",
-          procNum:      $input['procurement-num'] ?? "",
-          serialNum:    $serialNum ?? "",
-          purchaseDate: $input['purchase-date'] ?? "",
-          specs:        $input['specs'] ?? "",
-          description:  $input['short-desc'] ?? "",
-          url:          $url ?? "",
-          remarks:      $input['remarks'] ?? "",
-          price:        $input['price'] ?? "",
-          status:       AssetStatus::from($input['asset-status'] ?? ""),
-        ),
-        $input["property-num"],
-        $input["serial-num"],
-        $input["img-url"],
+      APIAction::Add => $this->assetHand->addAsset(
+        isset($input['assets'])?
+        array_map(fn($row) => new Asset(
+          propNum:      $row['PropNum']      ?? "",
+          procNum:      $row['ProcNum']      ?? "",
+          serialNum:    $row['SerialNum']    ?? "",
+          purchaseDate: $row['PurchaseDate'] ?? "",
+          specs:        $row['Specs']        ?? "",
+          description:  $row['ShortDesc']    ?? "",
+          url:          $row['URL']          ?? "",
+          remarks:      $row['Remarks']      ?? "",
+          price:        $row['Price']        ?? "",
+          status:       AssetStatus::from($row['Status'] ?? ""),
+        ), $input['assets'])
+        : array_map(
+          fn($propNum, $serialNum, $url) => new Asset(
+            propNum:      $propNum                      ?? "",
+            procNum:      $input['procurement-num']     ?? "",
+            serialNum:    $serialNum                    ?? "",
+            purchaseDate: $input['purchase-date']       ?? "",
+            specs:        $input['specs']               ?? "",
+            description:  $input['short-desc']          ?? "",
+            url:          $url                          ?? "",
+            remarks:      $input['remarks']             ?? "",
+            price:        $input['price']               ?? "",
+            status:       AssetStatus::from($input['asset-status'] ?? ""),
+          ),
+          $input["property-num"],
+          $input["serial-num"],
+          $input["img-url"],
       )),
       APIAction::Edit => $this->assetHand->editAsset(new Asset(
         propNum:      $input["property-num"] ?? "",
