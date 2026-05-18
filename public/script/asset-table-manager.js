@@ -137,7 +137,10 @@ document.addEventListener("click", async (e) => {
 
 tableFuncs.addEventListener("click", async (e) => {
   if (e.target.closest("#assign")) {
-    if (selectedRows.size === 0) return;    
+    if (selectedRows.size === 0) {
+      alert("Please select at least one valid asset to assign.");
+      return;
+    }  
     relayPage("assign-user", {
       "redirect": "index.php" + window.location.search,
       "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
@@ -146,7 +149,10 @@ tableFuncs.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest("#delete")) {
-    if (selectedRows.size === 0) return;
+    if (selectedRows.size === 0) {
+      alert("Please select at least one valid asset to condemn.");
+      return;
+    }
     if (!confirm(`Condemn ${selectedRows.size} item(s)?`)) return;
     
     const toCondemnPropNums = [];
@@ -171,7 +177,10 @@ tableFuncs.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest("#return")) {
-    if (selectedRows.size === 0) return;
+    if (selectedRows.size === 0) {
+      alert("Please select at least one valid asset to return.");
+      return;
+    }
     relayPage("return-form", {
       "redirect": "index.php" + window.location.search,
       "propNums[]": [...selectedRows].map(tr => tr.dataset.propNum),
