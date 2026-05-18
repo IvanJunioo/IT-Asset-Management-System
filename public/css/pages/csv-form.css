@@ -226,35 +226,84 @@ main {
   color: var(--primary-color);
 }
 
-#submit-button {
+#submit-button, #preview-button {
   background-color: var(--primary-color);
   color: white;
   text-align: center;
   gap: 0.4rem;
 }
 
-#submit-button:hover { background-color: var(--darker-primary); }
+#submit-button:hover, #preview-button:hover {
+  background-color: var(--darker-primary);
+}
 
 #reset-button {
   background-color: #e0e0e0;
   color: #333;
 }
 
-#reset-button:hover { background-color: #cacaca; }
-
-/* Preview strip */
-.preview-strip {
-  margin-top: 0.5rem;
-  font-size: 0.78rem;
-  color: #555;
-  background: var(--bg-light);
-  border: 1px solid #e4ddd4;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.85rem;
-  display: none;
+#reset-button:hover {
+  background-color: #cacaca;
 }
 
-.preview-strip span {
-  font-weight: 700;
+/* Preview table */
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  margin-top: 0.5rem;
+}
+
+.preview-table thead tr {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.preview-table thead th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.preview-table tbody tr:nth-child(even) { 
+  background: #fdfaf6; 
+}
+.preview-table tbody tr:hover { 
+  background: var(--beige); 
+}
+.preview-table tbody tr {
+  border-bottom: 1px solid #eee9e1;
+}
+.preview-table td {
+  padding: 0.45rem 0.75rem;
+}
+
+/* Error row highlight */
+.preview-row-error { 
+  background: #fff5f5 !important; 
+}
+
+/* Missing required cell */
+.cell-missing {
+  background: #fde8e8;
   color: var(--primary-color);
+  border-radius: 4px;
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+/* Empty optional cell */
+.cell-empty {
+  color: #bbb;
+  font-style: italic;
+}
+
+/* "Showing X of Y rows" footer */
+.preview-more {
+  text-align: center;
+  padding: 0.5rem;
+  color: #888;
+  font-style: italic;
+  font-size: 0.8rem;
+  background: var(--bg-light) !important;
 }
