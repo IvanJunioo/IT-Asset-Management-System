@@ -405,7 +405,7 @@ th:last-child {
   background-color: var(--bg-light);
 }
 
-.report-option {
+.modal-option {
   background-color: white;
   border: 1px solid var(--border-color);
   padding: 0.85rem 1.2rem;
@@ -418,7 +418,7 @@ th:last-child {
   transition: all 0.3s ease;
 }
 
-.report-option:hover {
+.modal-option:hover {
   background-color: var(--beige);
   border-color: var(--primary-green);
   color: var(--darker-green);
