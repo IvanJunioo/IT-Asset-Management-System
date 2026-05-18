@@ -49,13 +49,15 @@
         <button id="preview-button" type="button">
           Preview Data
         </button>
-        
+
         <div id="preview-section" hidden="true">
           <div class="section-title">Data Preview</div>
-          <table class="preview-table" id="preview-table">
-            <thead id="preview-thead"></thead>
-            <tbody id="preview-tbody"></tbody>
-          </table>
+          <div class="preview-table-container">
+            <table class="preview-table" id="preview-table">
+              <thead id="preview-thead"></thead>
+              <tbody id="preview-tbody"></tbody>
+            </table>
+          </div>
         </div>
 
         <div class="input-label">

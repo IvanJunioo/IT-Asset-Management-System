@@ -247,43 +247,61 @@ main {
 }
 
 /* Preview table */
-.preview-table {
+.preview-table-container {
   width: 100%;
-  border-collapse: collapse;
-  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.4rem;
   margin-top: 0.5rem;
 }
-
+ 
+.preview-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  table-layout: auto;
+}
+ 
 .preview-table thead tr {
   background: var(--primary-color);
   color: #fff;
 }
-
+ 
 .preview-table thead th {
   padding: 0.5rem 0.75rem;
   text-align: left;
   font-weight: 600;
+  white-space: nowrap;
+}
+ 
+.preview-table thead th:first-child {
+  border-radius: 0.4rem 0 0 0.4rem;
+}
+.preview-table thead th:last-child  {
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+ 
+.preview-table tbody tr:nth-child(even) {
+  background: #fdfaf6;
 }
 
-.preview-table tbody tr:nth-child(even) { 
-  background: #fdfaf6; 
-}
-.preview-table tbody tr:hover { 
-  background: var(--beige); 
+.preview-table tbody tr:hover {
+  background: var(--beige);
 }
 .preview-table tbody tr {
   border-bottom: 1px solid #eee9e1;
 }
+ 
 .preview-table td {
   padding: 0.45rem 0.75rem;
+  white-space: nowrap;
 }
-
-/* Error row highlight */
-.preview-row-error { 
-  background: #fff5f5 !important; 
+ 
+.preview-row-error {
+  background: #fff5f5 !important;
 }
-
-/* Missing required cell */
+ 
 .cell-missing {
   background: #fde8e8;
   color: var(--primary-color);
@@ -291,14 +309,12 @@ main {
   padding: 0 4px;
   font-weight: 600;
 }
-
-/* Empty optional cell */
+ 
 .cell-empty {
   color: #bbb;
   font-style: italic;
 }
-
-/* "Showing X of Y rows" footer */
+ 
 .preview-more {
   text-align: center;
   padding: 0.5rem;
