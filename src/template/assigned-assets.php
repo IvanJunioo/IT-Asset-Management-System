@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
   </head>
 <body>
-    <h1>Assets Currently Assigned</h1>
+
+    <div class="report-header">
+      <h1>Assets Currently Assigned</h1>
+      <div class="report-meta">
+        As of <?= date("F d, Y") ?>
+      </div>
+    </div>
+
     <div class="asset-container">
       <?php if (!empty($assets)): ?>
         <?php 

@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <h1>All Faculty Assigned Assets</h1>
+    <div class="report-header">
+      <h1>All Faculty Assigned Assets</h1>
+      <div class="report-meta">
+        As of <?= date("F d, Y") ?>
+      </div>
+    </div>
     <?php foreach ($data as $d): ?>
       <?php
         $user   = $d['user'];

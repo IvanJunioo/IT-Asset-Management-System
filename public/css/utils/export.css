@@ -18,103 +18,103 @@ body {
   background-color: #fff;
 }
 
+.report-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.report-meta {
+  text-align: center;
+  font-size: 11px;
+  color: #636e72;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+
+
 h1 {
   text-align: center;
   color: #2d3436;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 10px;
-  margin-bottom: 30px;
+  padding-bottom: 12px;
+  margin-bottom: 25px;
+  font-size: 18px;
 }
 
 .asset-container {
   margin-bottom: 25px;
+  border: 1px solid #dfe6e9;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .asset-header {
   background-color: #3d0505;
   color: #ffffff;
   padding: 10px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 4px 4px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0;
-  border: 1px solid #dfe6e9;
-  page-break-inside: auto;
   table-layout: fixed;
 }
 
-tr {
-  break-inside: avoid;
-}
-
-th, td {
-  text-align: left;
-  border-bottom: 1px solid #dfe6e9;
+thead th {
+  height: 20px;
+  line-height: 1.2;
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  border-bottom: 2px solid #3d0505;
 }
 
 td {
-  padding: 5px 15px;
+  padding: 8px 12px;
   font-size: 12px;
+  vertical-align: top;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-th {
-  padding: 12px 15px;
-  background-color: #f8f9fa;
-  color: var(--primary-color);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 11px;
-}
-
-thead th {
-  background-color: var(--primary-color) !important; 
-  color: #ffffff !important;
-  border-bottom: none;
-  width: auto; 
-}
-
-
-thead tr {
-  background-color: transparent !important;
-}
-
-tr:nth-child(even) {
-  background-color: #f4efea;
+tbody tr:nth-child(even) {
+  background-color: #f7f3f0;
 }
 
 .remarks-cell {
-  word-break: break-word; 
+  word-break: break-word;
   color: #636e72;
   font-style: italic;
-  white-space: normal;
 }
 
 .empty {
+  text-align: center;
+  padding: 20px;
   color: #2d3436;
-  font-size: 1rem;
+  font-size: 13px;
 }
 
 footer {
   position: fixed;
-  bottom: 10px;
+  bottom: 12px;
   left: 0;
   width: 100%;
   padding: 0 20px;
-  box-sizing: border-box; 
-  display: flex;
-  align-items: center;
-  font-size: 0.8em;
+  box-sizing: border-box;
+  font-size: 11px;
+  color: #636e72;
 }
 
 footer .page {
-  margin: 0 auto; 
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -123,4 +123,8 @@ footer .page {
 footer .page::after {
   content: counter(page, decimal);
 }
-@page { margin: 20px 30px 40px 50px; }
+
+tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
