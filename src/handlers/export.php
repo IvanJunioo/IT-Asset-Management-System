@@ -90,7 +90,8 @@ final class ExportHandler {
       $data[] = [
         'asset' => [
           $asset,
-          explode(' ', $this->assignRepo->getAssignmentDate($asset))[0]
+          explode(' ', $this->assignRepo->getAssignmentDate($asset))[0],
+          $this->assignRepo->getAssignmentRemarks($asset)
         ]
       ];
     }
@@ -119,7 +120,6 @@ final class ExportHandler {
 
     foreach ($usersID as $id) {
       $user = $this->userRepo->identify($id);
-
       $assets = $this->assignRepo->getAssignedAssets($user);
 
       usort($assets, function ($a, $b) {
@@ -129,16 +129,19 @@ final class ExportHandler {
         return $dateB <=> $dateA;
       });
 
-      $assetDates = [];
+      $assignDates = [];
+      $assignRemarks = [];
 
       foreach ($assets as $asset) {
-        $assetDates[$asset->propNum] = explode(' ', $this->assignRepo->getAssignmentDate($asset))[0];
+        $assignDates[$asset->propNum] = explode(' ', $this->assignRepo->getAssignmentDate($asset))[0];
+        $assignRemarks[$asset->propNum] = $this->assignRepo->getAssignmentRemarks($asset);
       }
 
       $data[] = [
         "user"        => $user,
         "assets"      => $assets,
-        "assignDates" => $assetDates,
+        "assignDates" => $assignDates,
+        "assignRemarks" => $assignRemarks
       ];
     }
 
