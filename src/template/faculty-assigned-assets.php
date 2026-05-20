@@ -38,9 +38,9 @@
                   <td><?= htmlspecialchars($asset->propNum) ?></td>
                   <td><?= htmlspecialchars($asset->serialNum) ?></td>
                   <td><?= htmlspecialchars($dates[$asset->propNum]) ?></td>
-                  <td><?=  htmlspecialchars($asset->description !== '' ? $asset->description : 'None') ?></td>
+                  <td><?=  htmlspecialchars($asset->description !== '' ? (strlen($asset->description) > 300 ? substr($asset->description,0,300) . '...' : $asset->description) : 'None') ?></td>
                   <?php if ($add_remarks): ?>
-                    <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? $asset->remarks: 'None') ?></td>
+                    <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? (strlen($asset->remarks) > 300 ? substr($asset->remarks,0,300) . '...' : $asset->remarks) : 'None') ?></td>
                   <?php endif ?>
               </tr>
             <?php endforeach; ?>
