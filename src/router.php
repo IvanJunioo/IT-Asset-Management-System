@@ -132,15 +132,26 @@ final class APIRouter {
         status: $params["status"] ?? "",
         privilege: $params["priv"] ?? "",
       ),
-      APIAction::Add => $this->userHand->addUser(new User(
+      APIAction::Add => 
+      isset($input['users'])?
+      array_map(fn($u) => $this->userHand->addUser(new User(// CSV bulk import
+        name: new Fullname(
+          first: $u['first-name'] ?? '',
+          last:  $u['last-name']  ?? '',
+        ),
+        email:     $u['email']         ?? '',
+        privilege: UserPrivilege::from($u['privilege'] ?? ''),
+        isActive:  ($u['active-status'] ?? 'Active') === 'Active',
+      )), $input['users'])
+      :$this->userHand->addUser(new User(
         name: new Fullname(
           first: $input['first-name'],
-          last: $input['last-name'],
+          last:  $input['last-name'],
         ),
-        email: $input['email'],
+        email:     $input['email'],
         privilege: UserPrivilege::from($input['privilege']),
-        isActive: $input["active-status"] === "Active",
-      )),
+        isActive:  $input['active-status'] === 'Active',
+        )),
       APIAction::Edit => $this->userHand->editUser(new User(
         empID: $input['employee-id'],
         name: new Fullname(

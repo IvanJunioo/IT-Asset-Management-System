@@ -9,7 +9,7 @@
 
   <main>
     <div class="card">
-      <h3>Import Assets via CSV</h3>
+      <h3>Import Users via CSV</h3>
 
       <form id="import-form" enctype="multipart/form-data">
 
@@ -79,6 +79,6 @@
   <?php include __DIR__ . '/../partials/footer.php'?>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script src="<?= BASE_URL ?>script/csv-asset-parser.js" type="module" defer></script>
+  <script src="<?= BASE_URL ?>script/csv-user-parser.js" type="module" defer></script>
 </body>
 </html>

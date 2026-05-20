@@ -446,5 +446,4 @@ function addAssetAddModal() {
   `;
   modalDiv.style.display = 'block';
   document.body.appendChild(modalDiv);
-
 }
