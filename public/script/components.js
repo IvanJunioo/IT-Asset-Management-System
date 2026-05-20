@@ -47,7 +47,7 @@ export class Pagination {
 
   render() {
     this.prevBtn.disabled = this.curPage <= 1;
-    this.infoSpan.textContent = `Page ${this.curPage} of ${this.pageCount}`;
+    this.infoSpan.textContent = 0 < this.pageCount? `Page ${this.curPage} of ${this.pageCount}` : "Page 0 of 0";
     this.nextBtn.disabled = this.pageCount <= this.curPage || this.pageCount === 0;
   }
 }
