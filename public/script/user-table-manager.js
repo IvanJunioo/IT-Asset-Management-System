@@ -13,65 +13,30 @@ addUserAdd();
 
 // ----- EVENT LISTENERS -----
 document.addEventListener("click", (e) => {
-  // Actions dropdown toggle
-  const actionBtn = e.target.closest(".action-btn");
-  if (actionBtn) {
-    e.stopPropagation();
-    const menu = actionBtn.parentElement.querySelector(".action-menu");
-    const isVisible = menu.style.display == "flex";
+  if (e.target.closest("#addUser")) {
+    addUserAddModal();
+    return;
+  }
 
-    document.querySelectorAll(".action-menu").forEach(m => {
-      m.style.display = "none";
+  if (e.target.closest("#closeModal")) {
+    e.target.closest("#reportModal")?.remove();
+    e.target.closest("#addUserModal")?.remove();
+    return;
+  }
+
+  if (e.target.closest("#addUserModal")) {
+    const target = e.target.closest(".modal-option");
+    if (!target) return;
+
+    const type = target.dataset.type;
+
+    relayPage(type === "manual" ? "add-user-form" : "csv-user-form", {
+      "redirect": "index.php" + window.location.search,
     });
-
-    if (!isVisible) {
-      const boundingRect = actionBtn.getBoundingClientRect();
-      const gap = 8;
-
-      menu.style.visibility = "hidden";
-      menu.style.display = "flex";
-      const menuWidth = menu.offsetWidth;
-      menu.style.visibility = "";
-
-      const overflowsRight = boundingRect.right + gap + menuWidth > window.innerWidth;
-
-      menu.style.top = `${boundingRect.top - gap}px`;
-
-      if (overflowsRight) {
-        menu.style.left = `${boundingRect.left - gap - menuWidth}px`;
-      } else {
-        menu.style.left = `${boundingRect.right + gap}px`;
-      }
-
-      menu.style.display = "flex";
-    }
+    
+    e.target.closest("#addUserModal").remove();
     return;
   }
-
-  // Actions menu items
-  const menuBtn = e.target.closest(".menu-item[data-action]");
-  if (menuBtn) {
-    const tr = menuBtn.closest("tr");
-    let empid = tr.dataset.empid;
-
-    switch (menuBtn.dataset.action) {
-      case "modify":
-        relayPage("edit-user-form", {"empID": empid});
-        break;
-      case "get-report":
-        window.open(
-          `${window.location.origin}/api/index.php?resource=export&action=user-assets&user=` + encodeURIComponent(empid),
-          "_blank"
-        );
-        break;
-    }
-    return;
-  }
-
-  // Close actions menu
-  document.querySelectorAll(".action-menu").forEach(menu => {
-    menu.style.display = "none";
-  });
 });
 
 tableFuncs.addEventListener("click", async (e) => {
@@ -130,7 +95,6 @@ function addTableFuncs() {
 
 function addUserAdd() {
   const userAdd = document.createElement("a");
-  userAdd.href = "?page=add-user-form";
   userAdd.id = "addUser";
   userAdd.innerHTML = `
     <span class="material-icons" id="add-asset-button">add</span>
@@ -151,4 +115,28 @@ function updateTableFuncs() {
     tableData.get(Number(tr.dataset.empid)).ActiveStatus === "Active" &&
     !tableData.get(Number(tr.dataset.empid)).isCurrentUser
 ) ? "flex" : "none";
+}
+
+function addUserAddModal() {
+  const modalDiv = document.createElement("div");
+  modalDiv.id = "addUserModal";
+  modalDiv.className = "modal";
+  modalDiv.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">Add User(s) By
+      </div>
+      <div class="modal-body">
+        <button class="modal-option" data-type = "manual"> 
+          Manually Input User Information
+        </button>
+        <button class="modal-option" data-type="csv"> 
+          Import from CSV File
+        </button>
+      </div>
+      <button id="closeModal" class="btn-cancel">Cancel</button>
+    </div>
+  `;
+  modalDiv.style.display = 'block';
+  document.body.appendChild(modalDiv);
+
 }
