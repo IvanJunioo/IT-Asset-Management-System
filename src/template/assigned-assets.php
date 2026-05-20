@@ -33,6 +33,7 @@
                 $assetDetails = $d['asset'];
                 $asset = $assetDetails[0];
                 $assDate = $assetDetails[1];
+                $assignRemarks = $assetDetails[2];
               ?>
               <tr>
                 <td><?= htmlspecialchars($asset->propNum) ?></td> 
@@ -41,7 +42,7 @@
                 <td><?= htmlspecialchars($asset->specs !== ''? $asset->specs: 'None') ?></td>
                 <td><?=  htmlspecialchars($asset->description !== '' ? (strlen($asset->description) > 300 ? substr($asset->description,0,300) . '...' : $asset->description) : 'None') ?></td>
                 <?php if ($add_remarks): ?>
-                  <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? (strlen($asset->remarks) > 300 ? substr($asset->remarks,0,300) . '...' : $asset->remarks) : 'None') ?></td>
+                  <td class="remarks-cell"><?= htmlspecialchars($assignRemarks !== '' ? (strlen($assignRemarks) > 300 ? substr($assignRemarks,0,300) . '...' : $assignRemarks) : 'None') ?></td>
                 <?php endif ?>
               </tr>
             <?php endforeach; ?>

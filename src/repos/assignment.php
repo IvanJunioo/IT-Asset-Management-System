@@ -9,6 +9,7 @@ interface AssignmentRepoInterface {
   public function getAssignedAssets(User $user): array;
   public function getCurrAssignedUser(Asset $asset): ?User; 
   public function getAssignmentDate(Asset $asset): string; 
+  public function getAssignmentRemarks(Asset $asset): string;
   public function assign(
     Asset $asset, 
     User $assigner,
@@ -65,6 +66,16 @@ final class AssignmentRepo implements AssignmentRepoInterface {
     $stmt->execute([":pnum" => $asset->propNum]);
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $res[0]['AssignDateTime'];
+  }
+
+  public function getAssignmentRemarks(Asset $asset): string {
+    $query = "SELECT * FROM 
+      assignment WHERE PropNum = :pnum AND ReturnDateTime is NULL";
+    
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute([":pnum" => $asset->propNum]);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $res[0]['Remarks'];
   }
 
   public function getAssignedAssets(User $user): array {

@@ -6,10 +6,11 @@
   <body>
     <h1>All Faculty Assigned Assets</h1>
     <?php foreach ($data as $d): ?>
-      <?php 
+      <?php
         $user   = $d['user'];
         $assets = $d['assets'];
-        $dates  = $d['assignDates'];
+        $assignDates  = $d['assignDates'];
+        $assignRemarks = $d['assignRemarks'];
 
         $fullName = trim("{$user->name->first} {$user->name->last}");
         $priv     = $user->privilege->value;
@@ -37,10 +38,10 @@
               <tr>
                   <td><?= htmlspecialchars($asset->propNum) ?></td>
                   <td><?= htmlspecialchars($asset->serialNum) ?></td>
-                  <td><?= htmlspecialchars($dates[$asset->propNum]) ?></td>
+                  <td><?= htmlspecialchars($assignDates[$asset->propNum]) ?></td>
                   <td><?=  htmlspecialchars($asset->description !== '' ? (strlen($asset->description) > 300 ? substr($asset->description,0,300) . '...' : $asset->description) : 'None') ?></td>
                   <?php if ($add_remarks): ?>
-                    <td class="remarks-cell"><?= htmlspecialchars($asset->remarks !== '' ? (strlen($asset->remarks) > 300 ? substr($asset->remarks,0,300) . '...' : $asset->remarks) : 'None') ?></td>
+                    <td class="remarks-cell"><?= htmlspecialchars($assignRemarks[$asset->propNum] !== '' ? (strlen($assignRemarks[$asset->propNum]) > 300 ? substr($assignRemarks[$asset->propNum],0,300) . '...' : $assignRemarks[$asset->propNum]) : 'None') ?></td>
                   <?php endif ?>
               </tr>
             <?php endforeach; ?>
