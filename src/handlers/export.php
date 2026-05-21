@@ -20,8 +20,7 @@ final class ExportHandler {
     bool $forDownload, 
     ?string $filepath = null
   ): void {
-    // $cssPath = __DIR__ . '/../../public/css/utils/export.css';
-    $cssPath = __DIR__ . '/../../html/css/utils/export.css';
+    $cssPath = BASE_URL . 'css/utils/export.css';
     $css = file_get_contents($cssPath);
 
     ob_start();

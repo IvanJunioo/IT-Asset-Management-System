@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# Don't redirect if we are already in the public folder
-RewriteCond %{REQUEST_URI} !^/public/
-
-# Redirect everything else to public/
-RewriteRule ^(.*)$ public/$1 [L]
-
-# php_value display_errors On
