@@ -56,7 +56,8 @@ document.addEventListener("click", async (e) => {
       url = `${window.location.origin}/api/index.php?resource=export&action=status&status=Unassigned`;
     } else if (type === "condemned") {
       url = `${window.location.origin}/api/index.php?resource=export&action=status&status=Condemned`
-    } else {
+    } 
+    else {
       url = `${window.location.origin}/api/index.php?resource=export&action=status&status=ToCondemn`;
     }
 
@@ -367,13 +368,16 @@ function addReportModal() {
         <button class="modal-option" data-type = "assigned-p"> 
           All Personal Assigned Assets
         </button>
+        <button class="modal-option" data-type="unassigned">
+        All Unassigned Assets
+        </button>
         <button class="modal-option" data-type="tocondemn"> 
           All Assets to be Condemned
         </button>
-        <button class="modal-option" data-type="unassigned">
-          All Unassigned Assets
+        <button class="modal-option" data-type="condemned">
+          All Condemned Assets
         </button>
-
+        
         <div class="modal-input">
           <input type="checkbox" id="inc-remarks">
           <label for="inc-remarks">Include Remarks</label>
